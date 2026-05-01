@@ -1,0 +1,11 @@
+{
+  "build_allowed": true,
+  "data_integrity_ready": true,
+  "metric_correctness_ready": true,
+  "notes": "Quick-report freeze is scoped to Fig.2 only and does not replace the repository-wide current_freeze pointer.",
+  "ready_for_branch": true,
+  "row_count": 2,
+  "run_tag": "20260424_fig2_hops_current_timeline",
+  "schema_ready": true,
+  "scope": "Fig.2 final paper figure input only"
+}

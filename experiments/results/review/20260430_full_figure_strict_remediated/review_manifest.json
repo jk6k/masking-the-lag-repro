@@ -1,0 +1,17 @@
+{
+  "run_tag": "20260430_full_figure_strict_remediated",
+  "freeze_tag": "20260430_full_figure_strict_remediated",
+  "mechanism_evidence_tag": "20260426_fuller_phase4_mechanism_basis_rerun",
+  "paper_figures_dir": "figures/paper_figures_20260430_full_figure_strict_remediated",
+  "quick_reports_dir": "experiments/results/quick_reports/20260430_full_figure_strict_remediated",
+  "review_dir": "experiments/results/review/20260430_full_figure_strict_remediated",
+  "public_surface": "reader_reproduction_package",
+  "excluded": [
+    "datasets",
+    "model_weights",
+    "private_literature_mirror",
+    "draft work products",
+    "project_management_state",
+    "historical_run_payloads"
+  ]
+}
