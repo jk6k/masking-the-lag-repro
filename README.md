@@ -4,8 +4,9 @@ This repository is the reader-facing reproduction package for the promoted
 paper evidence freeze `20260430_full_figure_strict_remediated`.
 
 It is intentionally smaller than the full development workspace. It contains
-the compact CSV/JSON evidence, the current figure pack, and the validation
-scripts needed to inspect and reproduce the paper-facing results.
+the compact CSV/JSON evidence, metadata, and scripts needed to validate the
+evidence surface and regenerate the public data figures. Pre-rendered image
+assets are deliberately not tracked.
 
 ## Quick Start
 
@@ -20,13 +21,13 @@ make render-paper-figures
 `make repro-check` validates the freeze pointer, figure registry, claim
 boundaries, artifact paths, and public repository surface. `make
 render-paper-figures` rerenders the Matplotlib data figures into `build/`
-without mutating the checked-in frozen figure pack.
+from the checked CSV inputs.
 
 ## Public Evidence Surface
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Quick reports: `experiments/results/quick_reports/20260430_full_figure_strict_remediated/`
-- Figure pack: `figures/paper_figures_20260430_full_figure_strict_remediated/`
+- Figure metadata: `figures/paper_figures_20260430_full_figure_strict_remediated/`
 - Review metadata: `experiments/results/review/20260430_full_figure_strict_remediated/`
 
 Figure roles are fixed for this freeze:
@@ -53,8 +54,9 @@ caffeinate -dimsu .venv311-mps/bin/python experiments/tools/phase1_runner.py \
 ```
 
 The public repository is therefore a two-layer artifact: fast inspection and
-figure regeneration by default, with full local reruns documented as a governed
-maintainer workflow outside this compact package.
+data-figure regeneration by default, with full local reruns documented as a
+governed maintainer workflow outside this compact package.
 
-Datasets, model weights, private literature mirrors, draft candidates, project
-management files, and historical run payloads are deliberately excluded.
+Datasets, model weights, pre-rendered images, private literature mirrors, draft
+candidates, project management files, and historical run payloads are
+deliberately excluded.

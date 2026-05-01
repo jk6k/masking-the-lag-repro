@@ -26,6 +26,7 @@
     "configs/public_repro_manifest.json",
     "experiments/results/paper_sync/current_freeze.json",
     "experiments/results/quick_reports/20260430_full_figure_strict_remediated/compliance_report.json",
+    "figures/paper_figures_20260430_full_figure_strict_remediated/pack_metadata.json",
     "figures/paper_figures_20260430_full_figure_strict_remediated/figure_numbering_registry.csv",
     "figures/paper_figures_20260430_full_figure_strict_remediated/figure_traceability.csv",
     "experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv",
@@ -38,35 +39,54 @@
     "scripts/check_public_repro_repo.py",
     "scripts/render_fig2_pipeline_matplotlib.py"
   ],
+  "required_quick_report_files": [
+    "appf1_seed_range_variability.csv",
+    "appf2_data_figure_compatibility_matrix.csv",
+    "appf3_related_work_radar_scores.csv",
+    "appf4_mechanism_ablation_context.csv",
+    "appf5_mechanism_energy_breakdown.csv",
+    "appf6_det_sparse_sweep_phase4_basis.csv",
+    "compliance_report.json",
+    "fig3_phase4_runtime_accuracy_boundary.csv",
+    "fig4_runtime_accuracy_pareto.csv",
+    "fig5_bounded_sensitivity_current_basis.csv",
+    "fig6_broad_scaling_flow_buffer_current_basis.csv",
+    "fig7_device_context.csv",
+    "fig8_holdout_claim_boundary.csv",
+    "final_numbering_mapping.csv"
+  ],
+  "rendered_by_public_make": [
+    "Fig3",
+    "Fig4",
+    "Fig5",
+    "Fig6",
+    "Fig7",
+    "Fig8",
+    "AppF1",
+    "AppF2",
+    "AppF3",
+    "AppF4",
+    "AppF5",
+    "AppF6"
+  ],
   "copy_files": [
     ".gitattributes",
     "configs/public_repro_manifest.json",
     "experiments/tools/check_figure_numbering_registry.py",
     "experiments/tools/check_fuller_phase4_paper_data_figures.py",
     "experiments/tools/render_fuller_phase4_paper_data_figures.py",
+    "figures/paper_figures_20260430_full_figure_strict_remediated/figure_numbering_registry.csv",
+    "figures/paper_figures_20260430_full_figure_strict_remediated/figure_traceability.csv",
+    "figures/paper_figures_20260430_full_figure_strict_remediated/pack_metadata.json",
     "scripts/check_public_repro_repo.py",
     "scripts/render_fig2_pipeline_matplotlib.py"
   ],
   "copy_dirs": [
     "experiments/results/quick_reports/20260430_full_figure_strict_remediated",
-    "experiments/results/quick_reports/20260424_fig2_hops_current_timeline",
-    "figures/paper_figures_20260430_full_figure_strict_remediated"
+    "experiments/results/quick_reports/20260424_fig2_hops_current_timeline"
   ],
   "review_files": [
-    "AppF1_SeedRangeVariability_grayscale.png",
-    "AppF2_DataFigureCompatibility_grayscale.png",
-    "AppF3_RelatedWorkRadar_grayscale.png",
-    "AppF4_MechanismAblationContext_grayscale.png",
-    "AppF5_MechanismEnergyBreakdown_grayscale.png",
-    "AppF6_DETOperatingPointContext_grayscale.png",
     "Fig2_HOPSTimeline_exact_trace.csv",
-    "Fig2_HOPSTimeline_grayscale.png",
-    "Fig3_Phase4RuntimeAccuracyBoundary_grayscale.png",
-    "Fig4_RuntimeAccuracyPareto_grayscale.png",
-    "Fig5_BoundedSensitivity_grayscale.png",
-    "Fig6_ScalingSupport_grayscale.png",
-    "Fig7_DeviceContext_grayscale.png",
-    "Fig8_HoldoutClaimBoundary_grayscale.png",
     "claim_contract_final_unreserved_20260430.csv",
     "current_basis_mechanism_qa_note.md",
     "data_figure_brief.md",
@@ -99,9 +119,12 @@
   "banned_suffixes": [
     ".npz",
     ".onnx",
+    ".pdf",
+    ".png",
     ".pt",
     ".pth",
-    ".pptx"
+    ".pptx",
+    ".svg"
   ],
   "allowed_local_roots": [
     ".pytest_cache",

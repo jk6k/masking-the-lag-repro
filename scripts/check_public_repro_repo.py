@@ -4,9 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import subprocess
-import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -57,6 +57,11 @@ def _list_field(manifest: dict[str, Any], key: str) -> set[str]:
     if not isinstance(value, list):
         return set()
     return {str(item) for item in value}
+
+
+def _csv_rows(path: Path) -> list[dict[str, str]]:
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
 
 
 def _load_manifest(report: Report) -> dict[str, Any]:
@@ -270,42 +275,121 @@ def _run_subcheck(report: Report, args: list[str]) -> None:
         report.add(f"subcheck failed: {' '.join(args)}\n{detail}")
 
 
-def _check_artifact_tools(report: Report, manifest: dict[str, Any]) -> None:
+def _check_quick_report_inputs(report: Report, manifest: dict[str, Any]) -> None:
     paths = _public_paths(manifest)
     quick_dir = paths["quick_dir"]
-    pack_dir = paths["pack_dir"]
-    review_dir = paths["review_dir"]
     assert isinstance(quick_dir, Path)
-    assert isinstance(pack_dir, Path)
-    assert isinstance(review_dir, Path)
 
-    _run_subcheck(
-        report,
-        [
-            sys.executable,
-            "experiments/tools/check_figure_numbering_registry.py",
-            "--pack_dir",
-            pack_dir.as_posix(),
-        ],
-    )
-    _run_subcheck(
-        report,
-        [
-            sys.executable,
-            "experiments/tools/check_fuller_phase4_paper_data_figures.py",
-            "--quick_dir",
-            quick_dir.as_posix(),
-            "--mechanism_quick_dir",
-            quick_dir.as_posix(),
-            "--pack_dir",
-            pack_dir.as_posix(),
-            "--review_dir",
-            review_dir.as_posix(),
-            "--freeze_json",
-            FREEZE_JSON.as_posix(),
-            "--require_promoted",
-        ],
-    )
+    required = manifest.get("required_quick_report_files")
+    if not isinstance(required, list) or not required:
+        required = [
+            "appf1_seed_range_variability.csv",
+            "appf2_data_figure_compatibility_matrix.csv",
+            "appf3_related_work_radar_scores.csv",
+            "appf4_mechanism_ablation_context.csv",
+            "appf5_mechanism_energy_breakdown.csv",
+            "appf6_det_sparse_sweep_phase4_basis.csv",
+            "compliance_report.json",
+            "fig3_phase4_runtime_accuracy_boundary.csv",
+            "fig4_runtime_accuracy_pareto.csv",
+            "fig5_bounded_sensitivity_current_basis.csv",
+            "fig6_broad_scaling_flow_buffer_current_basis.csv",
+            "fig7_device_context.csv",
+            "fig8_holdout_claim_boundary.csv",
+            "final_numbering_mapping.csv",
+        ]
+    for filename in required:
+        rel_path = quick_dir / str(filename)
+        if not (report.root / rel_path).is_file():
+            report.add(f"missing quick-report input: {rel_path.as_posix()}")
+
+
+def _check_registry_metadata(report: Report, manifest: dict[str, Any]) -> None:
+    paths = _public_paths(manifest)
+    pack_dir = paths["pack_dir"]
+    assert isinstance(pack_dir, Path)
+    registry_path = report.root / pack_dir / "figure_numbering_registry.csv"
+    traceability_path = report.root / pack_dir / "figure_traceability.csv"
+    if not registry_path.is_file() or not traceability_path.is_file():
+        return
+
+    registry_rows = _csv_rows(registry_path)
+    trace_rows = _csv_rows(traceability_path)
+    registry_ids = [row.get("figure_id", "") for row in registry_rows if row.get("numbering_status") == "active"]
+    expected_main = [f"Fig{i}" for i in range(1, 13)]
+    expected_appendix = [f"AppF{i}" for i in range(1, 7)]
+    for figure_id in expected_main + expected_appendix:
+        if figure_id not in registry_ids:
+            report.add(f"figure registry missing active figure_id: {figure_id}")
+    trace_ids = {row.get("figure_id", "") for row in trace_rows}
+    for figure_id in registry_ids:
+        if figure_id not in trace_ids:
+            report.add(f"traceability missing active figure_id: {figure_id}")
+
+
+def _check_traceability_inputs(report: Report, manifest: dict[str, Any]) -> None:
+    paths = _public_paths(manifest)
+    pack_dir = paths["pack_dir"]
+    quick_dir = paths["quick_dir"]
+    assert isinstance(pack_dir, Path)
+    assert isinstance(quick_dir, Path)
+    traceability_path = report.root / pack_dir / "figure_traceability.csv"
+    if not traceability_path.is_file():
+        return
+    rendered_ids = manifest.get("rendered_by_public_make")
+    if not isinstance(rendered_ids, list) or not rendered_ids:
+        rendered_ids = ["Fig3", "Fig4", "Fig5", "Fig6", "Fig7", "Fig8", "AppF1", "AppF2", "AppF3", "AppF4", "AppF5", "AppF6"]
+    rendered_ids = [str(item) for item in rendered_ids]
+    trace_by_id = {row.get("figure_id", ""): row for row in _csv_rows(traceability_path)}
+    for figure_id in rendered_ids:
+        row = trace_by_id.get(figure_id)
+        if row is None:
+            report.add(f"public render traceability missing figure_id: {figure_id}")
+            continue
+        script_entry = row.get("script_entry", "")
+        if script_entry and not (report.root / script_entry).is_file():
+            report.add(f"public render script missing for {figure_id}: {script_entry}")
+        if row.get("command") != "make render-paper-figures":
+            report.add(f"public render command mismatch for {figure_id}: {row.get('command')!r}")
+        output = row.get("figure_file", "")
+        if not output.startswith("build/rendered_figures/"):
+            report.add(f"public render output should live under build/ for {figure_id}: {output}")
+        input_csvs = [item.strip() for item in row.get("input_csvs", "").split(";") if item.strip()]
+        if not input_csvs:
+            report.add(f"public render input missing for {figure_id}")
+        for rel_path in input_csvs:
+            if not (report.root / rel_path).is_file():
+                report.add(f"public render input does not exist for {figure_id}: {rel_path}")
+            if not Path(rel_path).as_posix().startswith(quick_dir.as_posix() + "/"):
+                report.add(f"public render input must come from active quick reports for {figure_id}: {rel_path}")
+
+
+def _check_review_metadata(report: Report, manifest: dict[str, Any]) -> None:
+    paths = _public_paths(manifest)
+    review_dir = paths["review_dir"]
+    assert isinstance(review_dir, Path)
+    review_manifest_path = report.root / review_dir / "review_manifest.json"
+    if review_manifest_path.is_file():
+        payload = json.loads(review_manifest_path.read_text(encoding="utf-8"))
+        excluded = set(str(item) for item in payload.get("excluded", []))
+        if "pre-rendered figure images" not in excluded:
+            report.add("review_manifest.json should record exclusion of pre-rendered figure images")
+
+    map_path = report.root / review_dir / "manuscript_evidence_map.csv"
+    if map_path.is_file():
+        rows = _csv_rows(map_path)
+        expected_ids = [str(item) for item in manifest.get("rendered_by_public_make", [])]
+        observed_ids = [row.get("figure_id", "") for row in rows]
+        for figure_id in expected_ids:
+            if figure_id not in observed_ids:
+                report.add(f"manuscript evidence map missing public-rendered figure: {figure_id}")
+
+
+def _check_public_repro_inputs(report: Report, manifest: dict[str, Any]) -> None:
+    _check_quick_report_inputs(report, manifest)
+    _check_registry_metadata(report, manifest)
+    _check_traceability_inputs(report, manifest)
+    _check_review_metadata(report, manifest)
 
 
 def validate(root: Path) -> Report:
@@ -315,7 +399,7 @@ def validate(root: Path) -> Report:
     _check_banned_paths(report, manifest)
     _check_metadata_text(report, manifest)
     _check_freeze(report, manifest)
-    _check_artifact_tools(report, manifest)
+    _check_public_repro_inputs(report, manifest)
     _check_git(report, manifest)
     return report
 

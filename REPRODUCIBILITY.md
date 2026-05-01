@@ -14,8 +14,9 @@ This checks:
 
 - freeze pointer consistency
 - figure numbering and traceability
-- data-figure evidence and claim boundaries
+- data-figure source evidence and claim boundaries
 - absence of private datasets, weights, draft artifacts, and old freeze tokens
+- absence of tracked pre-rendered image artifacts
 - clean tracked public surface when the directory is a Git checkout
 
 Render the data figures into ignored build outputs:
@@ -24,14 +25,15 @@ Render the data figures into ignored build outputs:
 make render-paper-figures
 ```
 
-The checked-in figure pack remains canonical. Rendered files under `build/`
-are for local inspection and CI smoke only.
+Rendered files under `build/` are for local inspection and CI smoke only. The
+tracked repository keeps source CSV/JSON and metadata rather than pre-rendered
+PNG/PDF/SVG assets.
 
 ## Artifact Map
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Quick reports: `experiments/results/quick_reports/20260430_full_figure_strict_remediated/`
-- Figure pack: `figures/paper_figures_20260430_full_figure_strict_remediated/`
+- Figure metadata: `figures/paper_figures_20260430_full_figure_strict_remediated/`
 - Review pack: `experiments/results/review/20260430_full_figure_strict_remediated/`
 - Figure registry: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_numbering_registry.csv`
 - Traceability: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_traceability.csv`
@@ -40,8 +42,8 @@ are for local inspection and CI smoke only.
 ## Claim Boundary
 
 The public freeze supports runtime/materialization inspection, bounded
-sensitivity and scaling support, device-context inspection, figure regeneration,
-and traceability review. It does not promote accuracy preservation, broad
+sensitivity and scaling support, device-context inspection, source-driven
+data-figure regeneration, and traceability review. It does not promote accuracy preservation, broad
 robustness, universal scaling, silicon measurement, hardware validation, device
 superiority, benchmark equivalence, deployment readiness, or broad workload
 generalization.
@@ -52,5 +54,6 @@ Full reruns require local datasets, local weights, the Mac/MPS development
 environment, and long-run handling. On the project Mac, accelerator-backed runs
 must use `mps` and long runs must be wrapped with `caffeinate -dimsu`.
 
-Use this public package for reader inspection and figure regeneration. Use the
-full project workspace for governed MPS reruns and promotion decisions.
+Use this public package for reader inspection and source-driven data-figure
+regeneration. Use the full project workspace for governed MPS reruns and
+promotion decisions.
