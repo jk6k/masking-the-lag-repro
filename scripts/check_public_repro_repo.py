@@ -9,79 +9,13 @@ import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 
-FREEZE_TAG = "20260430_full_figure_strict_remediated"
-MECHANISM_TAG = "20260426_fuller_phase4_mechanism_basis_rerun"
-QUICK_DIR = Path("experiments/results/quick_reports") / FREEZE_TAG
-PACK_DIR = Path("figures") / f"paper_figures_{FREEZE_TAG}"
-REVIEW_DIR = Path("experiments/results/review") / FREEZE_TAG
 FREEZE_JSON = Path("experiments/results/paper_sync/current_freeze.json")
 MANIFEST_JSON = Path("configs/public_repro_manifest.json")
-
-REQUIRED_FILES = [
-    Path("README.md"),
-    Path("REPRODUCIBILITY.md"),
-    Path("NOTICE.md"),
-    Path("Makefile"),
-    Path("requirements.txt"),
-    MANIFEST_JSON,
-    FREEZE_JSON,
-    QUICK_DIR / "compliance_report.json",
-    PACK_DIR / "figure_numbering_registry.csv",
-    PACK_DIR / "figure_traceability.csv",
-    REVIEW_DIR / "claim_contract_final_unreserved_20260430.csv",
-    REVIEW_DIR / "manuscript_evidence_map.csv",
-    REVIEW_DIR / "review_manifest.json",
-    REVIEW_DIR / "Fig2_HOPSTimeline_exact_trace.csv",
-    Path("experiments/tools/check_figure_numbering_registry.py"),
-    Path("experiments/tools/check_fuller_phase4_paper_data_figures.py"),
-    Path("experiments/tools/render_fuller_phase4_paper_data_figures.py"),
-]
-
-BANNED_ROOTS = {
-    ".agents",
-    ".venv",
-    ".venv311-mps",
-    ".venvs",
-    "archives",
-    "original_papers",
-    "oral_pre",
-    "peper_writing",
-    "tmp",
-    "weights",
-}
-BANNED_PATH_SUBSTRINGS = {
-    "experiments/datasets",
-    "experiments/results/accuracy/mlx_weights",
-    "experiments/results/accuracy/progress",
-    "progress/events",
-    "draft_candidates",
-    "task_briefs",
-    "20260425_fuller_phase4_datafig_redesign_freeze",
-    "20260429_fuller_final_paper_numbered",
-}
-BANNED_SUFFIXES = {".npz", ".onnx", ".pt", ".pth", ".pptx"}
-PUBLIC_METADATA_TEXT = [
-    Path("README.md"),
-    Path("REPRODUCIBILITY.md"),
-    Path("NOTICE.md"),
-    FREEZE_JSON,
-    PACK_DIR / "figure_traceability.csv",
-    REVIEW_DIR / "figure_traceability.csv",
-    REVIEW_DIR / "review_manifest.json",
-    REVIEW_DIR / "manuscript_evidence_map.csv",
-    REVIEW_DIR / "data_review_report.md",
-]
-BANNED_METADATA_TOKENS = {
-    "original_papers/",
-    "markdown_v1_backup",
-    "draft_candidates",
-    "task_briefs",
-    "data_pack_worker",
-    "20260425_fuller_phase4_datafig_redesign_freeze",
-    "20260429_fuller_final_paper_numbered",
-}
+DEFAULT_FREEZE_TAG = "20260430_full_figure_strict_remediated"
+DEFAULT_MECHANISM_TAG = "20260426_fuller_phase4_mechanism_basis_rerun"
 
 
 @dataclass
@@ -118,30 +52,149 @@ def _rel(root: Path, path: Path) -> str:
     return path.relative_to(root).as_posix()
 
 
-def _check_required(report: Report) -> None:
-    for rel_path in REQUIRED_FILES:
+def _list_field(manifest: dict[str, Any], key: str) -> set[str]:
+    value = manifest.get(key)
+    if not isinstance(value, list):
+        return set()
+    return {str(item) for item in value}
+
+
+def _load_manifest(report: Report) -> dict[str, Any]:
+    path = report.root / MANIFEST_JSON
+    if not path.is_file():
+        report.add(f"missing required file: {MANIFEST_JSON.as_posix()}")
+        return {
+            "freeze_tag": DEFAULT_FREEZE_TAG,
+            "mechanism_evidence_tag": DEFAULT_MECHANISM_TAG,
+            "public_layers": {},
+        }
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        report.add(f"invalid public repro manifest: {exc}")
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def _public_paths(manifest: dict[str, Any]) -> dict[str, Path | str]:
+    freeze_tag = str(manifest.get("freeze_tag") or DEFAULT_FREEZE_TAG)
+    mechanism_tag = str(manifest.get("mechanism_evidence_tag") or DEFAULT_MECHANISM_TAG)
+    layers = manifest.get("public_layers")
+    if not isinstance(layers, dict):
+        layers = {}
+    quick_dir = Path(str(layers.get("quick_reports_dir") or f"experiments/results/quick_reports/{freeze_tag}"))
+    pack_dir = Path(str(layers.get("figures_dir") or f"figures/paper_figures_{freeze_tag}"))
+    review_dir = Path(str(layers.get("review_dir") or f"experiments/results/review/{freeze_tag}"))
+    return {
+        "freeze_tag": freeze_tag,
+        "mechanism_tag": mechanism_tag,
+        "quick_dir": quick_dir,
+        "pack_dir": pack_dir,
+        "review_dir": review_dir,
+    }
+
+
+def _required_files(manifest: dict[str, Any]) -> list[Path]:
+    configured = manifest.get("required_files")
+    if isinstance(configured, list) and configured:
+        return [Path(str(item)) for item in configured]
+
+    paths = _public_paths(manifest)
+    quick_dir = paths["quick_dir"]
+    pack_dir = paths["pack_dir"]
+    review_dir = paths["review_dir"]
+    assert isinstance(quick_dir, Path)
+    assert isinstance(pack_dir, Path)
+    assert isinstance(review_dir, Path)
+    return [
+        Path("README.md"),
+        Path("REPRODUCIBILITY.md"),
+        Path("NOTICE.md"),
+        Path("Makefile"),
+        Path("requirements.txt"),
+        MANIFEST_JSON,
+        FREEZE_JSON,
+        quick_dir / "compliance_report.json",
+        pack_dir / "figure_numbering_registry.csv",
+        pack_dir / "figure_traceability.csv",
+        review_dir / "claim_contract_final_unreserved_20260430.csv",
+        review_dir / "manuscript_evidence_map.csv",
+        review_dir / "review_manifest.json",
+        review_dir / "Fig2_HOPSTimeline_exact_trace.csv",
+        Path("experiments/tools/check_figure_numbering_registry.py"),
+        Path("experiments/tools/check_fuller_phase4_paper_data_figures.py"),
+        Path("experiments/tools/render_fuller_phase4_paper_data_figures.py"),
+    ]
+
+
+def _allowed_local_roots(manifest: dict[str, Any]) -> set[str]:
+    return _list_field(manifest, "allowed_local_roots") | {
+        ".pytest_cache",
+        ".venv",
+        ".venv311-mps",
+        ".venvs",
+        "__pycache__",
+        "build",
+    }
+
+
+def _is_allowed_local_path(rel: str, manifest: dict[str, Any]) -> bool:
+    return rel == ".DS_Store" or any(
+        rel == root or rel.startswith(f"{root}/")
+        for root in _allowed_local_roots(manifest)
+    )
+
+
+def _metadata_text_paths(manifest: dict[str, Any]) -> list[Path]:
+    paths = _public_paths(manifest)
+    pack_dir = paths["pack_dir"]
+    review_dir = paths["review_dir"]
+    assert isinstance(pack_dir, Path)
+    assert isinstance(review_dir, Path)
+    return [
+        Path("README.md"),
+        Path("REPRODUCIBILITY.md"),
+        Path("NOTICE.md"),
+        FREEZE_JSON,
+        pack_dir / "figure_traceability.csv",
+        review_dir / "figure_traceability.csv",
+        review_dir / "review_manifest.json",
+        review_dir / "manuscript_evidence_map.csv",
+        review_dir / "data_review_report.md",
+    ]
+
+
+def _check_required(report: Report, manifest: dict[str, Any]) -> None:
+    for rel_path in _required_files(manifest):
         if not (report.root / rel_path).is_file():
             report.add(f"missing required file: {rel_path.as_posix()}")
 
 
-def _check_banned_paths(report: Report) -> None:
+def _check_banned_paths(report: Report, manifest: dict[str, Any]) -> None:
+    banned_roots = _list_field(manifest, "banned_roots")
+    banned_path_substrings = _list_field(manifest, "banned_path_substrings")
+    banned_suffixes = _list_field(manifest, "banned_suffixes")
+
     for child in report.root.iterdir():
         if child.name in {".git", ".DS_Store"}:
             continue
-        if child.name in BANNED_ROOTS:
+        if child.name in banned_roots and child.name not in _allowed_local_roots(manifest):
             report.add(f"banned root present: {child.name}")
 
     for path in _iter_files(report.root):
         rel = _rel(report.root, path)
-        if path.suffix.lower() in BANNED_SUFFIXES:
+        if _is_allowed_local_path(rel, manifest):
+            continue
+        if path.suffix.lower() in banned_suffixes:
             report.add(f"banned binary/model suffix: {rel}")
-        for token in BANNED_PATH_SUBSTRINGS:
+        for token in banned_path_substrings:
             if token in rel:
                 report.add(f"banned path token {token!r}: {rel}")
 
 
-def _check_metadata_text(report: Report) -> None:
-    for rel_path in PUBLIC_METADATA_TEXT:
+def _check_metadata_text(report: Report, manifest: dict[str, Any]) -> None:
+    banned_tokens = _list_field(manifest, "banned_metadata_tokens")
+    for rel_path in _metadata_text_paths(manifest):
         path = report.root / rel_path
         if not path.is_file():
             continue
@@ -149,12 +202,12 @@ def _check_metadata_text(report: Report) -> None:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
-        for token in BANNED_METADATA_TOKENS:
+        for token in banned_tokens:
             if token in text:
                 report.add(f"banned metadata token {token!r} in {rel_path.as_posix()}")
 
 
-def _check_freeze(report: Report) -> None:
+def _check_freeze(report: Report, manifest: dict[str, Any]) -> None:
     path = report.root / FREEZE_JSON
     if not path.is_file():
         return
@@ -164,13 +217,20 @@ def _check_freeze(report: Report) -> None:
         report.add(f"invalid current_freeze.json: {exc}")
         return
 
+    paths = _public_paths(manifest)
+    quick_dir = paths["quick_dir"]
+    pack_dir = paths["pack_dir"]
+    review_dir = paths["review_dir"]
+    assert isinstance(quick_dir, Path)
+    assert isinstance(pack_dir, Path)
+    assert isinstance(review_dir, Path)
     expected = {
-        "run_tag": FREEZE_TAG,
-        "freeze_tag": FREEZE_TAG,
-        "quick_reports_dir": QUICK_DIR.as_posix(),
-        "paper_figures_dir": PACK_DIR.as_posix(),
-        "review_dir": REVIEW_DIR.as_posix(),
-        "mechanism_evidence_tag": MECHANISM_TAG,
+        "run_tag": paths["freeze_tag"],
+        "freeze_tag": paths["freeze_tag"],
+        "quick_reports_dir": quick_dir.as_posix(),
+        "paper_figures_dir": pack_dir.as_posix(),
+        "review_dir": review_dir.as_posix(),
+        "mechanism_evidence_tag": paths["mechanism_tag"],
     }
     for key, value in expected.items():
         if payload.get(key) != value:
@@ -181,7 +241,7 @@ def _check_freeze(report: Report) -> None:
             report.add(f"current_freeze.json {key} target is missing: {rel_path}")
 
 
-def _check_git(report: Report) -> None:
+def _check_git(report: Report, manifest: dict[str, Any]) -> None:
     if not (report.root / ".git").is_dir():
         return
     status = _run(report.root, ["git", "status", "--short"])
@@ -197,7 +257,7 @@ def _check_git(report: Report) -> None:
     tracked_paths = set(tracked.stdout.splitlines())
     for path in _iter_files(report.root):
         rel = _rel(report.root, path)
-        if rel.startswith("build/"):
+        if _is_allowed_local_path(rel, manifest):
             continue
         if rel not in tracked_paths:
             report.add(f"untracked public file: {rel}")
@@ -210,14 +270,22 @@ def _run_subcheck(report: Report, args: list[str]) -> None:
         report.add(f"subcheck failed: {' '.join(args)}\n{detail}")
 
 
-def _check_artifact_tools(report: Report) -> None:
+def _check_artifact_tools(report: Report, manifest: dict[str, Any]) -> None:
+    paths = _public_paths(manifest)
+    quick_dir = paths["quick_dir"]
+    pack_dir = paths["pack_dir"]
+    review_dir = paths["review_dir"]
+    assert isinstance(quick_dir, Path)
+    assert isinstance(pack_dir, Path)
+    assert isinstance(review_dir, Path)
+
     _run_subcheck(
         report,
         [
             sys.executable,
             "experiments/tools/check_figure_numbering_registry.py",
             "--pack_dir",
-            PACK_DIR.as_posix(),
+            pack_dir.as_posix(),
         ],
     )
     _run_subcheck(
@@ -226,13 +294,13 @@ def _check_artifact_tools(report: Report) -> None:
             sys.executable,
             "experiments/tools/check_fuller_phase4_paper_data_figures.py",
             "--quick_dir",
-            QUICK_DIR.as_posix(),
+            quick_dir.as_posix(),
             "--mechanism_quick_dir",
-            QUICK_DIR.as_posix(),
+            quick_dir.as_posix(),
             "--pack_dir",
-            PACK_DIR.as_posix(),
+            pack_dir.as_posix(),
             "--review_dir",
-            REVIEW_DIR.as_posix(),
+            review_dir.as_posix(),
             "--freeze_json",
             FREEZE_JSON.as_posix(),
             "--require_promoted",
@@ -242,12 +310,13 @@ def _check_artifact_tools(report: Report) -> None:
 
 def validate(root: Path) -> Report:
     report = Report(root=root.resolve())
-    _check_required(report)
-    _check_banned_paths(report)
-    _check_metadata_text(report)
-    _check_freeze(report)
-    _check_artifact_tools(report)
-    _check_git(report)
+    manifest = _load_manifest(report)
+    _check_required(report, manifest)
+    _check_banned_paths(report, manifest)
+    _check_metadata_text(report, manifest)
+    _check_freeze(report, manifest)
+    _check_artifact_tools(report, manifest)
+    _check_git(report, manifest)
     return report
 
 

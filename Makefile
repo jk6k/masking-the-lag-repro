@@ -1,12 +1,12 @@
 PYTHON ?= python3
 FREEZE_TAG := 20260430_full_figure_strict_remediated
-QUICK_DIR := experiments/results/quick_reports/$(FREEZE_TAG)
-PACK_DIR := figures/paper_figures_$(FREEZE_TAG)
-REVIEW_DIR := experiments/results/review/$(FREEZE_TAG)
+QUICK_DIR := experiments/results/quick_reports/20260430_full_figure_strict_remediated
+PACK_DIR := figures/paper_figures_20260430_full_figure_strict_remediated
+REVIEW_DIR := experiments/results/review/20260430_full_figure_strict_remediated
 BUILD_FIG_DIR := build/rendered_figures
 BUILD_REVIEW_DIR := build/rendered_review
 
-.PHONY: repro-check render-paper-figures smoke clean
+.PHONY: repro-check render-paper-figures test smoke status clean
 
 repro-check:
 	$(PYTHON) scripts/check_public_repro_repo.py --root .
@@ -19,7 +19,13 @@ render-paper-figures:
 		--out_dir $(BUILD_FIG_DIR) \
 		--review_dir $(BUILD_REVIEW_DIR)
 
+test:
+	$(PYTHON) -m pytest -q experiments/tests/test_public_repro_surface.py
+
 smoke: repro-check
+
+status:
+	$(PYTHON) -c 'import json; from pathlib import Path; payload = json.loads(Path("experiments/results/paper_sync/current_freeze.json").read_text()); [print(key + "=" + str(payload.get(key))) for key in ("freeze_tag", "quick_reports_dir", "paper_figures_dir", "review_dir")]'
 
 clean:
 	rm -rf build .pytest_cache

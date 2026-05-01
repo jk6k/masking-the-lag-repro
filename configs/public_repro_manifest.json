@@ -11,6 +11,33 @@
     "review_dir": "experiments/results/review/20260430_full_figure_strict_remediated",
     "paper_sync_dir": "experiments/results/paper_sync"
   },
+  "generated_templates_dir": "scripts/public_repro_templates",
+  "required_files": [
+    ".gitattributes",
+    ".github/workflows/repro.yml",
+    ".gitignore",
+    ".public_repro_generated",
+    "EXPORT_METADATA.json",
+    "Makefile",
+    "NOTICE.md",
+    "README.md",
+    "REPRODUCIBILITY.md",
+    "requirements.txt",
+    "configs/public_repro_manifest.json",
+    "experiments/results/paper_sync/current_freeze.json",
+    "experiments/results/quick_reports/20260430_full_figure_strict_remediated/compliance_report.json",
+    "figures/paper_figures_20260430_full_figure_strict_remediated/figure_numbering_registry.csv",
+    "figures/paper_figures_20260430_full_figure_strict_remediated/figure_traceability.csv",
+    "experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv",
+    "experiments/results/review/20260430_full_figure_strict_remediated/manuscript_evidence_map.csv",
+    "experiments/results/review/20260430_full_figure_strict_remediated/review_manifest.json",
+    "experiments/results/review/20260430_full_figure_strict_remediated/Fig2_HOPSTimeline_exact_trace.csv",
+    "experiments/tools/check_figure_numbering_registry.py",
+    "experiments/tools/check_fuller_phase4_paper_data_figures.py",
+    "experiments/tools/render_fuller_phase4_paper_data_figures.py",
+    "scripts/check_public_repro_repo.py",
+    "scripts/render_fig2_pipeline_matplotlib.py"
+  ],
   "copy_files": [
     ".gitattributes",
     "configs/public_repro_manifest.json",
@@ -52,9 +79,6 @@
   ],
   "banned_roots": [
     ".agents",
-    ".venv",
-    ".venv311-mps",
-    ".venvs",
     "archives",
     "original_papers",
     "oral_pre",
@@ -78,5 +102,22 @@
     ".pt",
     ".pth",
     ".pptx"
+  ],
+  "allowed_local_roots": [
+    ".pytest_cache",
+    ".venv",
+    ".venv311-mps",
+    ".venvs",
+    "__pycache__",
+    "build"
+  ],
+  "banned_metadata_tokens": [
+    "original_papers/",
+    "markdown_v1_backup",
+    "draft_candidates",
+    "task_briefs",
+    "data_pack_worker",
+    "20260425_fuller_phase4_datafig_redesign_freeze",
+    "20260429_fuller_final_paper_numbered"
   ]
 }
