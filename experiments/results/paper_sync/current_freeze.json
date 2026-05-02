@@ -14,7 +14,7 @@
   "claim_contract_csv": "experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv",
   "mechanism_evidence_tag": "20260426_fuller_phase4_mechanism_basis_rerun",
   "promoted_at": "2026-04-30",
-  "project_positioning": "fuller_modular_accelerator_design_with_evidence_gated_module_repair",
+  "project_positioning": "mtl_modular_accelerator_design_with_fuller_complete_configuration_and_evidence_gated_module_repair",
   "repair_run_tag": "accelerator_design_repair_20260502",
   "repair_candidate_id": "module_repair_family_E1R_to_E6R",
   "promotion_status": "context_only",
@@ -35,7 +35,7 @@
     "heldout_authorized": false,
     "energy_gate": "formal_blocker_unclosed_bom",
     "phy_gate": "formal_blocker_unclosed_link_budget",
-    "claim_policy": "fuller_modular_accelerator_design_with_evidence_gated_module_repair"
+    "claim_policy": "mtl_modular_accelerator_design_with_fuller_complete_configuration_and_evidence_gated_module_repair"
   },
   "active_figures": [
     "Fig1",
