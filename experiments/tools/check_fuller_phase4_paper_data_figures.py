@@ -579,7 +579,40 @@ def check_final_claim_contract(
     check_file(path, errors)
     if not path.is_file():
         return
-    by_figure = {row.get("figure_id"): row for row in load_csv(path)}
+    rows = load_csv(path)
+    by_figure = {row.get("figure_id"): row for row in rows}
+    required_lineage_fields = {
+        "final_pack_run_tag",
+        "source_evidence_run_tag",
+        "source_run_tag_role",
+        "final_run_tag_role",
+        "source_csvs",
+        "figure_file",
+        "traceability_ref",
+        "boundary_manifest",
+        "promotion_reason",
+    }
+    expected_traceability_ref = f"figures/paper_figures_{final_run_tag}/figure_traceability.csv"
+    expected_figure_prefix = f"figures/paper_figures_{final_run_tag}/"
+    for row in rows:
+        figure_id = row.get("figure_id", "")
+        missing_fields = [field for field in required_lineage_fields if not str(row.get(field, "")).strip()]
+        if missing_fields:
+            errors.append(f"claim contract {figure_id} missing lineage fields {missing_fields}")
+            continue
+        if row.get("final_pack_run_tag") != final_run_tag:
+            errors.append(f"claim contract {figure_id} final_pack_run_tag must be final run tag")
+        if row.get("traceability_ref") != expected_traceability_ref:
+            errors.append(f"claim contract {figure_id} traceability_ref must point to current traceability")
+        if not row.get("figure_file", "").startswith(expected_figure_prefix):
+            errors.append(f"claim contract {figure_id} figure_file must point to current pack")
+        if row.get("source_evidence_run_tag") == "20260429_fuller_final_paper_numbered":
+            errors.append(f"claim contract {figure_id} must not use 20260429 as active source_evidence_run_tag")
+        if row.get("final_run_tag_role") not in {
+            "final_remediated_pack_run_tag",
+            "final_remediated_pack_run_tag_with_post_freeze_fig33_fig36_wave1",
+        }:
+            errors.append(f"claim contract {figure_id} unexpected final_run_tag_role={row.get('final_run_tag_role')!r}")
     if "Fig5" in by_figure or "Fig6" in by_figure:
         expected_basis = {
             "Fig5": {"current_basis_noise", "current_basis_sensitivity"},

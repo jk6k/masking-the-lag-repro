@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "description": "Whitelist contract for exporting the independent reader-facing reproduction repository.",
-  "default_destination": "/Users/jk6k/Desktop/masking-the-lag-repro",
+  "default_destination": "../masking-the-lag-repro",
   "remote_url": "https://github.com/jk6k/masking-the-lag-repro.git",
   "freeze_tag": "20260430_full_figure_strict_remediated",
   "mechanism_evidence_tag": "20260426_fuller_phase4_mechanism_basis_rerun",
