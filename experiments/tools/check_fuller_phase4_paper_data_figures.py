@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-RUN_TAG = "20260425_fuller_phase4_datafig_redesign_freeze"
+RUN_TAG = "public_redacted_path"
 FINAL_RUN_TAG = "20260430_full_figure_strict_remediated"
 LEGACY_FINAL_RUN_TAGS = {
     "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion",
@@ -607,7 +607,7 @@ def check_final_claim_contract(
             errors.append(f"claim contract {figure_id} traceability_ref must point to current traceability")
         if not row.get("figure_file", "").startswith(expected_figure_prefix):
             errors.append(f"claim contract {figure_id} figure_file must point to current pack")
-        if row.get("source_evidence_run_tag") == "20260429_fuller_final_paper_numbered":
+        if row.get("source_evidence_run_tag") == "public_redacted_path":
             errors.append(f"claim contract {figure_id} must not use 20260429 as active source_evidence_run_tag")
         if row.get("final_run_tag_role") not in {
             "final_remediated_pack_run_tag",

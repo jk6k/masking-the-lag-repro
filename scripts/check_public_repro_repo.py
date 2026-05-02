@@ -199,9 +199,20 @@ def _check_banned_paths(report: Report, manifest: dict[str, Any]) -> None:
 
 def _check_metadata_text(report: Report, manifest: dict[str, Any]) -> None:
     banned_tokens = _list_field(manifest, "banned_metadata_tokens")
-    for rel_path in _metadata_text_paths(manifest):
-        path = report.root / rel_path
+    paths = [report.root / rel_path for rel_path in _metadata_text_paths(manifest)]
+    seen = {path.resolve() for path in paths if path.exists()}
+    for path in _iter_files(report.root):
+        rel = _rel(report.root, path)
+        if _is_allowed_local_path(rel, manifest):
+            continue
+        if path.resolve() not in seen:
+            paths.append(path)
+            seen.add(path.resolve())
+    for path in paths:
         if not path.is_file():
+            continue
+        rel_path = Path(_rel(report.root, path))
+        if rel_path == MANIFEST_JSON:
             continue
         try:
             text = path.read_text(encoding="utf-8")

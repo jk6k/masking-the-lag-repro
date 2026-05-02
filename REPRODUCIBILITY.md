@@ -38,6 +38,7 @@ PNG/PDF/SVG assets.
 - Figure registry: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_numbering_registry.csv`
 - Traceability: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_traceability.csv`
 - Claim contract: `experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv`
+- Gate E blocker bundle: `experiments/results/review/20260430_full_figure_strict_remediated/gate_e_blockers/`
 
 ## Claim Boundary
 
@@ -57,3 +58,7 @@ must use `mps` and long runs must be wrapped with `caffeinate -dimsu`.
 Use this public package for reader inspection and source-driven data-figure
 regeneration. Use the full project workspace for governed MPS reruns and
 promotion decisions.
+
+The Gate E bundle is intentionally included as public blocker evidence. It
+records why the current Energy/PHY material remains context-only until
+component-source and per-layer link-budget closure are supplied.

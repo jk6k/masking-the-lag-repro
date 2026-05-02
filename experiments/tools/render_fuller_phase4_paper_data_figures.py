@@ -23,7 +23,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[2]
-RUN_TAG = "20260425_fuller_phase4_datafig_redesign_freeze"
+RUN_TAG = "public_redacted_path"
 FINAL_RUN_TAG = "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion"
 REMEDIATION_RUN_TAG = "20260430_full_figure_strict_remediated"
 MECHANISM_RUN_TAG = "20260426_fuller_phase4_mechanism_basis_rerun"
@@ -31,7 +31,7 @@ DEFAULT_QUICK_DIR = ROOT / "experiments" / "results" / "quick_reports" / FINAL_R
 DEFAULT_MECHANISM_QUICK_DIR = ROOT / "experiments" / "results" / "quick_reports" / FINAL_RUN_TAG
 DEFAULT_OUT_DIR = ROOT / "figures" / f"paper_figures_{FINAL_RUN_TAG}"
 DEFAULT_REVIEW_DIR = ROOT / "experiments" / "results" / "review" / FINAL_RUN_TAG
-DEFAULT_DOC_NOTE = ROOT / "docs" / "reports" / "20260425_fuller_phase4_datafig_redesign_freeze_promotion_note.md"
+DEFAULT_DOC_NOTE = ROOT / "docs" / "reports" / "public_redacted_path_promotion_note.md"
 FINAL_DOC_NOTE = ROOT / "docs" / "reports" / "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion_note.md"
 DEFAULT_CURRENT_BASIS_QA_NOTE = ROOT / "docs" / "reports" / "20260428_current_basis_datafig_broad_scaling_flowmeas_promotion_qa_note.md"
 SCHEMATIC_NOTE = ROOT / "docs" / "reports" / "20260423_fuller_current_schematic_figure_redesign_note.md"
@@ -1199,7 +1199,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
         "notes",
     ]
     if remediation_mode:
-        trace_path = review_dir / "data_pack_worker_figure_traceability.csv"
+        trace_path = review_dir / "public_redacted_provenance_figure_traceability.csv"
         write_csv(trace_path, trace_rows, trace_fields)
     else:
         trace_path = out_dir / "figure_traceability.csv"
@@ -1237,7 +1237,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
         "notes",
     ]
     if remediation_mode:
-        write_csv(review_dir / "data_pack_worker_numbering_handoff.csv", registry_rows, registry_fields)
+        write_csv(review_dir / "public_redacted_provenance_numbering_handoff.csv", registry_rows, registry_fields)
     else:
         write_csv(out_dir / "figure_numbering_registry.csv", registry_rows, registry_fields)
 
@@ -1309,7 +1309,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
             *[f"- `{rel(path)}`" for path in inputs.values()],
         ]
     )
-    brief_path = review_dir / ("data_pack_worker_rendered_data_figure_brief.md" if remediation_mode else "data_figure_brief.md")
+    brief_path = review_dir / ("public_redacted_provenance_rendered_data_figure_brief.md" if remediation_mode else "data_figure_brief.md")
     brief_path.write_text(brief + "\n", encoding="utf-8")
 
     defect_rows = [
@@ -1392,7 +1392,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
             ]
         )
     write_csv(
-        review_dir / ("data_pack_worker_defect_log.csv" if remediation_mode else "defect_log.csv"),
+        review_dir / ("public_redacted_provenance_defect_log.csv" if remediation_mode else "defect_log.csv"),
         defect_rows,
         ["defect_id", "severity", "figure_id", "status", "description", "resolution"],
     )
@@ -1417,7 +1417,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
             rerun_decision,
         ]
     )
-    (review_dir / ("data_pack_worker_figure_review_report.md" if remediation_mode else "figure_review_report.md")).write_text(
+    (review_dir / ("public_redacted_provenance_figure_review_report.md" if remediation_mode else "figure_review_report.md")).write_text(
         review_report + "\n",
         encoding="utf-8",
     )
@@ -1443,7 +1443,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
                 promotion_decision,
             ]
         )
-        (review_dir / ("data_pack_worker_data_review_report.md" if remediation_mode else "data_review_report.md")).write_text(
+        (review_dir / ("public_redacted_provenance_data_review_report.md" if remediation_mode else "data_review_report.md")).write_text(
             data_review_report + "\n",
             encoding="utf-8",
         )
@@ -1457,7 +1457,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
         "mechanism_quick_report_dir": rel(mechanism_source_dir),
         "review_dir": rel(review_dir),
         "traceability_csv": rel(trace_path),
-        "numbering_registry": rel(review_dir / "data_pack_worker_numbering_handoff.csv")
+        "numbering_registry": rel(review_dir / "public_redacted_provenance_numbering_handoff.csv")
         if remediation_mode
         else rel(out_dir / "figure_numbering_registry.csv"),
         "active_figures": [figure_id for figure_id, _, _, _ in FIGURES],
@@ -1466,7 +1466,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
         "claim_boundary": "runtime/materialization context only; Fig5 bounded sensitivity and Fig6 declared-grid timing evidence stay bounded; current-basis DET/SPARSE/FULLER mechanisms remain measured tradeoffs",
     }
     if remediation_mode:
-        write_json(review_dir / "data_pack_worker_review_manifest.json", manifest)
+        write_json(review_dir / "public_redacted_provenance_review_manifest.json", manifest)
     else:
         write_json(review_dir / "review_manifest.json", manifest)
         write_json(out_dir / "pack_metadata.json", manifest)
@@ -1498,11 +1498,11 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
             f"- Current-basis mechanism reports: `{rel(mechanism_source_dir)}`",
             f"- Review artifacts: `{rel(review_dir)}`",
             f"- Traceability: `{rel(trace_path)}`",
-            f"- Numbering handoff: `{rel(review_dir / 'data_pack_worker_numbering_handoff.csv') if remediation_mode else rel(out_dir / 'figure_numbering_registry.csv')}`",
+            f"- Numbering handoff: `{rel(review_dir / 'public_redacted_provenance_numbering_handoff.csv') if remediation_mode else rel(out_dir / 'figure_numbering_registry.csv')}`",
         ]
     )
     doc_note_path = (
-        review_dir / "data_pack_worker_promotion_note.md"
+        review_dir / "public_redacted_provenance_promotion_note.md"
         if remediation_mode
         else (
         FINAL_DOC_NOTE
@@ -1546,7 +1546,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
         ]
     )
     qa_note_path = review_dir / (
-        "data_pack_worker_current_basis_mechanism_qa_note.md"
+        "public_redacted_provenance_current_basis_mechanism_qa_note.md"
         if remediation_mode
         else "current_basis_mechanism_qa_note.md"
     )
