@@ -213,7 +213,7 @@ def _check_metadata_text(report: Report, manifest: dict[str, Any]) -> None:
 
 
 def _check_banned_content_tokens(report: Report, manifest: dict[str, Any]) -> None:
-    banned_tokens = _list_field(manifest, "banned_content_tokens")
+    banned_tokens = _list_field(manifest, "banned_content_tokens") | {"/" + "Users/jk6k"}
     if not banned_tokens:
         return
     for path in _iter_files(report.root):
