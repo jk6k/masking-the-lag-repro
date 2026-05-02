@@ -240,7 +240,7 @@ def panel_title(ax: plt.Axes, title: str) -> None:
 
 def add_claim_legend(fig: plt.Figure, *, y: float = 0.02, ncols: int = 2) -> None:
     handles = [
-        Patch(facecolor="#D9D9D9", edgecolor="#1F1F1F", label="runtime/materialization ready"),
+        Patch(facecolor="#D9D9D9", edgecolor="#1F1F1F", label="runtime/materialization context"),
         Patch(facecolor="#D9D9D9", edgecolor="#1F1F1F", hatch="///", label="accuracy claim blocked"),
     ]
     fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, y), ncols=ncols, fontsize=7.6)
@@ -412,7 +412,7 @@ def render_fig8(rows: list[dict[str, str]], out_dir: Path, review_dir: Path) -> 
     ax.axis("off")
     columns = ["Figure", "Evidence family", "Gate state", "Allowed claim"]
     claim_label = {
-        "runtime_materialization_ready": "runtime/materialization ready",
+        "runtime_materialization_ready": "runtime/materialization context",
         "runtime_context_only_for_sparse_fuller": "runtime context only",
         "boundary_statement": "claim boundary stated",
         "contextual_support_not_accuracy_preservation": "context only",
@@ -1463,7 +1463,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
         "active_figures": [figure_id for figure_id, _, _, _ in FIGURES],
         "reserved_main_slots": [],
         "grayscale_previews": preview_paths,
-        "claim_boundary": "runtime/materialization ready only; Fig5 bounded sensitivity and Fig6 declared-grid timing evidence stay bounded; current-basis DET/SPARSE/FULLER mechanisms remain measured tradeoffs",
+        "claim_boundary": "runtime/materialization context only; Fig5 bounded sensitivity and Fig6 declared-grid timing evidence stay bounded; current-basis DET/SPARSE/FULLER mechanisms remain measured tradeoffs",
     }
     if remediation_mode:
         write_json(review_dir / "data_pack_worker_review_manifest.json", manifest)

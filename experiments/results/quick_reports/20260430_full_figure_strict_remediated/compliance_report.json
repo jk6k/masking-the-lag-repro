@@ -9,7 +9,7 @@
   "quick_report_dir": "experiments/results/quick_reports/20260430_full_figure_strict_remediated",
   "review_dir": "experiments/results/review/20260430_full_figure_strict_remediated",
   "claim_boundary": {
-    "summary": "runtime/materialization ready only; Fig5 bounded sensitivity and Fig6 declared-grid timing evidence with trace-backed flow-buffer fields is promoted; universal scaling, silicon measurement, device superiority, broad noise robustness, and DET/SPARSE/FULLER accuracy-preservation wording remain blocked; Fig9-Fig12 are explanation schematics only",
+    "summary": "runtime/materialization context only; Fig5 bounded sensitivity and Fig6 declared-grid timing evidence with trace-backed flow-buffer fields is promoted; universal scaling, silicon measurement, device superiority, broad noise robustness, and DET/SPARSE/FULLER accuracy-preservation wording remain blocked; Fig9-Fig12 are explanation schematics only",
     "blocked_lanes": [
       "DET",
       "FULLER",

@@ -44,8 +44,8 @@ PNG/PDF/SVG assets.
 The public freeze supports runtime/materialization inspection, bounded
 sensitivity and scaling support, device-context inspection, source-driven
 data-figure regeneration, and traceability review. It does not promote accuracy preservation, broad
-robustness, universal scaling, silicon measurement, hardware validation, device
-superiority, benchmark equivalence, deployment readiness, or broad workload
+robustness, universal scaling, silicon measurement, fabricated-device evidence, device
+superiority, benchmark equivalence, field-use readiness, or broad workload
 generalization.
 
 ## Advanced Full Rerun Boundary
