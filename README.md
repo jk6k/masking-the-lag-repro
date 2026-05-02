@@ -3,10 +3,11 @@
 This repository is the reader-facing reproduction package for the promoted
 paper evidence freeze `20260430_full_figure_strict_remediated`.
 
-Project positioning is fixed as an accelerator-design study with evidence-gated
-operating-point promotion. The public package lets readers inspect why the
-current HOPS/FULLER operating points are not promoted; it should not be read as
-a standalone negative-result audit detached from the accelerator design.
+Project positioning is fixed as a FULLER modular accelerator-design study with
+evidence-gated module repair and operating-point promotion. The public package
+lets readers inspect why the current module and integrated operating points are
+not promoted; it should not be read as a standalone negative-result audit or a
+HOPS-only study detached from the accelerator design.
 
 It is intentionally smaller than the full development workspace. It contains
 the compact CSV/JSON evidence, metadata, and scripts needed to validate the

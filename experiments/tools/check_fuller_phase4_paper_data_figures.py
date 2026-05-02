@@ -13,8 +13,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RUN_TAG = "20260425_fuller_phase4_datafig_redesign_freeze"
-FINAL_RUN_TAG = "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion"
+FINAL_RUN_TAG = "20260430_full_figure_strict_remediated"
 LEGACY_FINAL_RUN_TAGS = {
+    "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion",
     "20260427_fuller_final_unreserved_datafig_rebuild",
     "20260428_fuller_final_unreserved_datafig_repeat3_promotion",
     "20260428_fuller_final_unreserved_datafig_seed5_repeat10_promotion",
@@ -782,7 +783,9 @@ def check_quick_reports(quick_dir: Path, mechanism_quick_dir: Path, errors: list
             errors.append("device comparison boundary must reject benchmark equivalence")
         if row.get("platform_class") == "HPAT" and "MTL-FULLER" not in row.get("device_label", ""):
             errors.append("modeled accelerator row must be labeled MTL-FULLER")
-    holdout_figure_id = "Fig8" if "Fig8" in expected_csvs else "Fig12"
+    # Legacy final packs keep the holdout boundary as Fig12, while the
+    # final-numbered 20260430 pack renumbers it to Fig8.
+    holdout_figure_id = "Fig12" if "Fig12" in expected_csvs else "Fig8"
     holdout = load_csv(quick_dir / expected_csvs[holdout_figure_id])
     holdout_by_lane = {row["lane"]: row for row in holdout}
     for lane in ("SPARSE", "FULLER"):

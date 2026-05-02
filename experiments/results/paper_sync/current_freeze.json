@@ -14,7 +14,18 @@
   "claim_contract_csv": "experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv",
   "mechanism_evidence_tag": "20260426_fuller_phase4_mechanism_basis_rerun",
   "promoted_at": "2026-04-30",
-  "project_positioning": "accelerator_design_project_with_evidence_gated_operating_point_promotion_and_repair",
+  "project_positioning": "fuller_modular_accelerator_design_with_evidence_gated_module_repair",
+  "repair_run_tag": "accelerator_design_repair_20260502",
+  "repair_candidate_id": "module_repair_family_E1R_to_E6R",
+  "promotion_status": "context_only",
+  "module_repair_candidates": [
+    "E1R_SAFE_MESO",
+    "E2R_SAFE_HOPS",
+    "E3R_SAFE_DET",
+    "E4R_SAFE_SPARSE",
+    "E5R_PHY_CONSTRAINED",
+    "E6R_SAFE_FULLER"
+  ],
   "claim_boundary": "runtime/materialization context only; Fig5 bounded sensitivity and Fig6 bounded broader scaling with direct instrumented flow-buffer trace evidence are promoted; universal scaling, silicon measurement, device superiority, broad noise robustness, and DET/SPARSE/FULLER accuracy-preservation wording remain blocked; Fig9-Fig12 are explanation schematics only",
   "diagnostic_gate_status": {
     "accuracy_gate": "scientific_failure_no_candidate",
@@ -24,7 +35,7 @@
     "heldout_authorized": false,
     "energy_gate": "formal_blocker_unclosed_bom",
     "phy_gate": "formal_blocker_unclosed_link_budget",
-    "claim_policy": "accelerator_design_project_with_evidence_gated_operating_point_promotion"
+    "claim_policy": "fuller_modular_accelerator_design_with_evidence_gated_module_repair"
   },
   "active_figures": [
     "Fig1",
