@@ -14,7 +14,7 @@
   "claim_contract_csv": "experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv",
   "mechanism_evidence_tag": "20260426_fuller_phase4_mechanism_basis_rerun",
   "promoted_at": "2026-04-30",
-  "claim_boundary": "runtime/materialization ready only; Fig5 bounded sensitivity and Fig6 bounded broader scaling with direct instrumented flow-buffer trace evidence are promoted; universal scaling, silicon measurement, device superiority, broad noise robustness, and DET/SPARSE/FULLER accuracy-preservation wording remain blocked; Fig9-Fig12 are explanation schematics only",
+  "claim_boundary": "runtime/materialization context only; Fig5 bounded sensitivity and Fig6 bounded broader scaling with direct instrumented flow-buffer trace evidence are promoted; universal scaling, silicon measurement, device superiority, broad noise robustness, and DET/SPARSE/FULLER accuracy-preservation wording remain blocked; Fig9-Fig12 are explanation schematics only",
   "active_figures": [
     "Fig1",
     "Fig2",
