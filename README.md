@@ -3,8 +3,9 @@
 This repository is the reader-facing reproduction package for the promoted
 paper evidence freeze `20260430_full_figure_strict_remediated`.
 
-Project positioning is fixed as a FULLER modular accelerator-design study with
-evidence-gated module repair and operating-point promotion. The public package
+Project positioning is fixed as an MTL modular accelerator-design study with
+FULLER as the complete integrated configuration, evidence-gated module repair,
+and operating-point promotion. The public package
 lets readers inspect why the current module and integrated operating points are
 not promoted; it should not be read as a standalone negative-result audit or a
 HOPS-only study detached from the accelerator design.
