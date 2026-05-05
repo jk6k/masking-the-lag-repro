@@ -1,14 +1,14 @@
 # Masking the Lag Reproduction
 
-This repository is the reader-facing reproduction package for the promoted
-paper evidence freeze `20260430_full_figure_strict_remediated`.
+This repository is the reader-facing reproduction package for the submitted
+figure evidence freeze `20260430_full_figure_strict_remediated`.
 
-Project positioning is fixed as an MTL modular accelerator-design study with
-FULLER as the complete integrated configuration, evidence-gated module repair,
-and operating-point promotion. The public package
-lets readers inspect why the current module and integrated operating points are
-not promoted; it should not be read as a standalone negative-result audit or a
-HOPS-only study detached from the accelerator design.
+The repaired thesis interprets this figure package under a later active repair
+route: W4 O7/O1 held-out statistics, W5 energy/PHY blockers, W6
+MobileViT/ImageNet-only scope, and W7 negative controlled evaluation identity.
+This public package lets readers inspect the figure context and claim-boundary
+records. It is not itself claim authority for HOPS, FULLER, energy, PHY,
+device, or broad-workload promotion.
 
 It is intentionally smaller than the full development workspace. It contains
 the compact CSV/JSON evidence, metadata, and scripts needed to validate the
@@ -62,8 +62,9 @@ caffeinate -dimsu .venv311-mps/bin/python experiments/tools/phase1_runner.py \
 ```
 
 The public repository is therefore a two-layer artifact: fast inspection and
-data-figure regeneration by default, with full local reruns documented as a
-governed maintainer workflow outside this compact package.
+data-figure regeneration by default, with active W4--W7 replay and full local
+reruns documented as governed maintainer workflows outside this compact
+package.
 
 Energy/PHY material in this public package is a blocker bundle, not a positive
 closure artifact. Missing independent BOM/source terms and per-layer PHY

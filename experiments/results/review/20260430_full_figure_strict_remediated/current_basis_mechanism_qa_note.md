@@ -24,4 +24,4 @@ Rendering script: `experiments/tools/render_fuller_phase4_paper_data_figures.py`
 
 ## Experiment Gate
 
-No new accelerator-backed outputs were generated for this remediation. The render uses frozen current-basis CSVs and keeps positive preservation claims for SPARSE, FULLER, or a repaired DET/SPARSE point blocked.
+No new accelerator-backed outputs were generated for this final visual QA pass. The render uses frozen current-basis CSVs and keeps positive preservation claims for SPARSE, FULLER, or a future DET/SPARSE point blocked.

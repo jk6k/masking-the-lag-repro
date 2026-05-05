@@ -65,7 +65,7 @@ STYLE_ANCHORS = {
         "Lightening-Transformer Fig13 platform comparison"
     ),
     "Fig4": (
-        "composition_only: CrossLight Fig6 Pareto-style scatter; Lightening-Transformer Fig13 comparison posture; "
+        "composition_only: CrossLight Fig6 trade-off scatter; Lightening-Transformer Fig13 comparison posture; "
         "HyAtten Fig6 highlighted endpoint rhythm"
     ),
     "Fig5": (
@@ -90,10 +90,10 @@ STYLE_ANCHORS = {
 
 FIGURES = [
     ("Fig3", "main", "Fig3_Phase4RuntimeAccuracyBoundary", "Phase4 Runtime/Accuracy Boundary"),
-    ("Fig4", "main", "Fig4_RuntimeAccuracyPareto", "Runtime-Accuracy Pareto"),
+    ("Fig4", "main", "Fig4_RuntimeAccuracyPareto", "Historical Runtime/Accuracy Trade-Off"),
     ("Fig5", "main", "Fig5_BoundedSensitivity", "Bounded Sensitivity"),
-    ("Fig6", "main", "Fig6_ScalingSupport", "Scaling Support"),
-    ("Fig7", "main", "Fig7_DeviceContext", "Device Context"),
+    ("Fig6", "main", "Fig6_ScalingSupport", "Declared-Grid Modeled Timing Context"),
+    ("Fig7", "main", "Fig7_DeviceContext", "Non-Equivalent Device Context"),
     ("Fig8", "main", "Fig8_HoldoutClaimBoundary", "Holdout Claim Boundary"),
     ("AppF1", "appendix", "AppF1_SeedRangeVariability", "Seed/Range Variability"),
     ("AppF2", "appendix", "AppF2_DataFigureCompatibility", "Data-Figure Compatibility Matrix"),
@@ -403,7 +403,7 @@ def render_fig7(rows: list[dict[str, str]], out_dir: Path, review_dir: Path) -> 
         Line2D([0], [0], marker="X", color="none", markerfacecolor="white", markeredgecolor="#777777", label="accuracy claim blocked", markersize=7),
     ]
     ax.legend(handles=handles, loc="lower left", fontsize=7.2)
-    ax.set_title("Runtime-Accuracy Pareto", pad=8)
+    ax.set_title("Historical Runtime/Accuracy Trade-Off", pad=8)
     return export_figure(fig, out_dir, review_dir, "Fig4_RuntimeAccuracyPareto")
 
 
@@ -593,7 +593,7 @@ def render_fig10(rows: list[dict[str, str]], out_dir: Path, review_dir: Path) ->
     axes[1].set_ylim(0, max(seq_y) * 1.22)
     panel_title(axes[1], "Sequence scaling")
     add_footnote(fig, "Minimum retained support; flow-buffer peak fraction was not available in legacy context.", y=0.04)
-    fig.suptitle("Scaling Support", y=0.96, fontsize=11.2, weight="bold")
+    fig.suptitle("Declared-Grid Modeled Timing Context", y=0.96, fontsize=11.2, weight="bold")
     return export_figure(fig, out_dir, review_dir, "Fig6_ScalingSupport")
 
 
@@ -646,7 +646,7 @@ def render_fig10_current_basis(rows: list[dict[str, str]], out_dir: Path, review
         cbar.ax.tick_params(labelsize=6.3)
     axes[0].set_ylabel("Method")
     fig.suptitle(
-        "Declared-Grid Timing Summary" if declared_grid_ready else "Current-Basis Timing Grid Summary",
+        "Declared-Grid Modeled Timing Context" if declared_grid_ready else "Current-Basis Modeled Timing Context",
         y=0.95,
         fontsize=11.2,
         weight="bold",
@@ -663,10 +663,10 @@ def render_fig10_current_basis(rows: list[dict[str, str]], out_dir: Path, review
     )
     add_footnote(
         fig,
-        f"Each cell averages the {grid_text} for that model and method; {repeat_note}{stability_note}, {boundary_text}.",
+        f"Context only: declared-grid modeled timing summary, not silicon measurement or universal scaling. Each cell averages the {grid_text}; {repeat_note}{stability_note}, {boundary_text}.",
         y=0.045,
-        fontsize=6.35,
-        wrap_width=108,
+        fontsize=6.25,
+        wrap_width=118,
     )
     return export_figure(fig, out_dir, review_dir, "Fig6_ScalingSupport")
 
@@ -683,15 +683,6 @@ def render_fig11(rows: list[dict[str, str]], out_dir: Path, review_dir: Path) ->
         ("avg_power_w", "Avg power (W)", "linear"),
         ("throughput_images_s", "Throughput (img/s)", "log"),
     ]
-
-    gpu = by_platform["GPU"]
-    fuller = by_platform["HPAT"]
-    ratios = {
-        "latency": f(gpu, "latency_ms") / f(fuller, "latency_ms"),
-        "energy": f(fuller, "energy_j") / f(gpu, "energy_j"),
-        "power": f(fuller, "avg_power_w") / f(gpu, "avg_power_w"),
-        "throughput": f(fuller, "throughput_images_s") / f(gpu, "throughput_images_s"),
-    }
 
     fig, axes = plt.subplots(1, 4, figsize=(7.55, 4.05))
     fig.subplots_adjust(left=0.06, right=0.985, bottom=0.30, top=0.76, wspace=0.34)
@@ -726,14 +717,8 @@ def render_fig11(rows: list[dict[str, str]], out_dir: Path, review_dir: Path) ->
         ax.tick_params(axis="y", labelsize=6.4)
         ax.grid(True, axis="y", alpha=0.18)
 
-    ratio_text = (
-        "MPS-relative context: "
-        f"{ratios['latency']:.1f}x lower latency | "
-        f"{ratios['energy']:.1f}x higher energy | "
-        f"{ratios['power']:.1f}x higher avg power | "
-        f"{ratios['throughput']:.1f}x higher throughput"
-    )
-    fig.text(0.5, 0.135, ratio_text, ha="center", fontsize=7.0, weight="bold", color="#223238")
+    tier_text = "Mixed evidence tiers: measured Apple host rows and modeled endpoint row are not benchmark-equivalent; no ratio is used as a claim."
+    fig.text(0.5, 0.135, tier_text, ha="center", fontsize=6.8, weight="bold", color="#223238")
     fig.text(
         0.5,
         0.075,
@@ -748,7 +733,7 @@ def render_fig11(rows: list[dict[str, str]], out_dir: Path, review_dir: Path) ->
         Patch(facecolor=colors[2], edgecolor="#1F1F1F", hatch="///", label="MTL-FULLER modeled"),
     ]
     fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.91), ncols=3, fontsize=6.8)
-    fig.suptitle("Device Context", y=0.98, fontsize=11.2, weight="bold")
+    fig.suptitle("Non-Equivalent Device Context", y=0.98, fontsize=11.2, weight="bold")
     return export_figure(fig, out_dir, review_dir, "Fig7_DeviceContext")
 
 
@@ -880,7 +865,7 @@ def render_appf2(rows: list[dict[str, str]], out_dir: Path, review_dir: Path) ->
         0.5,
         0.020,
         wrap(
-            "Final successors use Fig3/Fig4 runtime-Pareto, Fig5 bounded sensitivity, Fig6 declared-grid timing, and Fig7 device context; Fig9-Fig12 are mechanism schematics.",
+            "Final successors use Fig3/Fig4 runtime/accuracy context, Fig5 bounded sensitivity, Fig6 declared-grid modeled timing, and Fig7 non-equivalent device context; Fig9-Fig12 are mechanism schematics.",
             124,
         ),
         ha="center",
@@ -1302,7 +1287,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
             "",
             "- decision: redraw only",
             "- reason: remediated pack uses frozen current-basis Fig5/Fig6 inputs; requested changes are redraw and metadata-label fixes only",
-            "- accelerator status: no CUDA, MPS, or local model evaluation was launched for this remediation",
+            "- accelerator status: no CUDA, MPS, or local model evaluation was launched for this final visual QA pass",
             "",
             "## Inputs",
             "",
@@ -1528,10 +1513,10 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
             "| Figure | Decision | Source CSV | Rendering target | QA note |",
             "|---|---|---|---|---|",
             f"| Fig3 | accept | `{rel(inputs['Fig3'])}` | `render_fig6` | Supports bounded runtime/accuracy comparison; large accuracy gaps remain visible. |",
-            f"| Fig4 | accept | `{rel(inputs['Fig4'])}` | `render_fig7` | Pareto companion to Fig3; use only with tradeoff wording. |",
+            f"| Fig4 | accept | `{rel(inputs['Fig4'])}` | `render_fig7` | Historical runtime/accuracy trade-off companion to Fig3; use only with context wording. |",
             f"| Fig5 | accept | `{rel(inputs['Fig5'])}` | `render_fig9` | Three-model dense sensitivity envelope and {fig5_seed_summary} representative cells are rendered as Fig5_BoundedSensitivity. |",
-            f"| Fig6 | accept | `{rel(inputs['Fig6'])}` | `render_fig10` | {('Declared-grid and holdout timing rows are complete' if fig6_declared_grid_ready else 'Current-basis 108-cell timing grid is complete')} with {fig6_repeat_text}; footer is wrapped for page-scale readability. |",
-            f"| Fig7 | accept | `{rel(inputs['Fig7'])}` | `render_fig11` | Device context is acceptable when measured-host and modeled-accelerator boundaries stay explicit. |",
+            f"| Fig6 | accept | `{rel(inputs['Fig6'])}` | `render_fig10` | {('Declared-grid and holdout timing rows are complete' if fig6_declared_grid_ready else 'Current-basis 108-cell timing grid is complete')} with {fig6_repeat_text}; title and footer state modeled/context-only boundary. |",
+            f"| Fig7 | accept | `{rel(inputs['Fig7'])}` | `render_fig11` | Non-equivalent device context is acceptable only when measured-host and modeled-endpoint boundaries stay explicit and no ratio is used as a claim. |",
             f"| Fig8 | accept | `{rel(inputs['Fig8'])}` | `render_fig12` | Correctly blocks stronger SPARSE/FULLER wording. |",
             f"| AppF1 | accept | `{rel(inputs['AppF1'])}` | `render_appf1` | Variability context now includes explicit max-min Top-1 range labels/inset. |",
             f"| AppF2 | accept | `{rel(inputs['AppF2'])}` | `render_appf2` | Compatibility matrix uses final successor IDs and states the Fig9-Fig12 mechanism-schematic boundary. |",
@@ -1542,7 +1527,7 @@ def render_all(quick_dir: Path, mechanism_quick_dir: Path, out_dir: Path, review
             "",
             "## Experiment Gate",
             "",
-            "No new accelerator-backed outputs were generated for this remediation. The render uses frozen current-basis CSVs and keeps positive preservation claims for SPARSE, FULLER, or a repaired DET/SPARSE point blocked.",
+            "No new accelerator-backed outputs were generated for this final visual QA pass. The render uses frozen current-basis CSVs and keeps positive preservation claims for SPARSE, FULLER, or a future DET/SPARSE point blocked.",
         ]
     )
     qa_note_path = review_dir / (
