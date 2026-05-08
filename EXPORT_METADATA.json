@@ -1,0 +1,6 @@
+{
+  "generated_by": "scripts/build_public_repro_repo.py",
+  "source_manifest": "configs/public_repro_manifest.json",
+  "freeze_tag": "20260430_full_figure_strict_remediated",
+  "remote_url": "https://github.com/jk6k/masking-the-lag-repro.git"
+}

@@ -1,0 +1,74 @@
+{
+  "run_tag": "20260430_full_figure_strict_remediated",
+  "source_data_run_tag": "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion",
+  "promotion_status": "promoted",
+  "ready_for_branch": true,
+  "build_allowed": true,
+  "blockers": [],
+  "paper_figures_dir": "figures/paper_figures_20260430_full_figure_strict_remediated",
+  "quick_report_dir": "experiments/results/quick_reports/20260430_full_figure_strict_remediated",
+  "review_dir": "experiments/results/review/20260430_full_figure_strict_remediated",
+  "claim_boundary": {
+    "summary": "runtime/materialization ready only; Fig5 bounded sensitivity and Fig6 declared-grid timing evidence with trace-backed flow-buffer fields is promoted; universal scaling, silicon measurement, device superiority, broad noise robustness, and DET/SPARSE/FULLER accuracy-preservation wording remain blocked; Fig9-Fig12 are explanation schematics only",
+    "blocked_lanes": [
+      "DET",
+      "FULLER",
+      "SPARSE"
+    ],
+    "blocked_figures": [],
+    "accuracy_preservation_ready": false,
+    "robustness_claim_ready": false,
+    "device_superiority_ready": false,
+    "broad_scaling_claim_ready": false,
+    "declared_grid_timing_ready": true,
+    "instrumented_flow_buffer_trace_ready": true
+  },
+  "numbering": {
+    "main": "Fig1-Fig12 active; no reserved main slots",
+    "appendix": "AppF1-AppF6 appendix-local",
+    "reserved_main_slots": []
+  },
+  "generated_at": "2026-04-30T00:00:00Z",
+  "reserved_main_slots": [],
+  "active_figures": [
+    "Fig1",
+    "Fig2",
+    "Fig3",
+    "Fig4",
+    "Fig5",
+    "Fig6",
+    "Fig7",
+    "Fig8",
+    "Fig9",
+    "Fig10",
+    "Fig11",
+    "Fig12",
+    "AppF1",
+    "AppF2",
+    "AppF3",
+    "AppF4",
+    "AppF5",
+    "AppF6"
+  ],
+  "notes": "Promoted on 2026-04-30 as the full-figure strict remediated pack. All source review findings are closed with no waivers; Fig5 uses bounded sensitivity wording and AppF1-AppF3 use pack-level caption boundaries.",
+  "preflight_unblock": {
+    "mps_queue_status": "completed_no_cpu_fallback"
+  },
+  "resolved_findings": [
+    "DQA-APP-001",
+    "DQA-APP-002",
+    "TCQ-LOW-002",
+    "TCQ-LOW-003",
+    "DQA-APP-003",
+    "TCQ-LOW-004",
+    "TRQ-L-001",
+    "TRQ-L-002",
+    "TRQ-L-003",
+    "FIG1-ARCH-LOW-001",
+    "FIG1-ARCH-LOW-002",
+    "F2-TL-L01",
+    "F2-TL-L02",
+    "TCQ-LOW-001",
+    "DQ-MAIN-LOW-001"
+  ]
+}
