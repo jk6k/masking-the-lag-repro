@@ -6,11 +6,11 @@ __pycache__/
 .venv311-mps/
 .venvs/
 build/
-public_redacted_path/
+experiments/datasets/
 weights/
 archives/
 tmp/
-public_redacted_provenance
+original_papers/
 oral_pre/
 peper_writing/
 .agents/

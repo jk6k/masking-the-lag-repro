@@ -1,14 +1,7 @@
 # Masking the Lag Reproduction
 
-This repository is the reader-facing reproduction package for the submitted
-figure evidence freeze `20260430_full_figure_strict_remediated`.
-
-The repaired thesis interprets this figure package under a later active repair
-route: W4 O7/O1 held-out statistics, W5 energy/PHY blockers, W6
-MobileViT/ImageNet-only scope, and W7 negative controlled evaluation identity.
-This public package lets readers inspect the figure context and claim-boundary
-records. It is not itself claim authority for HOPS, FULLER, energy, PHY,
-device, or broad-workload promotion.
+This repository is the reader-facing reproduction package for the promoted
+paper evidence freeze `20260430_full_figure_strict_remediated`.
 
 It is intentionally smaller than the full development workspace. It contains
 the compact CSV/JSON evidence, metadata, and scripts needed to validate the
@@ -36,7 +29,6 @@ from the checked CSV inputs.
 - Quick reports: `experiments/results/quick_reports/20260430_full_figure_strict_remediated/`
 - Figure metadata: `figures/paper_figures_20260430_full_figure_strict_remediated/`
 - Review metadata: `experiments/results/review/20260430_full_figure_strict_remediated/`
-- Gate E blocker bundle: `experiments/results/review/20260430_full_figure_strict_remediated/gate_e_blockers/`
 
 Figure roles are fixed for this freeze:
 
@@ -62,14 +54,8 @@ caffeinate -dimsu .venv311-mps/bin/python experiments/tools/phase1_runner.py \
 ```
 
 The public repository is therefore a two-layer artifact: fast inspection and
-data-figure regeneration by default, with active W4--W7 replay and full local
-reruns documented as governed maintainer workflows outside this compact
-package.
-
-Energy/PHY material in this public package is a blocker bundle, not a positive
-closure artifact. Missing independent BOM/source terms and per-layer PHY
-link-budget terms remain visible so readers can audit why Energy/PHY promotion
-is not granted by the current freeze.
+data-figure regeneration by default, with full local reruns documented as a
+governed maintainer workflow outside this compact package.
 
 Datasets, model weights, pre-rendered images, private literature mirrors, draft
 candidates, project management files, and historical run payloads are

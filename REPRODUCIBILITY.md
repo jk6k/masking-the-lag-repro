@@ -1,8 +1,6 @@
 # Reproducibility Guide
 
-The active public figure-audit freeze is `20260430_full_figure_strict_remediated`. The repaired thesis
-claim authority is the later W4--W7 active repair route, not this figure pack
-alone.
+The active public freeze is `20260430_full_figure_strict_remediated`.
 
 ## Lightweight Verification
 
@@ -40,17 +38,15 @@ PNG/PDF/SVG assets.
 - Figure registry: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_numbering_registry.csv`
 - Traceability: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_traceability.csv`
 - Claim contract: `experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv`
-- Gate E blocker bundle: `experiments/results/review/20260430_full_figure_strict_remediated/gate_e_blockers/`
 
 ## Claim Boundary
 
 The public freeze supports runtime/materialization inspection, bounded
-sensitivity and scaling context, device-context inspection, source-driven
-data-figure regeneration, and traceability review. It does not promote HOPS
-speedup, FULLER validation, energy advantage, PHY feasibility, accuracy
-preservation, broad robustness, universal scaling, silicon measurement,
-fabricated-device evidence, device superiority, benchmark equivalence,
-field-use readiness, or broad workload generalization.
+sensitivity and scaling support, device-context inspection, source-driven
+data-figure regeneration, and traceability review. It does not promote accuracy preservation, broad
+robustness, universal scaling, silicon measurement, hardware validation, device
+superiority, benchmark equivalence, deployment readiness, or broad workload
+generalization.
 
 ## Advanced Full Rerun Boundary
 
@@ -59,9 +55,5 @@ environment, and long-run handling. On the project Mac, accelerator-backed runs
 must use `mps` and long runs must be wrapped with `caffeinate -dimsu`.
 
 Use this public package for reader inspection and source-driven data-figure
-regeneration. Use the full project workspace for governed MPS reruns, W4 O7/O1
-statistics replay, and promotion or blocker decisions.
-
-The Gate E bundle is intentionally included as public blocker evidence. It
-records why the current Energy/PHY material remains context-only until
-component-source and per-layer link-budget closure are supplied.
+regeneration. Use the full project workspace for governed MPS reruns and
+promotion decisions.

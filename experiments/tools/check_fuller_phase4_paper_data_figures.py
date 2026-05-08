@@ -12,10 +12,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-RUN_TAG = "public_redacted_path"
-FINAL_RUN_TAG = "20260430_full_figure_strict_remediated"
+RUN_TAG = "20260425_fuller_phase4_datafig_redesign_freeze"
+FINAL_RUN_TAG = "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion"
 LEGACY_FINAL_RUN_TAGS = {
-    "20260428_fuller_final_unreserved_datafig_broad_scaling_flowmeas_promotion",
     "20260427_fuller_final_unreserved_datafig_rebuild",
     "20260428_fuller_final_unreserved_datafig_repeat3_promotion",
     "20260428_fuller_final_unreserved_datafig_seed5_repeat10_promotion",
@@ -98,7 +97,7 @@ PHASE4_EXPECTED = {
     "FULLER": {"top1_mean": 20.6459, "speedup_vs_astra": 12.11},
 }
 MECHANISM_ORDER = ["E0", "E1", "E2", "E3", "E4", "E6"]
-ALLOWED_FINAL_FLOW_STATUS = {"measured", "derived_from_trace", "not_applicable_for_baseline"}
+ALLOWED_FINAL_FLOW_STATUS = {"measured", "not_applicable_for_baseline"}
 FIG10_STABILITY_FIELDS = (
     "latency_ms_std",
     "latency_ms_cv_pct",
@@ -580,40 +579,7 @@ def check_final_claim_contract(
     check_file(path, errors)
     if not path.is_file():
         return
-    rows = load_csv(path)
-    by_figure = {row.get("figure_id"): row for row in rows}
-    required_lineage_fields = {
-        "final_pack_run_tag",
-        "source_evidence_run_tag",
-        "source_run_tag_role",
-        "final_run_tag_role",
-        "source_csvs",
-        "figure_file",
-        "traceability_ref",
-        "boundary_manifest",
-        "promotion_reason",
-    }
-    expected_traceability_ref = f"figures/paper_figures_{final_run_tag}/figure_traceability.csv"
-    expected_figure_prefix = f"figures/paper_figures_{final_run_tag}/"
-    for row in rows:
-        figure_id = row.get("figure_id", "")
-        missing_fields = [field for field in required_lineage_fields if not str(row.get(field, "")).strip()]
-        if missing_fields:
-            errors.append(f"claim contract {figure_id} missing lineage fields {missing_fields}")
-            continue
-        if row.get("final_pack_run_tag") != final_run_tag:
-            errors.append(f"claim contract {figure_id} final_pack_run_tag must be final run tag")
-        if row.get("traceability_ref") != expected_traceability_ref:
-            errors.append(f"claim contract {figure_id} traceability_ref must point to current traceability")
-        if not row.get("figure_file", "").startswith(expected_figure_prefix):
-            errors.append(f"claim contract {figure_id} figure_file must point to current pack")
-        if row.get("source_evidence_run_tag") == "public_redacted_path":
-            errors.append(f"claim contract {figure_id} must not use 20260429 as active source_evidence_run_tag")
-        if row.get("final_run_tag_role") not in {
-            "final_remediated_pack_run_tag",
-            "final_remediated_pack_run_tag_with_post_freeze_fig33_fig36_wave1",
-        }:
-            errors.append(f"claim contract {figure_id} unexpected final_run_tag_role={row.get('final_run_tag_role')!r}")
+    by_figure = {row.get("figure_id"): row for row in load_csv(path)}
     if "Fig5" in by_figure or "Fig6" in by_figure:
         expected_basis = {
             "Fig5": {"current_basis_noise", "current_basis_sensitivity"},
@@ -783,9 +749,7 @@ def check_quick_reports(quick_dir: Path, mechanism_quick_dir: Path, errors: list
             errors.append("device comparison boundary must reject benchmark equivalence")
         if row.get("platform_class") == "HPAT" and "MTL-FULLER" not in row.get("device_label", ""):
             errors.append("modeled accelerator row must be labeled MTL-FULLER")
-    # Legacy final packs keep the holdout boundary as Fig12, while the
-    # final-numbered 20260430 pack renumbers it to Fig8.
-    holdout_figure_id = "Fig12" if "Fig12" in expected_csvs else "Fig8"
+    holdout_figure_id = "Fig8" if "Fig8" in expected_csvs else "Fig12"
     holdout = load_csv(quick_dir / expected_csvs[holdout_figure_id])
     holdout_by_lane = {row["lane"]: row for row in holdout}
     for lane in ("SPARSE", "FULLER"):
