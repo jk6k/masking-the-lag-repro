@@ -133,11 +133,7 @@
     "draft_candidates",
     "task_briefs",
     "candidate_",
-    "trial_pages",
-    "20260430_full_figure_strict_remediated",
-    "20260426_fuller_phase4_mechanism_basis_rerun",
-    "20260425_fuller_phase4_datafig_redesign_freeze",
-    "20260429_fuller_final_paper_numbered"
+    "trial_pages"
   ],
   "banned_suffixes": [
     ".npz",
@@ -165,10 +161,6 @@
     "task_briefs",
     "candidate_",
     "trial_pages",
-    "data_pack_worker",
-    "20260430_full_figure_strict_remediated",
-    "20260426_fuller_phase4_mechanism_basis_rerun",
-    "20260425_fuller_phase4_datafig_redesign_freeze",
-    "20260429_fuller_final_paper_numbered"
+    "data_pack_worker"
   ]
 }
