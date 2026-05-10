@@ -131,7 +131,6 @@
     "experiments/results/accuracy/progress",
     "progress/events",
     "draft_candidates",
-    "task_briefs",
     "candidate_",
     "trial_pages"
   ],
@@ -158,7 +157,6 @@
     "AI_KNOWLEDGE_BASE",
     "markdown_v1_backup",
     "draft_candidates",
-    "task_briefs",
     "candidate_",
     "trial_pages",
     "data_pack_worker"
