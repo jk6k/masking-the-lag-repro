@@ -14,9 +14,8 @@ from typing import Any
 
 FREEZE_JSON = Path("experiments/results/paper_sync/current_freeze.json")
 MANIFEST_JSON = Path("configs/public_repro_manifest.json")
-DEFAULT_FREEZE_TAG = "20260430_full_figure_strict_remediated"
-DEFAULT_MECHANISM_TAG = "20260426_fuller_phase4_mechanism_basis_rerun"
-SUDS_FREEZE_TAG = "20260510_suds_q2_repaired"
+DEFAULT_FREEZE_TAG = "20260510_suds_q2_repaired"
+DEFAULT_MECHANISM_TAG = "20260510_suds_q2_repaired"
 
 
 @dataclass
@@ -61,7 +60,7 @@ def _list_field(manifest: dict[str, Any], key: str) -> set[str]:
 
 
 def _workflow(manifest: dict[str, Any]) -> str:
-    return str(manifest.get("workflow") or "fuller_phase4")
+    return str(manifest.get("workflow") or "suds_q2")
 
 
 def _is_suds(manifest: dict[str, Any]) -> bool:
@@ -91,7 +90,7 @@ def _load_manifest(report: Report) -> dict[str, Any]:
 
 
 def _public_paths(manifest: dict[str, Any]) -> dict[str, Path | str]:
-    freeze_tag = str(manifest.get("freeze_tag") or (SUDS_FREEZE_TAG if _is_suds(manifest) else DEFAULT_FREEZE_TAG))
+    freeze_tag = str(manifest.get("freeze_tag") or DEFAULT_FREEZE_TAG)
     mechanism_tag = str(manifest.get("mechanism_evidence_tag") or (freeze_tag if _is_suds(manifest) else DEFAULT_MECHANISM_TAG))
     layers = manifest.get("public_layers")
     if not isinstance(layers, dict):
@@ -133,16 +132,22 @@ def _required_files(manifest: dict[str, Any]) -> list[Path]:
         Path("requirements.txt"),
         MANIFEST_JSON,
         FREEZE_JSON,
-        quick_dir / "compliance_report.json",
+        Path("experiments/results/runs/phase_b/phase_b_summary.json"),
+        Path("experiments/results/runs/phase_c/phase_c_summary.json"),
+        Path("experiments/results/runs/phase_d/phase_d_summary.json"),
+        Path("experiments/results/runs/phase_e/phase_e_summary.json"),
+        Path("experiments/results/runs/phase_f/phase_f_summary.json"),
+        Path("experiments/results/runs/slack_manifest.json"),
+        Path("experiments/results/report_data/suds_bounded_mps_validation_20260510.csv"),
+        pack_dir / "pack_metadata.json",
         pack_dir / "figure_numbering_registry.csv",
         pack_dir / "figure_traceability.csv",
-        review_dir / "claim_contract_final_unreserved_20260430.csv",
         review_dir / "manuscript_evidence_map.csv",
         review_dir / "review_manifest.json",
-        review_dir / "Fig2_HOPSTimeline_exact_trace.csv",
+        review_dir / "data_review_report.md",
         Path("experiments/tools/check_figure_numbering_registry.py"),
-        Path("experiments/tools/check_fuller_phase4_paper_data_figures.py"),
-        Path("experiments/tools/render_fuller_phase4_paper_data_figures.py"),
+        Path("experiments/tools/render_suds_figures.py"),
+        Path("scripts/check_public_repro_repo.py"),
     ]
 
 

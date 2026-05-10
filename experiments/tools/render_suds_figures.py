@@ -91,7 +91,7 @@ FIGURES: dict[str, FigureMeta] = {
         "Fig1_SAIGAndSUDSInterface",
         "ai_schematic",
         "ai_schematic",
-        "docs/reports/task_briefs/20260510_suds_fig1_saig_interface_dual_reference_brief.md",
+        "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf",
         "Modeled methodology schematic only; no silicon, SPICE, real GLUE, or hardware-measurement claim.",
     ),
     "fig2": FigureMeta(
@@ -111,7 +111,7 @@ FIGURES: dict[str, FigureMeta] = {
         "Fig3_SUDSTernaryPolicy",
         "ai_schematic",
         "ai_schematic",
-        "docs/reports/task_briefs/20260510_suds_fig3_ternary_policy_dual_reference_brief.md",
+        "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.pdf",
         "Modeled policy schematic only; no silicon, SPICE, measured accuracy, real GLUE, or hardware-measurement claim.",
     ),
     "fig4": FigureMeta(
