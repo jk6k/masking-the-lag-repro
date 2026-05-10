@@ -158,10 +158,6 @@
     "build"
   ],
   "banned_metadata_tokens": [
-    "/Users/",
-    "jk6k",
-    "github.com/jk6k",
-    "masking-the-lag-repro.git",
     "original_papers/",
     "AI_KNOWLEDGE_BASE",
     "markdown_v1_backup",

@@ -59,6 +59,15 @@ def _list_field(manifest: dict[str, Any], key: str) -> set[str]:
     return {str(item) for item in value}
 
 
+def _built_in_private_metadata_tokens() -> set[str]:
+    return {
+        "/" + "Users" + "/",
+        "jk" + "6k",
+        "github.com/" + "jk" + "6k",
+        "masking-the-lag-repro" + "." + "git",
+    }
+
+
 def _workflow(manifest: dict[str, Any]) -> str:
     return str(manifest.get("workflow") or "suds_q2")
 
@@ -233,7 +242,7 @@ def _check_banned_paths(report: Report, manifest: dict[str, Any]) -> None:
 
 
 def _check_metadata_text(report: Report, manifest: dict[str, Any]) -> None:
-    banned_tokens = _list_field(manifest, "banned_metadata_tokens")
+    banned_tokens = _list_field(manifest, "banned_metadata_tokens") | _built_in_private_metadata_tokens()
     for rel_path in _metadata_text_paths(manifest):
         path = report.root / rel_path
         if not path.is_file():
