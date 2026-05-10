@@ -1,6 +1,6 @@
 # Reproducibility Guide
 
-The active public freeze is `20260430_full_figure_strict_remediated`.
+The active anonymous public freeze is `20260510_suds_q2_repaired`.
 
 ## Lightweight Verification
 
@@ -13,47 +13,46 @@ make repro-check
 This checks:
 
 - freeze pointer consistency
-- figure numbering and traceability
-- data-figure source evidence and claim boundaries
-- absence of private datasets, weights, draft artifacts, and old freeze tokens
-- absence of tracked pre-rendered image artifacts
+- SUDS figure numbering and traceability
+- phase-summary, slack-manifest, validation-CSV, and AI schematic source inputs
+- absence of datasets, weights, private KB material, archives, trial drafts, real author identity, personal remotes, and absolute local paths
 - clean tracked public surface when the directory is a Git checkout
 
-Render the data figures into ignored build outputs:
+Render the paper figures into ignored build outputs:
 
 ```bash
 make render-paper-figures
 ```
 
-Rendered files under `build/` are for local inspection and CI smoke only. The
-tracked repository keeps source CSV/JSON and metadata rather than pre-rendered
-PNG/PDF/SVG assets.
+Rendered files under `build/rendered_figures/` are for local inspection and CI
+smoke only. The tracked repository keeps source JSON/CSV, accepted schematic
+source masters, and metadata rather than final figure-pack images.
 
 ## Artifact Map
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
-- Quick reports: `experiments/results/quick_reports/20260430_full_figure_strict_remediated/`
-- Figure metadata: `figures/paper_figures_20260430_full_figure_strict_remediated/`
-- Review pack: `experiments/results/review/20260430_full_figure_strict_remediated/`
-- Figure registry: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_numbering_registry.csv`
-- Traceability: `figures/paper_figures_20260430_full_figure_strict_remediated/figure_traceability.csv`
-- Claim contract: `experiments/results/review/20260430_full_figure_strict_remediated/claim_contract_final_unreserved_20260430.csv`
+- Phase summaries and slack manifest: `experiments/results/runs/`
+- Bounded MPS validation CSV: `experiments/results/report_data/suds_bounded_mps_validation_20260510.csv`
+- Figure metadata: `figures/paper_figures_20260510_suds_q2_repaired/`
+- Figure registry: `figures/paper_figures_20260510_suds_q2_repaired/figure_numbering_registry.csv`
+- Traceability: `figures/paper_figures_20260510_suds_q2_repaired/figure_traceability.csv`
+- Review metadata: `experiments/results/review/20260510_suds_q2_repaired_public/`
 
 ## Claim Boundary
 
-The public freeze supports runtime/materialization inspection, bounded
-sensitivity and scaling support, device-context inspection, source-driven
-data-figure regeneration, and traceability review. It does not promote accuracy preservation, broad
-robustness, universal scaling, silicon measurement, hardware validation, device
-superiority, benchmark equivalence, deployment readiness, or broad workload
-generalization.
+The public freeze supports the SUDS paper's scoped evidence surface: accepted
+AI schematics, modeled analytical figures, bounded MobileViT-S MPS validation,
+synthetic-supporting stress checks, parametric PHY checks, and figure
+traceability. It does not promote universal scaling, silicon measurement,
+SPICE closure, real GLUE evaluation, broad workload generalization, deployment
+readiness, or hardware superiority.
 
-## Advanced Full Rerun Boundary
+## Full Rerun Boundary
 
 Full reruns require local datasets, local weights, the Mac/MPS development
 environment, and long-run handling. On the project Mac, accelerator-backed runs
 must use `mps` and long runs must be wrapped with `caffeinate -dimsu`.
 
-Use this public package for reader inspection and source-driven data-figure
-regeneration. Use the full project workspace for governed MPS reruns and
-promotion decisions.
+Use this package for anonymous reader inspection and source-driven
+figure-regeneration. Use the full project workspace only for governed
+maintainer MPS reruns and evidence-promotion decisions.

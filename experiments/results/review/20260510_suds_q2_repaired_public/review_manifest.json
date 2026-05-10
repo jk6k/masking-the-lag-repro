@@ -1,0 +1,27 @@
+{
+  "run_tag": "20260510_suds_q2_repaired",
+  "freeze_tag": "20260510_suds_q2_repaired",
+  "workflow": "suds_q2",
+  "paper_figures_dir": "figures/paper_figures_20260510_suds_q2_repaired",
+  "phase_dir": "experiments/results/runs",
+  "report_data_dir": "experiments/results/report_data",
+  "review_dir": "experiments/results/review/20260510_suds_q2_repaired_public",
+  "public_surface": "anonymous_supplementary_reproduction_package",
+  "included": [
+    "phase summary JSON files",
+    "slack manifest",
+    "bounded MPS validation CSV",
+    "figure registry and traceability metadata",
+    "accepted Fig1/Fig3 schematic source masters",
+    "SUDS render and validation scripts"
+  ],
+  "excluded": [
+    "datasets",
+    "model weights",
+    "private literature mirrors",
+    "trial drafts and candidate histories",
+    "pre-rendered final figure images",
+    "personal remotes and absolute local paths",
+    "historical FULLER freeze payloads"
+  ]
+}

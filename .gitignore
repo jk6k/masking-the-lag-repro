@@ -15,10 +15,7 @@ oral_pre/
 peper_writing/
 .agents/
 *.npz
-*.png
-*.pdf
 *.pt
 *.pth
 *.onnx
 *.pptx
-*.svg

@@ -234,7 +234,11 @@ def _validate_traceability_backed_rows(
         if trace_row is None:
             errors.append(f"Traceability row missing for {row.figure_id}")
             continue
-        expected_run_tag = mechanism_run_tag if row.figure_id in MECHANISM_FIGURES else run_tag
+        uses_legacy_mechanism_exception = (
+            row.figure_id in MECHANISM_FIGURES
+            and not run_tag.startswith("20260510_suds")
+        )
+        expected_run_tag = mechanism_run_tag if uses_legacy_mechanism_exception else run_tag
         if str(trace_row.get("run_tag") or "") != expected_run_tag:
             errors.append(f"Traceability run_tag mismatch for {row.figure_id}")
         if str(trace_row.get("manuscript_tier") or "") != row.manuscript_tier:

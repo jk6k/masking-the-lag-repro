@@ -1,0 +1,9 @@
+row_type,seed,baseline_top1_pct,e3_top1_pct,e4_top1_pct,e3_delta_top1_pp,e4_delta_top1_pp,baseline_top5_pct,e3_top5_pct,e4_top5_pct,e3_delta_top5_pp,e4_delta_top5_pp,metric,mean_pp,std_pp,min_pp,max_pp,source_note
+seed,0,67.08,64.32,61.68,-2.76,-5.40,89.72,89.16,86.60,-0.56,-3.12,,,,,,docs/reports/20260510_s3_mps_validation_expanded.md
+seed,1,67.08,66.48,65.10,-0.60,-1.98,89.72,89.16,87.28,-0.56,-2.44,,,,,,docs/reports/20260510_s3_mps_validation_expanded.md
+seed,2,67.08,61.96,61.80,-5.12,-5.28,89.72,87.22,86.76,-2.50,-2.96,,,,,,docs/reports/20260510_s3_mps_validation_expanded.md
+seed,42,67.08,64.08,62.42,-3.00,-4.66,89.72,88.52,86.72,-1.20,-3.00,,,,,,docs/reports/20260510_s3_mps_validation_expanded.md
+summary,,,,,,,,,,,,e3_delta_top1_pp,-2.87,1.86,-5.12,-0.60,docs/reports/20260510_s3_mps_validation_expanded.md
+summary,,,,,,,,,,,,e4_delta_top1_pp,-4.33,1.62,-5.40,-1.98,docs/reports/20260510_s3_mps_validation_expanded.md
+summary,,,,,,,,,,,,e3_delta_top5_pp,-1.21,0.93,-2.50,-0.56,docs/reports/20260510_s3_mps_validation_expanded.md
+summary,,,,,,,,,,,,e4_delta_top5_pp,-2.88,0.30,-3.12,-2.44,docs/reports/20260510_s3_mps_validation_expanded.md

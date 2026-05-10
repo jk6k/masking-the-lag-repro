@@ -1,0 +1,79 @@
+{
+  "experiment_phase": "B",
+  "model": "mobilevit_xxs",
+  "mode": "analytical",
+  "timestamp": "2026-05-08T23:47:33",
+  "E0": {
+    "experiment": "E0",
+    "description": "Dense baseline: all columns at full SC prefix (k=129) with 8-bit ADC",
+    "total_columns": 9312,
+    "total_energy_pj": 74496.0,
+    "adc_bits": 8,
+    "sparsity_ratio": 0.0,
+    "acc_drop_pp": 0.0
+  },
+  "E3": {
+    "_sparsity_ratios": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "s_0.1": {
+      "sparsity_ratio": 0.1,
+      "effective_sparsity": 0.09450171821305842,
+      "energy_reduction_ratio": 0.09450171821305842,
+      "avg_acc_drop_pp": 0.17345997841401123,
+      "n_layers_masked": 90,
+      "total_cols": 9312,
+      "kept_cols": 8432,
+      "pruned_cols": 880,
+      "elapsed_s": 0.0011501312255859375
+    },
+    "s_0.2": {
+      "sparsity_ratio": 0.2,
+      "effective_sparsity": 0.19737972508591065,
+      "energy_reduction_ratio": 0.19737972508591065,
+      "avg_acc_drop_pp": 0.5251306823313755,
+      "n_layers_masked": 90,
+      "total_cols": 9312,
+      "kept_cols": 7474,
+      "pruned_cols": 1838,
+      "elapsed_s": 0.0006620883941650391
+    },
+    "s_0.3": {
+      "sparsity_ratio": 0.3,
+      "effective_sparsity": 0.2932774914089347,
+      "energy_reduction_ratio": 0.2932774914089347,
+      "avg_acc_drop_pp": 0.9501558298764334,
+      "n_layers_masked": 90,
+      "total_cols": 9312,
+      "kept_cols": 6581,
+      "pruned_cols": 2731,
+      "elapsed_s": 0.000640869140625
+    },
+    "s_0.4": {
+      "sparsity_ratio": 0.4,
+      "effective_sparsity": 0.3961554982817869,
+      "energy_reduction_ratio": 0.3961554982817869,
+      "avg_acc_drop_pp": 1.4931012040519624,
+      "n_layers_masked": 90,
+      "total_cols": 9312,
+      "kept_cols": 5623,
+      "pruned_cols": 3689,
+      "elapsed_s": 0.0006201267242431641
+    },
+    "s_0.5": {
+      "sparsity_ratio": 0.5,
+      "effective_sparsity": 0.5,
+      "energy_reduction_ratio": 0.5,
+      "avg_acc_drop_pp": 2.121320343559642,
+      "n_layers_masked": 90,
+      "total_cols": 9312,
+      "kept_cols": 4656,
+      "pruned_cols": 4656,
+      "elapsed_s": 0.0006148815155029297
+    }
+  }
+}

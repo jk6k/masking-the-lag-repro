@@ -16,6 +16,7 @@ FREEZE_JSON = Path("experiments/results/paper_sync/current_freeze.json")
 MANIFEST_JSON = Path("configs/public_repro_manifest.json")
 DEFAULT_FREEZE_TAG = "20260430_full_figure_strict_remediated"
 DEFAULT_MECHANISM_TAG = "20260426_fuller_phase4_mechanism_basis_rerun"
+SUDS_FREEZE_TAG = "20260510_suds_q2_repaired"
 
 
 @dataclass
@@ -59,6 +60,14 @@ def _list_field(manifest: dict[str, Any], key: str) -> set[str]:
     return {str(item) for item in value}
 
 
+def _workflow(manifest: dict[str, Any]) -> str:
+    return str(manifest.get("workflow") or "fuller_phase4")
+
+
+def _is_suds(manifest: dict[str, Any]) -> bool:
+    return _workflow(manifest) == "suds_q2"
+
+
 def _csv_rows(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle))
@@ -82,18 +91,23 @@ def _load_manifest(report: Report) -> dict[str, Any]:
 
 
 def _public_paths(manifest: dict[str, Any]) -> dict[str, Path | str]:
-    freeze_tag = str(manifest.get("freeze_tag") or DEFAULT_FREEZE_TAG)
-    mechanism_tag = str(manifest.get("mechanism_evidence_tag") or DEFAULT_MECHANISM_TAG)
+    freeze_tag = str(manifest.get("freeze_tag") or (SUDS_FREEZE_TAG if _is_suds(manifest) else DEFAULT_FREEZE_TAG))
+    mechanism_tag = str(manifest.get("mechanism_evidence_tag") or (freeze_tag if _is_suds(manifest) else DEFAULT_MECHANISM_TAG))
     layers = manifest.get("public_layers")
     if not isinstance(layers, dict):
         layers = {}
     quick_dir = Path(str(layers.get("quick_reports_dir") or f"experiments/results/quick_reports/{freeze_tag}"))
+    phase_dir = Path(str(layers.get("phase_dir") or "experiments/results/runs"))
+    report_data_dir = Path(str(layers.get("report_data_dir") or "experiments/results/report_data"))
     pack_dir = Path(str(layers.get("figures_dir") or f"figures/paper_figures_{freeze_tag}"))
-    review_dir = Path(str(layers.get("review_dir") or f"experiments/results/review/{freeze_tag}"))
+    review_default = f"experiments/results/review/{freeze_tag}_public" if _is_suds(manifest) else f"experiments/results/review/{freeze_tag}"
+    review_dir = Path(str(layers.get("review_dir") or review_default))
     return {
         "freeze_tag": freeze_tag,
         "mechanism_tag": mechanism_tag,
         "quick_dir": quick_dir,
+        "phase_dir": phase_dir,
+        "report_data_dir": report_data_dir,
         "pack_dir": pack_dir,
         "review_dir": review_dir,
     }
@@ -156,6 +170,19 @@ def _metadata_text_paths(manifest: dict[str, Any]) -> list[Path]:
     review_dir = paths["review_dir"]
     assert isinstance(pack_dir, Path)
     assert isinstance(review_dir, Path)
+    if _is_suds(manifest):
+        return [
+            Path("README.md"),
+            Path("REPRODUCIBILITY.md"),
+            Path("NOTICE.md"),
+            Path("EXPORT_METADATA.json"),
+            FREEZE_JSON,
+            pack_dir / "figure_traceability.csv",
+            review_dir / "figure_traceability.csv",
+            review_dir / "review_manifest.json",
+            review_dir / "manuscript_evidence_map.csv",
+            review_dir / "data_review_report.md",
+        ]
     return [
         Path("README.md"),
         Path("REPRODUCIBILITY.md"),
@@ -179,6 +206,7 @@ def _check_banned_paths(report: Report, manifest: dict[str, Any]) -> None:
     banned_roots = _list_field(manifest, "banned_roots")
     banned_path_substrings = _list_field(manifest, "banned_path_substrings")
     banned_suffixes = _list_field(manifest, "banned_suffixes")
+    allowed_binary_files = _list_field(manifest, "allowed_binary_files")
 
     for child in report.root.iterdir():
         if child.name in {".git", ".DS_Store"}:
@@ -189,6 +217,8 @@ def _check_banned_paths(report: Report, manifest: dict[str, Any]) -> None:
     for path in _iter_files(report.root):
         rel = _rel(report.root, path)
         if _is_allowed_local_path(rel, manifest):
+            continue
+        if rel in allowed_binary_files:
             continue
         if path.suffix.lower() in banned_suffixes:
             report.add(f"banned binary/model suffix: {rel}")
@@ -224,23 +254,39 @@ def _check_freeze(report: Report, manifest: dict[str, Any]) -> None:
 
     paths = _public_paths(manifest)
     quick_dir = paths["quick_dir"]
+    phase_dir = paths["phase_dir"]
+    report_data_dir = paths["report_data_dir"]
     pack_dir = paths["pack_dir"]
     review_dir = paths["review_dir"]
     assert isinstance(quick_dir, Path)
+    assert isinstance(phase_dir, Path)
+    assert isinstance(report_data_dir, Path)
     assert isinstance(pack_dir, Path)
     assert isinstance(review_dir, Path)
-    expected = {
-        "run_tag": paths["freeze_tag"],
-        "freeze_tag": paths["freeze_tag"],
-        "quick_reports_dir": quick_dir.as_posix(),
-        "paper_figures_dir": pack_dir.as_posix(),
-        "review_dir": review_dir.as_posix(),
-        "mechanism_evidence_tag": paths["mechanism_tag"],
-    }
+    if _is_suds(manifest):
+        expected = {
+            "run_tag": paths["freeze_tag"],
+            "freeze_tag": paths["freeze_tag"],
+            "workflow": "suds_q2",
+            "phase_dir": phase_dir.as_posix(),
+            "report_data_dir": report_data_dir.as_posix(),
+            "paper_figures_dir": pack_dir.as_posix(),
+            "review_dir": review_dir.as_posix(),
+        }
+    else:
+        expected = {
+            "run_tag": paths["freeze_tag"],
+            "freeze_tag": paths["freeze_tag"],
+            "quick_reports_dir": quick_dir.as_posix(),
+            "paper_figures_dir": pack_dir.as_posix(),
+            "review_dir": review_dir.as_posix(),
+            "mechanism_evidence_tag": paths["mechanism_tag"],
+        }
     for key, value in expected.items():
         if payload.get(key) != value:
             report.add(f"current_freeze.json {key} mismatch: observed={payload.get(key)!r} expected={value!r}")
-    for key in ("quick_reports_dir", "paper_figures_dir", "review_dir"):
+    required_targets = ("phase_dir", "report_data_dir", "paper_figures_dir", "review_dir") if _is_suds(manifest) else ("quick_reports_dir", "paper_figures_dir", "review_dir")
+    for key in required_targets:
         rel_path = payload.get(key)
         if rel_path and not (report.root / rel_path).exists():
             report.add(f"current_freeze.json {key} target is missing: {rel_path}")
@@ -264,6 +310,8 @@ def _check_git(report: Report, manifest: dict[str, Any]) -> None:
         rel = _rel(report.root, path)
         if _is_allowed_local_path(rel, manifest):
             continue
+        if rel in _list_field(manifest, "allowed_binary_files"):
+            pass
         if rel not in tracked_paths:
             report.add(f"untracked public file: {rel}")
 
@@ -304,6 +352,41 @@ def _check_quick_report_inputs(report: Report, manifest: dict[str, Any]) -> None
             report.add(f"missing quick-report input: {rel_path.as_posix()}")
 
 
+def _check_suds_inputs(report: Report, manifest: dict[str, Any]) -> None:
+    paths = _public_paths(manifest)
+    phase_dir = paths["phase_dir"]
+    report_data_dir = paths["report_data_dir"]
+    assert isinstance(phase_dir, Path)
+    assert isinstance(report_data_dir, Path)
+
+    required_phase_files = manifest.get("required_phase_summary_files")
+    if not isinstance(required_phase_files, list) or not required_phase_files:
+        required_phase_files = [
+            "phase_b/phase_b_summary.json",
+            "phase_c/phase_c_summary.json",
+            "phase_d/phase_d_summary.json",
+            "phase_e/phase_e_summary.json",
+            "phase_f/phase_f_summary.json",
+            "slack_manifest.json",
+        ]
+    for rel_name in required_phase_files:
+        rel_path = phase_dir / str(rel_name)
+        if not (report.root / rel_path).is_file():
+            report.add(f"missing SUDS phase input: {rel_path.as_posix()}")
+
+    required_report_data = manifest.get("required_report_data_files")
+    if not isinstance(required_report_data, list) or not required_report_data:
+        required_report_data = ["suds_bounded_mps_validation_20260510.csv"]
+    for rel_name in required_report_data:
+        rel_path = report_data_dir / str(rel_name)
+        if not (report.root / rel_path).is_file():
+            report.add(f"missing SUDS report-data input: {rel_path.as_posix()}")
+
+    for rel_path in sorted(_list_field(manifest, "allowed_binary_files")):
+        if not (report.root / rel_path).is_file():
+            report.add(f"missing allowed AI schematic source asset: {rel_path}")
+
+
 def _check_registry_metadata(report: Report, manifest: dict[str, Any]) -> None:
     paths = _public_paths(manifest)
     pack_dir = paths["pack_dir"]
@@ -316,8 +399,12 @@ def _check_registry_metadata(report: Report, manifest: dict[str, Any]) -> None:
     registry_rows = _csv_rows(registry_path)
     trace_rows = _csv_rows(traceability_path)
     registry_ids = [row.get("figure_id", "") for row in registry_rows if row.get("numbering_status") == "active"]
-    expected_main = [f"Fig{i}" for i in range(1, 13)]
-    expected_appendix = [f"AppF{i}" for i in range(1, 7)]
+    expected_main = [str(item) for item in manifest.get("expected_main_figures", [])]
+    expected_appendix = [str(item) for item in manifest.get("expected_appendix_figures", [])]
+    if not expected_main:
+        expected_main = [f"Fig{i}" for i in range(1, 7)] if _is_suds(manifest) else [f"Fig{i}" for i in range(1, 13)]
+    if not expected_appendix:
+        expected_appendix = [f"AppF{i}" for i in range(1, 5)] if _is_suds(manifest) else [f"AppF{i}" for i in range(1, 7)]
     for figure_id in expected_main + expected_appendix:
         if figure_id not in registry_ids:
             report.add(f"figure registry missing active figure_id: {figure_id}")
@@ -335,6 +422,39 @@ def _check_traceability_inputs(report: Report, manifest: dict[str, Any]) -> None
     assert isinstance(quick_dir, Path)
     traceability_path = report.root / pack_dir / "figure_traceability.csv"
     if not traceability_path.is_file():
+        return
+    if _is_suds(manifest):
+        rendered_ids = manifest.get("rendered_by_public_make")
+        if not isinstance(rendered_ids, list) or not rendered_ids:
+            rendered_ids = ["Fig1", "Fig2", "Fig3", "Fig4", "Fig5", "Fig6", "AppF1", "AppF2", "AppF3", "AppF4"]
+        rendered_ids = [str(item) for item in rendered_ids]
+        trace_by_id = {row.get("figure_id", ""): row for row in _csv_rows(traceability_path)}
+        for figure_id in rendered_ids:
+            row = trace_by_id.get(figure_id)
+            if row is None:
+                report.add(f"public SUDS traceability missing figure_id: {figure_id}")
+                continue
+            if row.get("render_command") != "make render-paper-figures":
+                report.add(f"public SUDS render command mismatch for {figure_id}: {row.get('render_command')!r}")
+            output = row.get("figure_file", "")
+            if not output.startswith("build/rendered_figures/"):
+                report.add(f"public SUDS render output should live under build/ for {figure_id}: {output}")
+            try:
+                outputs = json.loads(row.get("all_outputs", "{}"))
+            except json.JSONDecodeError as exc:
+                report.add(f"invalid all_outputs JSON for {figure_id}: {exc}")
+                outputs = {}
+            if not isinstance(outputs, dict) or not outputs:
+                report.add(f"missing public SUDS all_outputs for {figure_id}")
+            for rel_path in outputs.values():
+                rel_text = str(rel_path)
+                if not rel_text.startswith("build/rendered_figures/"):
+                    report.add(f"public SUDS output should live under build/ for {figure_id}: {rel_text}")
+            source_path = row.get("primary_source_path", "")
+            if not source_path:
+                report.add(f"public SUDS source path missing for {figure_id}")
+            elif not (report.root / source_path).is_file():
+                report.add(f"public SUDS source path does not exist for {figure_id}: {source_path}")
         return
     rendered_ids = manifest.get("rendered_by_public_make")
     if not isinstance(rendered_ids, list) or not rendered_ids:
@@ -372,7 +492,7 @@ def _check_review_metadata(report: Report, manifest: dict[str, Any]) -> None:
     if review_manifest_path.is_file():
         payload = json.loads(review_manifest_path.read_text(encoding="utf-8"))
         excluded = set(str(item) for item in payload.get("excluded", []))
-        if "pre-rendered figure images" not in excluded:
+        if "pre-rendered figure images" not in excluded and "pre-rendered final figure images" not in excluded:
             report.add("review_manifest.json should record exclusion of pre-rendered figure images")
 
     map_path = report.root / review_dir / "manuscript_evidence_map.csv"
@@ -386,7 +506,10 @@ def _check_review_metadata(report: Report, manifest: dict[str, Any]) -> None:
 
 
 def _check_public_repro_inputs(report: Report, manifest: dict[str, Any]) -> None:
-    _check_quick_report_inputs(report, manifest)
+    if _is_suds(manifest):
+        _check_suds_inputs(report, manifest)
+    else:
+        _check_quick_report_inputs(report, manifest)
     _check_registry_metadata(report, manifest)
     _check_traceability_inputs(report, manifest)
     _check_review_metadata(report, manifest)

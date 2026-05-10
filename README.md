@@ -1,12 +1,13 @@
-# Masking the Lag Reproduction
+# SUDS Anonymous Reproduction Package
 
-This repository is the reader-facing reproduction package for the promoted
-paper evidence freeze `20260430_full_figure_strict_remediated`.
+This repository is the double-blind supplementary reproduction package for the
+SUDS evidence freeze `20260510_suds_q2_repaired`.
 
 It is intentionally smaller than the full development workspace. It contains
-the compact CSV/JSON evidence, metadata, and scripts needed to validate the
-evidence surface and regenerate the public data figures. Pre-rendered image
-assets are deliberately not tracked.
+the compact JSON/CSV evidence, accepted schematic source masters, metadata, and
+scripts needed to validate the public evidence surface and regenerate the paper
+figures. Final pre-rendered figure-pack images are deliberately excluded; local
+rendered outputs are produced under `build/`.
 
 ## Quick Start
 
@@ -18,45 +19,37 @@ make repro-check
 make render-paper-figures
 ```
 
-`make repro-check` validates the freeze pointer, figure registry, claim
-boundaries, artifact paths, and public repository surface. `make
-render-paper-figures` rerenders the Matplotlib data figures into `build/`
-from the checked CSV inputs.
+`make repro-check` validates the freeze pointer, SUDS figure registry,
+traceability, artifact paths, anonymous package boundary, and exclusion of
+private materials. `make render-paper-figures` rerenders Fig1-Fig6 and
+Fig.A1-Fig.A4 into `build/rendered_figures/`.
 
 ## Public Evidence Surface
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
-- Quick reports: `experiments/results/quick_reports/20260430_full_figure_strict_remediated/`
-- Figure metadata: `figures/paper_figures_20260430_full_figure_strict_remediated/`
-- Review metadata: `experiments/results/review/20260430_full_figure_strict_remediated/`
+- Phase summaries and slack manifest: `experiments/results/runs/`
+- Bounded MPS validation CSV: `experiments/results/report_data/suds_bounded_mps_validation_20260510.csv`
+- Figure metadata: `figures/paper_figures_20260510_suds_q2_repaired/`
+- Review metadata: `experiments/results/review/20260510_suds_q2_repaired_public/`
 
 Figure roles are fixed for this freeze:
 
-- `Fig1`: system stack schematic
-- `Fig2`: HOPS timeline
-- `Fig3-Fig8`: main-text data figures
-- `Fig9-Fig12`: explanation schematics
-- `AppF1-AppF6`: appendix figures
+- `Fig1`: SAIG/SUDS interface schematic
+- `Fig2`: slack signal availability and independence
+- `Fig3`: SUDS ternary quality-budget policy schematic
+- `Fig4`: modeled accuracy-energy trade-off
+- `Fig5`: tier distribution and ADC-energy waterfall
+- `Fig6`: bounded MobileViT-S MPS validation sanity check
+- `Fig.A1-Fig.A4`: threshold scan, SUDS+L1 overlay, synthetic profile stress, and parametric PHY check
 
-## Advanced Full Rerun
+## Boundary
 
-The lightweight public package does not include ImageNet, model checkpoints, or
-the full local experiment workspace. Full accelerator-backed reruns on the
-project Mac require Apple Silicon `mps` and should be launched with
-`caffeinate -dimsu`; CPU fallback is not a substitute for an MPS-backed rerun.
+The package supports paper inspection, traceability review, and local
+figure-regeneration from compact source artifacts. It does not include private
+datasets, model weights, private literature mirrors, trial drafts, candidate
+histories, historical FULLER freeze payloads, personal remotes, or absolute
+local paths.
 
-Example shape:
-
-```bash
-caffeinate -dimsu .venv311-mps/bin/python experiments/tools/phase1_runner.py \
-  --config <config.yaml> \
-  --device mps
-```
-
-The public repository is therefore a two-layer artifact: fast inspection and
-data-figure regeneration by default, with full local reruns documented as a
-governed maintainer workflow outside this compact package.
-
-Datasets, model weights, pre-rendered images, private literature mirrors, draft
-candidates, project management files, and historical run payloads are
-deliberately excluded.
+Full accelerator-backed reruns are outside this anonymous compact package. On
+the project Mac, those governed maintainer reruns require Apple Silicon `mps`
+and long runs are launched with `caffeinate -dimsu`.
