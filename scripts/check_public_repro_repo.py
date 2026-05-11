@@ -147,7 +147,7 @@ def _required_files(manifest: dict[str, Any]) -> list[Path]:
         Path("experiments/results/runs/phase_e/phase_e_summary.json"),
         Path("experiments/results/runs/phase_f/phase_f_summary.json"),
         Path("experiments/results/runs/slack_manifest.json"),
-        Path("experiments/results/report_data/suds_bounded_mps_validation_20260510.csv"),
+        Path("experiments/results/report_data/suds_ablation_matrix_20260511_maxq.csv"),
         pack_dir / "pack_metadata.json",
         pack_dir / "figure_numbering_registry.csv",
         pack_dir / "figure_traceability.csv",
@@ -390,7 +390,7 @@ def _check_suds_inputs(report: Report, manifest: dict[str, Any]) -> None:
 
     required_report_data = manifest.get("required_report_data_files")
     if not isinstance(required_report_data, list) or not required_report_data:
-        required_report_data = ["suds_bounded_mps_validation_20260510.csv"]
+        required_report_data = ["suds_ablation_matrix_20260511_maxq.csv"]
     for rel_name in required_report_data:
         rel_path = report_data_dir / str(rel_name)
         if not (report.root / rel_path).is_file():
