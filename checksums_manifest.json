@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "algorithm": "sha256",
+  "freeze_tag": "20260511_suds_maxq",
+  "generated_by": "scripts/build_public_repro_repo.py",
+  "file_count": 51,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "e08cf07cc3fe0522d02cd26647e7709798aab729c7029a49b6443261822edded",
+      "size_bytes": 214
+    },
+    {
+      "path": ".github/workflows/repro.yml",
+      "sha256": "e80fd82f0b1210e75be8cf291c4f803d91f3c6d300dd991f38dbaba52365c0dc",
+      "size_bytes": 608
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "8e2d11851106f8f7215e3f80f61aa477f8712579230330b1c1fe4787211f7d41",
+      "size_bytes": 208
+    },
+    {
+      "path": ".public_repro_generated",
+      "sha256": "ba65a0baec80b088674e3c9d48fc90d0823cf70e0c8365d5ddd2073b2c86b087",
+      "size_bytes": 79
+    },
+    {
+      "path": "EXPORT_METADATA.json",
+      "sha256": "dda1d82f65e0d478c33cfef0bcfcce7b30c5402424ef7bf55ebc908f9efeed40",
+      "size_bytes": 176
+    },
+    {
+      "path": "Makefile",
+      "sha256": "ff01cfa013bc8900bd0b0f3c8ffa56b49fdabbc227eb94bc8d14e632346623ba",
+      "size_bytes": 1453
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "90a66b436eb43790092cb507c3300d7d937aa6ed979da74a2afbb8c55fad1284",
+      "size_bytes": 419
+    },
+    {
+      "path": "README.md",
+      "sha256": "e11f68ff140dfc3862f3c2051fe9c94194eac122e5bcce29581e922be3674c14",
+      "size_bytes": 2557
+    },
+    {
+      "path": "REPRODUCIBILITY.md",
+      "sha256": "512f085ff4ae4c8f69aa8504826e0fa4dacdbb21889f3cb783a88cdd4ec0a1b1",
+      "size_bytes": 2508
+    },
+    {
+      "path": "configs/public_repro_manifest.json",
+      "sha256": "eea687e2e4833ff6d19677364180df619cd7539fdff3d5eeacd20dfe81e82e98",
+      "size_bytes": 9470
+    },
+    {
+      "path": "experiments/results/paper_sync/current_freeze.json",
+      "sha256": "d7d47875971f31617efc7970d04a240ac58199cd9533bf7b9e8594cf1035cc7a",
+      "size_bytes": 4630
+    },
+    {
+      "path": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.csv",
+      "sha256": "1a082dfb29b90ec15a1ccec769d5de6e4896838fdcdc486351395199894ef2af",
+      "size_bytes": 19439
+    },
+    {
+      "path": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.json",
+      "sha256": "98b7e504441177c6b297f3eb1be82892901ef6e6040ad2838195c156e994ccd5",
+      "size_bytes": 48648
+    },
+    {
+      "path": "experiments/results/report_data/suds_boundary_suite_20260511_maxq.csv",
+      "sha256": "632ae7d312947d5e1aaab2c43e3cd7babdabeb539a3659579a0e8869be52cf6b",
+      "size_bytes": 2762
+    },
+    {
+      "path": "experiments/results/report_data/suds_boundary_suite_20260511_maxq.json",
+      "sha256": "75ae04f310a59c01c2f6af72f53a2cab831e48f8eb828f3207e9cca755b39850",
+      "size_bytes": 6001
+    },
+    {
+      "path": "experiments/results/report_data/suds_c1_survey_manifest_20260511.csv",
+      "sha256": "0f4f78021b384a5ddc78ef23ca004f04298eb2c277576416e20d251a5e5e8e15",
+      "size_bytes": 97717
+    },
+    {
+      "path": "experiments/results/report_data/suds_c1_survey_manifest_20260511.json",
+      "sha256": "82976891ca4142ddb8129f46bc775cc3a712479cfd04522152bebffbe1d1ec52",
+      "size_bytes": 193851
+    },
+    {
+      "path": "experiments/results/report_data/suds_circuit_energy_calibration_20260511_maxq.csv",
+      "sha256": "0fa07d3820a0d28b8629388e8d76029dcac665206186a9dda65106ed1c48f07b",
+      "size_bytes": 3892
+    },
+    {
+      "path": "experiments/results/report_data/suds_circuit_energy_sensitivity_20260511_maxq.csv",
+      "sha256": "2876f0ddb34bfd6a33a5d4638c513a20c38a9c533c536aa2235cd178a2796e48",
+      "size_bytes": 2077987
+    },
+    {
+      "path": "experiments/results/report_data/suds_glue_measured_validation_20260511_maxq.csv",
+      "sha256": "f63f9215f11ad7573644afbdb4da2f7b421581b62b9c290e8953704083b90782",
+      "size_bytes": 17181
+    },
+    {
+      "path": "experiments/results/report_data/suds_glue_measured_validation_20260511_maxq.json",
+      "sha256": "1c49c94e9d7b55e5b99d83dfd706ed65debe80f4c249517f0ed7fe8bb1ae3248",
+      "size_bytes": 558739
+    },
+    {
+      "path": "experiments/results/report_data/suds_interface_overhead_20260511_maxq.csv",
+      "sha256": "7c44993724bfa516557e8492f589b56751898aada0e591f86cd2f7cd1196081a",
+      "size_bytes": 2974
+    },
+    {
+      "path": "experiments/results/report_data/suds_interface_overhead_20260511_maxq.json",
+      "sha256": "07d7e5df57c0c9e9c915d84c5f3e4f2369f14912ca65e8ce944b9e482616e2d3",
+      "size_bytes": 7753
+    },
+    {
+      "path": "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.csv",
+      "sha256": "8887673f6a5a5eebbc47c72069638255e111840ac8545ef78beb9224be3dd590",
+      "size_bytes": 16408
+    },
+    {
+      "path": "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.json",
+      "sha256": "1ca1f2ce55c4a52dc342d52d32f8504357b0321a7dbef949199daf73029bbf6a",
+      "size_bytes": 28467
+    },
+    {
+      "path": "experiments/results/review/20260511_suds_maxq_public/data_review_report.md",
+      "sha256": "4da8f81c9526f82e3ecb7f92af7311e9456d08535070c982adda718bf097488b",
+      "size_bytes": 1031
+    },
+    {
+      "path": "experiments/results/review/20260511_suds_maxq_public/figure_traceability.csv",
+      "sha256": "b7d0da79c8a93179bfc6948d7406a28f03502d800d7b929ed6f78d7eb5ea135b",
+      "size_bytes": 5671
+    },
+    {
+      "path": "experiments/results/review/20260511_suds_maxq_public/manuscript_evidence_map.csv",
+      "sha256": "9ee62073315a8842ecc2a07ba8e2f8e8411a6cb97a6c8a7fc777c657be927a83",
+      "size_bytes": 2632
+    },
+    {
+      "path": "experiments/results/review/20260511_suds_maxq_public/review_manifest.json",
+      "sha256": "357ae4a709405cd2596731a166355ad73be656f946e30d23ff6a3d4030d02feb",
+      "size_bytes": 1063
+    },
+    {
+      "path": "experiments/results/runs/phase_b/phase_b_summary.json",
+      "sha256": "0e3ab2b249fc3e765c16c07ee097ede031cc5e919da7a42acae02a7558c1c8ba",
+      "size_bytes": 2167
+    },
+    {
+      "path": "experiments/results/runs/phase_c/phase_c_summary.json",
+      "sha256": "7588edba32a5eccac1cae321f936559f1e15b3469b249bc0eb459a6aac25ebf3",
+      "size_bytes": 24887
+    },
+    {
+      "path": "experiments/results/runs/phase_d/phase_d_summary.json",
+      "sha256": "37df37167931888a86829627587e218a85ab61e302c4770c276ee6b7e8f1908b",
+      "size_bytes": 85926
+    },
+    {
+      "path": "experiments/results/runs/phase_e/phase_e_summary.json",
+      "sha256": "1dcd16efae5c592abe73a75e06dfb48403b20a83e640b219630e1bfa2be25453",
+      "size_bytes": 21853
+    },
+    {
+      "path": "experiments/results/runs/phase_f/phase_f_summary.json",
+      "sha256": "8db3402d5396bfb4ced03dc8e7f65d89be78871e50cb07424042e30e4ee85f07",
+      "size_bytes": 3810
+    },
+    {
+      "path": "experiments/results/runs/slack_manifest.json",
+      "sha256": "e47e47e8bb10630c8547646c1d87e17b7948ee908fa8368ea6ba7f84e3e692c3",
+      "size_bytes": 708617
+    },
+    {
+      "path": "experiments/tests/test_public_repro_surface.py",
+      "sha256": "6db621b7d6cd6ca149075889beee35c0101535b128ac7387b9077741690d3a5a",
+      "size_bytes": 235
+    },
+    {
+      "path": "experiments/tools/build_suds_boundary_suite.py",
+      "sha256": "9b01e94b860b94e1d8d106764debc64ba256164918da6653a088f5f3f4d39420",
+      "size_bytes": 15633
+    },
+    {
+      "path": "experiments/tools/build_suds_interface_overhead.py",
+      "sha256": "30b3b6fb5ad34a0734e5f6451e786a3a997e39727dff79a10e086748b80246b4",
+      "size_bytes": 19401
+    },
+    {
+      "path": "experiments/tools/check_figure_numbering_registry.py",
+      "sha256": "fed894632316616fad26a9b4f6d1fbe5f458c73c170aedaaca6f25199c985218",
+      "size_bytes": 15637
+    },
+    {
+      "path": "experiments/tools/check_suds_c1_survey_manifest.py",
+      "sha256": "4ec463966abf66327dfda945bd8b5d7b08e1e4f0b91f16f2087e512a625d5c4e",
+      "size_bytes": 5229
+    },
+    {
+      "path": "experiments/tools/render_suds_figures.py",
+      "sha256": "6122766c4118f8b9fb8f467a6d1a97ace82c1b3a29ebed38dea02ae29a5512cf",
+      "size_bytes": 34077
+    },
+    {
+      "path": "experiments/tools/render_suds_maxq_fig6_ablation.py",
+      "sha256": "efd8167465f96abfa556fd72d3fbe558177961d8aa48ac18266c6cd16d355cde",
+      "size_bytes": 5883
+    },
+    {
+      "path": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",
+      "sha256": "e36d109d5498fc7ee55464785d18184f6939ed1796d3723e9ad9baaa390f9a5f",
+      "size_bytes": 2864
+    },
+    {
+      "path": "figures/paper_figures_20260511_suds_maxq/figure_traceability.csv",
+      "sha256": "b7d0da79c8a93179bfc6948d7406a28f03502d800d7b929ed6f78d7eb5ea135b",
+      "size_bytes": 5671
+    },
+    {
+      "path": "figures/paper_figures_20260511_suds_maxq/pack_metadata.json",
+      "sha256": "4f3192722160cf480b7f94b2798ef90498ac392caa330901918b6d0ee4404442",
+      "size_bytes": 3491
+    },
+    {
+      "path": "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf",
+      "sha256": "fd817365c169bb741ab84556a03428c45f574bf1873d5f733e651315598975b8",
+      "size_bytes": 3213953
+    },
+    {
+      "path": "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.png",
+      "sha256": "baf2ffefe4b0673b3a916cd7531f4784bcbcfce6d398dc362fdd319928845c03",
+      "size_bytes": 2592457
+    },
+    {
+      "path": "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.pdf",
+      "sha256": "5593552336ef1d408994effcf810cfdc3956aaf05f6ff9f11040dfb1c24efbba",
+      "size_bytes": 2701103
+    },
+    {
+      "path": "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.png",
+      "sha256": "2ef8e90827ba3c0b01cbf15bc00edd6fb9f0b53c66108200a4331ecf8fc79b70",
+      "size_bytes": 2399265
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "1dbfb3d64ac2a079729c28594b662fe52b5b234efacebda2d78cb806ad6b3a1b",
+      "size_bytes": 31
+    },
+    {
+      "path": "scripts/check_public_repro_repo.py",
+      "sha256": "d0817a47054e7fb7a1b9005b90d17d74a9dbe742773d71b6775d1e8985c44315",
+      "size_bytes": 25484
+    }
+  ]
+}

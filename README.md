@@ -4,10 +4,10 @@ This repository is the double-blind supplementary reproduction package for the
 SUDS evidence freeze `20260511_suds_maxq`.
 
 It is intentionally smaller than the full development workspace. It contains
-the compact JSON/CSV evidence, accepted schematic source masters, metadata, and
-scripts needed to validate the public evidence surface and regenerate the paper
-figures. Final pre-rendered figure-pack images are deliberately excluded; local
-rendered outputs are produced under `build/`.
+the compact JSON/CSV evidence, accepted schematic source masters, metadata,
+checksums, and scripts needed to validate the public evidence surface and
+regenerate the paper figures. Final pre-rendered figure-pack images are
+deliberately excluded; local rendered outputs are produced under `build/`.
 
 ## Quick Start
 
@@ -20,9 +20,9 @@ make render-paper-figures
 ```
 
 `make repro-check` validates the freeze pointer, SUDS figure registry,
-traceability, artifact paths, anonymous package boundary, and exclusion of
-private materials. `make render-paper-figures` rerenders Fig1-Fig6 and
-Fig.A1-Fig.A4 into `build/rendered_figures/`.
+traceability, artifact paths, SHA-256 checksum manifest, anonymous package
+boundary, and exclusion of private materials. `make render-paper-figures`
+rerenders Fig1-Fig6 and Fig.A1-Fig.A4 into `build/rendered_figures/`.
 
 ## Public Evidence Surface
 
@@ -31,6 +31,7 @@ Fig.A1-Fig.A4 into `build/rendered_figures/`.
 - MAX-Q report data: `experiments/results/report_data/`
 - Figure metadata: `figures/paper_figures_20260511_suds_maxq/`
 - Review metadata: `experiments/results/review/20260511_suds_maxq_public/`
+- Static-file checksums: `checksums_manifest.json`
 
 Figure roles are fixed for this freeze:
 
@@ -45,7 +46,8 @@ Figure roles are fixed for this freeze:
 ## Boundary
 
 The package supports paper inspection, traceability review, and local
-figure-regeneration from compact source artifacts. It does not include private
+figure-regeneration from compact source artifacts. It includes P1
+interface-overhead and boundary-suite compact data. It does not include private
 datasets, model weights, private literature mirrors, trial drafts, candidate
 histories, historical FULLER freeze payloads, personal remotes, or absolute
 local paths.

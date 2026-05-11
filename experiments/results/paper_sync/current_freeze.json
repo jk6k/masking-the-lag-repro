@@ -16,15 +16,24 @@
   "energy_sensitivity_csv": "experiments/results/report_data/suds_circuit_energy_sensitivity_20260511_maxq.csv",
   "ablation_matrix_csv": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.csv",
   "ablation_matrix_json": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.json",
+  "interface_overhead_csv": "experiments/results/report_data/suds_interface_overhead_20260511_maxq.csv",
+  "interface_overhead_json": "experiments/results/report_data/suds_interface_overhead_20260511_maxq.json",
+  "boundary_suite_csv": "experiments/results/report_data/suds_boundary_suite_20260511_maxq.csv",
+  "boundary_suite_json": "experiments/results/report_data/suds_boundary_suite_20260511_maxq.json",
   "paper_figures_dir": "figures/paper_figures_20260511_suds_maxq",
   "review_dir": "experiments/results/review/20260511_suds_maxq_public",
   "figure_numbering_registry_csv": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",
   "figure_traceability_csv": "figures/paper_figures_20260511_suds_maxq/figure_traceability.csv",
   "pack_metadata_json": "figures/paper_figures_20260511_suds_maxq/pack_metadata.json",
   "figure_acceptance_report": "docs/reports/20260511_maxq_suds_max_quality_freeze_report.md",
+  "interface_overhead_report": "docs/reports/20260511_maxq_suds_interface_overhead.md",
+  "boundary_suite_report": "docs/reports/20260511_maxq_suds_boundary_suite.md",
+  "external_red_team_report": "docs/reports/20260511_maxq_suds_external_red_team_resolution.md",
+  "major_revision_response_scaffold": "docs/reports/20260511_maxq_suds_major_revision_response_scaffold.md",
   "public_repro_manifest_json": "configs/public_repro_manifest.json",
   "promoted_at": "2026-05-11",
-  "claim_boundary": "SUDS MAX-Q freeze: frozen 167-item C1 technical-survey manifest; modeled and analytical SUDS mechanism evidence; full MobileViT-S ImageNet measured accuracy validation on MPS with 50,000 samples and four seeds; real GLUE SST-2/MRPC BERT minimum-task prediction smoke; literature-anchored calibrated energy sensitivity; synthetic BERT profile stress and parametric PHY checks. Accuracy is measured only in the validation lanes; ADC and conversion/peripheral energy values are modeled or calibrated sensitivity estimates. No silicon measurement, SPICE closure, measured hardware energy, deployment-readiness, universal workload, or slack-only-superiority claim.",
+  "p1_promoted_at": "2026-05-11",
+  "claim_boundary": "SUDS MAX-Q freeze: frozen 167-item C1 technical-survey manifest; modeled and analytical SUDS mechanism evidence; full MobileViT-S ImageNet measured accuracy validation on MPS with 50,000 samples and four seeds; real GLUE SST-2/MRPC BERT minimum-task prediction smoke; literature-anchored calibrated energy sensitivity; modeled interface-overhead accounting; explicit boundary/counterexample suite; synthetic BERT profile stress and parametric PHY checks. Accuracy is measured only in the validation lanes; ADC and conversion/peripheral energy values are modeled or calibrated sensitivity estimates. No silicon measurement, SPICE closure, measured hardware energy, deployment-readiness, universal workload, broad GLUE, transferred-manifest, or slack-only-superiority claim.",
   "active_figures": [
     "Fig1",
     "Fig2",
@@ -52,5 +61,5 @@
     "AppF4"
   ],
   "double_blind_public_surface": true,
-  "notes": "Promoted after SUDS MAX-Q P0.1-P0.6 integration. The ACM manuscript uses paper/suds_paper_acmart.tex as the canonical double-blind source; paper/suds_paper.tex remains a non-canonical IEEE backup. Fig6 now reports full MobileViT-S measured accuracy ablation plus modeled ADC ratio, replacing the 2026-05-10 bounded validation figure."
+  "notes": "Promoted after SUDS MAX-Q P0.1-P0.6 integration and P1.1-P1.5 hardening. The ACM manuscript uses paper/suds_paper_acmart.tex as the canonical double-blind source; paper/suds_paper.tex remains a non-canonical IEEE backup. Fig6 reports full MobileViT-S measured accuracy ablation plus modeled ADC ratio, replacing the 2026-05-10 bounded validation figure. P1 hardening adds interface overhead, explicit boundary cases, external red-team resolution, major-revision scaffold, and checksum-backed anonymous repro validation."
 }

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import subprocess
 from dataclasses import dataclass, field
@@ -14,6 +15,7 @@ from typing import Any
 
 FREEZE_JSON = Path("experiments/results/paper_sync/current_freeze.json")
 MANIFEST_JSON = Path("configs/public_repro_manifest.json")
+CHECKSUMS_JSON = Path("checksums_manifest.json")
 DEFAULT_FREEZE_TAG = "20260511_suds_maxq"
 DEFAULT_MECHANISM_TAG = "20260511_suds_maxq"
 
@@ -137,6 +139,7 @@ def _required_files(manifest: dict[str, Any]) -> list[Path]:
         Path("README.md"),
         Path("REPRODUCIBILITY.md"),
         Path("NOTICE.md"),
+        CHECKSUMS_JSON,
         Path("Makefile"),
         Path("requirements.txt"),
         MANIFEST_JSON,
@@ -190,6 +193,7 @@ def _metadata_text_paths(manifest: dict[str, Any]) -> list[Path]:
             Path("REPRODUCIBILITY.md"),
             Path("NOTICE.md"),
             Path("EXPORT_METADATA.json"),
+            CHECKSUMS_JSON,
             FREEZE_JSON,
             pack_dir / "figure_traceability.csv",
             review_dir / "figure_traceability.csv",
@@ -201,6 +205,7 @@ def _metadata_text_paths(manifest: dict[str, Any]) -> list[Path]:
         Path("README.md"),
         Path("REPRODUCIBILITY.md"),
         Path("NOTICE.md"),
+        CHECKSUMS_JSON,
         FREEZE_JSON,
         pack_dir / "figure_traceability.csv",
         review_dir / "figure_traceability.csv",
@@ -519,6 +524,59 @@ def _check_review_metadata(report: Report, manifest: dict[str, Any]) -> None:
                 report.add(f"manuscript evidence map missing public-rendered figure: {figure_id}")
 
 
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _check_checksums(report: Report, manifest: dict[str, Any]) -> None:
+    checksum_path = report.root / CHECKSUMS_JSON
+    if not checksum_path.is_file():
+        report.add(f"missing required file: {CHECKSUMS_JSON.as_posix()}")
+        return
+    try:
+        payload = json.loads(checksum_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        report.add(f"invalid checksum manifest: {exc}")
+        return
+    if payload.get("algorithm") != "sha256":
+        report.add(f"checksum manifest algorithm mismatch: {payload.get('algorithm')!r}")
+    files = payload.get("files")
+    if not isinstance(files, list) or not files:
+        report.add("checksum manifest has no files")
+        return
+
+    listed: set[str] = set()
+    for entry in files:
+        if not isinstance(entry, dict):
+            report.add("checksum manifest contains a non-object entry")
+            continue
+        rel = str(entry.get("path") or "")
+        listed.add(rel)
+        target = report.root / rel
+        if not rel or not target.is_file():
+            report.add(f"checksum target missing: {rel}")
+            continue
+        observed_size = target.stat().st_size
+        if int(entry.get("size_bytes", -1)) != observed_size:
+            report.add(
+                f"checksum size mismatch for {rel}: "
+                f"observed={observed_size} expected={entry.get('size_bytes')}"
+            )
+        if entry.get("sha256") != _sha256(target):
+            report.add(f"checksum hash mismatch for {rel}")
+
+    for path in _iter_files(report.root):
+        rel = _rel(report.root, path)
+        if rel == CHECKSUMS_JSON.as_posix() or _is_allowed_local_path(rel, manifest):
+            continue
+        if rel not in listed:
+            report.add(f"file missing from checksum manifest: {rel}")
+
+
 def _check_public_repro_inputs(report: Report, manifest: dict[str, Any]) -> None:
     if _is_suds(manifest):
         _check_suds_inputs(report, manifest)
@@ -537,6 +595,7 @@ def validate(root: Path) -> Report:
     _check_metadata_text(report, manifest)
     _check_freeze(report, manifest)
     _check_public_repro_inputs(report, manifest)
+    _check_checksums(report, manifest)
     _check_git(report, manifest)
     return report
 
