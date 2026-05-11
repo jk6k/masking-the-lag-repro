@@ -26,9 +26,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json",
@@ -49,9 +49,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json",
@@ -72,9 +72,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json",
@@ -95,9 +95,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json",
@@ -118,9 +118,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 0 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed0_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json",
@@ -141,9 +141,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json",
@@ -164,9 +164,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json",
@@ -187,9 +187,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json",
@@ -210,9 +210,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json",
@@ -233,9 +233,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 1 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed1_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json",
@@ -256,9 +256,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json",
@@ -279,9 +279,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json",
@@ -302,9 +302,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json",
@@ -325,9 +325,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json",
@@ -348,9 +348,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 2 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed2_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json",
@@ -371,9 +371,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json",
@@ -394,9 +394,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json",
@@ -417,9 +417,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json",
@@ -440,9 +440,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
     },
     {
       "source_json": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json",
@@ -463,9 +463,9 @@
       "device": "mps",
       "mlx_default_device": "Device(gpu, 0)",
       "git_hash": "affc7c9",
-      "dataset_root": "experiments/datasets/imagenet/val",
+      "dataset_root": "<private_imagenet_val>",
       "slack_manifest": "experiments/results/runs/slack_manifest.json",
-      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val experiments/datasets/imagenet/val --model mobilevit_s --weights_dir weights --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
+      "command": "experiments/tools/run_suds_eval_mlx.py --device mps --imagenet_val <private_imagenet_val> --model mobilevit_s --weights_dir <private_weights_dir> --max_eval_samples 50000 --eval_batch_size 64 --seed 42 --output_json experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq/mobilevit_s_seed42_full.json"
     }
   ],
   "aggregates": [
