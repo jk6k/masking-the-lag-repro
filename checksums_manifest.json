@@ -3,7 +3,7 @@
   "algorithm": "sha256",
   "freeze_tag": "20260511_suds_maxq",
   "generated_by": "scripts/build_public_repro_repo.py",
-  "file_count": 51,
+  "file_count": 67,
   "files": [
     {
       "path": ".gitattributes",
@@ -52,8 +52,8 @@
     },
     {
       "path": "configs/public_repro_manifest.json",
-      "sha256": "eea687e2e4833ff6d19677364180df619cd7539fdff3d5eeacd20dfe81e82e98",
-      "size_bytes": 9470
+      "sha256": "7afbe672a472782dc7636e3fc57b5c72fc93b0dfbaaed4b0fa448f00b66b27ed",
+      "size_bytes": 13626
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",
@@ -69,6 +69,16 @@
       "path": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.json",
       "sha256": "98b7e504441177c6b297f3eb1be82892901ef6e6040ad2838195c156e994ccd5",
       "size_bytes": 48648
+    },
+    {
+      "path": "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.csv",
+      "sha256": "2f9f40e4b19974dbbf6955ae9b1890cb9b44e91acf333b767eb5a46eb0064c2f",
+      "size_bytes": 21282
+    },
+    {
+      "path": "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.json",
+      "sha256": "74cb33cb9cb763d08dd503b25ee00287fe6a4be0e169bd6908218f7f85154f46",
+      "size_bytes": 66821
     },
     {
       "path": "experiments/results/report_data/suds_boundary_suite_20260511_maxq.csv",
@@ -111,6 +121,16 @@
       "size_bytes": 558739
     },
     {
+      "path": "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.csv",
+      "sha256": "60830cc54963895022a25db8c9feb06f9e69b04f0447d72185b2fbe92200cf24",
+      "size_bytes": 924
+    },
+    {
+      "path": "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.json",
+      "sha256": "7ba83f79070462e9f9194b1aa34cfae7d8c70e1525219e6d043eef5101170973",
+      "size_bytes": 2447
+    },
+    {
       "path": "experiments/results/report_data/suds_interface_overhead_20260511_maxq.csv",
       "sha256": "7c44993724bfa516557e8492f589b56751898aada0e591f86cd2f7cd1196081a",
       "size_bytes": 2974
@@ -129,6 +149,66 @@
       "path": "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.json",
       "sha256": "1ca1f2ce55c4a52dc342d52d32f8504357b0321a7dbef949199daf73029bbf6a",
       "size_bytes": 28467
+    },
+    {
+      "path": "experiments/results/report_data/suds_mobilevit_multimodel_validation_20260511_p2p3_quality.csv",
+      "sha256": "74771206e3f91d74f390f8bd3f69acf94917cc1cf07892dd590b2c6c93d22313",
+      "size_bytes": 42833
+    },
+    {
+      "path": "experiments/results/report_data/suds_mobilevit_multimodel_validation_20260511_p2p3_quality.json",
+      "sha256": "82ed7bcf8dc5920f8a8dd3d580c549a6416b42d7006d6c2abdd0ba1ba92ee75d",
+      "size_bytes": 199550
+    },
+    {
+      "path": "experiments/results/report_data/suds_mobilevit_multimodel_validation_20260511_p2p3_quality_launch.csv",
+      "sha256": "9d0cac0f6dc0b5f2512c3c6118fe584682671163b8d0a7704de76455bcc651e4",
+      "size_bytes": 17967
+    },
+    {
+      "path": "experiments/results/report_data/suds_model_specific_slack_manifest_20260511_p2p3_quality.csv",
+      "sha256": "842803f73272a8be8b0fbb6bc2511e3c369e7d2bb110e4afd41ae0f508303e14",
+      "size_bytes": 1878
+    },
+    {
+      "path": "experiments/results/report_data/suds_model_specific_slack_manifest_20260511_p2p3_quality.json",
+      "sha256": "4d681a82c79e5af35d943c52cd38f8d180c4df3a01f74ebba4f4e950764610dd",
+      "size_bytes": 3791
+    },
+    {
+      "path": "experiments/results/report_data/suds_p2p3_submission_gate_20260511_p2p3_quality.json",
+      "sha256": "c57ce2e4dcc8451d1cb5ff8bd37f687ec325add692e38710600e5bb8c278c659",
+      "size_bytes": 3045
+    },
+    {
+      "path": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
+      "sha256": "8df8d6230953a5e20c23d9c6241436af99e0c4b750872b0aa013fd2d37b33144",
+      "size_bytes": 109806
+    },
+    {
+      "path": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.json",
+      "sha256": "a2edac42ea527e8bb5249f58e7006f0eadace8aa161a57091d26ff7255757ed7",
+      "size_bytes": 325571
+    },
+    {
+      "path": "experiments/results/report_data/suds_related_work_boundary_matrix_20260511_p2p3_quality.csv",
+      "sha256": "8aed061e43d14da7eaf4850914c0969a8c03efb2cd7f1777fe3faeb7b03bfe0e",
+      "size_bytes": 2981
+    },
+    {
+      "path": "experiments/results/report_data/suds_related_work_boundary_matrix_20260511_p2p3_quality.json",
+      "sha256": "b724fef71e52693a14a4744e3440a9b852939bcb8d31a7e39d1553a5f4636e5e",
+      "size_bytes": 5195
+    },
+    {
+      "path": "experiments/results/report_data/suds_rtl_control_overhead_20260511_p2p3_quality.csv",
+      "sha256": "6b044a087fb3fa65357454fd5d28f47402408d9841db34842614c6dfc8e96130",
+      "size_bytes": 4174
+    },
+    {
+      "path": "experiments/results/report_data/suds_rtl_control_overhead_20260511_p2p3_quality.json",
+      "sha256": "29943da8798bb66fd48e4f9c66d42fe878960d579ed1509319fb7033b5bee116",
+      "size_bytes": 15965
     },
     {
       "path": "experiments/results/review/20260511_suds_maxq_public/data_review_report.md",

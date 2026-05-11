@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "tag": "20260511_p2p3_quality",
+    "artifact_id": "suds_related_work_boundary_matrix_20260511_p2p3_quality",
+    "evidence_label": "audit",
+    "promotion_decision": "main_text",
+    "regeneration_command": ".venv311-mps/bin/python experiments/tools/build_suds_related_work_boundary_matrix.py"
+  },
+  "rows": [
+    {
+      "work": "Lightening-Transformer",
+      "venue_year": "HPCA 2024",
+      "signal_source": "photonic Transformer datapath and DPTC scheduling",
+      "control_target": "photonic tensor-core execution and conversion resources",
+      "hardware_primitive": "dynamic full-range photonic tensor core",
+      "scheduler_slack_used": "no",
+      "accuracy_evidence": "model/task evaluation in accelerator paper",
+      "energy_evidence": "architecture-level power/performance model",
+      "suds_boundary": "hardware architecture anchor; does not expose scheduler slack as quality budget"
+    },
+    {
+      "work": "HyAtten",
+      "venue_year": "2025",
+      "signal_source": "signal amplitude / hybrid photonic-digital attention statistics",
+      "control_target": "attention conversion and signal path",
+      "hardware_primitive": "hybrid photonic-digital attention accelerator",
+      "scheduler_slack_used": "no",
+      "accuracy_evidence": "attention accelerator validation",
+      "energy_evidence": "ADC/signal conversion overhead study",
+      "suds_boundary": "closest selector risk; SUDS must be framed as budget interface composing with signal selectors"
+    },
+    {
+      "work": "ENLighten",
+      "venue_year": "2025",
+      "signal_source": "PTC-aware compression/sparsity",
+      "control_target": "photonic accelerator sparsity/reconfiguration",
+      "hardware_primitive": "sparse/reconfigurable photonic tensor core",
+      "scheduler_slack_used": "no",
+      "accuracy_evidence": "ImageNet pruning/accuracy tradeoff",
+      "energy_evidence": "EDP and accelerator energy model",
+      "suds_boundary": "complementary local compression and accelerator primitive, not scheduler-derived slack budget"
+    },
+    {
+      "work": "ASTRA",
+      "venue_year": "TECS 2025",
+      "signal_source": "stochastic photonic Transformer execution statistics",
+      "control_target": "stochastic optical arithmetic and conversion",
+      "hardware_primitive": "OAG/PCA/stochastic photonic Transformer pipeline",
+      "scheduler_slack_used": "no",
+      "accuracy_evidence": "Transformer accelerator evaluation",
+      "energy_evidence": "component-level photonic energy model",
+      "suds_boundary": "useful PHY/ADC anchor; not a scheduler-quality interface"
+    },
+    {
+      "work": "SCATTER/SONIC",
+      "venue_year": "2024/adjacent",
+      "signal_source": "photonic NN robustness, crosstalk, and mapping constraints",
+      "control_target": "optical link/path reliability and photonic NN mapping",
+      "hardware_primitive": "silicon-photonic NN accelerator components",
+      "scheduler_slack_used": "no",
+      "accuracy_evidence": "noise/crosstalk robustness studies",
+      "energy_evidence": "photonic component and link-budget models",
+      "suds_boundary": "defines PHY stress boundary; SUDS must not claim PHY closure from slack"
+    },
+    {
+      "work": "DistServe/Mooncake/ECHO",
+      "venue_year": "serving systems",
+      "signal_source": "request deadlines, SLOs, KV/cache and serving pressure",
+      "control_target": "cluster/server scheduling and request placement",
+      "hardware_primitive": "serving scheduler/runtime",
+      "scheduler_slack_used": "yes, at serving/runtime level",
+      "accuracy_evidence": "serving throughput/latency QoS",
+      "energy_evidence": "system/runtime efficiency where reported",
+      "suds_boundary": "uses slack/SLO for scheduling, not accelerator-internal ADC/pruning control"
+    },
+    {
+      "work": "ADEPT / approximate-computing family",
+      "venue_year": "adjacent",
+      "signal_source": "approximation tolerance, precision, or quality knobs",
+      "control_target": "software/hardware approximation level",
+      "hardware_primitive": "approximate compute and precision scaling",
+      "scheduler_slack_used": "not as photonic accelerator-internal quality budget",
+      "accuracy_evidence": "application quality or accuracy tradeoff",
+      "energy_evidence": "approximate-compute energy/performance model",
+      "suds_boundary": "prior art for quality knobs; not the scoped scheduler-to-photonic-ADC interface"
+    },
+    {
+      "work": "SUDS",
+      "venue_year": "this work",
+      "signal_source": "scheduler-derived layer/column timing slack plus optional local selectors",
+      "control_target": "ADC tier, SC prefix length, PRUNE/DEGRADE/KEEP resource budget",
+      "hardware_primitive": "quality-budget sideband interface for photonic/DPTC accelerator resources",
+      "scheduler_slack_used": "yes",
+      "accuracy_evidence": "MobileViT measured validation; GLUE boundary smoke; pending P2 multi-model matrix",
+      "energy_evidence": "modeled/calibrated ADC-tier and conversion/peripheral energy; pending P3 proxy lanes",
+      "suds_boundary": "methodology/case-study claim; not silicon, SPICE, or new photonic accelerator SOTA"
+    }
+  ]
+}

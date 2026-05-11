@@ -1,0 +1,4 @@
+model,condition,condition_label,status,top1,top1_std,delta_top1,delta_top1_std,adc_energy_ratio_vs_e0,energy_reduction_vs_e0,n_seeds,best_abs_delta_condition,e6_minus_e7_delta_top1,e8_minus_e7_delta_top1,evidence_label,promotion_decision,blockers
+mobilevit_s,e6_signal,"Signal proxy only, SUDS-matched global tier budget",pending_or_incomplete,64.57066666666667,0.16869301506977363,-0.909333333333341,0.16869301506977363,0.46297586250078265,0.5370241374992173,3,,,,pending_measured,boundary,missing_required_seeds
+mobilevit_s,e7_overlay,SUDS budget + L1 selector,pending_or_incomplete,63.657999999999994,0.48210787174656033,-1.8220000000000027,0.48210787174656033,0.46307369607413434,0.5369263039258656,3,,,,pending_measured,boundary,missing_required_seeds
+mobilevit_s,composition_summary,Composition boundary summary,summary,nan,nan,nan,nan,nan,nan,,e6_signal,0.9126666666666617,nan,audit,boundary,e8_missing_or_incomplete
