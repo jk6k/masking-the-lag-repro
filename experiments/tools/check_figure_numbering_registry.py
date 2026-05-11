@@ -236,7 +236,7 @@ def _validate_traceability_backed_rows(
             continue
         uses_legacy_mechanism_exception = (
             row.figure_id in MECHANISM_FIGURES
-            and not run_tag.startswith("20260510_suds")
+            and "suds" not in run_tag
         )
         expected_run_tag = mechanism_run_tag if uses_legacy_mechanism_exception else run_tag
         if str(trace_row.get("run_tag") or "") != expected_run_tag:
