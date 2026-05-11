@@ -1,18 +1,30 @@
 {
-  "run_tag": "20260510_suds_q2_repaired",
-  "freeze_tag": "20260510_suds_q2_repaired",
+  "run_tag": "20260511_suds_maxq",
+  "freeze_tag": "20260511_suds_maxq",
   "workflow": "suds_q2",
   "phase_dir": "experiments/results/runs",
   "report_data_dir": "experiments/results/report_data",
-  "bounded_mps_validation_csv": "experiments/results/report_data/suds_bounded_mps_validation_20260510.csv",
-  "paper_figures_dir": "figures/paper_figures_20260510_suds_q2_repaired",
-  "review_dir": "experiments/results/review/20260510_suds_q2_repaired_public",
-  "figure_numbering_registry_csv": "figures/paper_figures_20260510_suds_q2_repaired/figure_numbering_registry.csv",
-  "figure_traceability_csv": "figures/paper_figures_20260510_suds_q2_repaired/figure_traceability.csv",
-  "pack_metadata_json": "figures/paper_figures_20260510_suds_q2_repaired/pack_metadata.json",
+  "canonical_paper": "paper/suds_paper_acmart.tex",
+  "c1_survey_manifest_csv": "experiments/results/report_data/suds_c1_survey_manifest_20260511.csv",
+  "c1_survey_manifest_json": "experiments/results/report_data/suds_c1_survey_manifest_20260511.json",
+  "mobilevit_measured_validation_run_dir": "experiments/results/runs/suds_mobilevit_measured_validation_20260511_maxq",
+  "mobilevit_measured_validation_csv": "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.csv",
+  "mobilevit_measured_validation_json": "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.json",
+  "glue_measured_validation_csv": "experiments/results/report_data/suds_glue_measured_validation_20260511_maxq.csv",
+  "glue_measured_validation_json": "experiments/results/report_data/suds_glue_measured_validation_20260511_maxq.json",
+  "energy_calibration_csv": "experiments/results/report_data/suds_circuit_energy_calibration_20260511_maxq.csv",
+  "energy_sensitivity_csv": "experiments/results/report_data/suds_circuit_energy_sensitivity_20260511_maxq.csv",
+  "ablation_matrix_csv": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.csv",
+  "ablation_matrix_json": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.json",
+  "paper_figures_dir": "figures/paper_figures_20260511_suds_maxq",
+  "review_dir": "experiments/results/review/20260511_suds_maxq_public",
+  "figure_numbering_registry_csv": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",
+  "figure_traceability_csv": "figures/paper_figures_20260511_suds_maxq/figure_traceability.csv",
+  "pack_metadata_json": "figures/paper_figures_20260511_suds_maxq/pack_metadata.json",
+  "figure_acceptance_report": "docs/reports/20260511_maxq_suds_max_quality_freeze_report.md",
   "public_repro_manifest_json": "configs/public_repro_manifest.json",
-  "promoted_at": "2026-05-10",
-  "claim_boundary": "SUDS Q2+ repaired submission pack: modeled analytical evidence, accepted AI schematics, bounded MobileViT-S MPS validation, synthetic-supporting stress checks, and parametric PHY checks only; no silicon measurement, SPICE closure, real GLUE evaluation, universal scaling, deployment readiness, or hardware superiority claim.",
+  "promoted_at": "2026-05-11",
+  "claim_boundary": "SUDS MAX-Q freeze: frozen 167-item C1 technical-survey manifest; modeled and analytical SUDS mechanism evidence; full MobileViT-S ImageNet measured accuracy validation on MPS with 50,000 samples and four seeds; real GLUE SST-2/MRPC BERT minimum-task prediction smoke; literature-anchored calibrated energy sensitivity; synthetic BERT profile stress and parametric PHY checks. Accuracy is measured only in the validation lanes; ADC and conversion/peripheral energy values are modeled or calibrated sensitivity estimates. No silicon measurement, SPICE closure, measured hardware energy, deployment-readiness, universal workload, or slack-only-superiority claim.",
   "active_figures": [
     "Fig1",
     "Fig2",
@@ -25,5 +37,20 @@
     "AppF3",
     "AppF4"
   ],
-  "double_blind_public_surface": true
+  "main_figures": [
+    "Fig1",
+    "Fig2",
+    "Fig3",
+    "Fig4",
+    "Fig5",
+    "Fig6"
+  ],
+  "appendix_figures": [
+    "AppF1",
+    "AppF2",
+    "AppF3",
+    "AppF4"
+  ],
+  "double_blind_public_surface": true,
+  "notes": "Promoted after SUDS MAX-Q P0.1-P0.6 integration. The ACM manuscript uses paper/suds_paper_acmart.tex as the canonical double-blind source; paper/suds_paper.tex remains a non-canonical IEEE backup. Fig6 now reports full MobileViT-S measured accuracy ablation plus modeled ADC ratio, replacing the 2026-05-10 bounded validation figure."
 }

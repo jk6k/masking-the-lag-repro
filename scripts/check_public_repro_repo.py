@@ -14,8 +14,8 @@ from typing import Any
 
 FREEZE_JSON = Path("experiments/results/paper_sync/current_freeze.json")
 MANIFEST_JSON = Path("configs/public_repro_manifest.json")
-DEFAULT_FREEZE_TAG = "20260510_suds_q2_repaired"
-DEFAULT_MECHANISM_TAG = "20260510_suds_q2_repaired"
+DEFAULT_FREEZE_TAG = "20260511_suds_maxq"
+DEFAULT_MECHANISM_TAG = "20260511_suds_maxq"
 
 
 @dataclass

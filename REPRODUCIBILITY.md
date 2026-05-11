@@ -1,6 +1,6 @@
 # Reproducibility Guide
 
-The active anonymous public freeze is `20260510_suds_q2_repaired`.
+The active anonymous public freeze is `20260511_suds_maxq`.
 
 ## Lightweight Verification
 
@@ -14,7 +14,7 @@ This checks:
 
 - freeze pointer consistency
 - SUDS figure numbering and traceability
-- phase-summary, slack-manifest, validation-CSV, and AI schematic source inputs
+- phase-summary, slack-manifest, MAX-Q report-data, and AI schematic source inputs
 - absence of datasets, weights, private KB material, archives, trial drafts, real author identity, personal remotes, and absolute local paths
 - clean tracked public surface when the directory is a Git checkout
 
@@ -32,20 +32,21 @@ source masters, and metadata rather than final figure-pack images.
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
-- Bounded MPS validation CSV: `experiments/results/report_data/suds_bounded_mps_validation_20260510.csv`
-- Figure metadata: `figures/paper_figures_20260510_suds_q2_repaired/`
-- Figure registry: `figures/paper_figures_20260510_suds_q2_repaired/figure_numbering_registry.csv`
-- Traceability: `figures/paper_figures_20260510_suds_q2_repaired/figure_traceability.csv`
-- Review metadata: `experiments/results/review/20260510_suds_q2_repaired_public/`
+- MAX-Q report data: `experiments/results/report_data/`
+- Figure metadata: `figures/paper_figures_20260511_suds_maxq/`
+- Figure registry: `figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv`
+- Traceability: `figures/paper_figures_20260511_suds_maxq/figure_traceability.csv`
+- Review metadata: `experiments/results/review/20260511_suds_maxq_public/`
 
 ## Claim Boundary
 
 The public freeze supports the SUDS paper's scoped evidence surface: accepted
-AI schematics, modeled analytical figures, bounded MobileViT-S MPS validation,
+AI schematics, modeled analytical figures, measured accuracy summaries for
+MobileViT-S and minimum GLUE/BERT tasks, calibrated energy-sensitivity tables,
 synthetic-supporting stress checks, parametric PHY checks, and figure
 traceability. It does not promote universal scaling, silicon measurement,
-SPICE closure, real GLUE evaluation, broad workload generalization, deployment
-readiness, or hardware superiority.
+SPICE closure, measured hardware energy, broad workload generalization,
+deployment readiness, or hardware superiority.
 
 ## Full Rerun Boundary
 

@@ -1,7 +1,7 @@
 # SUDS Anonymous Reproduction Package
 
 This repository is the double-blind supplementary reproduction package for the
-SUDS evidence freeze `20260510_suds_q2_repaired`.
+SUDS evidence freeze `20260511_suds_maxq`.
 
 It is intentionally smaller than the full development workspace. It contains
 the compact JSON/CSV evidence, accepted schematic source masters, metadata, and
@@ -28,9 +28,9 @@ Fig.A1-Fig.A4 into `build/rendered_figures/`.
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
-- Bounded MPS validation CSV: `experiments/results/report_data/suds_bounded_mps_validation_20260510.csv`
-- Figure metadata: `figures/paper_figures_20260510_suds_q2_repaired/`
-- Review metadata: `experiments/results/review/20260510_suds_q2_repaired_public/`
+- MAX-Q report data: `experiments/results/report_data/`
+- Figure metadata: `figures/paper_figures_20260511_suds_maxq/`
+- Review metadata: `experiments/results/review/20260511_suds_maxq_public/`
 
 Figure roles are fixed for this freeze:
 
@@ -39,7 +39,7 @@ Figure roles are fixed for this freeze:
 - `Fig3`: SUDS ternary quality-budget policy schematic
 - `Fig4`: modeled accuracy-energy trade-off
 - `Fig5`: tier distribution and ADC-energy waterfall
-- `Fig6`: bounded MobileViT-S MPS validation sanity check
+- `Fig6`: full MobileViT-S measured ablation and modeled ADC ratio
 - `Fig.A1-Fig.A4`: threshold scan, SUDS+L1 overlay, synthetic profile stress, and parametric PHY check
 
 ## Boundary
@@ -52,4 +52,6 @@ local paths.
 
 Full accelerator-backed reruns are outside this anonymous compact package. On
 the project Mac, those governed maintainer reruns require Apple Silicon `mps`
-and long runs are launched with `caffeinate -dimsu`.
+and long runs are launched with `caffeinate -dimsu`. The package carries
+sanitized compact summaries, not datasets, model weights, or private literature
+mirrors.
