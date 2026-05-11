@@ -10,7 +10,7 @@
   "included": [
     "phase summary JSON files",
     "slack manifest",
-    "bounded MPS validation CSV",
+    "MAX-Q measured-validation and modeled-energy report data",
     "figure registry and traceability metadata",
     "accepted Fig1/Fig3 schematic source masters",
     "SUDS render and validation scripts"
