@@ -85,6 +85,8 @@ def f(row: dict[str, Any], key: str) -> float:
 
 
 def render(input_csv: Path, output_dir: Path, stem: str) -> list[Path]:
+    input_csv = input_csv.resolve()
+    output_dir = output_dir.resolve()
     rows = read_aggregate_rows(input_csv)
     x = np.arange(len(ORDER))
     width = 0.64
@@ -169,7 +171,10 @@ def main() -> None:
     args = parse_args()
     outputs = render(args.input_csv, args.output_dir, args.stem)
     for path in outputs:
-        print(path.relative_to(ROOT))
+        try:
+            print(path.relative_to(ROOT))
+        except ValueError:
+            print(path)
 
 
 if __name__ == "__main__":
