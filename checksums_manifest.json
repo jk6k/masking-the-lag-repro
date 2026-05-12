@@ -62,8 +62,8 @@
     },
     {
       "path": "docs/reports/20260512_j1_suds_adc_macro_spice_suite.md",
-      "sha256": "399dc406ad4cae8cfd430567b596d29f69cb2716886c907da7e5419cdb138c36",
-      "size_bytes": 3136
+      "sha256": "b384aaf032a3ad687428361f5627a686c6879939ed5bc2f7f8c4e4fc564bd020",
+      "size_bytes": 3137
     },
     {
       "path": "docs/reports/20260512_j2_quality_boost_suds_rtl_control_overhead.md",
@@ -282,7 +282,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_rtl_control_overhead_20260512_j2_quality_boost.json",
-      "sha256": "99309cffaf4562f4cefc2cff7dd07ee905ff9192d810c4ed3e6f8f7e9f56f0b1",
+      "sha256": "97074ba09b54060a1875a009eed100a21c2badf2738ee3bcb4d1b3a5d6e6c8e0",
       "size_bytes": 23625
     },
     {
@@ -347,7 +347,7 @@
     },
     {
       "path": "experiments/results/runs/suds_rtl_control_overhead_20260512_j2_quality_boost/yosys_synthesis.log",
-      "sha256": "06d5e2173a862cfb687df541bcab047f44f28a793e58151e6fa388beaff49c73",
+      "sha256": "84a93badaa14a3dc8ce4e04af0aec1aa7792968c929f6173ffcb97a5531642fc",
       "size_bytes": 25832
     },
     {

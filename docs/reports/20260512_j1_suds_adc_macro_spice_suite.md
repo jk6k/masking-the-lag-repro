@@ -58,7 +58,7 @@ sine rows are intended for ENOB/SNDR sanity checks.
 `appendix`. The current `20260511_suds_maxq` package remains the fallback
 submission package. Because local `ngspice`/`xyce` execution is
 `measured`, this report does not replace the existing
-`spice_macro` ADC appendix artifact or justify any main-text hardware-result
+`spice_proxy` ADC appendix artifact or justify any main-text hardware-closure
 wording.
 
 ## Compact Anchor Policy
