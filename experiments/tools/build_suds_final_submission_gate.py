@@ -73,10 +73,23 @@ def parse_args() -> argparse.Namespace:
 
 
 def repo_path(path: Path) -> str:
+    resolved = path.resolve()
     try:
-        return str(path.resolve().relative_to(REPO_ROOT))
+        return str(resolved.relative_to(REPO_ROOT))
+    except ValueError:
+        pass
+    try:
+        return "<public_repro>/" + str(resolved.relative_to(PUBLIC_REPRO_ROOT))
     except ValueError:
         return str(path)
+
+
+def sanitize_text(text: str) -> str:
+    return (
+        text.replace(str(REPO_ROOT), "<repo>")
+        .replace(str(PUBLIC_REPRO_ROOT), "<public_repro>")
+        .replace(str(REPO_ROOT.parent), "<workspace_parent>")
+    )
 
 
 def command_specs() -> list[dict[str, Any]]:
@@ -207,9 +220,11 @@ def run_command(spec: dict[str, Any], run_root: Path) -> dict[str, Any]:
     )
     duration = time.time() - started
     log_path.write_text(
-        "$ " + " ".join(spec["command"]) + "\n\n"
-        + completed.stdout
-        + ("\n[stderr]\n" + completed.stderr if completed.stderr else ""),
+        sanitize_text(
+            "$ " + " ".join(spec["command"]) + "\n\n"
+            + completed.stdout
+            + ("\n[stderr]\n" + completed.stderr if completed.stderr else "")
+        ),
         encoding="utf-8",
     )
     status = "pass" if completed.returncode == 0 else "fail"
@@ -224,8 +239,8 @@ def run_command(spec: dict[str, Any], run_root: Path) -> dict[str, Any]:
         "duration_s": round(duration, 3),
         "status": status,
         "log_path": repo_path(log_path),
-        "stdout_tail": "\n".join(completed.stdout.splitlines()[-30:]),
-        "stderr_tail": "\n".join(completed.stderr.splitlines()[-20:]),
+        "stdout_tail": sanitize_text("\n".join(completed.stdout.splitlines()[-30:])),
+        "stderr_tail": sanitize_text("\n".join(completed.stderr.splitlines()[-20:])),
     }
 
 
