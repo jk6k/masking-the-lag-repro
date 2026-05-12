@@ -772,8 +772,8 @@
     },
     {
       "path": "experiments/tools/run_suds_adc_macro_spice_suite.py",
-      "sha256": "6ef681aa77b13787cc6eeb1f8982f71e86d1a340534af55ac294535f4dfcf9cb",
-      "size_bytes": 25852
+      "sha256": "78d227471ffe5ca008969b69da10de1a23f2421081916e81863e571882b8f4b0",
+      "size_bytes": 25892
     },
     {
       "path": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",

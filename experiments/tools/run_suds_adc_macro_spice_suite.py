@@ -397,7 +397,7 @@ def base_row(
         "dnl_proxy_lsb": "",
         "inl_proxy_lsb": "",
         "evidence_label": "spice_macro",
-        "promotion_decision": "boundary",
+        "promotion_decision": "appendix" if status == "measured" else "boundary",
         "claim_boundary": (
             "open-source ADC macro sanity deck for ADC-tier energy calibration only; "
             "not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure"
