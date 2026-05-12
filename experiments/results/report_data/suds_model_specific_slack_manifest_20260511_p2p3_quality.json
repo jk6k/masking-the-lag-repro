@@ -3,7 +3,7 @@
     "tag": "20260511_p2p3_quality",
     "artifact_id": "suds_model_specific_slack_manifest_20260511_p2p3_quality",
     "evidence_label": "audit",
-    "promotion_decision": "mixed_main_text_boundary",
+    "promotion_decision": "boundary",
     "claim_boundary_note": "Each MobileViT scale must use a manifest whose key prefixes and _global.model_key match that scale. Sparse-mode manifests with weak inter-layer timing richness fail closed.",
     "regeneration_command": ".venv311-mps/bin/python experiments/tools/build_suds_model_specific_slack_manifest.py"
   },

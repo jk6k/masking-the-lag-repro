@@ -1,4 +1,13 @@
 model,condition,condition_label,status,top1,top1_std,delta_top1,delta_top1_std,adc_energy_ratio_vs_e0,energy_reduction_vs_e0,n_seeds,best_abs_delta_condition,e6_minus_e7_delta_top1,e8_minus_e7_delta_top1,evidence_label,promotion_decision,blockers
-mobilevit_s,e6_signal,"Signal proxy only, SUDS-matched global tier budget",pending_or_incomplete,64.57066666666667,0.16869301506977363,-0.909333333333341,0.16869301506977363,0.46297586250078265,0.5370241374992173,3,,,,pending_measured,boundary,missing_required_seeds
-mobilevit_s,e7_overlay,SUDS budget + L1 selector,pending_or_incomplete,63.657999999999994,0.48210787174656033,-1.8220000000000027,0.48210787174656033,0.46307369607413434,0.5369263039258656,3,,,,pending_measured,boundary,missing_required_seeds
-mobilevit_s,composition_summary,Composition boundary summary,summary,nan,nan,nan,nan,nan,nan,,e6_signal,0.9126666666666617,nan,audit,boundary,e8_missing_or_incomplete
+mobilevit_s,e6_signal,"Signal proxy only, SUDS-matched global tier budget",measured,64.14224999999999,0.4689958117388386,-1.3377500000000087,0.46899581173883864,0.46297586250078265,0.5370241374992173,8,,,,measured,appendix,
+mobilevit_s,e7_overlay,SUDS budget + L1 selector,measured,63.705,0.3388417245347952,-1.775000000000004,0.3388417245347952,0.46307369607413434,0.5369263039258656,8,,,,measured,appendix,
+mobilevit_s,e8_overflow,SUDS budget + HyAtten-like overflow selector,measured,63.9585,0.5573813775145333,-1.521500000000004,0.5573813775145333,0.46307369607413434,0.5369263039258656,8,,,,measured,appendix,
+mobilevit_xs,e6_signal,"Signal proxy only, SUDS-matched global tier budget",measured,45.694250000000004,3.0731570435442643,-13.479750000000006,3.0731570435442643,0.20342604101926665,0.7965739589807334,8,,,,measured,appendix,
+mobilevit_xs,e7_overlay,SUDS budget + L1 selector,measured,45.87875,2.8722033229859325,-13.295250000000008,2.8722033229859325,0.20420292106898694,0.795797078931013,8,,,,measured,appendix,
+mobilevit_xs,e8_overflow,SUDS budget + HyAtten-like overflow selector,measured,44.29625,3.26697421171334,-14.87775000000001,3.26697421171334,0.20420292106898694,0.795797078931013,8,,,,measured,appendix,
+mobilevit_xxs,e6_signal,"Signal proxy only, SUDS-matched global tier budget",measured,12.925,4.949784641779883,-35.077,4.949784641779883,0.21911380971497396,0.780886190285026,8,,,,measured,appendix,
+mobilevit_xxs,e7_overlay,SUDS budget + L1 selector,measured,11.2985,4.8731274498885355,-36.703500000000005,4.8731274498885355,0.21680549979927735,0.7831945002007227,8,,,,measured,appendix,
+mobilevit_xxs,e8_overflow,SUDS budget + HyAtten-like overflow selector,measured,14.425,5.242672709873957,-33.577,5.242672709873957,0.21680549979927735,0.7831945002007227,8,,,,measured,appendix,
+mobilevit_s,composition_summary,Composition boundary summary,summary,nan,nan,nan,nan,nan,nan,,e6_signal,0.43724999999999525,0.25349999999999984,audit,boundary,
+mobilevit_xs,composition_summary,Composition boundary summary,summary,nan,nan,nan,nan,nan,nan,,e7_overlay,-0.1844999999999981,-1.5825000000000014,audit,boundary,
+mobilevit_xxs,composition_summary,Composition boundary summary,summary,nan,nan,nan,nan,nan,nan,,e8_overflow,1.6265000000000072,3.126500000000007,audit,boundary,

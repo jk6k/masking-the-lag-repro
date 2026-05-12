@@ -122,13 +122,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.csv",
-      "sha256": "60830cc54963895022a25db8c9feb06f9e69b04f0447d72185b2fbe92200cf24",
-      "size_bytes": 924
+      "sha256": "fe9f44b7835e589e3732e9da47792afc1a738b1ba5ee5747a61a257e7531fd31",
+      "size_bytes": 2543
     },
     {
       "path": "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.json",
-      "sha256": "7ba83f79070462e9f9194b1aa34cfae7d8c70e1525219e6d043eef5101170973",
-      "size_bytes": 2447
+      "sha256": "811e07452554e470ce0012ace4392a21f111348d27d6e0e5cf007f96e90965ac",
+      "size_bytes": 7316
     },
     {
       "path": "experiments/results/report_data/suds_interface_overhead_20260511_maxq.csv",
@@ -152,18 +152,18 @@
     },
     {
       "path": "experiments/results/report_data/suds_mobilevit_multimodel_validation_20260511_p2p3_quality.csv",
-      "sha256": "74771206e3f91d74f390f8bd3f69acf94917cc1cf07892dd590b2c6c93d22313",
-      "size_bytes": 42833
+      "sha256": "f3bd6bbda6126d9256b275f42db50fb4a20861cf68b762555ef5e575240b8a5e",
+      "size_bytes": 92467
     },
     {
       "path": "experiments/results/report_data/suds_mobilevit_multimodel_validation_20260511_p2p3_quality.json",
-      "sha256": "82ed7bcf8dc5920f8a8dd3d580c549a6416b42d7006d6c2abdd0ba1ba92ee75d",
-      "size_bytes": 199550
+      "sha256": "f38001f7d2f7d03b3bff10f60c624cbac0ad4d79306a6134f7fc318c52405a66",
+      "size_bytes": 229518
     },
     {
       "path": "experiments/results/report_data/suds_mobilevit_multimodel_validation_20260511_p2p3_quality_launch.csv",
-      "sha256": "9d0cac0f6dc0b5f2512c3c6118fe584682671163b8d0a7704de76455bcc651e4",
-      "size_bytes": 17967
+      "sha256": "673c8093c7e602a6c5cf94209db17de39c6cd8e5fae68e1d689f911d140b35f0",
+      "size_bytes": 92
     },
     {
       "path": "experiments/results/report_data/suds_model_specific_slack_manifest_20260511_p2p3_quality.csv",
@@ -172,13 +172,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_model_specific_slack_manifest_20260511_p2p3_quality.json",
-      "sha256": "4d681a82c79e5af35d943c52cd38f8d180c4df3a01f74ebba4f4e950764610dd",
-      "size_bytes": 3791
+      "sha256": "8482ab73ab3fcfa14f41244c722204c012bbd6a5900b91801655b4c3094135f8",
+      "size_bytes": 3775
     },
     {
       "path": "experiments/results/report_data/suds_p2p3_submission_gate_20260511_p2p3_quality.json",
-      "sha256": "c57ce2e4dcc8451d1cb5ff8bd37f687ec325add692e38710600e5bb8c278c659",
-      "size_bytes": 3045
+      "sha256": "fcfbefaa3380c4fd22063d9be912660698b90868d376a298b3315acb16f66ac6",
+      "size_bytes": 3482
     },
     {
       "path": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
