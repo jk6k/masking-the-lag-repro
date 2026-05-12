@@ -102,6 +102,7 @@
     "experiments/tools/run_suds_adc_macro_spice_suite.py",
     "experiments/spice/suds_adc_macro/README.md",
     "experiments/spice/suds_adc_macro/generated/20260512_j1_quality_boost/sweep_matrix.csv",
+    "docs/reports/20260512_j1_suds_adc_macro_spice_suite.md",
     "scripts/check_public_repro_repo.py",
     "experiments/tests/test_public_repro_surface.py"
   ],
@@ -218,6 +219,7 @@
     "experiments/tools/build_suds_interface_overhead.py",
     "experiments/tools/build_suds_boundary_suite.py",
     "experiments/tools/run_suds_adc_macro_spice_suite.py",
+    "docs/reports/20260512_j1_suds_adc_macro_spice_suite.md",
     "scripts/check_public_repro_repo.py"
   ],
   "copy_dirs": [

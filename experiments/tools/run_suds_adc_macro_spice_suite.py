@@ -227,7 +227,12 @@ def write_decks(args: argparse.Namespace, cases: list[PlannedCase]) -> dict[tupl
         for case in cases:
             deck_path = deck_dir / f"{case.case_id}.cir"
             trace_path = trace_dir / f"{case.case_id}.csv"
-            text = ngspice_deck(case, args, trace_path) if simulator == "ngspice" else xyce_deck(case, args, trace_path)
+            trace_path_for_deck = Path(rel(trace_path))
+            text = (
+                ngspice_deck(case, args, trace_path_for_deck)
+                if simulator == "ngspice"
+                else xyce_deck(case, args, trace_path_for_deck)
+            )
             deck_path.write_text(text, encoding="utf-8")
             decks[(simulator, case.case_id)] = deck_path
     write_sweep_matrix(args.deck_root / "generated" / args.tag / "sweep_matrix.csv", cases)

@@ -15,5 +15,5 @@ Csample afe 0 2.000000000000e-15
 Iadc vdd 0 PULSE(0 5.555555555556e-03 0 2.500000000000e-12 2.500000000000e-12 4.500000000000e-11 2.500000000000e-10)
 
 .TRAN 7.812500000000e-12 3.200000000000e-08
-.PRINT TRAN FORMAT=CSV FILE="/Users/jk6k/Desktop/fyp/experiments/results/runs/suds_adc_macro_spice_20260512_j1_quality_boost/xyce/traces/adc6_ramp_combined_stress.csv" TIME V(in) V(afe) I(Vvdd)
+.PRINT TRAN FORMAT=CSV FILE="experiments/results/runs/suds_adc_macro_spice_20260512_j1_quality_boost/xyce/traces/adc6_ramp_combined_stress.csv" TIME V(in) V(afe) I(Vvdd)
 .END

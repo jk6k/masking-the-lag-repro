@@ -19,7 +19,7 @@ set filetype=ascii
 set wr_singlescale
 set wr_vecnames
 tran 6.250000000000e-11 2.560000000000e-07
-wrdata /Users/jk6k/Desktop/fyp/experiments/results/runs/suds_adc_macro_spice_20260512_j1_quality_boost/ngspice/traces/adc6_sine_low_rate.csv time v(in) v(afe) i(Vvdd)
+wrdata experiments/results/runs/suds_adc_macro_spice_20260512_j1_quality_boost/ngspice/traces/adc6_sine_low_rate.csv time v(in) v(afe) i(Vvdd)
 quit
 .endc
 
