@@ -57,8 +57,8 @@
     },
     {
       "path": "docs/reports/20260512_j1_suds_adc_macro_spice_suite.md",
-      "sha256": "1596cf9073e83ebccf05a798017ce724bf1dc7ec04924a88fbc6947c67affa56",
-      "size_bytes": 2791
+      "sha256": "1bec16966e974b120f83d325c46802fe0e7d860052b629fcd4dfaad1f4a63cc8",
+      "size_bytes": 3154
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",
@@ -692,8 +692,8 @@
     },
     {
       "path": "experiments/tools/run_suds_adc_macro_spice_suite.py",
-      "sha256": "03c156c3c16b105b19fa1e39b888a3943b5ec8c352d12ce0a0bbd40b8b6c47a9",
-      "size_bytes": 23964
+      "sha256": "28d3084cf875c2481e0cfa6b97a450fcdf70743992307b217148481a137d1269",
+      "size_bytes": 24327
     },
     {
       "path": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",

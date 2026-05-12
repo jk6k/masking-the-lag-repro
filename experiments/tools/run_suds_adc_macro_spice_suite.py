@@ -511,6 +511,14 @@ Execution status: `{execution_status}`.
 - Deck root: `{rel(args.deck_root / 'generated' / tag)}`
 - Sweep matrix: `{rel(args.deck_root / 'generated' / tag / 'sweep_matrix.csv')}`
 
+## Public Reproduction Contract
+
+The generated decks use repository-relative trace paths so the same command can
+be run from the public reproduction package without embedding private local
+paths. If `ngspice`/`xyce` is absent in the public environment, the regenerated
+CSV/JSON/report remain checksum-stable blocker artifacts with promotion
+decision `boundary`.
+
 ## Nominal ADC-Tier Rows
 
 | ADC bits | Status | Expected energy ratio vs 8-bit | Measured energy ratio vs 8-bit | ENOB | SNDR |

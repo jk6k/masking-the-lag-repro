@@ -30,6 +30,14 @@ Execution status: `blocked_tool_missing`.
 - Deck root: `experiments/spice/suds_adc_macro/generated/20260512_j1_quality_boost`
 - Sweep matrix: `experiments/spice/suds_adc_macro/generated/20260512_j1_quality_boost/sweep_matrix.csv`
 
+## Public Reproduction Contract
+
+The generated decks use repository-relative trace paths so the same command can
+be run from the public reproduction package without embedding private local
+paths. If `ngspice`/`xyce` is absent in the public environment, the regenerated
+CSV/JSON/report remain checksum-stable blocker artifacts with promotion
+decision `boundary`.
+
 ## Nominal ADC-Tier Rows
 
 | ADC bits | Status | Expected energy ratio vs 8-bit | Measured energy ratio vs 8-bit | ENOB | SNDR |
