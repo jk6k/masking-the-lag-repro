@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import subprocess
 import time
@@ -322,6 +323,19 @@ def claim_scan_summary(command_rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def paper_pdf_summary() -> dict[str, Any]:
+    path = REPO_ROOT / "paper/suds_paper_acmart.pdf"
+    if not path.is_file():
+        return {"status": "missing", "path": repo_path(path), "sha256": "", "size_bytes": 0}
+    data = path.read_bytes()
+    return {
+        "status": "present",
+        "path": repo_path(path),
+        "sha256": hashlib.sha256(data).hexdigest(),
+        "size_bytes": len(data),
+    }
+
+
 def gate_decision(command_rows: list[dict[str, Any]], artifacts: list[dict[str, Any]]) -> dict[str, Any]:
     command_failures = [
         row["check_id"]
@@ -415,6 +429,7 @@ def write_json(
     command_rows: list[dict[str, Any]],
     artifacts: list[dict[str, Any]],
     claim_scan: dict[str, Any],
+    paper_pdf: dict[str, Any],
     decision: dict[str, Any],
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -435,6 +450,7 @@ def write_json(
             ),
         },
         "decision": decision,
+        "paper_pdf": paper_pdf,
         "claim_scan": claim_scan,
         "commands": command_rows,
         "artifacts": artifacts,
@@ -449,6 +465,7 @@ def write_report(
     command_rows: list[dict[str, Any]],
     artifacts: list[dict[str, Any]],
     claim_scan: dict[str, Any],
+    paper_pdf: dict[str, Any],
     decision: dict[str, Any],
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -462,6 +479,7 @@ Promotion decision: `{decision['promotion_decision']}`
 
 - Active package: `{decision['active_package']}`
 - Fallback: `{decision['fallback']}`
+- Final PDF: `{paper_pdf['path']}` (`{paper_pdf['sha256']}`, `{paper_pdf['size_bytes']}` bytes)
 - SPICE policy: {decision['spice_policy']}
 - Command failures: `{';'.join(decision['command_failures'])}`
 - Artifact blockers: `{';'.join(decision['artifact_blockers'])}`
@@ -512,6 +530,7 @@ def main() -> None:
         command_rows = skipped_rows()
     artifacts = artifact_rows()
     claim_scan = claim_scan_summary(command_rows)
+    paper_pdf = paper_pdf_summary()
     decision = gate_decision(command_rows, artifacts)
     write_csv(args.csv_out, command_rows, artifacts)
     write_json(
@@ -520,6 +539,7 @@ def main() -> None:
         command_rows=command_rows,
         artifacts=artifacts,
         claim_scan=claim_scan,
+        paper_pdf=paper_pdf,
         decision=decision,
     )
     write_report(
@@ -528,6 +548,7 @@ def main() -> None:
         command_rows=command_rows,
         artifacts=artifacts,
         claim_scan=claim_scan,
+        paper_pdf=paper_pdf,
         decision=decision,
     )
     print(f"wrote {args.csv_out}")
