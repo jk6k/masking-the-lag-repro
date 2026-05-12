@@ -297,8 +297,8 @@
     },
     {
       "path": "experiments/tools/render_suds_figures.py",
-      "sha256": "6122766c4118f8b9fb8f467a6d1a97ace82c1b3a29ebed38dea02ae29a5512cf",
-      "size_bytes": 34077
+      "sha256": "cf905015319c2d31b94a1c3932e510e2f0c11cb2ed4291e4d4a5a40d75c7afc4",
+      "size_bytes": 38349
     },
     {
       "path": "experiments/tools/render_suds_maxq_fig6_ablation.py",

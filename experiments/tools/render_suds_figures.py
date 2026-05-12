@@ -31,6 +31,7 @@ RUN_TAG = "20260510_suds_q2_repaired"
 TRACEABILITY_NAME = "figure_traceability.csv"
 REGISTRY_NAME = "figure_numbering_registry.csv"
 VALIDATION_CSV = ROOT / "experiments/results/report_data/suds_bounded_mps_validation_20260510.csv"
+P2P3_PHY_BOUNDARY_CSV = ROOT / "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv"
 
 FIG1_SRC_PDF = ROOT / "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf"
 FIG1_SRC_PNG = ROOT / "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.png"
@@ -177,12 +178,12 @@ FIGURES: dict[str, FigureMeta] = {
     "appf4": FigureMeta(
         "AppF4",
         "appendix",
-        "Parametric PHY link-budget check",
+        "P3 PHY pass/fail boundary",
         "AppF4_ParametricPHYCheck",
         "data_figure",
-        "parametric_supporting",
-        "experiments/results/runs/phase_f/phase_f_summary.json",
-        "Parametric optical link-budget check only; not SPICE-level or silicon PHY closure.",
+        "parametric_boundary",
+        "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
+        "576-row optical link-budget pass/fail boundary; not SPICE-level or silicon PHY closure.",
     ),
 }
 
@@ -652,6 +653,87 @@ def render_appf3(data: dict[str, Any], output_dir: Path) -> dict[str, str]:
 
 def render_appf4(data: dict[str, Any], output_dir: Path) -> dict[str, str]:
     meta = FIGURES["appf4"]
+    if P2P3_PHY_BOUNDARY_CSV.is_file():
+        rows: list[dict[str, Any]] = []
+        with P2P3_PHY_BOUNDARY_CSV.open("r", encoding="utf-8", newline="") as handle:
+            for row in csv.DictReader(handle):
+                rows.append(
+                    {
+                        "er_db": float(row["er_db"]),
+                        "xtalk_db": float(row["xtalk_db"]),
+                        "margin_db": float(row["margin_db"]),
+                        "effective_wdm_channels": float(row["effective_wdm_channels"]),
+                        "p_laser_mw": float(row["p_laser_mw"]),
+                        "laser_limit_mw": float(row["laser_limit_mw"]),
+                        "pass": row["boundary_status"] == "pass",
+                    }
+                )
+        if not rows:
+            raise ValueError(f"No PHY boundary rows found in {P2P3_PHY_BOUNDARY_CSV}")
+
+        margins = sorted({row["margin_db"] for row in rows})
+        pass_counts = [sum(1 for row in rows if row["margin_db"] == margin and row["pass"]) for margin in margins]
+        fail_counts = [sum(1 for row in rows if row["margin_db"] == margin and not row["pass"]) for margin in margins]
+        xtalks = sorted({row["xtalk_db"] for row in rows})
+        ers = sorted({row["er_db"] for row in rows})
+        rate_matrix = np.zeros((len(ers), len(xtalks)))
+        for i, er in enumerate(ers):
+            for j, xtalk in enumerate(xtalks):
+                bucket = [row for row in rows if row["er_db"] == er and row["xtalk_db"] == xtalk]
+                rate_matrix[i, j] = sum(1 for row in bucket if row["pass"]) / len(bucket)
+
+        fig, axes = plt.subplots(1, 3, figsize=(7.16, 2.35))
+        x = np.arange(len(margins))
+        axes[0].bar(x, pass_counts, color=COLORS["E4"], label="pass")
+        axes[0].bar(x, fail_counts, bottom=pass_counts, color=COLORS["PRUNE"], hatch="//", label="fail")
+        axes[0].set_xticks(x, [f"{margin:.0f}" for margin in margins])
+        axes[0].set_xlabel("Margin (dB)")
+        axes[0].set_ylabel("Rows")
+        axes[0].set_title("(a) Pass/fail by margin")
+        axes[0].legend(frameon=False, loc="lower right", bbox_to_anchor=(1.0, 1.01), ncol=2, handlelength=1.2, columnspacing=0.8)
+
+        pass_rows = [row for row in rows if row["pass"]]
+        fail_rows = [row for row in rows if not row["pass"]]
+        axes[1].scatter(
+            [row["effective_wdm_channels"] for row in pass_rows],
+            [row["p_laser_mw"] for row in pass_rows],
+            s=12,
+            marker="o",
+            color=COLORS["E4"],
+            alpha=0.55,
+            label="pass",
+        )
+        axes[1].scatter(
+            [row["effective_wdm_channels"] for row in fail_rows],
+            [row["p_laser_mw"] for row in fail_rows],
+            s=14,
+            marker="x",
+            color=COLORS["PRUNE"],
+            alpha=0.75,
+            label="fail",
+        )
+        limit_mw = rows[0]["laser_limit_mw"]
+        axes[1].axhline(limit_mw, color=COLORS["BASE"], linestyle="--", linewidth=0.8, label=f"{limit_mw:.3f} mW limit")
+        axes[1].set_xlabel("Effective WDM channels")
+        axes[1].set_ylabel("Laser power (mW)")
+        axes[1].set_title("(b) Laser boundary")
+        axes[1].legend(frameon=False, loc="upper left")
+
+        heat = axes[2].imshow(rate_matrix, vmin=0.0, vmax=1.0, cmap="YlGnBu", aspect="auto")
+        axes[2].set_xticks(np.arange(len(xtalks)), [f"{xtalk:.0f}" for xtalk in xtalks])
+        axes[2].set_yticks(np.arange(len(ers)), [f"{er:.0f}" for er in ers])
+        axes[2].set_xlabel("Crosstalk (dB)")
+        axes[2].set_ylabel("ER (dB)")
+        axes[2].set_title("(c) Pass-rate surface")
+        for i in range(len(ers)):
+            for j in range(len(xtalks)):
+                axes[2].text(j, i, f"{rate_matrix[i, j] * 100:.0f}%", ha="center", va="center", fontsize=6.4)
+        cbar = fig.colorbar(heat, ax=axes[2], fraction=0.046, pad=0.03)
+        cbar.set_label("Pass rate")
+        fig.suptitle("P3 PHY pass/fail boundary (576 rows)", y=1.04, fontsize=10)
+        fig.tight_layout()
+        return save_multi(fig, output_dir, meta.canonical_stem)
+
     phy_config = data.get("phase_f", {}).get("phy_config", {})
     configs = selected_configs(data.get("phase_c", {}))
     if not configs:
