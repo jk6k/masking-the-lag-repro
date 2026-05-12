@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "tag": "20260512_j5_quality_boost",
+    "artifact_id": "suds_internal_red_team_20260512_j5_quality_boost",
+    "review_type": "internal_red_team",
+    "evidence_label": "audit",
+    "promotion_decision": "audit",
+    "regeneration_command": ".venv311-mps/bin/python experiments/tools/build_suds_internal_red_team.py --tag 20260512_j5_quality_boost",
+    "not_external_validation": true,
+    "claim_boundary": "Internal multi-lens quality-control review only; not independent external validation, not reviewer approval, and not a basis for circuit-closure or hardware-energy claims."
+  },
+  "acceptance": {
+    "lens_count": 4,
+    "finding_count": 8,
+    "do_not_use_count": 0,
+    "accepted_risk_blocks_jetc_count": 0,
+    "accepted": true
+  },
+  "review_packet": [
+    "paper/suds_paper_acmart.pdf",
+    "experiments/results/report_data/suds_c1_survey_manifest_20260511.json",
+    "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.json",
+    "experiments/results/report_data/suds_mobilevit_multimodel_validation_20260511_p2p3_quality.json",
+    "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.json",
+    "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.json",
+    "docs/reports/20260512_j1_suds_adc_macro_spice_suite.md",
+    "experiments/results/report_data/suds_rtl_control_overhead_20260512_j2_quality_boost.json",
+    "docs/reports/20260512_j2_quality_boost_suds_rtl_control_overhead.md",
+    "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.json",
+    "configs/public_repro_manifest.json"
+  ],
+  "required_questions": {
+    "Q1": "Is novelty clear after acknowledging HyAtten, ENLighten, Lightening-Transformer, ASTRA, SCATTER, serving schedulers, and approximate computing?",
+    "Q2": "Does the paper ever imply slack is semantic importance?",
+    "Q3": "Does SPICE evidence reduce concern, or invite circuit-reviewer rejection by overclaiming?",
+    "Q4": "Is E6 beating E7 handled as a strength of the composition story?",
+    "Q5": "Are measured accuracy and modeled energy clearly separated?",
+    "Q6": "Is the paper too long or too appendix-heavy for JETC?",
+    "Q7": "Would the paper survive if C1 were downgraded from novelty proof to scoped motivation?",
+    "Q8": "Does the ADC-Tier Calibration anchor make SPICE visible enough without inviting circuit-closure review?"
+  },
+  "paper_scan": {
+    "paper_path": "paper/suds_paper_acmart.tex",
+    "adc_tier_anchor_count": 1,
+    "term_counts": {
+      "ADC-Tier Calibration": 1,
+      "SPICE closure": 1,
+      "silicon measurement": 2,
+      "measured hardware energy": 4,
+      "slack-only superiority": 2,
+      "scoped motivation": 0,
+      "not slack-only superiority": 2
+    },
+    "has_compact_adc_anchor": true,
+    "has_p3_boundary_table": true
+  },
+  "artifact_summary": {
+    "j1_adc_macro": {
+      "present": true,
+      "evidence_label": "spice_macro",
+      "promotion_decision": "appendix",
+      "execution_status": "measured"
+    },
+    "j2_rtl": {
+      "present": true,
+      "evidence_label": "rtl_synthesis",
+      "promotion_decision": "appendix",
+      "yosys_status": "pass"
+    },
+    "p2p3_gate": {
+      "present": true,
+      "promotion_decision": "do_not_replace_main_freeze",
+      "jetc_route": "keep_20260511_suds_maxq_as_submission_baseline"
+    }
+  },
+  "rows": [
+    {
+      "finding_id": "J5-A1",
+      "lens": "architecture_ai_accelerator",
+      "question_ids": "Q1;Q2;Q4;Q7",
+      "severity": "medium",
+      "finding": "Novelty is strongest when stated as a scheduler-to-accelerator budget interface, not as priority over slack/deadline scheduling, approximate computing, or photonic pruning.",
+      "evidence_checked": "adjacent-work table; C1 scoped survey text; E6/E7 ablation text; conclusion boundary",
+      "disposition": "fixed",
+      "required_action": "Keep adjacent-work boundary table and composition wording; do not say slack is semantic importance or slack-only superiority.",
+      "promotion_effect": "main_text wording is eligible; no broader novelty claim promoted",
+      "accepted_risk_blocks_jetc": "false"
+    },
+    {
+      "finding_id": "J5-A2",
+      "lens": "architecture_ai_accelerator",
+      "question_ids": "Q4",
+      "severity": "low",
+      "finding": "E6 L1-signal beating E7 could look like a failed SUDS result unless framed as evidence for composition with local selectors.",
+      "evidence_checked": "abstract; C5 contribution; full MPS ablation figure caption; validation-scope limitation",
+      "disposition": "fixed",
+      "required_action": "Leave E6 stronger than E7 in the abstract and limitations; present the measured claim as composition, not slack-only superiority.",
+      "promotion_effect": "strengthens honesty of measured validation",
+      "accepted_risk_blocks_jetc": "false"
+    },
+    {
+      "finding_id": "J5-C1",
+      "lens": "photonic_circuit",
+      "question_ids": "Q3;Q5;Q8",
+      "severity": "high",
+      "finding": "The ngspice ADC macro evidence reduces ADC-energy-model skepticism only if it remains macro calibration, not silicon, PDK, extracted-layout, measured hardware-energy, or SPICE closure evidence.",
+      "evidence_checked": "J1 CSV/JSON/report; ADC-Tier Calibration anchor; P3 boundary table; limitations",
+      "disposition": "fixed",
+      "required_action": "Keep one compact ADC-Tier Calibration anchor in main text; keep decks, stress rows, traces, and regeneration command in appendix/report artifacts.",
+      "promotion_effect": "appendix support only; no circuit-closure promotion",
+      "accepted_risk_blocks_jetc": "false"
+    },
+    {
+      "finding_id": "J5-C2",
+      "lens": "photonic_circuit",
+      "question_ids": "Q3;Q5",
+      "severity": "medium",
+      "finding": "Yosys synthesis materially improves RTL existence evidence, but timing, gate-equivalent area, and power are still proxy because there is no liberty/OpenROAD/place-and-route lane.",
+      "evidence_checked": "J2 RTL synthesis JSON/report; P3 boundary table; limitations",
+      "disposition": "boundary",
+      "required_action": "Use rtl_synthesis for the block existence check and keep timing/GE/power wording as proxy overhead accounting.",
+      "promotion_effect": "appendix overhead evidence; not implementation closure",
+      "accepted_risk_blocks_jetc": "false"
+    },
+    {
+      "finding_id": "J5-S1",
+      "lens": "systems_serving",
+      "question_ids": "Q1;Q2;Q7",
+      "severity": "medium",
+      "finding": "Serving-scheduler reviewers may read SUDS as a scheduling algorithm unless the interface boundary remains explicit.",
+      "evidence_checked": "adjacent-work table; related-work boundary audit; generalisation procedure",
+      "disposition": "accepted-risk",
+      "required_action": "Maintain wording that serving schedulers manage requests/batches while SUDS exposes an accelerator-internal control surface they could call.",
+      "promotion_effect": "non-blocking risk; paper remains methodology contribution",
+      "accepted_risk_blocks_jetc": "false"
+    },
+    {
+      "finding_id": "J5-S2",
+      "lens": "systems_serving",
+      "question_ids": "Q5;Q6",
+      "severity": "low",
+      "finding": "The appendix is dense, but moving full SPICE decks or stress matrices into the main body would hurt JETC fit.",
+      "evidence_checked": "results section; appendix P2/P3 tables; J1 report",
+      "disposition": "fixed",
+      "required_action": "Keep only compact ADC-tier anchor in the main text and leave full deck/stress/regeneration details in report/supplement.",
+      "promotion_effect": "main text stays focused",
+      "accepted_risk_blocks_jetc": "false"
+    },
+    {
+      "finding_id": "J5-R1",
+      "lens": "reproducibility_artifact",
+      "question_ids": "Q5;Q8",
+      "severity": "high",
+      "finding": "Public reproduction must regenerate the ADC macro suite without private paths, private data, weights, commercial EDA, or PDK dependencies.",
+      "evidence_checked": "public repro manifest; J1 deck paths; public-repro-check result",
+      "disposition": "fixed",
+      "required_action": "Keep deck trace paths repo-relative; expose ngspice as an optional open-source dependency; record Xyce absence as a tool blocker rather than silent fallback.",
+      "promotion_effect": "supports supplement/public repro inclusion",
+      "accepted_risk_blocks_jetc": "false"
+    },
+    {
+      "finding_id": "J5-R2",
+      "lens": "reproducibility_artifact",
+      "question_ids": "Q6;Q7",
+      "severity": "medium",
+      "finding": "C1 remains useful if downgraded from novelty proof to scoped motivation because the paper already argues an interface gap within a frozen technical subset.",
+      "evidence_checked": "C1 survey manifest; systematic literature evidence text; adjacent-work boundary",
+      "disposition": "accepted-risk",
+      "required_action": "Do not strengthen C1 beyond the frozen 167-item SUDS technical subset; keep venue/routing cards out of C1 evidence.",
+      "promotion_effect": "non-blocking positioning risk",
+      "accepted_risk_blocks_jetc": "false"
+    }
+  ]
+}

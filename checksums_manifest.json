@@ -3,7 +3,7 @@
   "algorithm": "sha256",
   "freeze_tag": "20260511_suds_maxq",
   "generated_by": "scripts/build_public_repro_repo.py",
-  "file_count": 147,
+  "file_count": 163,
   "files": [
     {
       "path": ".gitattributes",
@@ -52,13 +52,33 @@
     },
     {
       "path": "configs/public_repro_manifest.json",
-      "sha256": "c206296b70173330e9f70fbef40f991ffc7c4de170082bf7635774e777518310",
-      "size_bytes": 15087
+      "sha256": "ac4753b5408e6f06ebe7daac67049b029589a2d897e751285afd0e2bedc84416",
+      "size_bytes": 18106
+    },
+    {
+      "path": "docs/reports/20260512_j0_suds_baseline_protection.md",
+      "sha256": "ae2b6f92637d5738b09a3effdb47a39760bc43aed63929b9c60db790182afa7a",
+      "size_bytes": 2312
     },
     {
       "path": "docs/reports/20260512_j1_suds_adc_macro_spice_suite.md",
-      "sha256": "1bec16966e974b120f83d325c46802fe0e7d860052b629fcd4dfaad1f4a63cc8",
-      "size_bytes": 3154
+      "sha256": "399dc406ad4cae8cfd430567b596d29f69cb2716886c907da7e5419cdb138c36",
+      "size_bytes": 3136
+    },
+    {
+      "path": "docs/reports/20260512_j2_quality_boost_suds_rtl_control_overhead.md",
+      "sha256": "fa4355129ed3b3e55d330031f9b008c7d9998dcd1b956a1e1ce638a76c34f93d",
+      "size_bytes": 2382
+    },
+    {
+      "path": "docs/reports/20260512_j5_suds_internal_red_team.md",
+      "sha256": "59f5f6e150478c6c14af88f04c7b5484b16becf6408cde828431ef6bcebd80e6",
+      "size_bytes": 5779
+    },
+    {
+      "path": "experiments/hardware/suds_control_plane.v",
+      "sha256": "66b6ba76a88b18486984e7db99c4fc60042dd8871bb5ea833800ac6f939b5d0a",
+      "size_bytes": 1634
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",
@@ -77,13 +97,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
-      "sha256": "be17be9ccb2a5043bf597e79cb2c259d534b41b275d8ef6cef66eaf54e1cfbe3",
-      "size_bytes": 22067
+      "sha256": "b603c1688698e5a6a513edd438809fbb5b0e7cd919b4245f3124ac8f77123dce",
+      "size_bytes": 24771
     },
     {
       "path": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.json",
-      "sha256": "8970a725114483ea0f36b6b99c1695df924907ea154c5c97e672c2c2d8e863b7",
-      "size_bytes": 46069
+      "sha256": "c73d6c900da6ad69196d0f7e0b48fa0ead5e8c4351f4dd5644db97ec60a0745b",
+      "size_bytes": 48213
     },
     {
       "path": "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.csv",
@@ -166,6 +186,26 @@
       "size_bytes": 7753
     },
     {
+      "path": "experiments/results/report_data/suds_internal_red_team_20260512_j5_quality_boost.csv",
+      "sha256": "8876c123cb044f03385e54c5db704484beafeedb6be985e419d28e91f73fef6c",
+      "size_bytes": 3791
+    },
+    {
+      "path": "experiments/results/report_data/suds_internal_red_team_20260512_j5_quality_boost.json",
+      "sha256": "229756e2bacbb29b1a0b904bbacbec02cd2fb28ca615c6ad182860ca581a44c6",
+      "size_bytes": 9194
+    },
+    {
+      "path": "experiments/results/report_data/suds_j0_baseline_protection_20260512_j0_quality_boost.csv",
+      "sha256": "ee99ca3672c3f095a14cb195218177c481bac971b376f978802a324ee4333bc1",
+      "size_bytes": 1426
+    },
+    {
+      "path": "experiments/results/report_data/suds_j0_baseline_protection_20260512_j0_quality_boost.json",
+      "sha256": "e233a7a23413d71dbd50fae25798c407685a15ad7022ece0225c3731b5846be7",
+      "size_bytes": 3751
+    },
+    {
       "path": "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.csv",
       "sha256": "8887673f6a5a5eebbc47c72069638255e111840ac8545ef78beb9224be3dd590",
       "size_bytes": 16408
@@ -236,6 +276,16 @@
       "size_bytes": 15965
     },
     {
+      "path": "experiments/results/report_data/suds_rtl_control_overhead_20260512_j2_quality_boost.csv",
+      "sha256": "2e4ccf332e8f7963573a7acb3526049d472ba8933723f0aeeb2472668114719c",
+      "size_bytes": 8215
+    },
+    {
+      "path": "experiments/results/report_data/suds_rtl_control_overhead_20260512_j2_quality_boost.json",
+      "sha256": "99309cffaf4562f4cefc2cff7dd07ee905ff9192d810c4ed3e6f8f7e9f56f0b1",
+      "size_bytes": 23625
+    },
+    {
       "path": "experiments/results/review/20260511_suds_maxq_public/data_review_report.md",
       "sha256": "4da8f81c9526f82e3ecb7f92af7311e9456d08535070c982adda718bf097488b",
       "size_bytes": 1031
@@ -284,6 +334,21 @@
       "path": "experiments/results/runs/slack_manifest.json",
       "sha256": "e47e47e8bb10630c8547646c1d87e17b7948ee908fa8368ea6ba7f84e3e692c3",
       "size_bytes": 708617
+    },
+    {
+      "path": "experiments/results/runs/suds_rtl_control_overhead_20260512_j2_quality_boost/suds_control_plane_synth.json",
+      "sha256": "00d372a212be91f48b06b627211687d58b2323b3a4652749df488d17764b72c5",
+      "size_bytes": 91543
+    },
+    {
+      "path": "experiments/results/runs/suds_rtl_control_overhead_20260512_j2_quality_boost/suds_control_plane_synth.v",
+      "sha256": "6f5ffb4f020701f8492e39a18e2feb9ba660fc0330c58d238ae9a43c05f5042a",
+      "size_bytes": 10533
+    },
+    {
+      "path": "experiments/results/runs/suds_rtl_control_overhead_20260512_j2_quality_boost/yosys_synthesis.log",
+      "sha256": "06d5e2173a862cfb687df541bcab047f44f28a793e58151e6fa388beaff49c73",
+      "size_bytes": 25832
     },
     {
       "path": "experiments/spice/suds_adc_macro/README.md",
@@ -666,9 +731,24 @@
       "size_bytes": 15633
     },
     {
+      "path": "experiments/tools/build_suds_final_submission_gate.py",
+      "sha256": "69cf40be4936d4c24ed2b5e0e69b354eb479a035bd937122e854ac6d2ca10ce0",
+      "size_bytes": 17187
+    },
+    {
       "path": "experiments/tools/build_suds_interface_overhead.py",
       "sha256": "30b3b6fb5ad34a0734e5f6451e786a3a997e39727dff79a10e086748b80246b4",
       "size_bytes": 19401
+    },
+    {
+      "path": "experiments/tools/build_suds_internal_red_team.py",
+      "sha256": "ea89bb8452aed77bb97c8090ac54ff31a8cb5aa2f9293a210f30dad94735b82b",
+      "size_bytes": 17445
+    },
+    {
+      "path": "experiments/tools/build_suds_rtl_control_overhead.py",
+      "sha256": "60b20f886156cee2f00c50b4c4d17a5a6909b631c79e6dd51f4b5fe617e1a99b",
+      "size_bytes": 12050
     },
     {
       "path": "experiments/tools/check_figure_numbering_registry.py",
@@ -692,8 +772,8 @@
     },
     {
       "path": "experiments/tools/run_suds_adc_macro_spice_suite.py",
-      "sha256": "28d3084cf875c2481e0cfa6b97a450fcdf70743992307b217148481a137d1269",
-      "size_bytes": 24327
+      "sha256": "6ef681aa77b13787cc6eeb1f8982f71e86d1a340534af55ac294535f4dfcf9cb",
+      "size_bytes": 25852
     },
     {
       "path": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",

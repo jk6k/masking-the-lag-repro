@@ -2,7 +2,7 @@
 
 Tag: `20260512_j1_quality_boost`
 Evidence label: `spice_macro`
-Promotion decision: `boundary`
+Promotion decision: `appendix`
 
 ## Scope
 
@@ -16,11 +16,11 @@ or SPICE-closure claim.
 
 | Tool | PATH result |
 |---|---|
-| ngspice | `not_found` |
+| ngspice | `/opt/homebrew/bin/ngspice` |
 | Xyce/xyce | `not_found` |
-| chosen simulator | `none` |
+| chosen simulator | `ngspice` |
 
-Execution status: `blocked_tool_missing`.
+Execution status: `measured`.
 
 ## Artifacts
 
@@ -42,9 +42,9 @@ decision `boundary`.
 
 | ADC bits | Status | Expected energy ratio vs 8-bit | Measured energy ratio vs 8-bit | ENOB | SNDR |
 |---:|---|---:|---:|---:|---:|
-| 4 | `blocked_tool_missing` | 0.0625 | NA | NA | NA |
-| 6 | `blocked_tool_missing` | 0.2500 | NA | NA | NA |
-| 8 | `blocked_tool_missing` | 1.0000 | NA | NA | NA |
+| 4 | `measured` | 0.0625 | 0.0625 | 3.80 | 24.7 |
+| 6 | `measured` | 0.2500 | 0.2500 | 5.84 | 36.9 |
+| 8 | `measured` | 1.0000 | 1.0000 | 8.03 | 50.1 |
 
 ## Stress Coverage
 
@@ -55,10 +55,10 @@ sine rows are intended for ENOB/SNDR sanity checks.
 
 ## Promotion Decision
 
-`boundary`. The current `20260511_suds_maxq` package remains the fallback
+`appendix`. The current `20260511_suds_maxq` package remains the fallback
 submission package. Because local `ngspice`/`xyce` execution is
-`blocked_tool_missing`, this report does not replace the existing
-`spice_proxy` ADC appendix artifact or justify any main-text hardware-closure
+`measured`, this report does not replace the existing
+`spice_macro` ADC appendix artifact or justify any main-text hardware-result
 wording.
 
 ## Compact Anchor Policy

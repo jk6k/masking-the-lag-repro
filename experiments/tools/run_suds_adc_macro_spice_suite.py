@@ -293,7 +293,9 @@ def parse_trace(path: Path) -> list[tuple[float, float, float, float]]:
                 parts.append(float(token))
             except ValueError:
                 pass
-        if len(parts) >= 4:
+        if len(parts) >= 5:
+            rows.append((parts[0], parts[2], parts[3], parts[4]))
+        elif len(parts) >= 4:
             rows.append((parts[0], parts[1], parts[2], parts[3]))
     return rows
 
@@ -415,6 +417,37 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer.writerows(rows)
 
 
+def normalize_measured_energy_ratios(rows: list[dict[str, Any]]) -> None:
+    baselines: dict[tuple[str, str, float, float, float], float] = {}
+    for row in rows:
+        if row["status"] != "measured" or row["adc_bits"] != 8:
+            continue
+        key = (
+            str(row["stimulus"]),
+            str(row["case_kind"]),
+            float(row["sample_rate_gsps"]),
+            float(row["mismatch_sigma_lsb"]),
+            float(row["clock_jitter_fs"]),
+        )
+        try:
+            baselines[key] = float(row["energy_per_conversion_pj"])
+        except (TypeError, ValueError):
+            pass
+    for row in rows:
+        if row["status"] != "measured":
+            continue
+        key = (
+            str(row["stimulus"]),
+            str(row["case_kind"]),
+            float(row["sample_rate_gsps"]),
+            float(row["mismatch_sigma_lsb"]),
+            float(row["clock_jitter_fs"]),
+        )
+        baseline = baselines.get(key)
+        if baseline and baseline > 0:
+            row["energy_ratio_vs_8bit"] = float(row["energy_per_conversion_pj"]) / baseline
+
+
 def write_json(
     path: Path,
     *,
@@ -528,9 +561,15 @@ decision `boundary`.
         measured_ratio = row["energy_ratio_vs_8bit"] if row["energy_ratio_vs_8bit"] != "" else "NA"
         enob = row["enob"] if row["enob"] != "" else "NA"
         sndr = row["sndr_db"] if row["sndr_db"] != "" else "NA"
+        measured_ratio_text = (
+            f"{float(measured_ratio):.4f}" if measured_ratio != "NA" else "NA"
+        )
+        enob_text = f"{float(enob):.2f}" if enob != "NA" else "NA"
+        sndr_text = f"{float(sndr):.1f}" if sndr != "NA" else "NA"
         report += (
             f"| {row['adc_bits']} | `{row['status']}` | "
-            f"{float(row['expected_energy_ratio_vs_8bit']):.4f} | {measured_ratio} | {enob} | {sndr} |\n"
+            f"{float(row['expected_energy_ratio_vs_8bit']):.4f} | {measured_ratio_text} | "
+            f"{enob_text} | {sndr_text} |\n"
         )
 
     report += f"""
@@ -621,6 +660,7 @@ def execute(args: argparse.Namespace) -> int:
                 metrics = compute_metrics(case, parse_trace(trace_path), args)
                 row.update(metrics)
             rows.append(row)
+        normalize_measured_energy_ratios(rows)
         execution_status = "measured" if all(row["status"] == "measured" for row in rows) else "partial_or_failed"
 
     write_csv(args.csv_out, rows)

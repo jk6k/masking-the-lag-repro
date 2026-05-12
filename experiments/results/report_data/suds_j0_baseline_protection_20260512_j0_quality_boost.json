@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "tag": "20260512_j0_quality_boost",
+    "artifact_id": "suds_j0_baseline_protection_20260512_j0_quality_boost",
+    "evidence_label": "audit",
+    "promotion_decision": "do_not_replace_main_freeze",
+    "fallback_freeze": "20260511_suds_maxq",
+    "git_hash": "cccd5e4eac6e59a8c7d5d1bd5eb2ff8e76e98e1f",
+    "pdf_sha256": "1e3b008520a1ac993f80bc0ad71fa22487260266ad40a9f4522d8e68c515b2d7",
+    "pdf_size_bytes": 6271357,
+    "pdf_mtime": "2026-05-12T23:16:01+0800",
+    "regeneration_commands": [
+      "git status --short --branch",
+      "caffeinate -dimsu make public-repro-build",
+      "caffeinate -dimsu make public-repro-check",
+      "caffeinate -dimsu make public-repro-render",
+      "cd paper && caffeinate -dimsu tectonic -X compile suds_paper_acmart.tex"
+    ],
+    "claim_boundary_note": "J0 protects the 20260511_suds_maxq fallback before J1 evidence. It is audit evidence only and does not promote new SPICE, silicon, PDK, extracted-layout, or measured hardware-energy claims."
+  },
+  "initial_pre_j1_worktree": [
+    "M configs/public_repro_manifest.json",
+    "M docs/coordination/active/README.md",
+    "M docs/reports/20260511_p2p3_quality_suds_external_red_team_rounds.md",
+    "M experiments/tools/render_suds_figures.py",
+    "M paper/suds_paper_acmart.pdf",
+    "M paper/suds_paper_acmart.tex",
+    "?? docs/coordination/active/SUDS_JETC_FINAL_QUALITY_BOOST_PLAN.md"
+  ],
+  "tool_availability": {
+    "ngspice": null,
+    "xyce": null,
+    "Xyce": null,
+    "python3": "/usr/bin/python3",
+    "make": "/usr/bin/make",
+    "git": "/opt/homebrew/bin/git"
+  },
+  "rows": [
+    {
+      "gate": "worktree_snapshot",
+      "command": "git status --short --branch",
+      "cwd": "/Users/jk6k/Desktop/fyp",
+      "status": "recorded_dirty_existing_changes",
+      "evidence_label": "audit",
+      "promotion_decision": "do_not_replace_main_freeze",
+      "note": "Existing modified/untracked files were recorded and not reverted before J1."
+    },
+    {
+      "gate": "public_repro_build",
+      "command": "caffeinate -dimsu make public-repro-build",
+      "cwd": "/Users/jk6k/Desktop/fyp",
+      "status": "pass",
+      "evidence_label": "audit",
+      "promotion_decision": "do_not_replace_main_freeze",
+      "note": "Wrote /Users/jk6k/Desktop/masking-the-lag-repro."
+    },
+    {
+      "gate": "public_repro_check",
+      "command": "caffeinate -dimsu make public-repro-check",
+      "cwd": "/Users/jk6k/Desktop/fyp",
+      "status": "pass",
+      "evidence_label": "audit",
+      "promotion_decision": "do_not_replace_main_freeze",
+      "note": "check_public_repro_repo reported 0 error(s)."
+    },
+    {
+      "gate": "public_repro_render",
+      "command": "caffeinate -dimsu make public-repro-render",
+      "cwd": "/Users/jk6k/Desktop/fyp",
+      "status": "pass",
+      "evidence_label": "audit",
+      "promotion_decision": "do_not_replace_main_freeze",
+      "note": "Public figure render completed through Fig6 and appendix figures."
+    },
+    {
+      "gate": "paper_compile",
+      "command": "caffeinate -dimsu tectonic -X compile suds_paper_acmart.tex",
+      "cwd": "/Users/jk6k/Desktop/fyp/paper",
+      "status": "pass",
+      "evidence_label": "audit",
+      "promotion_decision": "do_not_replace_main_freeze",
+      "note": "Tectonic wrote paper/suds_paper_acmart.pdf with TeX warnings only."
+    },
+    {
+      "gate": "spice_tool_check",
+      "command": "command -v ngspice; command -v xyce; command -v Xyce",
+      "cwd": "/Users/jk6k/Desktop/fyp",
+      "status": "blocked_tool_missing",
+      "evidence_label": "audit",
+      "promotion_decision": "boundary",
+      "note": "ngspice and Xyce/xyce were not found in PATH; J1 SPICE execution must record blocker/fallback."
+    }
+  ]
+}
