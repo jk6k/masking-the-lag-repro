@@ -49,6 +49,15 @@
       "blockers": ""
     },
     {
+      "artifact": "P2 GLUE expansion",
+      "phase": "p2_empirical",
+      "path": "experiments/results/report_data/suds_glue_measured_validation_20260511_p2p3_quality.json",
+      "status": "present",
+      "evidence_label": "measured",
+      "promotion_decision": "appendix",
+      "blockers": ""
+    },
+    {
       "artifact": "P3 ADC proxy",
       "phase": "p3_circuit",
       "path": "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.json",

@@ -91,7 +91,7 @@
       "control_target": "ADC tier, SC prefix length, PRUNE/DEGRADE/KEEP resource budget",
       "hardware_primitive": "quality-budget sideband interface for photonic/DPTC accelerator resources",
       "scheduler_slack_used": "yes",
-      "accuracy_evidence": "MobileViT measured validation; GLUE boundary smoke; pending P2 multi-model matrix",
+      "accuracy_evidence": "MobileViT measured validation including the completed P2 multi-model matrix; measured GLUE boundary expansion",
       "energy_evidence": "modeled/calibrated ADC-tier and conversion/peripheral energy; pending P3 proxy lanes",
       "suds_boundary": "methodology/case-study claim; not silicon, SPICE, or new photonic accelerator SOTA"
     }

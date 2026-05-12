@@ -3,7 +3,7 @@
   "algorithm": "sha256",
   "freeze_tag": "20260511_suds_maxq",
   "generated_by": "scripts/build_public_repro_repo.py",
-  "file_count": 67,
+  "file_count": 69,
   "files": [
     {
       "path": ".gitattributes",
@@ -52,8 +52,8 @@
     },
     {
       "path": "configs/public_repro_manifest.json",
-      "sha256": "7afbe672a472782dc7636e3fc57b5c72fc93b0dfbaaed4b0fa448f00b66b27ed",
-      "size_bytes": 13626
+      "sha256": "d614c2713d8c360ac5a8e7e11f5bdf215aca445c59c8036bd36e51568660c7b0",
+      "size_bytes": 14135
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",
@@ -121,6 +121,16 @@
       "size_bytes": 558739
     },
     {
+      "path": "experiments/results/report_data/suds_glue_measured_validation_20260511_p2p3_quality.csv",
+      "sha256": "5e79c252b8f91f6413effb4b58c800ee0b02eec6ad3dfac74c9eb75f8256ce7a",
+      "size_bytes": 97546
+    },
+    {
+      "path": "experiments/results/report_data/suds_glue_measured_validation_20260511_p2p3_quality.json",
+      "sha256": "727e499e23930b6bb42a00232598914445e2ef94679066a5250c7852d945e764",
+      "size_bytes": 2153585
+    },
+    {
       "path": "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.csv",
       "sha256": "fe9f44b7835e589e3732e9da47792afc1a738b1ba5ee5747a61a257e7531fd31",
       "size_bytes": 2543
@@ -177,8 +187,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_p2p3_submission_gate_20260511_p2p3_quality.json",
-      "sha256": "fcfbefaa3380c4fd22063d9be912660698b90868d376a298b3315acb16f66ac6",
-      "size_bytes": 3482
+      "sha256": "fbdd482f491a4300ab16dfeeb2bcff7e1e76af362aaa0b8bd6b2360d60e9d1f3",
+      "size_bytes": 3795
     },
     {
       "path": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
@@ -192,13 +202,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_related_work_boundary_matrix_20260511_p2p3_quality.csv",
-      "sha256": "8aed061e43d14da7eaf4850914c0969a8c03efb2cd7f1777fe3faeb7b03bfe0e",
-      "size_bytes": 2981
+      "sha256": "d0c7ce1a29a1d81a47ff6781175247dd74c5fbe9b62eafce98c7b092794f908a",
+      "size_bytes": 3009
     },
     {
       "path": "experiments/results/report_data/suds_related_work_boundary_matrix_20260511_p2p3_quality.json",
-      "sha256": "b724fef71e52693a14a4744e3440a9b852939bcb8d31a7e39d1553a5f4636e5e",
-      "size_bytes": 5195
+      "sha256": "395af064c5ef162c5754bf5833624fddf3707345cca2d47a386c94fa83699f9d",
+      "size_bytes": 5223
     },
     {
       "path": "experiments/results/report_data/suds_rtl_control_overhead_20260511_p2p3_quality.csv",
