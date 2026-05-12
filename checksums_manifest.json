@@ -97,12 +97,12 @@
     },
     {
       "path": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
-      "sha256": "b603c1688698e5a6a513edd438809fbb5b0e7cd919b4245f3124ac8f77123dce",
+      "sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
       "size_bytes": 24771
     },
     {
       "path": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.json",
-      "sha256": "c73d6c900da6ad69196d0f7e0b48fa0ead5e8c4351f4dd5644db97ec60a0745b",
+      "sha256": "aae658a97242df7d3e718f3fcfceb82070b6c8d9a5eb48417bf8c021ce51528c",
       "size_bytes": 48213
     },
     {
@@ -772,8 +772,8 @@
     },
     {
       "path": "experiments/tools/run_suds_adc_macro_spice_suite.py",
-      "sha256": "78d227471ffe5ca008969b69da10de1a23f2421081916e81863e571882b8f4b0",
-      "size_bytes": 25892
+      "sha256": "bf246f8350ca1aeffecf00c6deecb26ba6442891127bbc1193405e2a7bf28cf3",
+      "size_bytes": 25934
     },
     {
       "path": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",

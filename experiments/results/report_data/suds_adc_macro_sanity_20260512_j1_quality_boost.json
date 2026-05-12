@@ -47,7 +47,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -74,7 +74,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -101,7 +101,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -128,7 +128,7 @@
       "dnl_proxy_lsb": 0.625,
       "inl_proxy_lsb": 0.625,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -155,7 +155,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -182,7 +182,7 @@
       "dnl_proxy_lsb": 0.625,
       "inl_proxy_lsb": 0.625,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -209,7 +209,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -236,7 +236,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -263,7 +263,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -290,7 +290,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -317,7 +317,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -344,7 +344,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -371,7 +371,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -398,7 +398,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -425,7 +425,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -452,7 +452,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -479,7 +479,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -506,7 +506,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -533,7 +533,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -560,7 +560,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -587,7 +587,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -614,7 +614,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -641,7 +641,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -668,7 +668,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -695,7 +695,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -722,7 +722,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -749,7 +749,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -776,7 +776,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -803,7 +803,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -830,7 +830,7 @@
       "dnl_proxy_lsb": 0.5,
       "inl_proxy_lsb": 0.5,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -857,7 +857,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -884,7 +884,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -911,7 +911,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -938,7 +938,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -965,7 +965,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     },
@@ -992,7 +992,7 @@
       "dnl_proxy_lsb": 0.0,
       "inl_proxy_lsb": 0.0,
       "evidence_label": "spice_macro",
-      "promotion_decision": "boundary",
+      "promotion_decision": "appendix",
       "claim_boundary": "open-source ADC macro sanity deck for ADC-tier energy calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or SPICE closure",
       "regeneration_command": "python3 experiments/tools/run_suds_adc_macro_spice_suite.py --tag 20260512_j1_quality_boost"
     }

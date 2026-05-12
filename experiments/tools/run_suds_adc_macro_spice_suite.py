@@ -353,6 +353,7 @@ def compute_metrics(
     enob = max(0.0, (sndr_db - 1.76) / 6.02)
     return {
         "status": "measured",
+        "promotion_decision": "appendix",
         "energy_per_conversion_pj": energy_pj,
         "energy_ratio_vs_8bit": energy_pj / max(args.adc8_energy_pj, 1e-30),
         "latency_ps": expected_latency_ps(case.adc_bits, args.adc8_latency_ps, case.sample_rate_gsps),
