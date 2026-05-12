@@ -52,8 +52,8 @@
     },
     {
       "path": "configs/public_repro_manifest.json",
-      "sha256": "d614c2713d8c360ac5a8e7e11f5bdf215aca445c59c8036bd36e51568660c7b0",
-      "size_bytes": 14135
+      "sha256": "efdc2cadb33730255ac3e8e2c4e102b48c4dd01c44d5f8a3dce9f1b80afb7a5d",
+      "size_bytes": 14175
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",

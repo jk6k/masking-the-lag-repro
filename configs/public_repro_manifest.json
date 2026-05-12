@@ -1,11 +1,11 @@
 {
   "schema_version": 3,
   "workflow": "suds_q2",
-  "description": "Whitelist contract for exporting the anonymous SUDS MAX-Q supplementary reproduction package.",
+  "description": "Whitelist contract for exporting the anonymous SUDS MAX-Q supplementary reproduction package with compact P2/P3 appendix evidence.",
   "default_destination": "../masking-the-lag-repro",
   "remote_url": "",
   "freeze_tag": "20260511_suds_maxq",
-  "mechanism_evidence_tag": "20260511_suds_maxq",
+  "mechanism_evidence_tag": "20260511_p2p3_quality",
   "public_layers": {
     "phase_dir": "experiments/results/runs",
     "report_data_dir": "experiments/results/report_data",
