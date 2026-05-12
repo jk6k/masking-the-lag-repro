@@ -73,6 +73,8 @@
     "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.json",
     "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.csv",
     "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.json",
+    "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+    "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.json",
     "experiments/results/report_data/suds_rtl_control_overhead_20260511_p2p3_quality.csv",
     "experiments/results/report_data/suds_rtl_control_overhead_20260511_p2p3_quality.json",
     "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
@@ -97,6 +99,9 @@
     "experiments/tools/render_suds_maxq_fig6_ablation.py",
     "experiments/tools/build_suds_interface_overhead.py",
     "experiments/tools/build_suds_boundary_suite.py",
+    "experiments/tools/run_suds_adc_macro_spice_suite.py",
+    "experiments/spice/suds_adc_macro/README.md",
+    "experiments/spice/suds_adc_macro/generated/20260512_j1_quality_boost/sweep_matrix.csv",
     "scripts/check_public_repro_repo.py",
     "experiments/tests/test_public_repro_surface.py"
   ],
@@ -134,6 +139,8 @@
     "suds_hyatten_composition_ablation_20260511_p2p3_quality.json",
     "suds_adc_spice_calibration_20260511_p2p3_quality.csv",
     "suds_adc_spice_calibration_20260511_p2p3_quality.json",
+    "suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+    "suds_adc_macro_sanity_20260512_j1_quality_boost.json",
     "suds_rtl_control_overhead_20260511_p2p3_quality.csv",
     "suds_rtl_control_overhead_20260511_p2p3_quality.json",
     "suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
@@ -188,6 +195,8 @@
     "experiments/results/report_data/suds_hyatten_composition_ablation_20260511_p2p3_quality.json",
     "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.csv",
     "experiments/results/report_data/suds_adc_spice_calibration_20260511_p2p3_quality.json",
+    "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+    "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.json",
     "experiments/results/report_data/suds_rtl_control_overhead_20260511_p2p3_quality.csv",
     "experiments/results/report_data/suds_rtl_control_overhead_20260511_p2p3_quality.json",
     "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
@@ -208,9 +217,12 @@
     "experiments/tools/render_suds_maxq_fig6_ablation.py",
     "experiments/tools/build_suds_interface_overhead.py",
     "experiments/tools/build_suds_boundary_suite.py",
+    "experiments/tools/run_suds_adc_macro_spice_suite.py",
     "scripts/check_public_repro_repo.py"
   ],
-  "copy_dirs": [],
+  "copy_dirs": [
+    "experiments/spice/suds_adc_macro"
+  ],
   "review_files": [],
   "allowed_binary_files": [
     "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf",

@@ -1,0 +1,19 @@
+* SUDS ADC macro sanity deck for Xyce
+* Evidence label: spice_macro
+* Boundary: behavioral/macro deck for ADC-tier energy calibration only.
+* Not PDK, not extracted layout, not silicon, not measured hardware energy.
+
+.PARAM VDD=1.0
+.PARAM BITS=6
+.PARAM FS_GSPS=4
+.PARAM NCONV=128
+
+Vvdd vdd 0 {VDD}
+Vin in 0 PWL(0 0 3.200000000000e-08 1.0)
+Rsrc in afe 50
+Csample afe 0 2.000000000000e-15
+Iadc vdd 0 PULSE(0 5.555555555556e-03 0 2.500000000000e-12 2.500000000000e-12 4.500000000000e-11 2.500000000000e-10)
+
+.TRAN 7.812500000000e-12 3.200000000000e-08
+.PRINT TRAN FORMAT=CSV FILE="/Users/jk6k/Desktop/fyp/experiments/results/runs/suds_adc_macro_spice_20260512_j1_quality_boost/xyce/traces/adc6_ramp_high_rate.csv" TIME V(in) V(afe) I(Vvdd)
+.END

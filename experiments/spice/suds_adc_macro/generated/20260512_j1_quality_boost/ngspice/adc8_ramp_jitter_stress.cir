@@ -1,0 +1,26 @@
+* SUDS ADC macro sanity deck for ngspice
+* Evidence label: spice_macro
+* Boundary: behavioral/macro deck for ADC-tier energy calibration only.
+* Not PDK, not extracted layout, not silicon, not measured hardware energy.
+
+.param VDD=1.0
+.param BITS=8
+.param FS_GSPS=1
+.param NCONV=128
+
+Vvdd vdd 0 {VDD}
+Vin in 0 PWL(0 0 1.280000000000e-07 1.0)
+Rsrc in afe 50
+Csample afe 0 8.000000000000e-15
+Iadc vdd 0 PULSE(0 5.555555555556e-03 0 1.000000000000e-11 1.000000000000e-11 1.800000000000e-10 1.000000000000e-09)
+
+.control
+set filetype=ascii
+set wr_singlescale
+set wr_vecnames
+tran 3.125000000000e-11 1.280000000000e-07
+wrdata /Users/jk6k/Desktop/fyp/experiments/results/runs/suds_adc_macro_spice_20260512_j1_quality_boost/ngspice/traces/adc8_ramp_jitter_stress.csv time v(in) v(afe) i(Vvdd)
+quit
+.endc
+
+.end
