@@ -75,7 +75,7 @@
     {
       "gate": "paper_compile",
       "command": "caffeinate -dimsu tectonic -X compile suds_paper_acmart.tex",
-      "cwd": "/Users/jk6k/Desktop/fyp/paper",
+      "cwd": "paper",
       "status": "pass",
       "evidence_label": "audit",
       "promotion_decision": "do_not_replace_main_freeze",

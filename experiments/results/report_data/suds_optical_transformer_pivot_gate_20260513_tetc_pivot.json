@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "tag": "20260513_tetc_pivot",
+    "artifact_id": "suds_optical_transformer_pivot_gate_20260513_tetc_pivot",
+    "evidence_label": "audit",
+    "promotion_decision": "pivot_scaffolded_not_submission_ready",
+    "regeneration_command": "make suds-optical-transformer-pivot-gate"
+  },
+  "summary": {
+    "mobilevit": {
+      "present": true,
+      "completion_ratio": 1.0,
+      "measured_rows": 192,
+      "expected_rows": 192,
+      "models": [
+        "mobilevit_s",
+        "mobilevit_xs",
+        "mobilevit_xxs"
+      ],
+      "conditions": [
+        "e0_dense",
+        "e2_l1",
+        "e3_slack",
+        "e4_suds",
+        "e5_random",
+        "e6_signal",
+        "e7_overlay",
+        "e8_overflow"
+      ],
+      "mobilevit_s_max_abs_top1_drop_pp": 1.775,
+      "mobilevit_s_min_adc_ratio": 0.463
+    },
+    "glue": {
+      "present": true,
+      "tasks": [
+        "sst2",
+        "mrpc",
+        "mnli",
+        "qqp",
+        "qnli",
+        "rte"
+      ],
+      "conditions": [
+        "e0_dense",
+        "e2_l1",
+        "e3_slack",
+        "e4_suds",
+        "e7_overlay",
+        "e8_overflow"
+      ],
+      "devices": [
+        "mps"
+      ],
+      "max_abs_delta_primary_pp": 0.0,
+      "analytical_slack": true,
+      "promotion_decision": "appendix"
+    },
+    "hyatten": {
+      "present": true,
+      "models": [
+        "mobilevit_s",
+        "mobilevit_xs",
+        "mobilevit_xxs"
+      ],
+      "conditions": [
+        "composition_summary",
+        "e6_signal",
+        "e7_overlay",
+        "e8_overflow"
+      ]
+    },
+    "architecture": {
+      "present": true,
+      "status": "pass",
+      "blockers": [],
+      "workloads": [
+        "bert_base_glue_seq128",
+        "mobilevit_s_transformer_blocks_256"
+      ],
+      "conditions": [
+        "astra_boundary",
+        "hyatten_style",
+        "l1",
+        "lightening_dptc",
+        "random",
+        "signal_only",
+        "slack_only",
+        "suds_l1",
+        "suds_only",
+        "suds_signal",
+        "tempo_time_multiplexed",
+        "uniform_4bit",
+        "uniform_8bit"
+      ],
+      "system_terms": [
+        "adc",
+        "dac_mzm",
+        "detector_tia",
+        "laser",
+        "memory",
+        "optical_link",
+        "control_sideband",
+        "digital_fallback"
+      ],
+      "min_pessimistic_edp_gain_pct": 20.993,
+      "min_pessimistic_energy_gain_pct": 18.575,
+      "calibration_parameters": [
+        "adc4_pj",
+        "adc6_pj",
+        "adc8_pj",
+        "astra_stochastic_boundary",
+        "control_pj_per_sideband_group",
+        "cores_per_tile",
+        "dac_pj",
+        "enlighten_l1_boundary",
+        "frequency_ghz",
+        "hyatten_low_resolution_fraction",
+        "lightening_adc_temporal_factor",
+        "phy_nominal_pass_ratio",
+        "phy_pessimistic_laser_multiplier",
+        "selected_adc_sharing",
+        "selected_sideband_group_cols",
+        "sram_global_kib",
+        "sram_subarray_kib",
+        "tempo_time_multiplexing_boundary",
+        "tile_dim",
+        "tiles"
+      ],
+      "glue_link_rows": 108,
+      "glue_link_conditions": [
+        "l1",
+        "lightening_dptc",
+        "slack_only",
+        "suds_l1",
+        "suds_only",
+        "suds_signal"
+      ],
+      "artifact": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json",
+      "summary_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv",
+      "parameters_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_parameters.csv",
+      "design_space_rows": 3888,
+      "design_space_pareto_rows": 511,
+      "design_space_json": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.json",
+      "design_space_csv": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.csv",
+      "glue_link_csv": "experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv"
+    },
+    "circuit": {
+      "adc_present": true,
+      "adc_status": "measured",
+      "adc_bits": [
+        "4",
+        "6",
+        "8"
+      ],
+      "rtl_present": true,
+      "rtl_yosys_pass": true,
+      "rtl_cells": 155,
+      "phy_present": true,
+      "phy_pass_ratio": 0.601
+    },
+    "manuscript": {
+      "present": true,
+      "title": "The Missing Interface: Timing Slack as a Quality-Budget Signal for Photonic/DPTC Resource Control",
+      "still_jetc_comment": true,
+      "methodology_title": true,
+      "mentions_tetc": false,
+      "tetc_present": true,
+      "tetc_title": "Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators",
+      "tetc_architecture_first": true,
+      "tetc_forbidden_terms": []
+    },
+    "decision": {
+      "promotion_decision": "pivot_scaffolded_not_submission_ready",
+      "required_failures": [],
+      "required_partials": [
+        "G1"
+      ],
+      "highest_priority_next_step": "Draft and red-team the full architecture-first TETC manuscript source without weakening the protected fallback."
+    }
+  },
+  "rows": [
+    {
+      "gate_id": "G0",
+      "gate": "Route lock and protected fallback",
+      "required": true,
+      "status": "pass",
+      "evidence": "plan=docs/coordination/active/SUDS_OPTICAL_TRANSFORMER_TETC_PIVOT_PLAN.md; reframe=paper/suds_tetc_architecture_reframe.md",
+      "blockers": "",
+      "next_action": "Create the pivot plan and reframe blueprint."
+    },
+    {
+      "gate_id": "G1",
+      "gate": "Full TETC manuscript source",
+      "required": true,
+      "status": "partial",
+      "evidence": "fallback_title=The Missing Interface: Timing Slack as a Quality-Budget Signal for Photonic/DPTC Resource Control; tetc_source=paper/suds_tetc_architecture_manuscript.tex; tetc_title=Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators",
+      "blockers": "",
+      "next_action": "Promote the architecture-first TETC source only after G2-G5 pass and red-team review."
+    },
+    {
+      "gate_id": "G2",
+      "gate": "Two Transformer workloads on governed MPS",
+      "required": true,
+      "status": "pass",
+      "evidence": "MobileViT rows=192/192; GLUE tasks=sst2,mrpc,mnli,qqp,qnli,rte; devices=mps; BERT architecture link rows=108",
+      "blockers": "",
+      "next_action": "Keep GLUE as measured MPS accuracy and architecture-modeled energy; rerun only if perturbation policy changes."
+    },
+    {
+      "gate_id": "G3",
+      "gate": "System-level PPA advantage",
+      "required": true,
+      "status": "pass",
+      "evidence": "artifact=experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json; workloads=bert_base_glue_seq128,mobilevit_s_transformer_blocks_256; terms=adc,dac_mzm,detector_tia,laser,memory,optical_link,control_sideband,digital_fallback; min_pessimistic_edp_gain=20.993%; design_space_rows=3888; pareto_rows=511",
+      "blockers": "",
+      "next_action": "Use the architecture simulator summary table as the promoted system-level PPA surface."
+    },
+    {
+      "gate_id": "G4",
+      "gate": "Strong baselines and ablations",
+      "required": true,
+      "status": "pass",
+      "evidence": "MobileViT conditions=e0_dense,e2_l1,e3_slack,e4_suds,e5_random,e6_signal,e7_overlay,e8_overflow; architecture conditions=astra_boundary,hyatten_style,l1,lightening_dptc,random,signal_only,slack_only,suds_l1,suds_only,suds_signal,tempo_time_multiplexed,uniform_4bit,uniform_8bit; HyAtten artifact conditions=composition_summary,e6_signal,e7_overlay,e8_overflow",
+      "blockers": "",
+      "next_action": "Keep signal-only wins as composition-boundary evidence, not slack-only superiority."
+    },
+    {
+      "gate_id": "G5",
+      "gate": "SPICE/RTL/PHY calibration tied to architecture parameters",
+      "required": true,
+      "status": "pass",
+      "evidence": "ADC bits=4,6,8; RTL cells=155; PHY pass ratio=0.601; architecture params=adc4_pj,adc6_pj,adc8_pj,astra_stochastic_boundary,control_pj_per_sideband_group,cores_per_tile,dac_pj,enlighten_l1_boundary,frequency_ghz,hyatten_low_resolution_fraction,lightening_adc_temporal_factor,phy_nominal_pass_ratio,phy_pessimistic_laser_multiplier,selected_adc_sharing,selected_sideband_group_cols,sram_global_kib,sram_subarray_kib,tempo_time_multiplexing_boundary,tile_dim,tiles",
+      "blockers": "",
+      "next_action": "Preserve ADC/RTL/PHY as calibration and boundary evidence only."
+    },
+    {
+      "gate_id": "G6",
+      "gate": "Target journal fit",
+      "required": false,
+      "status": "pass",
+      "evidence": "Primary route is IEEE TETC; TC is stretch; JSA/protected JETC-methodology package is fallback.",
+      "blockers": "",
+      "next_action": "Recheck CAS/JCR partition in institutional database before final submission."
+    }
+  ]
+}

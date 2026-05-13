@@ -3,7 +3,7 @@
   "algorithm": "sha256",
   "freeze_tag": "20260511_suds_maxq",
   "generated_by": "scripts/build_public_repro_repo.py",
-  "file_count": 163,
+  "file_count": 189,
   "files": [
     {
       "path": ".gitattributes",
@@ -52,8 +52,13 @@
     },
     {
       "path": "configs/public_repro_manifest.json",
-      "sha256": "ac4753b5408e6f06ebe7daac67049b029589a2d897e751285afd0e2bedc84416",
-      "size_bytes": 18106
+      "sha256": "030ab73dd8fe011defd9b545cff8918fe2862cdfe99a866e0685b4d143046153",
+      "size_bytes": 23533
+    },
+    {
+      "path": "docs/coordination/active/SUDS_OPTICAL_TRANSFORMER_TETC_PIVOT_PLAN.md",
+      "sha256": "61a4b5554774b0f71809cf36150f472ce77b8f7110fde3fdf196a70d23b60b12",
+      "size_bytes": 9702
     },
     {
       "path": "docs/reports/20260512_j0_suds_baseline_protection.md",
@@ -74,6 +79,36 @@
       "path": "docs/reports/20260512_j5_suds_internal_red_team.md",
       "sha256": "59f5f6e150478c6c14af88f04c7b5484b16becf6408cde828431ef6bcebd80e6",
       "size_bytes": 5779
+    },
+    {
+      "path": "docs/reports/20260513_suds_optical_transformer_tetc_pivot_gate.md",
+      "sha256": "f8d3b54b6cd58b2b973baa4a323755839105de9135c6ba24ae52ed2900207a84",
+      "size_bytes": 5121
+    },
+    {
+      "path": "docs/reports/20260513_suds_tetc_architecture_optimization_research.md",
+      "sha256": "22b740703a35d8ed378308c6da6038022c7e152da67e609f926860a8b8c3bbb2",
+      "size_bytes": 5648
+    },
+    {
+      "path": "docs/reports/20260513_suds_tetc_delta_literature_audit.md",
+      "sha256": "9240247a2522a599088128989c48746c3eecc792f7d6994003f795f72998f2bc",
+      "size_bytes": 3855
+    },
+    {
+      "path": "docs/reports/20260513_suds_tetc_internal_red_team.md",
+      "sha256": "615256ec1cbd2283c8905fb1743bd9805deadffa02e2fb1e8e878dc1f1a46d0f",
+      "size_bytes": 1502
+    },
+    {
+      "path": "docs/reports/20260513_suds_tetc_public_repro_alignment.md",
+      "sha256": "f8d5544cd9da7f9bd953bec98a6221b9d005c11435f9321345f466a2e4ebf636",
+      "size_bytes": 3542
+    },
+    {
+      "path": "docs/reports/20260513_suds_transformer_architecture_sim.md",
+      "sha256": "7c8be8da80940f8083d481c44a1565f153ed752f8cee5aeaef32f6b1689af7f2",
+      "size_bytes": 12378
     },
     {
       "path": "experiments/hardware/suds_control_plane.v",
@@ -97,8 +132,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
-      "sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
-      "size_bytes": 24771
+      "sha256": "ab8070490620bef8dea1da4ca29d27f78eb72ba02b917caaa6173e271aad9ee8",
+      "size_bytes": 24734
     },
     {
       "path": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.json",
@@ -146,6 +181,11 @@
       "size_bytes": 2077987
     },
     {
+      "path": "experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv",
+      "sha256": "62d7a32cba12d9f3a447d1b68031c4690760b1ef028a0bf8eca622324cf15441",
+      "size_bytes": 116879
+    },
+    {
       "path": "experiments/results/report_data/suds_glue_measured_validation_20260511_maxq.csv",
       "sha256": "f63f9215f11ad7573644afbdb4da2f7b421581b62b9c290e8953704083b90782",
       "size_bytes": 17181
@@ -187,8 +227,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_internal_red_team_20260512_j5_quality_boost.csv",
-      "sha256": "8876c123cb044f03385e54c5db704484beafeedb6be985e419d28e91f73fef6c",
-      "size_bytes": 3791
+      "sha256": "f6791c438904925b16cc50b01dcb02f1a7f001833b8f8f7bb06a9c035c6001f1",
+      "size_bytes": 3782
     },
     {
       "path": "experiments/results/report_data/suds_internal_red_team_20260512_j5_quality_boost.json",
@@ -197,13 +237,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_j0_baseline_protection_20260512_j0_quality_boost.csv",
-      "sha256": "ee99ca3672c3f095a14cb195218177c481bac971b376f978802a324ee4333bc1",
-      "size_bytes": 1426
+      "sha256": "266e33fe7d5b354c3d97bdc4659297b02880980fc632ecedc23cf23b605ff371",
+      "size_bytes": 1402
     },
     {
       "path": "experiments/results/report_data/suds_j0_baseline_protection_20260512_j0_quality_boost.json",
-      "sha256": "e233a7a23413d71dbd50fae25798c407685a15ad7022ece0225c3731b5846be7",
-      "size_bytes": 3751
+      "sha256": "b64fe795018ca4d9803414521f3ea6a31048f429b48683efad4175168b9c6a2e",
+      "size_bytes": 3727
     },
     {
       "path": "experiments/results/report_data/suds_mobilevit_measured_validation_20260511_maxq.csv",
@@ -239,6 +279,16 @@
       "path": "experiments/results/report_data/suds_model_specific_slack_manifest_20260511_p2p3_quality.json",
       "sha256": "8482ab73ab3fcfa14f41244c722204c012bbd6a5900b91801655b4c3094135f8",
       "size_bytes": 3775
+    },
+    {
+      "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.csv",
+      "sha256": "36892464bb81c1ca70db0022e631d4ed0b1b9f61bf00df0863a58efcfc10f6ce",
+      "size_bytes": 2712
+    },
+    {
+      "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
+      "sha256": "f6a0c245b33501e1d41d6a80932f4eef7132370a386ac0f80bb0f7e655ef535c",
+      "size_bytes": 8876
     },
     {
       "path": "experiments/results/report_data/suds_p2p3_submission_gate_20260511_p2p3_quality.json",
@@ -277,8 +327,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_rtl_control_overhead_20260512_j2_quality_boost.csv",
-      "sha256": "2e4ccf332e8f7963573a7acb3526049d472ba8933723f0aeeb2472668114719c",
-      "size_bytes": 8215
+      "sha256": "9665dfabd2827615bcd7f06a3ce7a369fd04c964d5b60de5928f735d3e23c2b6",
+      "size_bytes": 8190
     },
     {
       "path": "experiments/results/report_data/suds_rtl_control_overhead_20260512_j2_quality_boost.json",
@@ -286,9 +336,64 @@
       "size_bytes": 23625
     },
     {
+      "path": "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
+      "sha256": "b9bab02023e01a8188a043eb316e2fd9ecb733babf04e81b22152f3c35af5008",
+      "size_bytes": 5228
+    },
+    {
+      "path": "experiments/results/report_data/suds_tetc_internal_red_team_20260513_tetc_pivot.csv",
+      "sha256": "b40babf79f817a6134549c761fc44c7803c3df30862418ded5af6c8ccfd37205",
+      "size_bytes": 1261
+    },
+    {
+      "path": "experiments/results/report_data/suds_tetc_internal_red_team_20260513_tetc_pivot.json",
+      "sha256": "1169d247fc2ff9ac4dd41823ba67c76e54658bf0fa5aa5378efa0f7b66921797",
+      "size_bytes": 2211
+    },
+    {
+      "path": "experiments/results/report_data/suds_tetc_public_repro_alignment_20260513_tetc_pivot.json",
+      "sha256": "db72010d9a6de8d0602dc743c40f0fc4a615a5c38bd16d388b4c4a15b70ee9bd",
+      "size_bytes": 3847
+    },
+    {
+      "path": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.csv",
+      "sha256": "a40edf68e1ee220e740425c468f3b0420ecf4c2b17c4883063f3d7f5d50141ec",
+      "size_bytes": 3681426
+    },
+    {
+      "path": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.json",
+      "sha256": "10866ceef82701554a0762ecb71a276e2ff1a6e652d9fb5ee7d05e0b8f205793",
+      "size_bytes": 11202530
+    },
+    {
+      "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json",
+      "sha256": "b65861da8885203a3cd6c08aed059e7d2405a929565bd58cb1973b9721555bb0",
+      "size_bytes": 2550016
+    },
+    {
+      "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_kernels.csv",
+      "sha256": "c982b76b7ef7bfe8fa4d2aefd9d651d06ee3b628bac276cf10afdd8e0627e691",
+      "size_bytes": 817014
+    },
+    {
+      "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_parameters.csv",
+      "sha256": "f9084c8096ec24d0978c5c6f24cc9a129b7b44dec8fa6fd791e2927328ab58b3",
+      "size_bytes": 6031
+    },
+    {
+      "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_sensitivity.csv",
+      "sha256": "0588848369b6804e16b74c1acc13f7d314302fe36563a1dbf78a06f73e84080e",
+      "size_bytes": 24031
+    },
+    {
+      "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv",
+      "sha256": "051c91ad35728d18d87785f2378ff73d6804a35be0f6148128782a95a6d72c2a",
+      "size_bytes": 47098
+    },
+    {
       "path": "experiments/results/review/20260511_suds_maxq_public/data_review_report.md",
-      "sha256": "4da8f81c9526f82e3ecb7f92af7311e9456d08535070c982adda718bf097488b",
-      "size_bytes": 1031
+      "sha256": "9197f7a8b60cfaaf0ee620e236473e15dd3e72f56f97c533fe39d48f351a57de",
+      "size_bytes": 1190
     },
     {
       "path": "experiments/results/review/20260511_suds_maxq_public/figure_traceability.csv",
@@ -302,8 +407,8 @@
     },
     {
       "path": "experiments/results/review/20260511_suds_maxq_public/review_manifest.json",
-      "sha256": "357ae4a709405cd2596731a166355ad73be656f946e30d23ff6a3d4030d02feb",
-      "size_bytes": 1063
+      "sha256": "c110227b23963cb034bafbb49221ca675474315f6ed50661f6f48adc81f7d8ec",
+      "size_bytes": 1143
     },
     {
       "path": "experiments/results/runs/phase_b/phase_b_summary.json",
@@ -537,8 +642,8 @@
     },
     {
       "path": "experiments/spice/suds_adc_macro/generated/20260512_j1_quality_boost/sweep_matrix.csv",
-      "sha256": "b8af0b819996251d5d80a0990e0fba4d15c8e97a44c14bbca9c03b39f0dfc651",
-      "size_bytes": 2093
+      "sha256": "7309c46925b3c609b5a9e1f8e755d3f5593419028615edf930f6603b794fe7f4",
+      "size_bytes": 2056
     },
     {
       "path": "experiments/spice/suds_adc_macro/generated/20260512_j1_quality_boost/xyce/adc4_ramp_combined_stress.cir",
@@ -746,9 +851,24 @@
       "size_bytes": 17445
     },
     {
+      "path": "experiments/tools/build_suds_optical_transformer_pivot_gate.py",
+      "sha256": "6ac01aa236f2a68474f3e0bad363714f0444123e268ba6a15302ed7edc1229e6",
+      "size_bytes": 27855
+    },
+    {
       "path": "experiments/tools/build_suds_rtl_control_overhead.py",
       "sha256": "60b20f886156cee2f00c50b4c4d17a5a6909b631c79e6dd51f4b5fe617e1a99b",
       "size_bytes": 12050
+    },
+    {
+      "path": "experiments/tools/build_suds_tetc_g1_release_artifacts.py",
+      "sha256": "c285bcd7062f69029efdff7b9cbe876c0a93cd79468f2bdb83abd26a4438e4ef",
+      "size_bytes": 15755
+    },
+    {
+      "path": "experiments/tools/build_suds_transformer_architecture_sim.py",
+      "sha256": "26cab561a81ad59706902430f872c221ed3081c4b4ccc4d7c393796c61efda07",
+      "size_bytes": 74713
     },
     {
       "path": "experiments/tools/check_figure_numbering_registry.py",
@@ -777,8 +897,8 @@
     },
     {
       "path": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",
-      "sha256": "e36d109d5498fc7ee55464785d18184f6939ed1796d3723e9ad9baaa390f9a5f",
-      "size_bytes": 2864
+      "sha256": "57bfce9da4efaa12ceee767151211570b8258aff64b23c669048c646c977e98a",
+      "size_bytes": 2853
     },
     {
       "path": "figures/paper_figures_20260511_suds_maxq/figure_traceability.csv",
@@ -809,6 +929,16 @@
       "path": "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.png",
       "sha256": "2ef8e90827ba3c0b01cbf15bc00edd6fb9f0b53c66108200a4331ecf8fc79b70",
       "size_bytes": 2399265
+    },
+    {
+      "path": "paper/suds_tetc_architecture_manuscript.tex",
+      "sha256": "af8cc79721765d2464aaef8c3ea03a504b65d587ccec4e866c25ca2524a94af3",
+      "size_bytes": 16948
+    },
+    {
+      "path": "paper/suds_tetc_architecture_reframe.md",
+      "sha256": "4983b5466abb8bd205403feb0d8e21383e6cda5a6c7805d7ed37f1f62a617ffa",
+      "size_bytes": 5703
     },
     {
       "path": "requirements.txt",

@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "tag": "20260513_tetc_pivot",
+    "artifact_id": "suds_tetc_internal_red_team_20260513_tetc_pivot",
+    "evidence_label": "internal_red_team_substitute",
+    "external_red_team_status": "not_available_in_local_execution",
+    "external_equivalence": "not_equivalent_to_external_review"
+  },
+  "summary": {
+    "status": "pass",
+    "lens_count": 4,
+    "manuscript_status": "pass"
+  },
+  "rows": [
+    {
+      "lens": "architecture",
+      "severity": "high",
+      "finding": "The TETC route needs a system-level DPTC simulator rather than ADC-only accounting.",
+      "evidence_checked": "architecture summary, design-space sweep, pessimistic gate",
+      "resolution": "pass: G3 uses system PPA terms and keeps a pessimistic EDP margin versus Lightening DPTC.",
+      "promotion_effect": "supports main-text architecture claim"
+    },
+    {
+      "lens": "photonic_circuit",
+      "severity": "high",
+      "finding": "ADC, RTL, and PHY artifacts must remain calibration or boundary evidence.",
+      "evidence_checked": "parameter table, calibration manuscript table, claim-boundary scan",
+      "resolution": "pass: manuscript and gate label circuit-facing artifacts as calibration/proxy/boundary evidence.",
+      "promotion_effect": "prevents circuit or device signoff overclaim"
+    },
+    {
+      "lens": "systems_repro",
+      "severity": "medium",
+      "finding": "Public repro must include the new TETC artifacts without private data, weights, or personal paths.",
+      "evidence_checked": "public repro manifest, generated package validator",
+      "resolution": "pass when manifest alignment and generated public-repro validation both pass.",
+      "promotion_effect": "supports artifact consistency for G1"
+    },
+    {
+      "lens": "reviewer_skeptic",
+      "severity": "high",
+      "finding": "SUDS must not be presented as beating every local selector or alternate photonic fabric.",
+      "evidence_checked": "baseline table, related-work boundaries, limitations",
+      "resolution": "pass: signal/L1/HyAtten/TeMPO/ASTRA wins are retained as boundary context.",
+      "promotion_effect": "keeps the contribution as scheduler-derived budget composition"
+    }
+  ]
+}
