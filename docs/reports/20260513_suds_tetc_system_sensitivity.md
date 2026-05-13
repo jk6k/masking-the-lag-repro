@@ -22,6 +22,9 @@ new hardware measurements or model-accuracy runs.
 - Nominal and pessimistic named regimes preserve benefit: `True`
 - Claim narrowing required for extreme sweeps: `True`
 - Minimum pessimistic EDP improvement: `12.10%`
+- Combined-stress rows: `136`
+- Combined not-beneficial rows: `16`
+- Stacked boundary not-beneficial rows: `0`
 
 ## Named Regimes
 
@@ -67,6 +70,34 @@ realistic regimes.
 |---|---|---:|---:|---:|
 | `mobilevit_s_transformer_blocks_256` | `dac_energy_scale` | 128.000 | 1.001 | -0.09% |
 | `mobilevit_s_transformer_blocks_256` | `dac_energy_scale` | 64.000 | 1.000 | -0.01% |
+
+## Combined Stress
+
+Combined-stress rows are boundary evidence. They are not promoted as
+realistic operating regimes, but they show where simultaneous bad
+conditions begin to erode the bounded claim.
+
+| Pair | Workload | Rows | Not-beneficial | Thin-margin | Worst EDP ratio |
+|---|---|---:|---:|---:|---:|
+| `adc_energy_scale_x_memory_bandwidth_scale` | `bert_base_glue_seq128` | 16 | 0 | 0 | 0.668 |
+| `adc_energy_scale_x_memory_bandwidth_scale` | `mobilevit_s_transformer_blocks_256` | 16 | 0 | 0 | 0.920 |
+| `dac_energy_scale_x_optical_link_loss_scale` | `bert_base_glue_seq128` | 20 | 0 | 0 | 0.666 |
+| `dac_energy_scale_x_optical_link_loss_scale` | `mobilevit_s_transformer_blocks_256` | 20 | 8 | 8 | 1.001 |
+| `dac_energy_scale_x_sideband_control_overhead_scale` | `bert_base_glue_seq128` | 20 | 0 | 0 | 0.672 |
+| `dac_energy_scale_x_sideband_control_overhead_scale` | `mobilevit_s_transformer_blocks_256` | 20 | 8 | 8 | 1.001 |
+| `memory_bandwidth_scale_x_sequence_length_scale` | `bert_base_glue_seq128` | 12 | 0 | 0 | 0.668 |
+| `memory_bandwidth_scale_x_sequence_length_scale` | `mobilevit_s_transformer_blocks_256` | 12 | 0 | 0 | 0.920 |
+
+## Stacked Boundary Examples
+
+| Workload | Scenario | Class | EDP ratio | EDP improvement |
+|---|---|---|---:|---:|
+| `bert_base_glue_seq128` | `all_extreme` | `beneficial` | 0.659 | 34.11% |
+| `mobilevit_s_transformer_blocks_256` | `all_extreme` | `thin_margin_boundary` | 0.995 | 0.48% |
+| `bert_base_glue_seq128` | `conversion_severe` | `beneficial` | 0.659 | 34.13% |
+| `mobilevit_s_transformer_blocks_256` | `conversion_severe` | `thin_margin_boundary` | 0.995 | 0.50% |
+| `bert_base_glue_seq128` | `memory_severe` | `beneficial` | 0.682 | 31.77% |
+| `mobilevit_s_transformer_blocks_256` | `memory_severe` | `beneficial` | 0.927 | 7.27% |
 
 ## Artifacts
 

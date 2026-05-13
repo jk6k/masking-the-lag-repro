@@ -132,12 +132,172 @@
     "phy_fail_rows": 230,
     "input_r6_acceptance_state": "pass",
     "input_r7_acceptance_state": "pass",
+    "provenance_matrix": [
+      {
+        "range_id": "r8_adc4_energy_pj",
+        "parameter": "adc4_energy_pj",
+        "source_artifact": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+        "source_exists": true,
+        "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+        "source_rows": 12,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_adc4_latency_ps",
+        "parameter": "adc4_latency_ps",
+        "source_artifact": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+        "source_exists": true,
+        "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+        "source_rows": 12,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_adc6_energy_pj",
+        "parameter": "adc6_energy_pj",
+        "source_artifact": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+        "source_exists": true,
+        "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+        "source_rows": 12,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_adc6_latency_ps",
+        "parameter": "adc6_latency_ps",
+        "source_artifact": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+        "source_exists": true,
+        "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+        "source_rows": 12,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_adc8_energy_pj",
+        "parameter": "adc8_energy_pj",
+        "source_artifact": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+        "source_exists": true,
+        "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+        "source_rows": 12,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_adc8_latency_ps",
+        "parameter": "adc8_latency_ps",
+        "source_artifact": "experiments/results/report_data/suds_adc_macro_sanity_20260512_j1_quality_boost.csv",
+        "source_exists": true,
+        "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+        "source_rows": 12,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_modulator_extinction_ratio_db",
+        "parameter": "modulator_extinction_ratio_db",
+        "source_artifact": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
+        "source_exists": true,
+        "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+        "source_rows": 576,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_detector_crosstalk_db",
+        "parameter": "detector_crosstalk_db",
+        "source_artifact": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
+        "source_exists": true,
+        "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+        "source_rows": 576,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_phy_pass_ratio",
+        "parameter": "phy_pass_ratio",
+        "source_artifact": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
+        "source_exists": true,
+        "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+        "source_rows": 576,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_phy_laser_power_mw",
+        "parameter": "phy_laser_power_mw",
+        "source_artifact": "experiments/results/report_data/suds_phy_circuit_boundary_20260511_p2p3_quality.csv",
+        "source_exists": true,
+        "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+        "source_rows": 576,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_laser_multiplier",
+        "parameter": "laser_multiplier",
+        "source_artifact": "experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json",
+        "source_exists": true,
+        "source_sha256": "1e74367dfdea41eafdce06f8ba4b2a1601453773ee813a2ae40f71f699aa8294",
+        "source_rows": 266,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_optical_link_loss_scale",
+        "parameter": "optical_link_loss_scale",
+        "source_artifact": "experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json",
+        "source_exists": true,
+        "source_sha256": "1e74367dfdea41eafdce06f8ba4b2a1601453773ee813a2ae40f71f699aa8294",
+        "source_rows": 266,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      },
+      {
+        "range_id": "r8_dac_mzm_energy_scale",
+        "parameter": "dac_mzm_energy_scale",
+        "source_artifact": "experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json",
+        "source_exists": true,
+        "source_sha256": "1e74367dfdea41eafdce06f8ba4b2a1601453773ee813a2ae40f71f699aa8294",
+        "source_rows": 266,
+        "labels_complete": true,
+        "monotonic_range_ok": true,
+        "provenance_status": "pass"
+      }
+    ],
+    "claim_boundary_scan": {
+      "status": "pass",
+      "scanned_paths": [
+        "paper/suds_tetc_architecture_manuscript.tex",
+        "docs/reports/20260513_suds_tetc_calibration_ranges.md",
+        "docs/reports/20260513_suds_tetc_rtl_control_plane.md",
+        "docs/reports/20260513_suds_tetc_system_sensitivity.md",
+        "docs/reports/20260513_suds_tetc_pareto_design_space.md"
+      ],
+      "forbidden_positive_matches": [],
+      "forbidden_positive_match_count": 0
+    },
     "decision": {
       "r8_acceptance_state": "pass",
       "stop_condition_state": "no R8 hard stop; ranges remain calibration and boundary evidence only",
       "blockers": [],
       "device_solver_required": false,
       "architecture_parameters_have_nominal_and_pessimistic_values": true,
+      "all_source_checksums_present": true,
+      "all_range_rows_provenance_pass": true,
+      "all_range_rows_monotonic": true,
       "claim_boundary_calibration_only": true
     },
     "artifacts": {
@@ -176,7 +336,12 @@
       "architecture_parameter_linked": true,
       "r6_boundary_linked": false,
       "claim_boundary": "ADC macro calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or full SPICE closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -200,7 +365,12 @@
       "architecture_parameter_linked": false,
       "r6_boundary_linked": false,
       "claim_boundary": "ADC macro latency calibration only; not timing closure or hardware measurement.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -224,7 +394,12 @@
       "architecture_parameter_linked": true,
       "r6_boundary_linked": false,
       "claim_boundary": "ADC macro calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or full SPICE closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -248,7 +423,12 @@
       "architecture_parameter_linked": false,
       "r6_boundary_linked": false,
       "claim_boundary": "ADC macro latency calibration only; not timing closure or hardware measurement.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -272,7 +452,12 @@
       "architecture_parameter_linked": true,
       "r6_boundary_linked": false,
       "claim_boundary": "ADC macro calibration only; not PDK, extracted-layout, silicon, measured hardware energy, or full SPICE closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -296,7 +481,12 @@
       "architecture_parameter_linked": false,
       "r6_boundary_linked": false,
       "claim_boundary": "ADC macro latency calibration only; not timing closure or hardware measurement.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "d7889f28929bfe496f07f59291d8a3fadb431df4d8187031782bf720851d5db7",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -320,7 +510,12 @@
       "architecture_parameter_linked": false,
       "r6_boundary_linked": false,
       "claim_boundary": "Calibration and boundary evidence only; not device-solver, foundry, extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -344,7 +539,12 @@
       "architecture_parameter_linked": false,
       "r6_boundary_linked": false,
       "claim_boundary": "Calibration and boundary evidence only; not device-solver, foundry, extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -368,7 +568,12 @@
       "architecture_parameter_linked": true,
       "r6_boundary_linked": false,
       "claim_boundary": "Calibration and boundary evidence only; not device-solver, foundry, extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -392,7 +597,12 @@
       "architecture_parameter_linked": false,
       "r6_boundary_linked": false,
       "claim_boundary": "Calibration and boundary evidence only; not device-solver, foundry, extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "fc784f28ecda2155a690c7e9139bca87f3130632386579399b342082b2c7ca19",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -412,11 +622,16 @@
       "range_source": "R6 named-regime and one-at-a-time laser sweep",
       "evidence_label": "system_sensitivity_boundary",
       "source_artifact": "experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json",
-      "source_rows": 124,
+      "source_rows": 266,
       "architecture_parameter_linked": true,
       "r6_boundary_linked": true,
       "claim_boundary": "Calibration and boundary evidence only; not device-solver, foundry, extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "1e74367dfdea41eafdce06f8ba4b2a1601453773ee813a2ae40f71f699aa8294",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -436,11 +651,16 @@
       "range_source": "R6 named-regime and one-at-a-time optical-link sweep",
       "evidence_label": "system_sensitivity_boundary",
       "source_artifact": "experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json",
-      "source_rows": 124,
+      "source_rows": 266,
       "architecture_parameter_linked": false,
       "r6_boundary_linked": true,
       "claim_boundary": "Calibration and boundary evidence only; not device-solver, foundry, extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "1e74367dfdea41eafdce06f8ba4b2a1601453773ee813a2ae40f71f699aa8294",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     },
     {
       "tag": "20260513_tetc_pivot",
@@ -460,11 +680,16 @@
       "range_source": "R6 named-regime and one-at-a-time DAC/MZM sweep",
       "evidence_label": "system_sensitivity_boundary",
       "source_artifact": "experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json",
-      "source_rows": 124,
+      "source_rows": 266,
       "architecture_parameter_linked": false,
       "r6_boundary_linked": true,
       "claim_boundary": "Calibration and boundary evidence only; not device-solver, foundry, extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure.",
-      "acceptance_status": "pass"
+      "acceptance_status": "pass",
+      "source_exists": true,
+      "source_sha256": "1e74367dfdea41eafdce06f8ba4b2a1601453773ee813a2ae40f71f699aa8294",
+      "labels_complete": true,
+      "monotonic_range_ok": true,
+      "provenance_status": "pass"
     }
   ]
 }

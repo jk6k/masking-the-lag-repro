@@ -42,6 +42,7 @@ SAME_SIM_BASELINES_JSON = REPORT_DATA / f"suds_tetc_same_sim_baselines_{TAG}.jso
 
 CSV_OUT = REPORT_DATA / f"suds_tetc_pareto_design_space_{TAG}.csv"
 JSON_OUT = REPORT_DATA / f"suds_tetc_pareto_design_space_{TAG}.json"
+RATIONALE_CSV_OUT = REPORT_DATA / f"suds_tetc_pareto_selection_rationale_{TAG}.csv"
 REPORT_OUT = REPO_ROOT / "docs/reports/20260513_suds_tetc_pareto_design_space.md"
 
 PROMOTED_CONDITION = "suds_pareto"
@@ -83,6 +84,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--same-sim-baselines-json", type=Path, default=SAME_SIM_BASELINES_JSON)
     parser.add_argument("--csv-out", type=Path, default=CSV_OUT)
     parser.add_argument("--json-out", type=Path, default=JSON_OUT)
+    parser.add_argument("--rationale-csv-out", type=Path, default=RATIONALE_CSV_OUT)
     parser.add_argument("--report-out", type=Path, default=REPORT_OUT)
     parser.add_argument("--accuracy-budget-pp", type=float, default=DEFAULT_ACCURACY_BUDGET_PP)
     parser.add_argument("--dominance-tolerance", type=float, default=DEFAULT_DOMINANCE_TOLERANCE)
@@ -409,6 +411,109 @@ def raw_dominator_examples(rows: list[dict[str, Any]], selected_rows: list[dict[
     return examples
 
 
+def design_distance(a: dict[str, Any], b: dict[str, Any]) -> int:
+    fields = ("tile_dim", "tiles", "cores_per_tile", "sideband_group_cols", "adc_sharing_mode")
+    return sum(str(a.get(field, "")) != str(b.get(field, "")) for field in fields)
+
+
+def ppa_delta(candidate: dict[str, Any], selected: dict[str, Any], field: str) -> float:
+    selected_value = as_float(selected.get(field))
+    candidate_value = as_float(candidate.get(field))
+    if math.isnan(selected_value) or math.isnan(candidate_value) or selected_value == 0.0:
+        return math.nan
+    return (candidate_value / selected_value) - 1.0
+
+
+def rationale_reason(row: dict[str, Any], selected: dict[str, Any], *, row_type: str) -> str:
+    if row_type == "selected_summary":
+        return (
+            "selected R5 governed point has R2 schedule, R3 MPS accuracy, "
+            "and R4 same-simulator fairness linkage; raw PPA dominators are "
+            "recorded as claim-boundary pressure"
+        )
+    penalties: list[str] = []
+    if ppa_delta(row, selected, "memory_pressure_bytes_per_parallel_core") > 0:
+        penalties.append("higher memory pressure")
+    if ppa_delta(row, selected, "control_overhead_energy_ratio") > 0:
+        penalties.append("higher control overhead")
+    if ppa_delta(row, selected, "calibration_sensitivity_energy_ratio") > 0:
+        penalties.append("higher calibration sensitivity")
+    if not parse_bool(row.get("r5_multiobjective_pareto_front")):
+        penalties.append("not on R5 governed front")
+    if row.get("fairness_status") != "pass" or row.get("policy_match_status") != "pass":
+        penalties.append("weaker R3/R4 linkage")
+    if not penalties and ppa_delta(row, selected, "edp_pj_ns") > 0:
+        penalties.append("higher EDP despite local PPA tradeoff")
+    if not penalties:
+        penalties.append("bounded raw-PPA pressure under governed objective set")
+    return "; ".join(penalties)
+
+
+def selection_rationale_rows(rows: list[dict[str, Any]], selected_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for selected in sorted(selected_rows, key=lambda item: str(item["workload"])):
+        same = [
+            row for row in rows
+            if row["workload"] == selected["workload"] and row["condition"] == selected["condition"]
+        ]
+        raw_ids = {
+            item for item in str(selected.get("raw_energy_latency_area_dominating_design_ids", "")).split(";")
+            if item
+        }
+        raw_rows = [row for row in same if row["design_id"] in raw_ids]
+        neighbor_rows = [
+            row for row in same
+            if row is not selected and design_distance(row, selected) <= 2
+        ]
+        ranked_neighbors = sorted(
+            neighbor_rows,
+            key=lambda item: (
+                design_distance(item, selected),
+                abs(ppa_delta(item, selected, "edp_pj_ns"))
+                if not math.isnan(ppa_delta(item, selected, "edp_pj_ns"))
+                else math.inf,
+                as_float(item.get("edp_pj_ns"), math.inf),
+            ),
+        )[:8]
+        entries = [("selected_summary", selected)]
+        entries.extend(("raw_ppa_dominator", row) for row in sorted(raw_rows, key=lambda item: as_float(item["edp_pj_ns"]))[:6])
+        entries.extend(("neighborhood_variant", row) for row in ranked_neighbors)
+        seen: set[tuple[str, str]] = set()
+        for row_type, row in entries:
+            key = (row_type, str(row["design_id"]))
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(
+                {
+                    "tag": TAG,
+                    "roadmap_item": "R5_multi_objective_pareto_design_space",
+                    "workload": selected["workload"],
+                    "selected_design_id": selected["design_id"],
+                    "row_type": row_type,
+                    "candidate_design_id": row["design_id"],
+                    "design_distance_from_selected": 0 if row is selected else design_distance(row, selected),
+                    "energy_delta_vs_selected": ppa_delta(row, selected, "energy_pj"),
+                    "latency_delta_vs_selected": ppa_delta(row, selected, "latency_ns"),
+                    "edp_delta_vs_selected": ppa_delta(row, selected, "edp_pj_ns"),
+                    "area_delta_vs_selected": ppa_delta(row, selected, "area_mm2"),
+                    "memory_pressure_delta_vs_selected": ppa_delta(row, selected, "memory_pressure_bytes_per_parallel_core"),
+                    "control_overhead_delta_vs_selected": ppa_delta(row, selected, "control_overhead_energy_ratio"),
+                    "calibration_sensitivity_delta_vs_selected": ppa_delta(row, selected, "calibration_sensitivity_energy_ratio"),
+                    "r5_multiobjective_pareto_front": row["r5_multiobjective_pareto_front"],
+                    "r5_dominator_count": row["r5_dominator_count"],
+                    "raw_energy_latency_area_pareto_front": row["raw_energy_latency_area_pareto_front"],
+                    "raw_energy_latency_area_dominator_count": row["raw_energy_latency_area_dominator_count"],
+                    "schedule_trace_id": row.get("schedule_trace_id", ""),
+                    "accuracy_evidence_label": row.get("accuracy_evidence_label", ""),
+                    "fairness_status": row.get("fairness_status", ""),
+                    "policy_match_status": row.get("policy_match_status", ""),
+                    "claim_narrowing_reason": rationale_reason(row, selected, row_type=row_type),
+                }
+            )
+    return out
+
+
 def build_summary(
     rows: list[dict[str, Any]],
     *,
@@ -489,6 +594,24 @@ def build_summary(
         }
         for row in selected_rows
     ]
+    rationale_rows = selection_rationale_rows(rows, selected_rows)
+    rationale_summary = [
+        {
+            "workload": row["workload"],
+            "selected_design_id": row["candidate_design_id"],
+            "raw_ppa_dominator_rows_recorded": sum(
+                1 for item in rationale_rows
+                if item["workload"] == row["workload"] and item["row_type"] == "raw_ppa_dominator"
+            ),
+            "neighborhood_rows_recorded": sum(
+                1 for item in rationale_rows
+                if item["workload"] == row["workload"] and item["row_type"] == "neighborhood_variant"
+            ),
+            "claim_narrowing_reason": row["claim_narrowing_reason"],
+        }
+        for row in rationale_rows
+        if row["row_type"] == "selected_summary"
+    ]
 
     return {
         "tag": args.tag,
@@ -505,6 +628,8 @@ def build_summary(
         "r5_pareto_rows_by_condition": dict(sorted(pareto_by_condition.items())),
         "rows_by_condition": dict(sorted(rows_by_condition.items())),
         "selected_rows": selected_payload,
+        "selection_rationale": rationale_summary,
+        "selection_rationale_rows": len(rationale_rows),
         "raw_energy_latency_area_dominator_examples": raw_dominator_examples(rows, selected_rows),
         "input_r3_acceptance_state": r3_json.get("summary", {}).get("decision", {}).get("r3_acceptance_state", ""),
         "input_r4_acceptance_state": r4_json.get("summary", {}).get("decision", {}).get("r4_acceptance_state", ""),
@@ -522,6 +647,12 @@ def build_summary(
             ),
             "same_scope_r4_dominators": r4_dominators,
         },
+        "artifacts": {
+            "csv": repo_path(args.csv_out),
+            "json": repo_path(args.json_out),
+            "rationale_csv": repo_path(args.rationale_csv_out),
+            "report": repo_path(args.report_out),
+        },
     }
 
 
@@ -529,6 +660,17 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if not rows:
         raise SystemExit(f"refusing to write empty CSV: {path}")
+    fields = list(rows[0])
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def write_rationale_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not rows:
+        raise SystemExit(f"refusing to write empty rationale CSV: {path}")
     fields = list(rows[0])
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
@@ -592,6 +734,7 @@ def write_report(path: Path, *, args: argparse.Namespace, rows: list[dict[str, A
         f"- Selected raw energy/latency/area Pareto valid: `{decision['selected_raw_energy_latency_area_pareto_valid']}`",
         f"- Claim narrowing required for raw unconstrained Pareto: `{decision['claim_narrowing_required_for_raw_unconstrained_pareto']}`",
         f"- Selected point freeze state: `{decision['selected_point_freeze_state']}`",
+        f"- Selection rationale rows: `{summary['selection_rationale_rows']}`",
         "",
         "## Selected `suds_pareto` Rows",
         "",
@@ -637,6 +780,26 @@ def write_report(path: Path, *, args: argparse.Namespace, rows: list[dict[str, A
     lines.extend(
         [
             "",
+            "## Selection Rationale",
+            "",
+            "| Workload | Selected design | Raw dominator rows | Neighborhood rows | Claim-narrowing reason |",
+            "|---|---|---:|---:|---|",
+        ]
+    )
+    for item in summary["selection_rationale"]:
+        lines.append(
+            "| `{workload}` | `{design}` | {raw_rows} | {neighbor_rows} | {reason} |".format(
+                workload=item["workload"],
+                design=item["selected_design_id"],
+                raw_rows=item["raw_ppa_dominator_rows_recorded"],
+                neighbor_rows=item["neighborhood_rows_recorded"],
+                reason=item["claim_narrowing_reason"],
+            )
+        )
+
+    lines.extend(
+        [
+            "",
             "## R5 Objectives",
             "",
             "| Objective | Meaning |",
@@ -661,6 +824,7 @@ def write_report(path: Path, *, args: argparse.Namespace, rows: list[dict[str, A
             "",
             f"- Extended design-space CSV: `{repo_path(args.csv_out)}`",
             f"- Extended design-space JSON: `{repo_path(args.json_out)}`",
+            f"- Selection rationale CSV: `{repo_path(args.rationale_csv_out)}`",
             f"- Report: `{repo_path(args.report_out)}`",
             f"- Architecture design-space input: `{repo_path(args.design_space_json)}`",
             f"- R3 accuracy input: `{repo_path(args.end_to_end_accuracy_json)}`",
@@ -685,10 +849,13 @@ def build(args: argparse.Namespace) -> tuple[list[dict[str, Any]], dict[str, Any
 def main() -> None:
     args = parse_args()
     rows, summary = build(args)
+    rationale_rows = selection_rationale_rows(rows, selected_summary_rows(rows))
     write_csv(args.csv_out, rows)
+    write_rationale_csv(args.rationale_csv_out, rationale_rows)
     write_json(args.json_out, args=args, rows=rows, summary=summary)
     write_report(args.report_out, args=args, rows=rows, summary=summary)
     print(f"wrote {repo_path(args.csv_out)}")
+    print(f"wrote {repo_path(args.rationale_csv_out)}")
     print(f"wrote {repo_path(args.json_out)}")
     print(f"wrote {repo_path(args.report_out)}")
     print(f"r5_acceptance_state={summary['decision']['r5_acceptance_state']}")

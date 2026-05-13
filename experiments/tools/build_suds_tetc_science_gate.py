@@ -24,6 +24,7 @@ ARCH_SUMMARY_CSV = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}_summa
 ARCH_JSON = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}.json"
 END_TO_END_ACCURACY_JSON = REPORT_DATA / f"suds_tetc_end_to_end_accuracy_{TAG}.json"
 SAME_SIM_BASELINES_JSON = REPORT_DATA / f"suds_tetc_same_sim_baselines_{TAG}.json"
+PARETO_DESIGN_SPACE_JSON = REPORT_DATA / f"suds_tetc_pareto_design_space_{TAG}.json"
 SYSTEM_SENSITIVITY_JSON = REPORT_DATA / f"suds_tetc_system_sensitivity_{TAG}.json"
 RTL_CONTROL_PLANE_JSON = REPORT_DATA / f"suds_tetc_rtl_control_plane_{TAG}.json"
 CALIBRATION_RANGES_JSON = REPORT_DATA / f"suds_tetc_calibration_ranges_{TAG}.json"
@@ -260,6 +261,37 @@ def same_simulator_baseline_boundary() -> dict[str, Any]:
     }
 
 
+def pareto_design_space_boundary() -> dict[str, Any]:
+    payload = load_json(PARETO_DESIGN_SPACE_JSON)
+    summary = payload.get("summary", {})
+    decision = summary.get("decision", {})
+    blockers = list(decision.get("blockers") or [])
+    if decision.get("r5_acceptance_state") != "pass":
+        blockers.append("r5_acceptance_state_not_pass")
+    if not decision.get("selected_r5_multiobjective_pareto_valid"):
+        blockers.append("selected_r5_multiobjective_pareto_not_valid")
+    if not decision.get("claim_narrowing_required_for_raw_unconstrained_pareto"):
+        blockers.append("raw_ppa_nonoptimality_not_recorded")
+    if summary.get("input_r3_acceptance_state") != "pass":
+        blockers.append("r5_r3_linkage_not_pass")
+    if summary.get("input_r4_acceptance_state") != "pass":
+        blockers.append("r5_r4_linkage_not_pass")
+    if summary.get("selection_rationale_rows", 0) < 4:
+        blockers.append("r5_selection_rationale_rows_missing")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": decision.get("r5_acceptance_state", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "selection_rationale_rows": summary.get("selection_rationale_rows", 0),
+        "selected_r5_multiobjective_pareto_valid": decision.get("selected_r5_multiobjective_pareto_valid"),
+        "selected_raw_energy_latency_area_pareto_valid": decision.get("selected_raw_energy_latency_area_pareto_valid"),
+        "claim_narrowing_required": decision.get("claim_narrowing_required_for_raw_unconstrained_pareto", False),
+        "input_r3_acceptance_state": summary.get("input_r3_acceptance_state", "missing"),
+        "input_r4_acceptance_state": summary.get("input_r4_acceptance_state", "missing"),
+    }
+
+
 def system_sensitivity_boundary() -> dict[str, Any]:
     payload = load_json(SYSTEM_SENSITIVITY_JSON)
     summary = payload.get("summary", {})
@@ -283,6 +315,9 @@ def system_sensitivity_boundary() -> dict[str, Any]:
         "minimum_pessimistic_edp_improvement_pct": summary.get("minimum_pessimistic_edp_improvement_pct"),
         "not_beneficial_sweep_rows": summary.get("not_beneficial_sweep_rows", 0),
         "thin_margin_sweep_rows": summary.get("thin_margin_sweep_rows", 0),
+        "combined_not_beneficial_rows": summary.get("combined_not_beneficial_rows", 0),
+        "combined_thin_margin_rows": summary.get("combined_thin_margin_rows", 0),
+        "stacked_boundary_not_beneficial_rows": summary.get("stacked_boundary_not_beneficial_rows", 0),
         "claim_narrowing_required": decision.get("claim_narrowing_required_for_extreme_sweeps", False),
     }
 
@@ -309,6 +344,11 @@ def rtl_control_plane_boundary() -> dict[str, Any]:
         blockers.append("r7_simulator_control_term_missing")
     if payload.get("yosys", {}).get("status") != "pass":
         blockers.append("r7_yosys_not_pass")
+    coverage = payload.get("contract_coverage", {})
+    if coverage.get("contract_vector_count", 0) < 10:
+        blockers.append("r7_contract_vector_count_below_10")
+    if coverage.get("status") != "pass":
+        blockers.append("r7_contract_vectors_not_pass")
     return {
         "status": "pass" if not blockers else "fail",
         "blockers": sorted(set(blockers)),
@@ -321,6 +361,10 @@ def rtl_control_plane_boundary() -> dict[str, Any]:
             "simulator_control_pj_per_sideband_group", "missing"
         ),
         "max_control_energy_share": decision.get("max_promoted_control_energy_share", "missing"),
+        "contract_vector_count": coverage.get("contract_vector_count", 0),
+        "contract_vector_pass_count": coverage.get("pass_count", 0),
+        "coverage_method": coverage.get("coverage_method", "missing"),
+        "simulation_backend": coverage.get("simulation_backend", "missing"),
     }
 
 
@@ -353,6 +397,14 @@ def calibration_ranges_boundary() -> dict[str, Any]:
         blockers.append("r8_architecture_parameter_linkage_missing")
     if not any(row.get("r6_boundary_linked") for row in rows):
         blockers.append("r8_r6_boundary_linkage_missing")
+    if not decision.get("all_source_checksums_present"):
+        blockers.append("r8_source_checksums_missing")
+    if not decision.get("all_range_rows_provenance_pass"):
+        blockers.append("r8_range_provenance_not_pass")
+    if not decision.get("all_range_rows_monotonic"):
+        blockers.append("r8_range_monotonicity_not_pass")
+    if summary.get("claim_boundary_scan", {}).get("status") != "pass":
+        blockers.append("r8_positive_forbidden_claim_match")
     return {
         "status": "pass" if not blockers else "fail",
         "blockers": sorted(set(blockers)),
@@ -365,6 +417,11 @@ def calibration_ranges_boundary() -> dict[str, Any]:
         "phy_fail_rows": summary.get("phy_fail_rows", 0),
         "input_r6_acceptance_state": summary.get("input_r6_acceptance_state", "missing"),
         "input_r7_acceptance_state": summary.get("input_r7_acceptance_state", "missing"),
+        "all_source_checksums_present": decision.get("all_source_checksums_present", False),
+        "all_range_rows_provenance_pass": decision.get("all_range_rows_provenance_pass", False),
+        "all_range_rows_monotonic": decision.get("all_range_rows_monotonic", False),
+        "claim_boundary_scan_status": summary.get("claim_boundary_scan", {}).get("status", "missing"),
+        "claim_boundary_forbidden_matches": summary.get("claim_boundary_scan", {}).get("forbidden_positive_match_count", "missing"),
     }
 
 
@@ -565,6 +622,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     accuracy = accuracy_budget(rows_csv)
     end_to_end_accuracy = end_to_end_accuracy_boundary()
     same_sim_baselines = same_simulator_baseline_boundary()
+    pareto_design_space = pareto_design_space_boundary()
     system_sensitivity = system_sensitivity_boundary()
     rtl_control = rtl_control_plane_boundary()
     calibration_ranges = calibration_ranges_boundary()
@@ -691,6 +749,23 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "Keep SPICE/RTL/PHY evidence as calibration, proxy, or boundary evidence only.",
         ),
         gate_row(
+            "S5a",
+            "R5 governed Pareto selection rationale is explicit",
+            pareto_design_space["status"],
+            (
+                f"r5={pareto_design_space['acceptance']}; "
+                f"stop={pareto_design_space['stop_condition']}; "
+                f"selection_rationale_rows={pareto_design_space['selection_rationale_rows']}; "
+                f"r5_valid={pareto_design_space['selected_r5_multiobjective_pareto_valid']}; "
+                f"raw_ppa_valid={pareto_design_space['selected_raw_energy_latency_area_pareto_valid']}; "
+                f"claim_narrowing_required={pareto_design_space['claim_narrowing_required']}; "
+                f"r3={pareto_design_space['input_r3_acceptance_state']}; "
+                f"r4={pareto_design_space['input_r4_acceptance_state']}"
+            ),
+            pareto_design_space["blockers"],
+            "Regenerate R5 and keep raw-PPA non-optimality visible in the selection rationale.",
+        ),
+        gate_row(
             "S5b",
             "R6 memory, conversion, and link sensitivity preserves the bounded claim",
             system_sensitivity["status"],
@@ -701,6 +776,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 f"{system_sensitivity['minimum_pessimistic_edp_improvement_pct']}; "
                 f"not_beneficial_sweep_rows={system_sensitivity['not_beneficial_sweep_rows']}; "
                 f"thin_margin_sweep_rows={system_sensitivity['thin_margin_sweep_rows']}; "
+                f"combined_not_beneficial_rows={system_sensitivity['combined_not_beneficial_rows']}; "
+                f"stacked_boundary_not_beneficial_rows={system_sensitivity['stacked_boundary_not_beneficial_rows']}; "
                 f"claim_narrowing_required={system_sensitivity['claim_narrowing_required']}"
             ),
             system_sensitivity["blockers"],
@@ -717,7 +794,11 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 f"area_ge={rtl_control['area_ge_proxy']}; "
                 f"slack_ps={rtl_control['critical_path_slack_ps']}; "
                 f"control_pj_per_group={rtl_control['simulator_control_pj_per_sideband_group']}; "
-                f"max_control_share={rtl_control['max_control_energy_share']}"
+                f"max_control_share={rtl_control['max_control_energy_share']}; "
+                f"contract_vectors={rtl_control['contract_vector_pass_count']}/"
+                f"{rtl_control['contract_vector_count']}; "
+                f"coverage={rtl_control['coverage_method']}; "
+                f"sim_backend={rtl_control['simulation_backend']}"
             ),
             rtl_control["blockers"],
             "Regenerate R7 and rerun PPA/science gate if control overhead is no longer negligible.",
@@ -734,7 +815,12 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 f"phy_pass={calibration_ranges['phy_pass_rows']}; "
                 f"phy_fail={calibration_ranges['phy_fail_rows']}; "
                 f"r6={calibration_ranges['input_r6_acceptance_state']}; "
-                f"r7={calibration_ranges['input_r7_acceptance_state']}"
+                f"r7={calibration_ranges['input_r7_acceptance_state']}; "
+                f"checksums={calibration_ranges['all_source_checksums_present']}; "
+                f"provenance={calibration_ranges['all_range_rows_provenance_pass']}; "
+                f"monotonic={calibration_ranges['all_range_rows_monotonic']}; "
+                f"claim_scan={calibration_ranges['claim_boundary_scan_status']}; "
+                f"forbidden_matches={calibration_ranges['claim_boundary_forbidden_matches']}"
             ),
             calibration_ranges["blockers"],
             "Regenerate R8 and keep the paper wording at calibration/boundary level if device closure is absent.",
@@ -760,6 +846,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "accuracy": accuracy,
         "end_to_end_accuracy": end_to_end_accuracy,
         "same_sim_baselines": same_sim_baselines,
+        "pareto_design_space": pareto_design_space,
         "system_sensitivity": system_sensitivity,
         "rtl_control_plane": rtl_control,
         "calibration_ranges": calibration_ranges,

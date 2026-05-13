@@ -77,6 +77,18 @@
         }
       ]
     },
+    "pareto_design_space": {
+      "status": "pass",
+      "blockers": [],
+      "acceptance": "pass",
+      "stop_condition": "no R5 hard stop; raw energy-latency-area dominance is recorded and the claim is narrowed to the governed multi-objective evidence surface",
+      "selection_rationale_rows": 30,
+      "selected_r5_multiobjective_pareto_valid": true,
+      "selected_raw_energy_latency_area_pareto_valid": false,
+      "claim_narrowing_required": true,
+      "input_r3_acceptance_state": "pass",
+      "input_r4_acceptance_state": "pass"
+    },
     "system_sensitivity": {
       "status": "pass",
       "blockers": [],
@@ -85,6 +97,9 @@
       "minimum_pessimistic_edp_improvement_pct": 12.102428098701768,
       "not_beneficial_sweep_rows": 2,
       "thin_margin_sweep_rows": 6,
+      "combined_not_beneficial_rows": 16,
+      "combined_thin_margin_rows": 16,
+      "stacked_boundary_not_beneficial_rows": 0,
       "claim_narrowing_required": true
     },
     "rtl_control_plane": {
@@ -96,7 +111,11 @@
       "area_ge_proxy": 1636.4,
       "critical_path_slack_ps": 279.0,
       "simulator_control_pj_per_sideband_group": 0.5904,
-      "max_control_energy_share": 0.00037261230692448683
+      "max_control_energy_share": 0.00037261230692448683,
+      "contract_vector_count": 11,
+      "contract_vector_pass_count": 11,
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available"
     },
     "calibration_ranges": {
       "status": "pass",
@@ -116,7 +135,12 @@
       "phy_pass_rows": 346,
       "phy_fail_rows": 230,
       "input_r6_acceptance_state": "pass",
-      "input_r7_acceptance_state": "pass"
+      "input_r7_acceptance_state": "pass",
+      "all_source_checksums_present": true,
+      "all_range_rows_provenance_pass": true,
+      "all_range_rows_monotonic": true,
+      "claim_boundary_scan_status": "pass",
+      "claim_boundary_forbidden_matches": 0
     },
     "workload_expansion": {
       "status": "pass",
@@ -302,7 +326,7 @@
     },
     "manuscript_maturity": {
       "status": "pass",
-      "line_count": 1404,
+      "line_count": 1422,
       "has_references": true,
       "has_figures": true,
       "blockers": []
@@ -394,7 +418,7 @@
       "gate": "Manuscript maturity reaches full journal-paper density",
       "required": true,
       "status": "pass",
-      "evidence": "line_count=1404; references=True; figures=True",
+      "evidence": "line_count=1422; references=True; figures=True",
       "blockers": "",
       "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
     },
@@ -408,11 +432,20 @@
       "next_action": "Keep SPICE/RTL/PHY evidence as calibration, proxy, or boundary evidence only."
     },
     {
+      "gate_id": "S5a",
+      "gate": "R5 governed Pareto selection rationale is explicit",
+      "required": true,
+      "status": "pass",
+      "evidence": "r5=pass; stop=no R5 hard stop; raw energy-latency-area dominance is recorded and the claim is narrowed to the governed multi-objective evidence surface; selection_rationale_rows=30; r5_valid=True; raw_ppa_valid=False; claim_narrowing_required=True; r3=pass; r4=pass",
+      "blockers": "",
+      "next_action": "Regenerate R5 and keep raw-PPA non-optimality visible in the selection rationale."
+    },
+    {
       "gate_id": "S5b",
       "gate": "R6 memory, conversion, and link sensitivity preserves the bounded claim",
       "required": true,
       "status": "pass",
-      "evidence": "r6=pass; stop=no R6 hard stop; nominal and pessimistic named regimes preserve the bounded promoted EDP claim; min_pessimistic_edp_improvement_pct=12.102428098701768; not_beneficial_sweep_rows=2; thin_margin_sweep_rows=6; claim_narrowing_required=True",
+      "evidence": "r6=pass; stop=no R6 hard stop; nominal and pessimistic named regimes preserve the bounded promoted EDP claim; min_pessimistic_edp_improvement_pct=12.102428098701768; not_beneficial_sweep_rows=2; thin_margin_sweep_rows=6; combined_not_beneficial_rows=16; stacked_boundary_not_beneficial_rows=0; claim_narrowing_required=True",
       "blockers": "",
       "next_action": "Regenerate R6 and narrow the claim if a realistic memory/conversion/link regime erases the benefit."
     },
@@ -421,7 +454,7 @@
       "gate": "R7 RTL control-plane upgrade remains bounded and simulator-linked",
       "required": true,
       "status": "pass",
-      "evidence": "r7=pass; stop=no R7 hard stop; cells=597; area_ge=1636.4; slack_ps=279.0; control_pj_per_group=0.5904; max_control_share=0.00037261230692448683",
+      "evidence": "r7=pass; stop=no R7 hard stop; cells=597; area_ge=1636.4; slack_ps=279.0; control_pj_per_group=0.5904; max_control_share=0.00037261230692448683; contract_vectors=11/11; coverage=yosys_plus_static_contract_vectors; sim_backend=not_available",
       "blockers": "",
       "next_action": "Regenerate R7 and rerun PPA/science gate if control overhead is no longer negligible."
     },
@@ -430,7 +463,7 @@
       "gate": "R8 ADC and photonic calibration ranges remain bounded",
       "required": true,
       "status": "pass",
-      "evidence": "r8=pass; stop=no R8 hard stop; ranges remain calibration and boundary evidence only; rows=13; adc_macro=measured; phy_pass=346; phy_fail=230; r6=pass; r7=pass",
+      "evidence": "r8=pass; stop=no R8 hard stop; ranges remain calibration and boundary evidence only; rows=13; adc_macro=measured; phy_pass=346; phy_fail=230; r6=pass; r7=pass; checksums=True; provenance=True; monotonic=True; claim_scan=pass; forbidden_matches=0",
       "blockers": "",
       "next_action": "Regenerate R8 and keep the paper wording at calibration/boundary level if device closure is absent."
     },

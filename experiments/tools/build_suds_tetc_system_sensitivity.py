@@ -122,6 +122,63 @@ AXIS_SWEEPS = {
     "sideband_control_overhead_scale": (0.5, 1.0, 3.0, 5.0, 10.0, 25.0, 100.0),
 }
 
+COMBINED_SWEEP_GRIDS = {
+    "dac_energy_scale_x_optical_link_loss_scale": {
+        "axes": ("dac_energy_scale", "optical_link_loss_scale"),
+        "values": ((1.0, 4.0, 16.0, 64.0, 128.0), (1.0, 1.5, 2.0, 4.0)),
+        "description": "Combined DAC/MZM conversion and optical-link-loss stress.",
+    },
+    "memory_bandwidth_scale_x_sequence_length_scale": {
+        "axes": ("memory_bandwidth_scale", "sequence_length_scale"),
+        "values": ((0.25, 0.5, 1.0, 2.0), (1.0, 2.0, 4.0)),
+        "description": "Combined bandwidth scarcity and long-sequence stress.",
+    },
+    "dac_energy_scale_x_sideband_control_overhead_scale": {
+        "axes": ("dac_energy_scale", "sideband_control_overhead_scale"),
+        "values": ((1.0, 4.0, 16.0, 64.0, 128.0), (1.0, 10.0, 25.0, 100.0)),
+        "description": "Combined conversion and sideband-control stress.",
+    },
+    "adc_energy_scale_x_memory_bandwidth_scale": {
+        "axes": ("adc_energy_scale", "memory_bandwidth_scale"),
+        "values": ((1.0, 2.0, 4.0, 8.0), (0.25, 0.5, 1.0, 2.0)),
+        "description": "Combined ADC-energy and bandwidth stress.",
+    },
+}
+
+STACKED_BOUNDARY_SCENARIOS = {
+    "conversion_severe": {
+        "description": "Stacked conversion stress used only as boundary evidence.",
+        "values": {
+            "adc_energy_scale": 4.0,
+            "dac_energy_scale": 64.0,
+            "laser_multiplier": 2.0,
+            "optical_link_loss_scale": 2.0,
+        },
+    },
+    "memory_severe": {
+        "description": "Stacked memory/sequence stress used only as boundary evidence.",
+        "values": {
+            "memory_bandwidth_scale": 0.25,
+            "activation_reuse_scale": 0.35,
+            "sequence_length_scale": 4.0,
+            "batch_size_scale": 1.0,
+        },
+    },
+    "all_extreme": {
+        "description": "All-extreme stacked stress used only as boundary evidence.",
+        "values": {
+            "memory_bandwidth_scale": 0.25,
+            "activation_reuse_scale": 0.35,
+            "sequence_length_scale": 4.0,
+            "adc_energy_scale": 8.0,
+            "dac_energy_scale": 128.0,
+            "laser_multiplier": 4.0,
+            "optical_link_loss_scale": 4.0,
+            "sideband_control_overhead_scale": 100.0,
+        },
+    },
+}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -217,6 +274,39 @@ def scenarios() -> list[dict[str, Any]]:
                     **scenario_values,
                 }
             )
+    for grid_name, spec in COMBINED_SWEEP_GRIDS.items():
+        axis_a, axis_b = spec["axes"]
+        values_a, values_b = spec["values"]
+        for value_a in values_a:
+            for value_b in values_b:
+                scenario_values = dict(DEFAULT_SCENARIO)
+                scenario_values[axis_a] = float(value_a)
+                scenario_values[axis_b] = float(value_b)
+                out.append(
+                    {
+                        "scenario_id": f"r6_combined_{grid_name}_{slug(float(value_a))}_{slug(float(value_b))}",
+                        "regime": "combined_stress",
+                        "sweep_axis": grid_name,
+                        "sweep_value": f"{value_a:g}x{value_b:g}",
+                        "realistic_regime": False,
+                        "description": spec["description"],
+                        **scenario_values,
+                    }
+                )
+    for name, spec in STACKED_BOUNDARY_SCENARIOS.items():
+        scenario_values = dict(DEFAULT_SCENARIO)
+        scenario_values.update(spec["values"])
+        out.append(
+            {
+                "scenario_id": f"r6_stacked_{name}",
+                "regime": "stacked_boundary",
+                "sweep_axis": "stacked_boundary",
+                "sweep_value": name,
+                "realistic_regime": False,
+                "description": spec["description"],
+                **scenario_values,
+            }
+        )
     return out
 
 
@@ -444,6 +534,77 @@ def axis_boundary_summary(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
+def combined_stress_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    combined = [row for row in rows if row["regime"] == "combined_stress"]
+    grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in combined:
+        grouped[(str(row["sweep_axis"]), str(row["workload"]))].append(row)
+
+    groups: list[dict[str, Any]] = []
+    first_not: list[dict[str, Any]] = []
+    for (axis, workload), group_rows in sorted(grouped.items()):
+        failing = [row for row in group_rows if not row["benefit_preserved"]]
+        thin = [row for row in group_rows if row["benefit_class"] == "thin_margin_boundary"]
+        worst = max(group_rows, key=lambda item: as_float(item["edp_ratio_vs_reference"]))
+        groups.append(
+            {
+                "sweep_axis": axis,
+                "workload": workload,
+                "rows": len(group_rows),
+                "not_beneficial_rows": len(failing),
+                "thin_margin_rows": len(thin),
+                "min_edp_improvement_pct": min(as_float(row["edp_improvement_vs_reference_pct"]) for row in group_rows),
+                "max_edp_ratio_vs_reference": as_float(worst["edp_ratio_vs_reference"]),
+                "worst_scenario_id": worst["scenario_id"],
+            }
+        )
+        if failing:
+            first = sorted(
+                failing,
+                key=lambda item: (
+                    as_float(item["dac_energy_scale"]),
+                    as_float(item["adc_energy_scale"]),
+                    as_float(item["optical_link_loss_scale"]),
+                    as_float(item["sideband_control_overhead_scale"]),
+                    -as_float(item["memory_bandwidth_scale"]),
+                    as_float(item["sequence_length_scale"]),
+                ),
+            )[0]
+            first_not.append(
+                {
+                    "sweep_axis": axis,
+                    "workload": workload,
+                    "scenario_id": first["scenario_id"],
+                    "sweep_value": first["sweep_value"],
+                    "edp_ratio_vs_reference": as_float(first["edp_ratio_vs_reference"]),
+                    "edp_improvement_vs_reference_pct": as_float(first["edp_improvement_vs_reference_pct"]),
+                }
+            )
+    return {
+        "groups": groups,
+        "rows": len(combined),
+        "not_beneficial_rows": sum(item["not_beneficial_rows"] for item in groups),
+        "thin_margin_rows": sum(item["thin_margin_rows"] for item in groups),
+        "first_not_beneficial_by_pair": first_not,
+    }
+
+
+def stacked_boundary_examples(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    stacked = [row for row in rows if row["regime"] == "stacked_boundary"]
+    return [
+        {
+            "workload": row["workload"],
+            "scenario_id": row["scenario_id"],
+            "scenario": row["sweep_value"],
+            "benefit_class": row["benefit_class"],
+            "benefit_preserved": bool(row["benefit_preserved"]),
+            "edp_ratio_vs_reference": as_float(row["edp_ratio_vs_reference"]),
+            "edp_improvement_vs_reference_pct": as_float(row["edp_improvement_vs_reference_pct"]),
+        }
+        for row in sorted(stacked, key=lambda item: (str(item["sweep_value"]), str(item["workload"])))
+    ]
+
+
 def evidence_acceptance(r3_json: dict[str, Any], r5_json: dict[str, Any]) -> tuple[str, str]:
     r3 = r3_json.get("summary", {}).get("decision", {}).get("r3_acceptance_state", "")
     r5 = r5_json.get("summary", {}).get("decision", {}).get("r5_acceptance_state", "")
@@ -460,6 +621,8 @@ def build_summary(
 ) -> dict[str, Any]:
     named = named_regime_summary(rows)
     boundaries = axis_boundary_summary(rows)
+    combined = combined_stress_summary(rows)
+    stacked = stacked_boundary_examples(rows)
     r3_state, r5_state = evidence_acceptance(r3_json, r5_json)
 
     present_workloads = sorted(
@@ -481,6 +644,12 @@ def build_summary(
         row for row in rows
         if row["regime"] == "one_at_a_time_sweep" and row["benefit_class"] == "thin_margin_boundary"
     ]
+    combined_not_beneficial = [row for row in rows if row["regime"] == "combined_stress" and not row["benefit_preserved"]]
+    combined_thin = [
+        row for row in rows
+        if row["regime"] == "combined_stress" and row["benefit_class"] == "thin_margin_boundary"
+    ]
+    stacked_not_beneficial = [row for row in rows if row["regime"] == "stacked_boundary" and not row["benefit_preserved"]]
 
     blockers: list[str] = []
     if missing_workloads:
@@ -523,8 +692,14 @@ def build_summary(
         "missing_workloads": missing_workloads,
         "named_regimes": named,
         "axis_boundaries": boundaries,
+        "combined_stress_summary": combined,
+        "first_not_beneficial_by_pair": combined["first_not_beneficial_by_pair"],
+        "stacked_boundary_examples": stacked,
         "not_beneficial_sweep_rows": len(not_beneficial_rows),
         "thin_margin_sweep_rows": len(thin_rows),
+        "combined_not_beneficial_rows": len(combined_not_beneficial),
+        "combined_thin_margin_rows": len(combined_thin),
+        "stacked_boundary_not_beneficial_rows": len(stacked_not_beneficial),
         "not_beneficial_examples": failure_examples,
         "minimum_pessimistic_edp_improvement_pct": named.get("pessimistic", {}).get("min_edp_improvement_pct"),
         "input_r3_acceptance_state": r3_state,
@@ -536,10 +711,12 @@ def build_summary(
             "realistic_stop_condition_triggered": realistic_stop,
             "named_nominal_and_pessimistic_preserve_benefit": named_realistic_ok,
             "optimistic_preserves_benefit": optimistic_ok,
-            "claim_narrowing_required_for_extreme_sweeps": bool(not_beneficial_rows or thin_rows),
+            "claim_narrowing_required_for_extreme_sweeps": bool(
+                not_beneficial_rows or thin_rows or combined_not_beneficial or combined_thin or stacked_not_beneficial
+            ),
             "valid_regime_statement": (
                 "The promoted claim is valid for the nominal, optimistic, and pessimistic named R6 regimes. "
-                "One-at-a-time extreme sweeps are boundary evidence and are not promoted as realistic operating regimes."
+                "One-at-a-time, combined-stress, and stacked-boundary sweeps are boundary evidence and are not promoted as realistic operating regimes."
             ),
         },
         "artifacts": {
@@ -614,6 +791,9 @@ def write_report(path: Path, *, args: argparse.Namespace, rows: list[dict[str, A
         f"- Nominal and pessimistic named regimes preserve benefit: `{decision['named_nominal_and_pessimistic_preserve_benefit']}`",
         f"- Claim narrowing required for extreme sweeps: `{decision['claim_narrowing_required_for_extreme_sweeps']}`",
         f"- Minimum pessimistic EDP improvement: `{fmt(summary['minimum_pessimistic_edp_improvement_pct'], 2)}%`",
+        f"- Combined-stress rows: `{summary['combined_stress_summary']['rows']}`",
+        f"- Combined not-beneficial rows: `{summary['combined_not_beneficial_rows']}`",
+        f"- Stacked boundary not-beneficial rows: `{summary['stacked_boundary_not_beneficial_rows']}`",
         "",
         "## Named Regimes",
         "",
@@ -668,6 +848,41 @@ def write_report(path: Path, *, args: argparse.Namespace, rows: list[dict[str, A
             )
     else:
         lines.append("| n/a | n/a | n/a | n/a | n/a |")
+
+    lines.extend(
+        [
+            "",
+            "## Combined Stress",
+            "",
+            "Combined-stress rows are boundary evidence. They are not promoted as",
+            "realistic operating regimes, but they show where simultaneous bad",
+            "conditions begin to erode the bounded claim.",
+            "",
+            "| Pair | Workload | Rows | Not-beneficial | Thin-margin | Worst EDP ratio |",
+            "|---|---|---:|---:|---:|---:|",
+        ]
+    )
+    for item in summary["combined_stress_summary"]["groups"]:
+        lines.append(
+            f"| `{item['sweep_axis']}` | `{item['workload']}` | {item['rows']} | "
+            f"{item['not_beneficial_rows']} | {item['thin_margin_rows']} | "
+            f"{fmt(item['max_edp_ratio_vs_reference'], 3)} |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Stacked Boundary Examples",
+            "",
+            "| Workload | Scenario | Class | EDP ratio | EDP improvement |",
+            "|---|---|---|---:|---:|",
+        ]
+    )
+    for item in summary["stacked_boundary_examples"]:
+        lines.append(
+            f"| `{item['workload']}` | `{item['scenario']}` | `{item['benefit_class']}` | "
+            f"{fmt(item['edp_ratio_vs_reference'], 3)} | {fmt(item['edp_improvement_vs_reference_pct'], 2)}% |"
+        )
 
     lines.extend(
         [

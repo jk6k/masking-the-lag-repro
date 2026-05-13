@@ -126,6 +126,12 @@ instead, it is the governed Pareto point used after applying the 1 pp
 accuracy budget, R3/R4 evidence linkage, memory-pressure, control-overhead,
 and calibration-sensitivity objectives. Table~\ref{tab:operating-point}
 records the promoted setting.
+The reinforced R5 selection-rationale artifact adds a selected-neighborhood
+audit and records raw-PPA dominators as explicit pressure against any global
+PPA-optimality wording. Those variants improve one or more raw PPA axes, but
+they do not replace the promoted point because the promoted claim is tied to
+the governed accuracy, fairness, memory-pressure, control, and calibration
+surface.
 
 \begin{table}[t]
 \centering
@@ -264,6 +270,10 @@ ADC/DAC cost, laser multiplier, optical-link loss, and sideband overhead. Its
 named pessimistic regime preserves at least 12.10\% EDP improvement, while
 extreme one-at-a-time DAC/MZM scaling exposes the MobileViT-S boundary where
 the promoted point is no longer beneficial.
+The reinforced R6 artifact also adds combined stress grids over conversion,
+link, memory, sequence length, ADC energy, and sideband overhead, plus stacked
+boundary scenarios. These rows are used to mark valid regions and failure
+boundaries; they are not promoted as realistic operating regimes.
 
 \begin{figure}[t]
 \centering
@@ -315,12 +325,20 @@ than claiming circuit closure. ADC tier energy is tied to the local ADC macro
 sanity suite. Sideband-control cost is tied to the Yosys RTL control-plane
 artifact. Optical-link assumptions are tied to the PHY boundary sweep. These
 artifacts calibrate simulator parameters and stress settings only.
+The reinforced R7 artifact adds static RTL contract vectors for reset,
+configuration, KEEP/DEGRADE/PRUNE tiering, queue and selector guards,
+tile-command handshaking, and command-bit layout. Because the local environment
+does not provide an RTL simulator, these vectors are reported as Yosys plus
+static contract coverage rather than RTL simulation.
 The R8 calibration-range artifact makes this boundary explicit: ADC4/6/8
 energy and latency now carry measured macro corner ranges, while photonic
 settings carry PHY ER/crosstalk, pass-ratio, laser-power, laser multiplier,
 link-loss, and DAC/MZM scaling ranges. The nominal values in
 Table~\ref{tab:calibration} remain the selected simulator point; the
 pessimistic and boundary values are calibration ranges, not circuit closure.
+The reinforced R8 provenance matrix records source checksums, source-row
+counts, label completeness, monotonic range checks, and a positive-claim scan
+for forbidden closure wording.
 
 \begin{table*}[t]
 \centering

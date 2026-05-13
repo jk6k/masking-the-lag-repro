@@ -150,7 +150,7 @@
       "present": true,
       "status": "pass",
       "manuscript_status": "pass",
-      "manuscript_line_count": 1404,
+      "manuscript_line_count": 1422,
       "red_team_status": "pass",
       "red_team_lens_count": 4,
       "external_red_team_status": "not_available_in_local_execution",

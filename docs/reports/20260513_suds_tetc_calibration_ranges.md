@@ -21,6 +21,9 @@ bench-energy, Lumerical, Spectre, or P&R closure.
 - Blockers: `none`
 - Device-solver required: `False`
 - Calibration-only boundary retained: `True`
+- All source checksums present: `True`
+- All range rows monotonic: `True`
+- Claim-boundary scan status: `pass`
 
 ## Range Table
 
@@ -46,6 +49,29 @@ bench-energy, Lumerical, Spectre, or P&R closure.
 - Modulator/detector noise is represented by ER and crosstalk axes from the PHY boundary sweep.
 - Laser, optical-link, and DAC/MZM ranges are tied to the R6 named regimes and boundary sweeps.
 - The architecture paper may cite these rows as calibration ranges and boundary evidence only.
+
+## Provenance Matrix
+
+| Parameter | Source exists | Source rows | SHA256 | Monotonic | Status |
+|---|---:|---:|---|---:|---|
+| `adc4_energy_pj` | `True` | 12 | `d7889f28929bfe49` | `True` | `pass` |
+| `adc4_latency_ps` | `True` | 12 | `d7889f28929bfe49` | `True` | `pass` |
+| `adc6_energy_pj` | `True` | 12 | `d7889f28929bfe49` | `True` | `pass` |
+| `adc6_latency_ps` | `True` | 12 | `d7889f28929bfe49` | `True` | `pass` |
+| `adc8_energy_pj` | `True` | 12 | `d7889f28929bfe49` | `True` | `pass` |
+| `adc8_latency_ps` | `True` | 12 | `d7889f28929bfe49` | `True` | `pass` |
+| `modulator_extinction_ratio_db` | `True` | 576 | `fc784f28ecda2155` | `True` | `pass` |
+| `detector_crosstalk_db` | `True` | 576 | `fc784f28ecda2155` | `True` | `pass` |
+| `phy_pass_ratio` | `True` | 576 | `fc784f28ecda2155` | `True` | `pass` |
+| `phy_laser_power_mw` | `True` | 576 | `fc784f28ecda2155` | `True` | `pass` |
+| `laser_multiplier` | `True` | 266 | `1e74367dfdea41ea` | `True` | `pass` |
+| `optical_link_loss_scale` | `True` | 266 | `1e74367dfdea41ea` | `True` | `pass` |
+| `dac_mzm_energy_scale` | `True` | 266 | `1e74367dfdea41ea` | `True` | `pass` |
+
+## Claim-Boundary Scan
+
+- Status: `pass`
+- Forbidden positive matches: `0`
 
 ## Artifacts
 

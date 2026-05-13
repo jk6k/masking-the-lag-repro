@@ -7,6 +7,7 @@
     "promotion_decision": "appendix",
     "rtl_source": "experiments/hardware/suds_control_plane.v",
     "regeneration_command": "make suds-tetc-rtl-control-plane",
+    "contract_vectors_csv": "experiments/results/report_data/suds_tetc_rtl_control_plane_contract_vectors_20260513_tetc_pivot.csv",
     "claim_boundary_note": "This artifact supports architecture-level sideband-control accounting only. It must not be described as P&R, foundry, timing-closure, device, or bench evidence."
   },
   "rtl_features": {
@@ -17,6 +18,138 @@
     "queue_pressure_guard": true,
     "selector_score_guard": true
   },
+  "contract_coverage": {
+    "coverage_method": "yosys_plus_static_contract_vectors",
+    "simulation_backend": "not_available",
+    "contract_vector_count": 11,
+    "pass_count": 11,
+    "fail_count": 0,
+    "status": "pass",
+    "claim_boundary": "Static RTL contract coverage only; no event-driven RTL simulation is claimed."
+  },
+  "contract_vectors": [
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_reset_defaults",
+      "category": "state_reset",
+      "expected_behavior": "reset initializes thresholds, budgets, sideband group, ready state, and output zeros",
+      "evidence": "reset assignment block",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_config_update",
+      "category": "configuration",
+      "expected_behavior": "cfg_valid_i updates thresholds, budgets, sideband group, queue limit, and score guard",
+      "evidence": "cfg_valid_i case statement",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_keep_low_slack",
+      "category": "tiering",
+      "expected_behavior": "low slack maps to KEEP",
+      "evidence": "tier combinational decision",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_degrade_mid_slack",
+      "category": "tiering",
+      "expected_behavior": "mid slack with degrade budget maps to DEGRADE",
+      "evidence": "tier combinational decision",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_prune_high_slack",
+      "category": "tiering",
+      "expected_behavior": "high slack with prune budget or queue pressure maps to PRUNE",
+      "evidence": "tier combinational decision",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_score_guard_keep",
+      "category": "guard",
+      "expected_behavior": "selector-score guard forces KEEP",
+      "evidence": "selector guard expression",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_queue_pressure_prune",
+      "category": "guard",
+      "expected_behavior": "queue pressure can force PRUNE and is encoded into command bit 31",
+      "evidence": "queue guard and command encoder",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_overflow_fallback",
+      "category": "overflow",
+      "expected_behavior": "empty budget fallback raises overflow flag and command bit 30",
+      "evidence": "overflow decision and command encoder",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_tile_not_ready_wait",
+      "category": "handshake",
+      "expected_behavior": "ISSUE moves to WAIT when tile_ready_i is low",
+      "evidence": "issue state transition",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_ready_only_idle",
+      "category": "handshake",
+      "expected_behavior": "ready_o is asserted only while state is IDLE",
+      "evidence": "ready assignment",
+      "status": "pass"
+    },
+    {
+      "tag": "20260513_tetc_pivot",
+      "roadmap_item": "R7_rtl_control_plane_upgrade",
+      "coverage_method": "yosys_plus_static_contract_vectors",
+      "simulation_backend": "not_available",
+      "vector_id": "r7_contract_command_bit_layout",
+      "category": "encoding",
+      "expected_behavior": "command bits carry tier, kernel id, sideband group, deadline delta, overflow, and queue pressure",
+      "evidence": "sideband command encoder",
+      "status": "pass"
+    }
+  ],
   "yosys": {
     "available": true,
     "status": "pass",
@@ -131,6 +264,11 @@
         "criterion": "Simulator control energy is tied to R7 RTL through a conservative scaling rule",
         "status": "pass",
         "evidence": "event_simulator_linkage"
+      },
+      {
+        "criterion": "Static RTL contract vectors cover command and state semantics",
+        "status": "pass",
+        "evidence": "contract_vectors"
       },
       {
         "criterion": "No P&R, foundry, or timing-closure overclaim is introduced",

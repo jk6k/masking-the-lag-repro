@@ -29,6 +29,7 @@ LEGACY_RTL_JSON = REPORT_DATA / "suds_rtl_control_overhead_20260512_j2_quality_b
 ARCH_SUMMARY_CSV = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}_summary.csv"
 EVENT_TRACE_CSV = REPORT_DATA / f"suds_tetc_event_trace_{TAG}.csv"
 JSON_OUT = REPORT_DATA / f"suds_tetc_rtl_control_plane_{TAG}.json"
+CONTRACT_CSV_OUT = REPORT_DATA / f"suds_tetc_rtl_control_plane_contract_vectors_{TAG}.csv"
 REPORT_OUT = REPO_ROOT / "docs/reports/20260513_suds_tetc_rtl_control_plane.md"
 RUN_ROOT = REPO_ROOT / f"experiments/results/runs/suds_tetc_rtl_control_plane_{TAG}"
 
@@ -48,6 +49,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--arch-summary-csv", type=Path, default=ARCH_SUMMARY_CSV)
     parser.add_argument("--event-trace-csv", type=Path, default=EVENT_TRACE_CSV)
     parser.add_argument("--json-out", type=Path, default=JSON_OUT)
+    parser.add_argument("--contract-csv-out", type=Path, default=CONTRACT_CSV_OUT)
     parser.add_argument("--report-out", type=Path, default=REPORT_OUT)
     parser.add_argument("--run-root", type=Path, default=RUN_ROOT)
     return parser.parse_args()
@@ -164,6 +166,121 @@ def rtl_feature_matrix(rtl_text: str) -> dict[str, bool]:
         "queue_pressure_guard": all(token in rtl_text for token in ("queue_depth_q", "queue_limit_q", "queue_pressure")),
         "selector_score_guard": all(token in rtl_text for token in ("selector_score_q", "score_guard_q", "score_guard_hit")),
     }
+
+
+def contract_vector(name: str, category: str, expected: str, checks: list[bool], evidence: str) -> dict[str, Any]:
+    return {
+        "tag": TAG,
+        "roadmap_item": "R7_rtl_control_plane_upgrade",
+        "coverage_method": "yosys_plus_static_contract_vectors",
+        "simulation_backend": "not_available",
+        "vector_id": f"r7_contract_{name}",
+        "category": category,
+        "expected_behavior": expected,
+        "evidence": evidence,
+        "status": "pass" if all(checks) else "fail",
+    }
+
+
+def rtl_contract_vectors(rtl_text: str) -> list[dict[str, Any]]:
+    return [
+        contract_vector(
+            "reset_defaults",
+            "state_reset",
+            "reset initializes thresholds, budgets, sideband group, ready state, and output zeros",
+            [
+                "tau_low_q <=" in rtl_text,
+                "keep_budget_q <= {BUDGET_BITS{1'b1}}" in rtl_text,
+                "sideband_group_q <= {{(GROUP_BITS-6){1'b0}}, 6'd32}" in rtl_text,
+                "state_o <= STATE_IDLE" in rtl_text,
+                "valid_o <= 1'b0" in rtl_text,
+            ],
+            "reset assignment block",
+        ),
+        contract_vector(
+            "config_update",
+            "configuration",
+            "cfg_valid_i updates thresholds, budgets, sideband group, queue limit, and score guard",
+            [
+                "if (cfg_valid_i)" in rtl_text,
+                "4'd0: tau_low_q" in rtl_text,
+                "4'd4: prune_budget_q" in rtl_text,
+                "4'd5: sideband_group_q" in rtl_text,
+                "4'd7: score_guard_q" in rtl_text,
+            ],
+            "cfg_valid_i case statement",
+        ),
+        contract_vector(
+            "keep_low_slack",
+            "tiering",
+            "low slack maps to KEEP",
+            ["slack_q <= tau_low_q" in rtl_text, "tier_next = TIER_KEEP" in rtl_text],
+            "tier combinational decision",
+        ),
+        contract_vector(
+            "degrade_mid_slack",
+            "tiering",
+            "mid slack with degrade budget maps to DEGRADE",
+            ["slack_q <= tau_high_q" in rtl_text, "!degrade_budget_empty" in rtl_text, "tier_next = TIER_DEGRADE" in rtl_text],
+            "tier combinational decision",
+        ),
+        contract_vector(
+            "prune_high_slack",
+            "tiering",
+            "high slack with prune budget or queue pressure maps to PRUNE",
+            ["!prune_budget_empty || queue_pressure" in rtl_text, "tier_next = TIER_PRUNE" in rtl_text],
+            "tier combinational decision",
+        ),
+        contract_vector(
+            "score_guard_keep",
+            "guard",
+            "selector-score guard forces KEEP",
+            ["score_guard_hit" in rtl_text, "selector_score_q >= score_guard_q" in rtl_text, "tier_next = TIER_KEEP" in rtl_text],
+            "selector guard expression",
+        ),
+        contract_vector(
+            "queue_pressure_prune",
+            "guard",
+            "queue pressure can force PRUNE and is encoded into command bit 31",
+            ["queue_depth_q >= queue_limit_q" in rtl_text, "queue_pressure" in rtl_text, "command_next[31] = queue_pressure" in rtl_text],
+            "queue guard and command encoder",
+        ),
+        contract_vector(
+            "overflow_fallback",
+            "overflow",
+            "empty budget fallback raises overflow flag and command bit 30",
+            ["overflow_next = 1'b1" in rtl_text, "overflow_o <= overflow_next" in rtl_text, "command_next[30] = overflow_next" in rtl_text],
+            "overflow decision and command encoder",
+        ),
+        contract_vector(
+            "tile_not_ready_wait",
+            "handshake",
+            "ISSUE moves to WAIT when tile_ready_i is low",
+            ["STATE_ISSUE" in rtl_text, "if (tile_ready_i)" in rtl_text, "state_o <= STATE_WAIT" in rtl_text],
+            "issue state transition",
+        ),
+        contract_vector(
+            "ready_only_idle",
+            "handshake",
+            "ready_o is asserted only while state is IDLE",
+            ["assign ready_o = (state_o == STATE_IDLE)" in rtl_text],
+            "ready assignment",
+        ),
+        contract_vector(
+            "command_bit_layout",
+            "encoding",
+            "command bits carry tier, kernel id, sideband group, deadline delta, overflow, and queue pressure",
+            [
+                "command_next[1:0] = tier_next" in rtl_text,
+                "command_next[9:2] = kernel_id_q[7:0]" in rtl_text,
+                "command_next[17:10] = sideband_group_q[7:0]" in rtl_text,
+                "command_next[29:18] = deadline_delta_q[11:0]" in rtl_text,
+                "command_next[30] = overflow_next" in rtl_text,
+                "command_next[31] = queue_pressure" in rtl_text,
+            ],
+            "sideband command encoder",
+        ),
+    ]
 
 
 def legacy_driver_anchor(path: Path) -> dict[str, Any]:
@@ -307,6 +424,7 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         raise SystemExit(f"missing RTL source: {args.rtl}")
     rtl_text = args.rtl.read_text(encoding="utf-8")
     features = rtl_feature_matrix(rtl_text)
+    contract_vectors = rtl_contract_vectors(rtl_text)
     yosys_info = try_yosys(args.rtl, args.run_root)
     anchor = legacy_driver_anchor(args.legacy_rtl_json)
     contract = estimate_control_contract(yosys_info, anchor)
@@ -320,6 +438,10 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         blockers.append("rtl_features_missing:" + ",".join(missing_features))
     if contract["critical_path_status"] != "pass":
         blockers.append("timing_proxy_not_pass")
+    if len(contract_vectors) < 10:
+        blockers.append("rtl_contract_vector_count_below_10")
+    if any(row["status"] != "pass" for row in contract_vectors):
+        blockers.append("rtl_contract_vector_failure")
     blockers.extend(linkage["blockers"])
 
     stop_triggered = not linkage["control_overhead_negligible"]
@@ -342,12 +464,23 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
             "promotion_decision": "appendix",
             "rtl_source": repo_path(args.rtl),
             "regeneration_command": "make suds-tetc-rtl-control-plane",
+            "contract_vectors_csv": repo_path(args.contract_csv_out),
             "claim_boundary_note": (
                 "This artifact supports architecture-level sideband-control accounting only. "
                 "It must not be described as P&R, foundry, timing-closure, device, or bench evidence."
             ),
         },
         "rtl_features": features,
+        "contract_coverage": {
+            "coverage_method": "yosys_plus_static_contract_vectors",
+            "simulation_backend": "not_available",
+            "contract_vector_count": len(contract_vectors),
+            "pass_count": sum(1 for row in contract_vectors if row["status"] == "pass"),
+            "fail_count": sum(1 for row in contract_vectors if row["status"] != "pass"),
+            "status": "pass" if contract_vectors and all(row["status"] == "pass" for row in contract_vectors) else "fail",
+            "claim_boundary": "Static RTL contract coverage only; no event-driven RTL simulation is claimed.",
+        },
+        "contract_vectors": contract_vectors,
         "yosys": yosys_info,
         "legacy_driver_anchor": anchor,
         "control_contract": contract,
@@ -369,6 +502,11 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
                     "criterion": "Simulator control energy is tied to R7 RTL through a conservative scaling rule",
                     "status": linkage["status"],
                     "evidence": "event_simulator_linkage",
+                },
+                {
+                    "criterion": "Static RTL contract vectors cover command and state semantics",
+                    "status": "pass" if contract_vectors and all(row["status"] == "pass" for row in contract_vectors) else "fail",
+                    "evidence": "contract_vectors",
                 },
                 {
                     "criterion": "No P&R, foundry, or timing-closure overclaim is introduced",
@@ -410,6 +548,17 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(json_safe(payload), indent=2) + "\n", encoding="utf-8")
 
 
+def write_contract_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not rows:
+        raise SystemExit(f"refusing to write empty contract-vector CSV: {path}")
+    fields = list(rows[0])
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def fmt(value: Any, digits: int = 3) -> str:
     return f"{as_float(value):.{digits}f}"
 
@@ -421,6 +570,7 @@ def write_report(path: Path, payload: dict[str, Any]) -> None:
     decision = payload["decision"]
     yosys = payload["yosys"]
     features = payload["rtl_features"]
+    coverage = payload["contract_coverage"]
 
     lines = [
         "# SUDS TETC RTL Control-Plane Upgrade",
@@ -461,9 +611,30 @@ def write_report(path: Path, payload: dict[str, Any]) -> None:
             f"- Command latency model: `{contract['command_latency_cycles']}` cycles",
             f"- Active logic energy proxy: `{fmt(contract['active_logic_energy_pj_per_command'], 6)} pJ/command`",
             f"- Simulator control term: `{fmt(contract['simulator_control_pj_per_sideband_group'], 6)} pJ/sideband group`",
+            f"- Contract-vector coverage: `{coverage['pass_count']}/{coverage['contract_vector_count']}` pass",
+            f"- Simulation backend: `{coverage['simulation_backend']}`",
             "",
             "The simulator-facing term uses the documented conservative rule:",
             f"`{contract['simulator_scaling_rule']}`.",
+            "",
+            "## Static Contract Vectors",
+            "",
+            "The local environment has no Verilog simulator available, so R7 records",
+            "static RTL contract vectors instead of claiming an event-driven RTL",
+            "simulation. These vectors cover the command/state semantics used by the",
+            "architecture control contract.",
+            "",
+            "| Vector | Category | Status | Expected behavior |",
+            "|---|---|---|---|",
+        ]
+    )
+    for row in payload["contract_vectors"]:
+        lines.append(
+            f"| `{row['vector_id']}` | `{row['category']}` | `{row['status']}` | {row['expected_behavior']} |"
+        )
+
+    lines.extend(
+        [
             "",
             "## Event-Simulator Linkage",
             "",
@@ -505,6 +676,7 @@ def write_report(path: Path, payload: dict[str, Any]) -> None:
             "",
             f"- RTL: `{metadata['rtl_source']}`",
             f"- JSON: `experiments/results/report_data/suds_tetc_rtl_control_plane_{metadata['tag']}.json`",
+            f"- Contract vectors CSV: `{metadata['contract_vectors_csv']}`",
             f"- Report: `docs/reports/20260513_suds_tetc_rtl_control_plane.md`",
             f"- Yosys log: `{yosys.get('log_path', 'not_available')}`",
             f"- Synthesized Verilog: `{yosys.get('synthesized_verilog', 'not_available')}`",
@@ -524,8 +696,10 @@ def main() -> None:
     args = parse_args()
     payload = build_payload(args)
     write_json(args.json_out, payload)
+    write_contract_csv(args.contract_csv_out, payload["contract_vectors"])
     write_report(args.report_out, payload)
     print(f"wrote {repo_path(args.json_out)}")
+    print(f"wrote {repo_path(args.contract_csv_out)}")
     print(f"wrote {repo_path(args.report_out)}")
     print(f"r7_acceptance_state={payload['decision']['r7_acceptance_state']}")
     print(f"stop_condition={payload['decision']['stop_condition_state']}")

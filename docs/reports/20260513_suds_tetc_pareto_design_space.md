@@ -28,6 +28,7 @@ from global PPA optimality.
 - Selected raw energy/latency/area Pareto valid: `False`
 - Claim narrowing required for raw unconstrained Pareto: `True`
 - Selected point freeze state: `freeze_selected_governed_multiobjective_point`
+- Selection rationale rows: `30`
 
 ## Selected `suds_pareto` Rows
 
@@ -51,6 +52,13 @@ than an unconstrained PPA optimum.
 | `mobilevit_s_transformer_blocks_256` | `td32_t4_c4_sg128_temporal_accum` | 0.918 | 0.917 | 1.001 | 3.855 | 128 | `temporal_accum` |
 | `mobilevit_s_transformer_blocks_256` | `td32_t8_c2_sg128_temporal_accum` | 0.918 | 0.917 | 1.001 | 3.855 | 128 | `temporal_accum` |
 | `mobilevit_s_transformer_blocks_256` | `td32_t4_c4_sg64_temporal_accum` | 0.919 | 0.917 | 1.002 | 5.008 | 64 | `temporal_accum` |
+
+## Selection Rationale
+
+| Workload | Selected design | Raw dominator rows | Neighborhood rows | Claim-narrowing reason |
+|---|---|---:|---:|---|
+| `bert_base_glue_seq128` | `td32_t4_c2_sg32_temporal_accum` | 6 | 8 | selected R5 governed point has R2 schedule, R3 MPS accuracy, and R4 same-simulator fairness linkage; raw PPA dominators are recorded as claim-boundary pressure |
+| `mobilevit_s_transformer_blocks_256` | `td32_t4_c2_sg32_temporal_accum` | 6 | 8 | selected R5 governed point has R2 schedule, R3 MPS accuracy, and R4 same-simulator fairness linkage; raw PPA dominators are recorded as claim-boundary pressure |
 
 ## R5 Objectives
 
@@ -76,6 +84,7 @@ than an unconstrained PPA optimum.
 
 - Extended design-space CSV: `experiments/results/report_data/suds_tetc_pareto_design_space_20260513_tetc_pivot.csv`
 - Extended design-space JSON: `experiments/results/report_data/suds_tetc_pareto_design_space_20260513_tetc_pivot.json`
+- Selection rationale CSV: `experiments/results/report_data/suds_tetc_pareto_selection_rationale_20260513_tetc_pivot.csv`
 - Report: `docs/reports/20260513_suds_tetc_pareto_design_space.md`
 - Architecture design-space input: `experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.json`
 - R3 accuracy input: `experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json`

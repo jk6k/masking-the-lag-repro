@@ -12,8 +12,10 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
+import re
 from pathlib import Path
 from statistics import median
 from typing import Any
@@ -42,6 +44,24 @@ CLAIM_BOUNDARY = (
     "Calibration and boundary evidence only; not device-solver, foundry, "
     "extracted-layout, silicon, bench-energy, Lumerical, Spectre, or P&R closure."
 )
+CLAIM_SCAN_PATHS = (
+    REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex",
+    REPO_ROOT / "docs/reports/20260513_suds_tetc_calibration_ranges.md",
+    REPO_ROOT / "docs/reports/20260513_suds_tetc_rtl_control_plane.md",
+    REPO_ROOT / "docs/reports/20260513_suds_tetc_system_sensitivity.md",
+    REPO_ROOT / "docs/reports/20260513_suds_tetc_pareto_design_space.md",
+)
+FORBIDDEN_POSITIVE_CLAIMS = (
+    "timing closure achieved",
+    "foundry signoff",
+    "silicon measured",
+    "bench energy measured",
+    "device-solver validated",
+    "lumerical validated",
+    "spectre validated",
+    "p&r closure",
+)
+NEGATION_MARKERS = ("not", "does not", "without", "no ", "nor ", "must not", "not a", "not device")
 
 
 def parse_args() -> argparse.Namespace:
@@ -109,6 +129,53 @@ def json_safe(value: Any) -> Any:
     if isinstance(value, list):
         return [json_safe(item) for item in value]
     return value
+
+
+def resolve_repo_path(path: str) -> Path:
+    candidate = Path(path)
+    if candidate.is_absolute():
+        return candidate
+    return REPO_ROOT / candidate
+
+
+def sha256_path(path: Path) -> str:
+    if not path.is_file():
+        return ""
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def monotonic_range_ok(row: dict[str, Any]) -> bool:
+    values = [
+        as_float(row.get("optimistic_value")),
+        as_float(row.get("nominal_value")),
+        as_float(row.get("pessimistic_value")),
+        as_float(row.get("boundary_value")),
+    ]
+    if any(math.isnan(value) for value in values):
+        return False
+    if row.get("worse_direction") == "lower":
+        return values[0] >= values[1] >= values[2] >= values[3]
+    return values[0] <= values[1] <= values[2] <= values[3]
+
+
+def enrich_provenance(row: dict[str, Any]) -> dict[str, Any]:
+    source_path = resolve_repo_path(str(row["source_artifact"]))
+    labels_complete = bool(row["nominal_label"] and row["pessimistic_label"] and row["range_source"])
+    source_exists = source_path.is_file()
+    row["source_exists"] = source_exists
+    row["source_sha256"] = sha256_path(source_path)
+    row["labels_complete"] = labels_complete
+    row["monotonic_range_ok"] = monotonic_range_ok(row)
+    row["provenance_status"] = (
+        "pass"
+        if source_exists and row["source_sha256"] and labels_complete and row["monotonic_range_ok"]
+        else "fail"
+    )
+    return row
 
 
 def parameter_index(rows: list[dict[str, str]]) -> dict[str, dict[str, str]]:
@@ -186,7 +253,7 @@ def range_row(
     has_nominal = not math.isnan(nominal_value)
     has_pessimistic = not math.isnan(pessimistic_value)
     status = "pass" if has_nominal and has_pessimistic and source_rows > 0 else "fail"
-    return {
+    row = {
         "tag": args.tag,
         "date": DATE,
         "roadmap_item": ROADMAP_ITEM,
@@ -210,6 +277,7 @@ def range_row(
         "claim_boundary": claim_boundary,
         "acceptance_status": status,
     }
+    return enrich_provenance(row)
 
 
 def adc_rows(args: argparse.Namespace, params: dict[str, dict[str, str]], adc_rows_in: list[dict[str, str]]) -> list[dict[str, Any]]:
@@ -441,6 +509,61 @@ def photonic_rows(
     return rows
 
 
+def claim_boundary_scan(paths: tuple[Path, ...] = CLAIM_SCAN_PATHS) -> dict[str, Any]:
+    matches: list[dict[str, Any]] = []
+    scanned: list[str] = []
+    for path in paths:
+        if not path.is_file():
+            continue
+        scanned.append(repo_path(path))
+        text = path.read_text(encoding="utf-8")
+        lowered = re.sub(r"\s+", " ", text.lower())
+        for phrase in FORBIDDEN_POSITIVE_CLAIMS:
+            start = 0
+            while True:
+                pos = lowered.find(phrase, start)
+                if pos < 0:
+                    break
+                context = lowered[max(0, pos - 120): pos + len(phrase) + 120]
+                negated = any(marker in context for marker in NEGATION_MARKERS)
+                if not negated:
+                    line_no = text[:pos].count("\n") + 1
+                    matches.append(
+                        {
+                            "path": repo_path(path),
+                            "line": line_no,
+                            "phrase": phrase,
+                            "context": context.strip(),
+                        }
+                    )
+                start = pos + len(phrase)
+    return {
+        "status": "pass" if not matches else "fail",
+        "scanned_paths": scanned,
+        "forbidden_positive_matches": matches,
+        "forbidden_positive_match_count": len(matches),
+    }
+
+
+def provenance_matrix(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        out.append(
+            {
+                "range_id": row["range_id"],
+                "parameter": row["parameter"],
+                "source_artifact": row["source_artifact"],
+                "source_exists": row["source_exists"],
+                "source_sha256": row["source_sha256"],
+                "source_rows": row["source_rows"],
+                "labels_complete": row["labels_complete"],
+                "monotonic_range_ok": row["monotonic_range_ok"],
+                "provenance_status": row["provenance_status"],
+            }
+        )
+    return out
+
+
 def build_summary(
     *,
     args: argparse.Namespace,
@@ -457,6 +580,8 @@ def build_summary(
         blockers.append("photonic_range_rows_missing")
     if any(row["acceptance_status"] != "pass" for row in rows):
         blockers.append("range_row_missing_nominal_or_pessimistic_value")
+    if any(row["provenance_status"] != "pass" for row in rows):
+        blockers.append("range_row_provenance_or_monotonicity_failure")
     if not any(row["architecture_parameter_linked"] for row in rows):
         blockers.append("architecture_parameter_linkage_missing")
     if not any(row["r6_boundary_linked"] for row in rows):
@@ -469,6 +594,9 @@ def build_summary(
         blockers.append("r6_acceptance_state_not_pass")
     if rtl_json.get("acceptance", {}).get("status") != "pass":
         blockers.append("r7_rtl_control_acceptance_not_pass")
+    claim_scan = claim_boundary_scan()
+    if claim_scan["status"] != "pass":
+        blockers.append("positive_forbidden_claim_match")
 
     device_solver_required = False
     acceptance_state = "pass" if not blockers else "fail"
@@ -504,6 +632,8 @@ def build_summary(
         "phy_fail_rows": phy_json.get("metadata", {}).get("fail_rows", 0),
         "input_r6_acceptance_state": r6_json.get("summary", {}).get("decision", {}).get("r6_acceptance_state", "missing"),
         "input_r7_acceptance_state": rtl_json.get("acceptance", {}).get("status", "missing"),
+        "provenance_matrix": provenance_matrix(rows),
+        "claim_boundary_scan": claim_scan,
         "decision": {
             "r8_acceptance_state": acceptance_state,
             "stop_condition_state": stop_condition_state,
@@ -512,7 +642,10 @@ def build_summary(
             "architecture_parameters_have_nominal_and_pessimistic_values": all(
                 row["acceptance_status"] == "pass" for row in rows
             ),
-            "claim_boundary_calibration_only": True,
+            "all_source_checksums_present": all(bool(row["source_sha256"]) for row in rows),
+            "all_range_rows_provenance_pass": all(row["provenance_status"] == "pass" for row in rows),
+            "all_range_rows_monotonic": all(row["monotonic_range_ok"] for row in rows),
+            "claim_boundary_calibration_only": claim_scan["status"] == "pass",
         },
         "artifacts": {
             "csv": repo_path(args.csv_out),
@@ -589,6 +722,9 @@ def write_report(path: Path, *, args: argparse.Namespace, rows: list[dict[str, A
         f"- Blockers: `{';'.join(decision['blockers']) or 'none'}`",
         f"- Device-solver required: `{decision['device_solver_required']}`",
         f"- Calibration-only boundary retained: `{decision['claim_boundary_calibration_only']}`",
+        f"- All source checksums present: `{decision['all_source_checksums_present']}`",
+        f"- All range rows monotonic: `{decision['all_range_rows_monotonic']}`",
+        f"- Claim-boundary scan status: `{summary['claim_boundary_scan']['status']}`",
         "",
         "## Range Table",
         "",
@@ -617,6 +753,32 @@ def write_report(path: Path, *, args: argparse.Namespace, rows: list[dict[str, A
             "- Modulator/detector noise is represented by ER and crosstalk axes from the PHY boundary sweep.",
             "- Laser, optical-link, and DAC/MZM ranges are tied to the R6 named regimes and boundary sweeps.",
             "- The architecture paper may cite these rows as calibration ranges and boundary evidence only.",
+            "",
+            "## Provenance Matrix",
+            "",
+            "| Parameter | Source exists | Source rows | SHA256 | Monotonic | Status |",
+            "|---|---:|---:|---|---:|---|",
+        ]
+    )
+    for item in summary["provenance_matrix"]:
+        lines.append(
+            "| `{parameter}` | `{exists}` | {rows} | `{sha}` | `{mono}` | `{status}` |".format(
+                parameter=item["parameter"],
+                exists=item["source_exists"],
+                rows=item["source_rows"],
+                sha=str(item["source_sha256"])[:16],
+                mono=item["monotonic_range_ok"],
+                status=item["provenance_status"],
+            )
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Claim-Boundary Scan",
+            "",
+            f"- Status: `{summary['claim_boundary_scan']['status']}`",
+            f"- Forbidden positive matches: `{summary['claim_boundary_scan']['forbidden_positive_match_count']}`",
             "",
             "## Artifacts",
             "",
