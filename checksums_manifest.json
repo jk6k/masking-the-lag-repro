@@ -557,8 +557,8 @@
     },
     {
       "path": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/yosys_synthesis.log",
-      "sha256": "d737c160b223a8d6d01bf0734127b78080c4490ff1922b19ca2d2d0758b0a4bc",
-      "size_bytes": 41191
+      "sha256": "500ad8fb78a00fe57ed5a055f06b94803b7f6d11a52357c0431fa64cb77a9491",
+      "size_bytes": 41194
     },
     {
       "path": "experiments/spice/suds_adc_macro/README.md",
