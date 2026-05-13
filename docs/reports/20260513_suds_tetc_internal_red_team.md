@@ -22,6 +22,6 @@ described as equivalent to an independent external review.
 ## Manuscript Audit
 
 - Source: `paper/suds_tetc_architecture_manuscript.tex`
-- Line count: `1394`
+- Line count: `1404`
 - Missing markers: `none`
 - Forbidden terms: `none`

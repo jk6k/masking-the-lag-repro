@@ -27,6 +27,7 @@ SAME_SIM_BASELINES_JSON = REPORT_DATA / f"suds_tetc_same_sim_baselines_{TAG}.jso
 SYSTEM_SENSITIVITY_JSON = REPORT_DATA / f"suds_tetc_system_sensitivity_{TAG}.json"
 RTL_CONTROL_PLANE_JSON = REPORT_DATA / f"suds_tetc_rtl_control_plane_{TAG}.json"
 CALIBRATION_RANGES_JSON = REPORT_DATA / f"suds_tetc_calibration_ranges_{TAG}.json"
+WORKLOAD_EXPANSION_JSON = REPORT_DATA / f"suds_tetc_workload_expansion_{TAG}.json"
 MANUSCRIPT = REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex"
 INTERNAL_RED_TEAM_JSON = REPORT_DATA / f"suds_tetc_internal_red_team_{TAG}.json"
 
@@ -367,6 +368,45 @@ def calibration_ranges_boundary() -> dict[str, Any]:
     }
 
 
+def workload_expansion_boundary() -> dict[str, Any]:
+    payload = load_json(WORKLOAD_EXPANSION_JSON)
+    summary = payload.get("summary", {})
+    decision = summary.get("decision", {})
+    blockers = list(decision.get("blockers") or [])
+    if decision.get("r9_acceptance_state") != "pass":
+        blockers.append("r9_acceptance_state_not_pass")
+    if not str(decision.get("stop_condition_state", "")).startswith("no R9 hard stop"):
+        blockers.append("r9_stop_condition_triggered")
+    if not summary.get("has_new_transformer_workload"):
+        blockers.append("r9_new_transformer_workload_missing")
+    if not summary.get("has_sequence_sweep"):
+        blockers.append("r9_sequence_sweep_missing")
+    if not summary.get("has_batch_sweep"):
+        blockers.append("r9_batch_sweep_missing")
+    if not summary.get("mps_metadata_complete"):
+        blockers.append("r9_mps_metadata_incomplete")
+    if not decision.get("dataset_weights_blocker_recorded"):
+        blockers.append("r9_dataset_weights_blocker_not_recorded")
+    if not decision.get("no_failed_workload_hidden"):
+        blockers.append("r9_hidden_workload_failure")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": decision.get("r9_acceptance_state", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "rows": summary.get("rows", 0),
+        "additional_transformer_workloads": summary.get("additional_transformer_workloads", []),
+        "sequence_lengths": summary.get("sequence_lengths", []),
+        "batch_sizes": summary.get("batch_sizes", []),
+        "mps_metadata_complete": summary.get("mps_metadata_complete", False),
+        "new_workload_supports_architecture_claim": summary.get("new_workload_supports_architecture_claim", False),
+        "min_new_workload_suds_edp_improvement_pct": summary.get(
+            "min_new_workload_suds_edp_improvement_pct"
+        ),
+        "setup_blockers": summary.get("setup_blockers", []),
+    }
+
+
 def manuscript_maturity() -> dict[str, Any]:
     text = MANUSCRIPT.read_text(encoding="utf-8", errors="replace") if MANUSCRIPT.is_file() else ""
     has_references = "\\bibliography" in text or "\\begin{thebibliography}" in text
@@ -528,6 +568,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     system_sensitivity = system_sensitivity_boundary()
     rtl_control = rtl_control_plane_boundary()
     calibration_ranges = calibration_ranges_boundary()
+    workload_expansion = workload_expansion_boundary()
     workload = workload_grounding(pivot, architecture)
     maturity = manuscript_maturity()
     calibration = calibration_boundary(pivot)
@@ -611,6 +652,24 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             ),
             workload["blockers"],
             "Replace analytical BERT slack with hardware-derived schedule metadata before calling the route submission-ready.",
+        ),
+        gate_row(
+            "S3b",
+            "R9 workload generality expansion is visible and bounded",
+            workload_expansion["status"],
+            (
+                f"r9={workload_expansion['acceptance']}; "
+                f"stop={workload_expansion['stop_condition']}; "
+                f"rows={workload_expansion['rows']}; "
+                f"new_workloads={','.join(workload_expansion['additional_transformer_workloads'])}; "
+                f"seq={','.join(str(item) for item in workload_expansion['sequence_lengths'])}; "
+                f"batch={','.join(str(item) for item in workload_expansion['batch_sizes'])}; "
+                f"mps_metadata={workload_expansion['mps_metadata_complete']}; "
+                f"min_new_edp_improvement_pct="
+                f"{workload_expansion['min_new_workload_suds_edp_improvement_pct']}"
+            ),
+            workload_expansion["blockers"],
+            "Regenerate R9 and keep new workload rows as boundary evidence unless governed MPS accuracy exists.",
         ),
         gate_row(
             "S4",
@@ -704,6 +763,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "system_sensitivity": system_sensitivity,
         "rtl_control_plane": rtl_control,
         "calibration_ranges": calibration_ranges,
+        "workload_expansion": workload_expansion,
         "workload_grounding": workload,
         "manuscript_maturity": maturity,
         "calibration_boundary": calibration,

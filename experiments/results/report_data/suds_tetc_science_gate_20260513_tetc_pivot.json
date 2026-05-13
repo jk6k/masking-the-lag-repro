@@ -118,6 +118,36 @@
       "input_r6_acceptance_state": "pass",
       "input_r7_acceptance_state": "pass"
     },
+    "workload_expansion": {
+      "status": "pass",
+      "blockers": [],
+      "acceptance": "pass",
+      "stop_condition": "no R9 hard stop; DeiT-Tiny measured accuracy setup blocker is recorded and simulator-only traces are emitted",
+      "rows": 90,
+      "additional_transformer_workloads": [
+        "deit_tiny_patch16_224_batch1_r9",
+        "deit_tiny_patch16_224_batch4_r9",
+        "deit_tiny_patch16_224_batch8_r9"
+      ],
+      "sequence_lengths": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "batch_sizes": [
+        1,
+        4,
+        8
+      ],
+      "mps_metadata_complete": true,
+      "new_workload_supports_architecture_claim": true,
+      "min_new_workload_suds_edp_improvement_pct": 6.901431998653473,
+      "setup_blockers": [
+        "no governed measured accuracy row for this exact sequence-length/batch setting",
+        "no local governed DeiT-Tiny weights/dataset accuracy run found; R9 emits simulator-only traces instead of hiding the setup blocker"
+      ]
+    },
     "workload_grounding": {
       "status": "pass",
       "blockers": [],
@@ -272,7 +302,7 @@
     },
     "manuscript_maturity": {
       "status": "pass",
-      "line_count": 1394,
+      "line_count": 1404,
       "has_references": true,
       "has_figures": true,
       "blockers": []
@@ -351,11 +381,20 @@
       "next_action": "Replace analytical BERT slack with hardware-derived schedule metadata before calling the route submission-ready."
     },
     {
+      "gate_id": "S3b",
+      "gate": "R9 workload generality expansion is visible and bounded",
+      "required": true,
+      "status": "pass",
+      "evidence": "r9=pass; stop=no R9 hard stop; DeiT-Tiny measured accuracy setup blocker is recorded and simulator-only traces are emitted; rows=90; new_workloads=deit_tiny_patch16_224_batch1_r9,deit_tiny_patch16_224_batch4_r9,deit_tiny_patch16_224_batch8_r9; seq=64,128,256,512; batch=1,4,8; mps_metadata=True; min_new_edp_improvement_pct=6.901431998653473",
+      "blockers": "",
+      "next_action": "Regenerate R9 and keep new workload rows as boundary evidence unless governed MPS accuracy exists."
+    },
+    {
       "gate_id": "S4",
       "gate": "Manuscript maturity reaches full journal-paper density",
       "required": true,
       "status": "pass",
-      "evidence": "line_count=1394; references=True; figures=True",
+      "evidence": "line_count=1404; references=True; figures=True",
       "blockers": "",
       "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
     },

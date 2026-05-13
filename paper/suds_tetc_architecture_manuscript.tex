@@ -175,6 +175,15 @@ The R3 end-to-end accuracy artifact joins those measured MPS rows to the same
 KEEP/DEGRADE/PRUNE tier ratios used by PPA and to the R2 SUDS-aware trace IDs.
 It records the forward-pass perturbation surface as a tiered ADC/noise proxy,
 not bit-exact ADC, optical-device, silicon, or bench-energy evidence.
+The R9 workload-expansion artifact adds architecture-only DeiT-Tiny patch16-224
+rows plus BERT sequence-length and batch-size sweeps. Those rows are not new
+measured accuracy evidence: the DeiT-Tiny weights/dataset blocker is recorded,
+and long-sequence or larger-batch BERT rows remain boundary traces unless a
+matching governed MPS accuracy artifact is produced. The new DeiT-Tiny sweep
+therefore supports only modeled PPA generality, with the selected
+\texttt{suds\_pareto} row retaining at least 6.90\% modeled EDP improvement
+versus the same-scope Lightening-style reference in that architecture-only
+surface.
 
 \begin{figure*}[t]
 \centering
@@ -527,6 +536,7 @@ SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, ar
 Input is slack, DAG, and tile state; output is KEEP/DEGRADE/PRUNE budget & R0 formal contract CSV/JSON, architecture kernel CSV, R2 scheduler trace CSV, and architecture JSON & Budget output, not exact mask output \\
 Selected DPTC point has modeled system PPA advantage & Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate & Modeled PPA, not bench energy \\
 Promoted accuracy is measured on governed local runs & MPS GLUE validation, MobileViT-S conservative Pareto artifact, and GLUE architecture linkage & Accuracy claim only for measured surfaces \\
+Workload generality is tested beyond the two promoted measured workloads & R9 workload-expansion CSV/JSON/report with DeiT-Tiny architecture-only rows and BERT sequence/batch sweeps & Boundary PPA evidence only; no new measured accuracy claim \\
 Strong baselines and boundary fabrics are visible & Pivot gate G4 and architecture condition matrix & No universal dominance claim \\
 ADC, RTL, and PHY evidence calibrate simulator parameters & ADC macro, RTL sideband, PHY boundary, and parameter table artifacts & Calibration/proxy/boundary only \\
 \bottomrule
