@@ -4,6 +4,7 @@
   "workflow": "suds_q2",
   "phase_dir": "experiments/results/runs",
   "report_data_dir": "experiments/results/report_data",
+  "quick_reports_dir": "experiments/results/quick_reports",
   "canonical_paper": "paper/suds_paper_acmart.tex",
   "c1_survey_manifest_csv": "experiments/results/report_data/suds_c1_survey_manifest_20260511.csv",
   "c1_survey_manifest_json": "experiments/results/report_data/suds_c1_survey_manifest_20260511.json",
