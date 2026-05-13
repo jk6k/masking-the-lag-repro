@@ -1,7 +1,7 @@
 # SUDS Optical Transformer TETC Pivot Plan
 
 Date: `2026-05-13`
-Status: `active G1 promotion contract`
+Status: `complete tetc_submission_ready local gate`
 Primary route: `IEEE TETC architecture-first optical Transformer accelerator`
 Stretch route: `IEEE Transactions on Computers after stronger architecture baselines`
 Fallback route: `JSA or protected 20260512 JETC/JSA-methodology package`
@@ -111,8 +111,8 @@ Deliverables:
 Acceptance:
 
 - `G2/G3/G4/G5` pass in `make suds-optical-transformer-pivot-gate`.
-- `G1` remains partial only because manuscript integration/red-team is not yet
-  complete.
+- `G1` is now promoted by the full TETC manuscript source, local multi-lens
+  red-team substitute, public-repro alignment, and passing pivot gate.
 - No broad additional architecture research is required unless red-team finds a
   fairness or missing-baseline blocker.
 
@@ -186,7 +186,7 @@ Acceptance:
 
 ### Wave F: TETC Readiness Gate And Red-Team
 
-Status: `active`
+Status: `complete`
 
 Deliverables:
 
@@ -195,6 +195,8 @@ Deliverables:
   reviewer-skeptic lenses.
 - External red-team is preferred; if unavailable, subagent/internal review is
   recorded as a substitute, not an equivalent replacement.
+- Public reproduction build/check/render/check passes with the TETC
+  architecture simulator, gate, red-team, and manuscript artifacts included.
 
 Acceptance:
 
@@ -207,16 +209,19 @@ Acceptance:
 
 - Current fallback manuscript is still protected.
 - Current TETC manuscript source exists at
-  `paper/suds_tetc_architecture_manuscript.tex`, but G1 remains partial until
-  figure/table integration and red-team promotion.
+  `paper/suds_tetc_architecture_manuscript.tex`, and G1 is promoted by
+  `docs/reports/20260513_suds_tetc_internal_red_team.md`,
+  `docs/reports/20260513_suds_tetc_public_repro_alignment.md`, and the passing
+  pivot gate.
 - Current measured evidence includes MobileViT-S and six-task BERT/GLUE
   validation linked to hardware-derived DPTC schedules.
 - Current ADC/RTL/PHY evidence is adequate for calibration and boundary support,
   not for circuit or device signoff.
-- Current strongest acceptance blocker is manuscript maturity, not architecture
-  evidence. Wave B/B+ now supplies the Transformer DPTC simulator, design-space
-  sweep, selected operating point, and Lightening/HyAtten/TeMPO/ASTRA boundary
-  rows.
+- No required local acceptance blocker remains in the pivot gate. Wave B/B+
+  supplies the Transformer DPTC simulator, design-space sweep, selected
+  operating point, and Lightening/HyAtten/TeMPO/ASTRA boundary rows; Wave F
+  supplies the promoted manuscript, red-team substitute, and public-repro
+  alignment.
 
 ## 5. Regeneration
 
