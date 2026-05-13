@@ -422,11 +422,13 @@ def _check_registry_metadata(report: Report, manifest: dict[str, Any]) -> None:
         for row in registry_rows
         if (row.get("numbering_status") or row.get("status")) in {"active", "rendered"}
     ]
-    expected_main = [str(item) for item in manifest.get("expected_main_figures", [])]
-    expected_appendix = [str(item) for item in manifest.get("expected_appendix_figures", [])]
-    if not expected_main:
+    configured_main = manifest.get("expected_main_figures")
+    configured_appendix = manifest.get("expected_appendix_figures")
+    expected_main = [str(item) for item in configured_main] if isinstance(configured_main, list) else []
+    expected_appendix = [str(item) for item in configured_appendix] if isinstance(configured_appendix, list) else []
+    if not isinstance(configured_main, list):
         expected_main = [f"Fig{i}" for i in range(1, 7)] if _is_suds(manifest) else [f"Fig{i}" for i in range(1, 13)]
-    if not expected_appendix:
+    if not isinstance(configured_appendix, list):
         expected_appendix = [f"AppF{i}" for i in range(1, 5)] if _is_suds(manifest) else [f"AppF{i}" for i in range(1, 7)]
     for figure_id in expected_main + expected_appendix:
         if figure_id not in registry_ids:

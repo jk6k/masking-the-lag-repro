@@ -917,8 +917,8 @@
     },
     {
       "path": "scripts/check_public_repro_repo.py",
-      "sha256": "c3ce73ffec64136c38b4db4a86f83d013cf7ebd3f5588769f85e8396be88db1e",
-      "size_bytes": 25576
+      "sha256": "915ed2d3782bcd9864eb192bae4e7e7eebe41672e645a1770cca9308bab614e2",
+      "size_bytes": 25786
     }
   ]
 }
