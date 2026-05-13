@@ -1,0 +1,155 @@
+{
+  "metadata": {
+    "tag": "20260513_tetc_pivot",
+    "artifact_id": "suds_tetc_rtl_control_plane_20260513_tetc_pivot",
+    "roadmap_item": "R7_rtl_control_plane_upgrade",
+    "evidence_label": "rtl_synthesis",
+    "promotion_decision": "appendix",
+    "rtl_source": "experiments/hardware/suds_control_plane.v",
+    "regeneration_command": "make suds-tetc-rtl-control-plane",
+    "claim_boundary_note": "This artifact supports architecture-level sideband-control accounting only. It must not be described as P&R, foundry, timing-closure, device, or bench evidence."
+  },
+  "rtl_features": {
+    "budget_registers": true,
+    "sideband_encoder": true,
+    "tile_command_path": true,
+    "suds_state_machine": true,
+    "queue_pressure_guard": true,
+    "selector_score_guard": true
+  },
+  "yosys": {
+    "available": true,
+    "status": "pass",
+    "returncode": 0,
+    "stats": {
+      "cell_counts": {
+        "$_ANDNOT_": 13,
+        "$_AND_": 66,
+        "$_DFFE_PN0N_": 1,
+        "$_DFFE_PN0P_": 118,
+        "$_DFFE_PN1P_": 9,
+        "$_DFF_PN1_": 48,
+        "$_MUX_": 94,
+        "$_NAND_": 67,
+        "$_NOR_": 11,
+        "$_NOT_": 5,
+        "$_ORNOT_": 74,
+        "$_OR_": 45,
+        "$_XNOR_": 46
+      },
+      "wires": 406,
+      "wire_bits": 703,
+      "public_wires": 36,
+      "public_wire_bits": 287,
+      "ports": 19,
+      "port_bits": 111,
+      "cells": 597
+    },
+    "log_path": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/yosys_synthesis.log",
+    "synthesized_verilog": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/suds_control_plane_synth.v",
+    "synthesized_json": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/suds_control_plane_synth.json",
+    "command": "/opt/homebrew/bin/yosys -p read_verilog experiments/hardware/suds_control_plane.v; synth -top suds_control_plane; stat; write_verilog -noattr experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/suds_control_plane_synth.v; write_json experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/suds_control_plane_synth.json"
+  },
+  "legacy_driver_anchor": {
+    "source": "experiments/results/report_data/suds_rtl_control_overhead_20260512_j2_quality_boost.json",
+    "dynamic_power_uw_proxy": 590.4,
+    "control_pj_per_sideband_group": 0.5903999999999999,
+    "evidence_label": "rtl_synthesis"
+  },
+  "control_contract": {
+    "selected_target_mhz": 1000,
+    "selected_sideband_group_cols": 32,
+    "command_latency_cycles": 3,
+    "estimated_delay_ps": 721.0,
+    "clock_period_ps": 1000.0,
+    "critical_path_slack_ps": 279.0,
+    "critical_path_status": "pass",
+    "cell_count": 597,
+    "ff_cell_count": 176,
+    "mux_cell_count": 94,
+    "comb_cell_count": 327,
+    "area_ge_proxy": 1636.4,
+    "dynamic_power_uw_proxy": 73.21333333333334,
+    "active_logic_energy_pj_per_command": 0.21964,
+    "driver_anchor_pj_per_sideband_group": 0.5904,
+    "logic_guard_scale": 2.5,
+    "simulator_control_pj_per_sideband_group": 0.5904,
+    "simulator_scaling_rule": "max(previous driver-inclusive 32-column sideband anchor, 2.5x R7 active-toggle logic proxy)",
+    "claim_boundary": "Yosys generic-cell synthesis plus proxy timing/GE/power; no liberty, placement, routing, foundry, or silicon timing closure."
+  },
+  "event_simulator_linkage": {
+    "input_arch_summary_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv",
+    "input_event_trace_csv": "experiments/results/report_data/suds_tetc_event_trace_20260513_tetc_pivot.csv",
+    "workload_rows": [
+      {
+        "workload": "bert_base_glue_seq128",
+        "architecture_control_groups": 13824.0,
+        "event_sideband_groups": 9720.0,
+        "event_sideband_issue_count": 72,
+        "simulator_control_energy_pj": 8161.689599999999,
+        "event_trace_control_energy_pj": 8161.689599999999,
+        "rtl_active_logic_energy_pj": 3036.30336,
+        "simulator_contract_energy_pj": 8161.689600000001,
+        "control_energy_share": 0.00011844751116728737,
+        "simulator_vs_rtl_active_margin": 2.6880349663085044,
+        "event_energy_matches_architecture": true
+      },
+      {
+        "workload": "mobilevit_s_transformer_blocks_256",
+        "architecture_control_groups": 7204.0,
+        "event_sideband_groups": 7204.0,
+        "event_sideband_issue_count": 54,
+        "simulator_control_energy_pj": 4253.241599999999,
+        "event_trace_control_energy_pj": 4253.241599999999,
+        "rtl_active_logic_energy_pj": 1582.28656,
+        "simulator_contract_energy_pj": 4253.2416,
+        "control_energy_share": 0.00037261230692448683,
+        "simulator_vs_rtl_active_margin": 2.6880349663085044,
+        "event_energy_matches_architecture": true
+      }
+    ],
+    "max_promoted_control_energy_share": 0.00037261230692448683,
+    "negligible_control_share_threshold": 0.01,
+    "control_overhead_negligible": true,
+    "blockers": [],
+    "status": "pass"
+  },
+  "acceptance": {
+    "status": "pass",
+    "criteria": [
+      {
+        "criterion": "RTL includes budget registers, sideband encoder, tile command path, and SUDS state machine",
+        "status": "pass",
+        "evidence": "rtl_features"
+      },
+      {
+        "criterion": "Yosys synthesis reports generic-cell implementation",
+        "status": "pass",
+        "evidence": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/yosys_synthesis.log"
+      },
+      {
+        "criterion": "Simulator control energy is tied to R7 RTL through a conservative scaling rule",
+        "status": "pass",
+        "evidence": "event_simulator_linkage"
+      },
+      {
+        "criterion": "No P&R, foundry, or timing-closure overclaim is introduced",
+        "status": "pass",
+        "evidence": "claim_boundary_note"
+      }
+    ],
+    "blockers": []
+  },
+  "decision": {
+    "r7_acceptance_state": "pass",
+    "stop_condition_state": "no R7 hard stop",
+    "control_overhead_negligible": true,
+    "max_promoted_control_energy_share": 0.00037261230692448683,
+    "selected_simulator_control_pj_per_sideband_group": 0.5904
+  },
+  "stop_condition": {
+    "condition": "Stop if control overhead is no longer negligible; incorporate it into PPA and rerun the science gate.",
+    "threshold": "promoted control energy share >= 1.00%",
+    "result": "no R7 hard stop"
+  }
+}

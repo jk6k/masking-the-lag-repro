@@ -306,6 +306,12 @@ than claiming circuit closure. ADC tier energy is tied to the local ADC macro
 sanity suite. Sideband-control cost is tied to the Yosys RTL control-plane
 artifact. Optical-link assumptions are tied to the PHY boundary sweep. These
 artifacts calibrate simulator parameters and stress settings only.
+The R8 calibration-range artifact makes this boundary explicit: ADC4/6/8
+energy and latency now carry measured macro corner ranges, while photonic
+settings carry PHY ER/crosstalk, pass-ratio, laser-power, laser multiplier,
+link-loss, and DAC/MZM scaling ranges. The nominal values in
+Table~\ref{tab:calibration} remain the selected simulator point; the
+pessimistic and boundary values are calibration ranges, not circuit closure.
 
 \begin{table*}[t]
 \centering
@@ -1161,6 +1167,8 @@ End-to-end accuracy & \path{experiments/results/report_data/suds_tetc_end_to_end
 Same-simulator baselines & \path{experiments/results/report_data/suds_tetc_same_sim_baselines_20260513_tetc_pivot.json} & R4 equal-accuracy dominance and fairness matrix \\
 Pareto design space & \path{experiments/results/report_data/suds_tetc_pareto_design_space_20260513_tetc_pivot.json} & R5 governed multi-objective selected-point audit \\
 System sensitivity & \path{experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json} & R6 memory/conversion/link valid-regime and boundary audit \\
+RTL control plane & \path{experiments/results/report_data/suds_tetc_rtl_control_plane_20260513_tetc_pivot.json} & R7 control-sideband synthesis proxy and simulator linkage \\
+Calibration ranges & \path{experiments/results/report_data/suds_tetc_calibration_ranges_20260513_tetc_pivot.json} & R8 ADC and photonic nominal/pessimistic/boundary range audit \\
 Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule
@@ -1175,7 +1183,7 @@ S1 must remain pass.
 S2 must remain pass.
 S3 must remain pass.
 S4 must remain pass.
-S5 must remain pass.
+S5, S5b, S5c, and S5d must remain pass.
 External red-team review should be pursued even though it is advisory in the
 local gate.
 If any promoted row changes, the dominance and accuracy gates must be rerun.
@@ -1226,6 +1234,9 @@ The R6 sensitivity sweep also shows that sufficiently extreme common DAC/MZM
 cost can erase the MobileViT-S promoted advantage, so the claim is bounded to
 the named valid memory/conversion/link regimes rather than universal photonic
 conversion dominance.
+The R8 calibration-range artifact similarly keeps ADC and photonic parameter
+ranges at calibration and boundary level; it does not convert the simulator into
+device-solver, foundry, extracted-layout, silicon, or bench-energy evidence.
 
 \section{Conclusion}
 

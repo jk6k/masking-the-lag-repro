@@ -25,6 +25,8 @@ ARCH_JSON = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}.json"
 END_TO_END_ACCURACY_JSON = REPORT_DATA / f"suds_tetc_end_to_end_accuracy_{TAG}.json"
 SAME_SIM_BASELINES_JSON = REPORT_DATA / f"suds_tetc_same_sim_baselines_{TAG}.json"
 SYSTEM_SENSITIVITY_JSON = REPORT_DATA / f"suds_tetc_system_sensitivity_{TAG}.json"
+RTL_CONTROL_PLANE_JSON = REPORT_DATA / f"suds_tetc_rtl_control_plane_{TAG}.json"
+CALIBRATION_RANGES_JSON = REPORT_DATA / f"suds_tetc_calibration_ranges_{TAG}.json"
 MANUSCRIPT = REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex"
 INTERNAL_RED_TEAM_JSON = REPORT_DATA / f"suds_tetc_internal_red_team_{TAG}.json"
 
@@ -284,6 +286,87 @@ def system_sensitivity_boundary() -> dict[str, Any]:
     }
 
 
+def rtl_control_plane_boundary() -> dict[str, Any]:
+    payload = load_json(RTL_CONTROL_PLANE_JSON)
+    acceptance = payload.get("acceptance", {})
+    decision = payload.get("decision", {})
+    linkage = payload.get("event_simulator_linkage", {})
+    features = payload.get("rtl_features", {})
+    contract = payload.get("control_contract", {})
+    blockers = list(acceptance.get("blockers") or [])
+    if acceptance.get("status") != "pass":
+        blockers.append("r7_acceptance_state_not_pass")
+    if decision.get("stop_condition_state") != "no R7 hard stop":
+        blockers.append("r7_stop_condition_triggered")
+    if not features or not all(features.values()):
+        blockers.append("r7_rtl_feature_matrix_incomplete")
+    if linkage.get("status") != "pass":
+        blockers.append("r7_event_simulator_linkage_not_pass")
+    if not decision.get("control_overhead_negligible"):
+        blockers.append("r7_control_overhead_not_negligible")
+    if as_float(contract.get("simulator_control_pj_per_sideband_group")) is None:
+        blockers.append("r7_simulator_control_term_missing")
+    if payload.get("yosys", {}).get("status") != "pass":
+        blockers.append("r7_yosys_not_pass")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": acceptance.get("status", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "cell_count": contract.get("cell_count", "missing"),
+        "area_ge_proxy": contract.get("area_ge_proxy", "missing"),
+        "critical_path_slack_ps": contract.get("critical_path_slack_ps", "missing"),
+        "simulator_control_pj_per_sideband_group": contract.get(
+            "simulator_control_pj_per_sideband_group", "missing"
+        ),
+        "max_control_energy_share": decision.get("max_promoted_control_energy_share", "missing"),
+    }
+
+
+def calibration_ranges_boundary() -> dict[str, Any]:
+    payload = load_json(CALIBRATION_RANGES_JSON)
+    summary = payload.get("summary", {})
+    decision = summary.get("decision", {})
+    group_counts = summary.get("group_counts", {})
+    rows = payload.get("rows", [])
+    blockers = list(decision.get("blockers") or [])
+    if decision.get("r8_acceptance_state") != "pass":
+        blockers.append("r8_acceptance_state_not_pass")
+    if not str(decision.get("stop_condition_state", "")).startswith("no R8 hard stop"):
+        blockers.append("r8_stop_condition_triggered")
+    if decision.get("device_solver_required"):
+        blockers.append("r8_device_solver_required")
+    if not decision.get("architecture_parameters_have_nominal_and_pessimistic_values"):
+        blockers.append("r8_nominal_or_pessimistic_values_missing")
+    if not decision.get("claim_boundary_calibration_only"):
+        blockers.append("r8_claim_boundary_not_calibration_only")
+    if group_counts.get("adc_tier_energy", 0) < 3 or group_counts.get("adc_tier_latency", 0) < 3:
+        blockers.append("r8_adc_energy_latency_ranges_incomplete")
+    photonic_rows = sum(
+        count for group, count in group_counts.items()
+        if str(group).startswith("photonic")
+    )
+    if photonic_rows < 7:
+        blockers.append("r8_photonic_ranges_incomplete")
+    if not any(row.get("architecture_parameter_linked") for row in rows):
+        blockers.append("r8_architecture_parameter_linkage_missing")
+    if not any(row.get("r6_boundary_linked") for row in rows):
+        blockers.append("r8_r6_boundary_linkage_missing")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": decision.get("r8_acceptance_state", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "rows": summary.get("rows", 0),
+        "group_counts": group_counts,
+        "adc_macro_execution_status": summary.get("adc_macro_execution_status", "missing"),
+        "phy_pass_rows": summary.get("phy_pass_rows", 0),
+        "phy_fail_rows": summary.get("phy_fail_rows", 0),
+        "input_r6_acceptance_state": summary.get("input_r6_acceptance_state", "missing"),
+        "input_r7_acceptance_state": summary.get("input_r7_acceptance_state", "missing"),
+    }
+
+
 def manuscript_maturity() -> dict[str, Any]:
     text = MANUSCRIPT.read_text(encoding="utf-8", errors="replace") if MANUSCRIPT.is_file() else ""
     has_references = "\\bibliography" in text or "\\begin{thebibliography}" in text
@@ -443,6 +526,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     end_to_end_accuracy = end_to_end_accuracy_boundary()
     same_sim_baselines = same_simulator_baseline_boundary()
     system_sensitivity = system_sensitivity_boundary()
+    rtl_control = rtl_control_plane_boundary()
+    calibration_ranges = calibration_ranges_boundary()
     workload = workload_grounding(pivot, architecture)
     maturity = manuscript_maturity()
     calibration = calibration_boundary(pivot)
@@ -563,6 +648,39 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "Regenerate R6 and narrow the claim if a realistic memory/conversion/link regime erases the benefit.",
         ),
         gate_row(
+            "S5c",
+            "R7 RTL control-plane upgrade remains bounded and simulator-linked",
+            rtl_control["status"],
+            (
+                f"r7={rtl_control['acceptance']}; "
+                f"stop={rtl_control['stop_condition']}; "
+                f"cells={rtl_control['cell_count']}; "
+                f"area_ge={rtl_control['area_ge_proxy']}; "
+                f"slack_ps={rtl_control['critical_path_slack_ps']}; "
+                f"control_pj_per_group={rtl_control['simulator_control_pj_per_sideband_group']}; "
+                f"max_control_share={rtl_control['max_control_energy_share']}"
+            ),
+            rtl_control["blockers"],
+            "Regenerate R7 and rerun PPA/science gate if control overhead is no longer negligible.",
+        ),
+        gate_row(
+            "S5d",
+            "R8 ADC and photonic calibration ranges remain bounded",
+            calibration_ranges["status"],
+            (
+                f"r8={calibration_ranges['acceptance']}; "
+                f"stop={calibration_ranges['stop_condition']}; "
+                f"rows={calibration_ranges['rows']}; "
+                f"adc_macro={calibration_ranges['adc_macro_execution_status']}; "
+                f"phy_pass={calibration_ranges['phy_pass_rows']}; "
+                f"phy_fail={calibration_ranges['phy_fail_rows']}; "
+                f"r6={calibration_ranges['input_r6_acceptance_state']}; "
+                f"r7={calibration_ranges['input_r7_acceptance_state']}"
+            ),
+            calibration_ranges["blockers"],
+            "Regenerate R8 and keep the paper wording at calibration/boundary level if device closure is absent.",
+        ),
+        gate_row(
             "S6",
             "External red-team advisory",
             red_team["status"],
@@ -584,6 +702,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "end_to_end_accuracy": end_to_end_accuracy,
         "same_sim_baselines": same_sim_baselines,
         "system_sensitivity": system_sensitivity,
+        "rtl_control_plane": rtl_control,
+        "calibration_ranges": calibration_ranges,
         "workload_grounding": workload,
         "manuscript_maturity": maturity,
         "calibration_boundary": calibration,
