@@ -117,8 +117,8 @@
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",
-      "sha256": "2d1c79e9b28c87f8dd53e478b04456b5da99ff5b131ef2fc96d85056a7bd8c0b",
-      "size_bytes": 4690
+      "sha256": "f20d905778bdfa5c426a27ed83cfcf0eb33f697a7e8745b519a3719ef7dc0a17",
+      "size_bytes": 4709
     },
     {
       "path": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.csv",
