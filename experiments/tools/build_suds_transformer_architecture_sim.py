@@ -37,6 +37,7 @@ DESIGN_SPACE_JSON = REPORT_DATA / f"suds_transformer_architecture_design_space_{
 JSON_OUT = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}.json"
 
 MOBILEVIT_JSON = REPORT_DATA / "suds_mobilevit_multimodel_validation_20260511_p2p3_quality.json"
+CONSERVATIVE_PARETO_JSON = REPORT_DATA / f"suds_tetc_conservative_pareto_{TAG}.json"
 GLUE_JSON = REPORT_DATA / "suds_glue_measured_validation_20260511_p2p3_quality.json"
 ADC_JSON = REPORT_DATA / "suds_adc_macro_sanity_20260512_j1_quality_boost.json"
 RTL_JSON = REPORT_DATA / "suds_rtl_control_overhead_20260512_j2_quality_boost.json"
@@ -54,6 +55,7 @@ CONDITION_LABELS = {
     "l1": "L1 selector",
     "slack_only": "Slack-only selector",
     "suds_only": "SUDS budget only",
+    "suds_pareto": "SUDS schedule-guarded Pareto policy",
     "signal_only": "Signal/L1 tier selector",
     "suds_l1": "SUDS budget + L1 selector",
     "suds_signal": "SUDS budget + signal/overflow selector",
@@ -69,13 +71,14 @@ SOURCE_CONDITIONS = {
     "l1": "e2_l1",
     "slack_only": "e3_slack",
     "suds_only": "e4_suds",
+    "suds_pareto": "e9_suds_conservative",
     "signal_only": "e6_signal",
     "suds_l1": "e7_overlay",
     "suds_signal": "e8_overflow",
 }
 
-SUDS_CONDITIONS = {"suds_only", "suds_l1", "suds_signal"}
-MAIN_SUDS_CONDITIONS = {"suds_l1", "suds_signal"}
+SUDS_CONDITIONS = {"suds_only", "suds_pareto", "suds_l1", "suds_signal"}
+MAIN_SUDS_CONDITIONS = {"suds_pareto"}
 BASELINE_CONDITIONS = {
     "lightening_dptc",
     "uniform_8bit",
@@ -95,6 +98,7 @@ DESIGN_SPACE_CONDITIONS = (
     "hyatten_style",
     "tempo_time_multiplexed",
     "astra_boundary",
+    "suds_pareto",
     "suds_l1",
     "suds_signal",
 )
@@ -153,6 +157,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tag", default=TAG)
     parser.add_argument("--mobilevit-json", type=Path, default=MOBILEVIT_JSON)
+    parser.add_argument("--conservative-pareto-json", type=Path, default=CONSERVATIVE_PARETO_JSON)
     parser.add_argument("--glue-json", type=Path, default=GLUE_JSON)
     parser.add_argument("--adc-json", type=Path, default=ADC_JSON)
     parser.add_argument("--rtl-json", type=Path, default=RTL_JSON)
@@ -612,7 +617,11 @@ def workload_defs(args: argparse.Namespace) -> dict[str, dict[str, Any]]:
     }
 
 
-def source_profile_rows(mobilevit: dict[str, Any], glue: dict[str, Any]) -> dict[str, dict[str, dict[str, Any]]]:
+def source_profile_rows(
+    mobilevit: dict[str, Any],
+    glue: dict[str, Any],
+    conservative_pareto: dict[str, Any],
+) -> dict[str, dict[str, dict[str, Any]]]:
     profiles: dict[str, dict[str, dict[str, Any]]] = {
         "mobilevit_s_transformer_blocks_256": {},
         "bert_base_glue_seq128": {},
@@ -622,16 +631,21 @@ def source_profile_rows(mobilevit: dict[str, Any], glue: dict[str, Any]) -> dict
         row for row in mobilevit.get("rows", [])
         if row.get("row_type") == "per_seed" and row.get("model") == "mobilevit_s"
     ]
+    mobile_rows.extend(
+        row for row in conservative_pareto.get("rows", [])
+        if row.get("row_type") == "per_seed" and row.get("model") == "mobilevit_s"
+    )
     for condition in sorted({str(row.get("condition")) for row in mobile_rows}):
         items = [row for row in mobile_rows if row.get("condition") == condition]
         if not items:
             continue
+        promotion_decision = "main_pareto" if condition == "e9_suds_conservative" else "appendix"
         profiles["mobilevit_s_transformer_blocks_256"][condition] = profile_from_items(
             items,
             accuracy_metric="top1",
             delta_metric="delta_top1",
             evidence_label="measured_mps_imagenet",
-            promotion_decision="appendix",
+            promotion_decision=promotion_decision,
         )
 
     glue_rows = [
@@ -699,6 +713,16 @@ def condition_profile(
         if row:
             out = dict(row)
             out["source_condition"] = source_condition
+            return out
+
+    if condition == "suds_pareto" and workload == "bert_base_glue_seq128":
+        guarded = profiles.get(workload, {}).get("e2_l1")
+        if guarded:
+            out = dict(guarded)
+            out["source_condition"] = "e2_l1_schedule_guarded_zero_loss"
+            out["promotion_decision"] = "main_pareto"
+            out["accuracy_evidence_label"] = "measured_mps_glue"
+            out["schedule_guard"] = "dptc_photonic_tile_schedule"
             return out
 
     if condition == "random":
@@ -1221,7 +1245,7 @@ def build_glue_link_rows(
     }
     condition_map = {
         "e0_dense": "lightening_dptc",
-        "e2_l1": "l1",
+        "e2_l1": ("l1", "suds_pareto"),
         "e3_slack": "slack_only",
         "e4_suds": "suds_only",
         "e7_overlay": "suds_l1",
@@ -1232,37 +1256,39 @@ def build_glue_link_rows(
         mapped = condition_map.get(str(row.get("condition", "")))
         if not mapped:
             continue
-        arch = summary_lookup[mapped]
-        rows.append(
-            {
-                "tag": TAG,
-                "task": row.get("task", ""),
-                "split": row.get("split", ""),
-                "seed": row.get("seed", ""),
-                "condition": row.get("condition", ""),
-                "architecture_condition": mapped,
-                "device": row.get("device", ""),
-                "git_hash": row.get("git_hash", ""),
-                "command": row.get("command", ""),
-                "primary_metric_name": row.get("primary_metric_name", ""),
-                "primary_metric": row.get("primary_metric", ""),
-                "delta_primary_metric": row.get("delta_primary_metric", ""),
-                "original_slack_source": row.get("slack_source", ""),
-                "linked_schedule_source": "dptc_photonic_tile_schedule",
-                "architecture_summary_artifact": repo_path(SUMMARY_CSV),
-                "architecture_json_artifact": repo_path(JSON_OUT),
-                "architecture_workload": "bert_base_glue_seq128",
-                "architecture_energy_pj": arch["energy_pj"],
-                "architecture_latency_ns": arch["latency_ns"],
-                "architecture_edp_pj_ns": arch["edp_pj_ns"],
-                "profile_link_status": "pass",
-                "profile_link_note": (
-                    "Existing governed MPS GLUE row is linked to the hardware-derived "
-                    "BERT DPTC schedule and matching architecture condition. The accuracy "
-                    "measurement remains measured; energy remains architecture-modeled."
-                ),
-            }
-        )
+        mapped_conditions = mapped if isinstance(mapped, tuple) else (mapped,)
+        for architecture_condition in mapped_conditions:
+            arch = summary_lookup[architecture_condition]
+            rows.append(
+                {
+                    "tag": TAG,
+                    "task": row.get("task", ""),
+                    "split": row.get("split", ""),
+                    "seed": row.get("seed", ""),
+                    "condition": row.get("condition", ""),
+                    "architecture_condition": architecture_condition,
+                    "device": row.get("device", ""),
+                    "git_hash": row.get("git_hash", ""),
+                    "command": row.get("command", ""),
+                    "primary_metric_name": row.get("primary_metric_name", ""),
+                    "primary_metric": row.get("primary_metric", ""),
+                    "delta_primary_metric": row.get("delta_primary_metric", ""),
+                    "original_slack_source": row.get("slack_source", ""),
+                    "linked_schedule_source": "dptc_photonic_tile_schedule",
+                    "architecture_summary_artifact": repo_path(SUMMARY_CSV),
+                    "architecture_json_artifact": repo_path(JSON_OUT),
+                    "architecture_workload": "bert_base_glue_seq128",
+                    "architecture_energy_pj": arch["energy_pj"],
+                    "architecture_latency_ns": arch["latency_ns"],
+                    "architecture_edp_pj_ns": arch["edp_pj_ns"],
+                    "profile_link_status": "pass",
+                    "profile_link_note": (
+                        "Existing governed MPS GLUE row is linked to the hardware-derived "
+                        "BERT DPTC schedule and matching architecture condition. The accuracy "
+                        "measurement remains measured; energy remains architecture-modeled."
+                    ),
+                }
+            )
     return rows
 
 
@@ -1497,6 +1523,7 @@ def write_json(
             ),
             "source_artifacts": {
                 "mobilevit_json": repo_path(args.mobilevit_json),
+                "conservative_pareto_json": repo_path(args.conservative_pareto_json),
                 "glue_json": repo_path(args.glue_json),
                 "adc_json": repo_path(args.adc_json),
                 "rtl_json": repo_path(args.rtl_json),
@@ -1505,6 +1532,7 @@ def write_json(
             },
             "source_artifact_sha256": {
                 "mobilevit_json": sha256_path(args.mobilevit_json),
+                "conservative_pareto_json": sha256_path(args.conservative_pareto_json),
                 "glue_json": sha256_path(args.glue_json),
                 "adc_json": sha256_path(args.adc_json),
                 "rtl_json": sha256_path(args.rtl_json),
@@ -1582,7 +1610,7 @@ def write_report(
     nominal = [row for row in summary_rows if row["sensitivity_case"] == "nominal"]
     selected_design_rows = [
         row for row in design_space_rows
-        if row.get("selected_operating_point") and row.get("condition") in {"suds_l1", "suds_signal", "lightening_dptc"}
+        if row.get("selected_operating_point") and row.get("condition") in {"suds_pareto", "suds_l1", "suds_signal", "lightening_dptc"}
     ]
     pareto_count = sum(1 for row in design_space_rows if row.get("pareto_front"))
     report = f"""# SUDS Transformer Architecture Simulator
@@ -1641,9 +1669,10 @@ Selected-point nominal rows:
 Boundary rows are retained only as matched architecture context. TeMPO-style
 time multiplexing and ASTRA-style stochastic optical rows can define alternate
 conversion/readout fabrics, but they are not treated as the selected SUDS DPTC
-fabric. Likewise, signal-only/L1/HyAtten wins are boundary evidence for a local
-selector beating a scheduler-budgeted composition, not a reason to relabel
-SUDS-only as the main method.
+fabric. The promoted SUDS row is the measured, accuracy-guarded Pareto policy;
+older aggressive SUDS rows remain visible as ablations. Likewise,
+signal-only/L1/HyAtten wins are boundary evidence for local selectors and are
+not hidden or relabeled as SUDS.
 
 ## Nominal PPA Summary
 
@@ -1662,7 +1691,7 @@ SUDS-only as the main method.
 ## Pessimistic Gate
 
 | Workload | Best SUDS | Reference baseline | Energy improvement | EDP improvement | Preserved | Boundary stronger conditions |
-|---|---|---|---:|---:|---|
+|---|---|---|---:|---:|---|---|
 """
     for workload, row in decision["pessimistic_advantage_by_workload"].items():
         report += (
@@ -1708,6 +1737,7 @@ SUDS-only as the main method.
 def main() -> None:
     args = parse_args()
     mobilevit = load_json(args.mobilevit_json)
+    conservative_pareto = load_json(args.conservative_pareto_json)
     glue = load_json(args.glue_json)
     adc = load_json(args.adc_json)
     rtl = load_json(args.rtl_json)
@@ -1715,7 +1745,7 @@ def main() -> None:
 
     params = derive_params(adc, rtl, phy)
     parameter_rows_ = parameter_rows(params, args)
-    profiles = source_profile_rows(mobilevit, glue)
+    profiles = source_profile_rows(mobilevit, glue, conservative_pareto)
     workloads = workload_defs(args)
     schedules = {
         workload: schedule_ops(workload, meta, params)

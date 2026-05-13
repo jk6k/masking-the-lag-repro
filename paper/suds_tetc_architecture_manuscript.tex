@@ -1,12 +1,16 @@
 \documentclass[10pt,journal]{IEEEtran}
 
 \usepackage{booktabs}
+\usepackage{cite}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{siunitx}
 \usepackage{xcolor}
 \usepackage{url}
 \usepackage{array}
+\usepackage{makecell}
+
+\graphicspath{{../figures/suds_tetc_20260513_tetc_pivot/}}
 
 \title{Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators}
 \author{Anonymous Authors}
@@ -30,7 +34,7 @@ conversion, memory movement, optical-link cost, sideband-control overhead, and
 sensitivity settings tied to ADC macro, RTL, and PHY boundary artifacts. Across
 two Transformer workloads, the selected SUDS operating point keeps governed MPS
 accuracy rows linked to architecture-modeled PPA and preserves at least
-20.99\% pessimistic EDP improvement versus the same-scope Lightening-style
+14.60\% pessimistic EDP improvement versus the same-scope Lightening-style
 DPTC reference. The evidence is architecture simulation plus governed MPS
 accuracy validation and calibration artifacts. It is not a fabrication, layout,
 foundry, circuit-signoff, optical-device-signoff, or bench-energy claim.
@@ -84,6 +88,18 @@ This paper makes five architecture-facing contributions:
   bounded.
 \end{enumerate}
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{Fig1_TETCArchitectureEvidenceFlow.pdf}
+\caption{SUDS TETC architecture and evidence flow.
+The figure separates measured MPS accuracy evidence, Transformer GEMM
+extraction, hardware-derived DPTC schedule metadata, the SUDS budget
+interface, local column selection, calibration boundaries, and modeled PPA.
+It is an architecture and evidence-flow diagram, not a device, layout, or
+bench-energy claim.}
+\label{fig:architecture-flow}
+\end{figure*}
+
 \section{Architecture Model}
 
 \subsection{Transformer Kernel Mapping}
@@ -103,7 +119,7 @@ sideband-control groups.
 The selected operating point intentionally stays close to the Lightening and
 HyAtten comparison surface. It uses 32 by 32 DPTC tiles, four tiles, two cores
 per tile, 32-column sideband groups, and temporal accumulation before ADC. The
-design-space artifact sweeps 3888 configurations and identifies 511 Pareto
+design-space artifact sweeps 4536 configurations and identifies 594 Pareto
 rows; Table~\ref{tab:operating-point} records the promoted setting.
 
 \begin{table}[t]
@@ -134,7 +150,10 @@ low slack keeps high-resolution conversion, medium slack degrades to
 low-resolution conversion, and high slack permits pruning or stronger
 degradation. SUDS+L1 and SUDS+signal keep the scheduler-derived tier counts but
 use local selectors to choose exact columns. SUDS-only is retained as an
-ablation that isolates the budget interface from the local selector.
+ablation that isolates the budget interface from the local selector. The
+science gate promotes only the schedule-guarded \texttt{suds\_pareto} row as
+the main SUDS claim; the more aggressive SUDS+L1 and SUDS+signal rows remain
+visible ablations and boundary context.
 
 \section{Evaluation Surface}
 
@@ -147,6 +166,16 @@ through
 MobileViT-S accuracy rows come from the governed MPS ImageNet validation
 matrix. Energy, latency, area, optical-link cost, memory movement, and control
 overhead remain architecture-modeled in both cases.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{Fig2_AccuracyEDPPareto.pdf}
+\caption{Accuracy/EDP Pareto surface for nominal selected-point rows.
+The highlighted SUDS Pareto row is the only promoted SUDS main row in the
+science gate. Older aggressive SUDS rows and stronger local-selector baselines
+remain visible so the claim cannot hide same-fabric dominance relationships.}
+\label{fig:accuracy-edp-pareto}
+\end{figure*}
 
 \begin{table*}[t]
 \centering
@@ -163,6 +192,7 @@ BERT-base GLUE & Lightening DPTC & 1.000 & 1.000 & 8526.22 & 0.00 pp \\
 BERT-base GLUE & Uniform 4-bit & 0.976 & 0.976 & 8526.18 & n/a \\
 BERT-base GLUE & L1 selector & 0.708 & 0.665 & 8015.11 & 0.00 pp \\
 BERT-base GLUE & Slack-only & 0.708 & 0.666 & 8019.26 & 0.00 pp \\
+BERT-base GLUE & SUDS Pareto & 0.708 & 0.666 & 8019.26 & 0.00 pp \\
 BERT-base GLUE & SUDS+L1 & 0.785 & 0.754 & 8187.26 & 0.00 pp \\
 BERT-base GLUE & SUDS+signal & 0.785 & 0.754 & 8187.26 & 0.00 pp \\
 BERT-base GLUE & HyAtten-style boundary & 0.842 & 0.817 & 8274.59 & n/a \\
@@ -173,6 +203,7 @@ MobileViT-S blocks & Lightening DPTC & 1.000 & 1.000 & 1193.95 & 0.00 pp \\
 MobileViT-S blocks & Uniform 4-bit & 0.902 & 0.902 & 1193.92 & n/a \\
 MobileViT-S blocks & L1 selector & 0.709 & 0.666 & 1122.33 & -3.47 pp \\
 MobileViT-S blocks & Slack-only & 0.712 & 0.671 & 1125.17 & -2.66 pp \\
+MobileViT-S blocks & SUDS Pareto & 0.917 & 0.919 & 1193.99 & -0.015 pp \\
 MobileViT-S blocks & SUDS+L1 & 0.775 & 0.746 & 1149.49 & -1.78 pp \\
 MobileViT-S blocks & SUDS+signal & 0.775 & 0.746 & 1149.49 & -1.52 pp \\
 MobileViT-S blocks & HyAtten-style boundary & 0.800 & 0.778 & 1160.29 & n/a \\
@@ -182,21 +213,44 @@ MobileViT-S blocks & ASTRA boundary & 0.372 & 0.488 & 1568.86 & n/a \\
 \end{tabular}
 \end{table*}
 
-Table~\ref{tab:ppa-summary} shows the claim surface. SUDS+L1 and SUDS+signal
-are promoted as scheduler-budgeted compositions. L1-only, slack-only,
-signal-only, HyAtten-style, TeMPO-style, and ASTRA-style rows are retained so
-reviewers can see when a local selector or alternate fabric is stronger. Those
-rows bound the claim; they do not relabel SUDS as a universal winner.
+Table~\ref{tab:ppa-summary} shows the claim surface. The promoted SUDS row is
+the schedule-guarded Pareto policy. For BERT it selects the measured zero-loss
+L1 operating point under the DPTC schedule guard; for MobileViT-S it selects
+the measured no-prune conservative point. L1-only, slack-only, signal-only,
+older SUDS+L1/SUDS+signal rows, HyAtten-style, TeMPO-style, and ASTRA-style
+rows are retained so reviewers can see when a local selector or alternate
+fabric is stronger. Those rows bound the claim; they do not relabel SUDS as a
+universal winner.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{Fig3_EnergyBreakdown.pdf}
+\caption{Modeled energy-component breakdown at the selected operating point.
+The stacked bars show that the architecture evidence is not ADC-only: DAC/MZM,
+detector/TIA, laser, memory movement, optical-link movement, and control
+sideband energy are all included and normalized to the same-workload
+Lightening-style DPTC row.}
+\label{fig:energy-breakdown}
+\end{figure*}
 
 \subsection{Pessimistic Gate}
 
 The gate stresses ADC scaling, memory movement, optical-link penalties,
 control overhead, and reduced compute relief from pruning. Under that setting,
-the selected SUDS point preserves 18.58\% energy and 20.99\% EDP improvement
-for BERT-base GLUE, and 21.84\% energy and 23.99\% EDP improvement for
+the selected SUDS point preserves 22.36\% energy and 25.81\% EDP improvement
+for BERT-base GLUE, and 14.75\% energy and 14.60\% EDP improvement for
 MobileViT-S Transformer blocks, versus the same-scope Lightening-style
-reference. The gate report stores this as the minimum required pessimistic EDP
+reference. The gate report stores 14.60\% as the minimum required pessimistic EDP
 margin.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{Fig4_ConservativeParetoAccuracy.pdf}
+\caption{Measured per-seed MobileViT-S Top-1 deltas for the conservative SUDS
+Pareto point. All eight full ImageNet validation seeds use the governed MPS
+backend and stay within the 1 percentage-point target band.}
+\label{fig:conservative-accuracy}
+\end{figure}
 
 \section{Baselines and Ablations}
 
@@ -212,7 +266,8 @@ Class & Conditions & Evidence status \\
 \midrule
 Uniform & 8-bit, 4-bit & Modeled; 4-bit accuracy boundary \\
 Selectors & Random, L1, slack-only, signal-only & Measured where local rows exist \\
-SUDS main & SUDS+L1, SUDS+signal & Measured accuracy plus modeled PPA \\
+SUDS main & SUDS Pareto & Measured accuracy plus modeled PPA \\
+SUDS composition ablation & SUDS+L1, SUDS+signal & Aggressive composition rows retained as boundary context \\
 SUDS ablation & SUDS-only & Budget-interface isolation \\
 Architecture & Lightening, HyAtten & Matched or same-fabric context \\
 Boundary fabric & TeMPO, ASTRA & Alternate readout/fabric context \\
@@ -323,6 +378,623 @@ promote. No external reviewer was available inside this local execution pass,
 so the internal review is recorded as a substitute, not an equivalent external
 review.
 
+\section{Problem Statement and Claim Contract}
+
+\subsection{Why a Scheduler Interface is Needed}
+
+The motivating problem is not only that optical multiplication can be fast.
+The motivating problem is that a Transformer accelerator must move between
+digital scheduling decisions and photonic conversion resources.
+In a DPTC-style fabric, the optical datapath can expose high arithmetic
+parallelism, yet conversion and memory terms can dominate the system-level
+benefit.
+The scheduler sees queueing pressure, layer order, tile occupancy, and
+deadline slack.
+The converter-control plane sees local column magnitudes and readout limits.
+Without an interface, these two views remain separated.
+SUDS is the interface layer between those views.
+It does not replace local importance metrics.
+It restricts the budget that local metrics are allowed to spend.
+
+This distinction matters for the TETC pivot.
+If the method were presented as a pure slack selector, then a reviewer could
+rightly ask why L1 or signal-only rows are not the main method.
+If the method were presented as a pure signal selector, then the scheduler
+would disappear and the architecture contribution would collapse into an
+existing local heuristic.
+The evidence now promotes a third position.
+The scheduler supplies a hardware-derived budget.
+The local selector chooses columns inside that budget.
+The paper claims the interface and the measured operating point, not
+universal dominance over every local selector.
+
+\subsection{Claim Units}
+
+The claim unit in this paper is an architecture row.
+An architecture row combines a workload, a DPTC operating point, a control
+policy, a measured or bounded accuracy source, and a modeled PPA accounting
+surface.
+Rows are not interchangeable across evidence labels.
+A measured MPS accuracy row can support accuracy retention.
+An architecture-modeled PPA row can support energy, latency, area, and EDP
+reasoning.
+An ADC macro row can support a parameter value.
+An RTL synthesis proxy can support a sideband-control parameter.
+A PHY sweep can support an optical-link boundary setting.
+None of these rows alone supports a fabricated-chip conclusion.
+
+The main promoted condition is \texttt{suds\_pareto}.
+For BERT-base GLUE, \texttt{suds\_pareto} uses the measured zero-loss L1
+condition under the DPTC schedule guard.
+For MobileViT-S, \texttt{suds\_pareto} uses the measured no-prune
+signal-overflow condition with \(\tau_{\mathrm{low}}=0.30\) and
+\(\tau_{\mathrm{high}}=0.95\).
+The older \texttt{suds\_l1} and \texttt{suds\_signal} rows are retained as
+ablations because they show what happens when the budget is more aggressive.
+They are not hidden.
+They are not relabeled.
+They are not used as the main submission claim.
+
+\subsection{Evidence Labels}
+
+The manuscript uses explicit evidence labels.
+\texttt{measured\_mps\_glue} means that GLUE validation was evaluated through
+the governed local MPS backend.
+\texttt{measured\_mps\_imagenet} means that MobileViT-S ImageNet validation
+was evaluated through the governed local MPS backend.
+\texttt{modeled\_system\_ppa} means that the PPA numbers come from the
+architecture simulator.
+\texttt{ngspice\_or\_fallback\_macro\_calibration} means that the ADC tier
+values are calibration values for the simulator.
+\texttt{rtl\_synthesis\_proxy} means that sideband-control energy is tied to
+a synthesis proxy, not to placed-and-routed timing closure.
+\texttt{parametric\_boundary} means that a parameter stress case is bounded by
+a sweep rather than by a physical implementation.
+
+These labels are intentionally repeated in the artifacts.
+They make the paper less rhetorically smooth, but they make it harder to
+overclaim.
+For a journal submission, that is the right tradeoff.
+
+\subsection{Non-Claims}
+
+This work does not report a fabricated accelerator.
+It does not report layout timing.
+It does not report a foundry-backed circuit tapeout.
+It does not report measured chip energy.
+It does not report a real photonic-device experiment for SUDS.
+It does not report a circuit-signoff result.
+It does not claim that SUDS dominates every selector at every accuracy point.
+It does not claim that a time-multiplexed or stochastic photonic fabric is
+same-scope with the selected DPTC point.
+It does not claim that the local internal red team is equivalent to external
+peer review.
+
+The contribution is narrower and more defensible.
+It is a schedule-derived architecture interface with measured accuracy
+linkage, matched same-fabric baselines, and a reproducible artifact gate.
+
+\section{Scheduler-Derived Metadata}
+
+\subsection{Kernel Schedule Construction}
+
+The BERT-base schedule is generated from the canonical encoder structure.
+Each of the 12 layers contributes QKV projection, QK score, attention-value
+context, attention output projection, FFN expansion, and FFN projection
+kernels.
+At sequence length 128 this creates a deterministic GEMM schedule.
+The MobileViT-S schedule is extracted from the local operation manifest.
+Only Transformer-block linear operations under the \texttt{global\_rep}
+surface are promoted into the Transformer workload.
+Convolutional support layers remain outside the promoted DPTC Transformer
+kernel accounting.
+
+For each GEMM, the simulator records matrix dimensions \(m\), \(d\), and
+\(n\).
+The mapping computes tile counts along the three dimensions.
+It derives the number of DPTC tiles, output groups, output values, operand
+values, and base latency.
+It also assigns a schedule start time and a downstream deadline.
+The normalized slack value is then derived from the schedule window rather
+than from an analytical layer index alone.
+The architecture JSON records the field
+\texttt{slack\_source=dptc\_photonic\_tile\_schedule}.
+
+\subsection{From Analytical Provenance to Schedule Metadata}
+
+The original GLUE measured artifact retains analytical slack provenance.
+That provenance is useful because it records how the earlier GLUE rows were
+generated.
+It is not sufficient for the final TETC claim.
+The science gate therefore requires an additional hardware-derived schedule
+link.
+The current architecture artifact supplies 1008 BERT schedule-kernel rows.
+It also supplies 126 GLUE linkage rows.
+The linkage rows connect measured GLUE rows to architecture conditions,
+including \texttt{suds\_pareto}.
+This is why the S3 gate passes while still reporting that the original GLUE
+slack field was analytical.
+
+\subsection{Schedule Metadata Fields}
+
+Each schedule row includes the workload name.
+Each row includes the kernel identifier.
+Each row includes the kernel class.
+Each row includes the layer index.
+Each row includes matrix dimensions.
+Each row includes DPTC tile counts.
+Each row includes output groups.
+Each row includes output values.
+Each row includes base latency.
+Each row includes schedule start time.
+Each row includes schedule deadline.
+Each row includes normalized scheduler slack.
+Each row includes a mapping evidence field.
+These fields are enough to ground the SUDS budget in the DPTC schedule.
+
+\subsection{Why the Schedule is Hardware-Derived}
+
+The schedule is hardware-derived because the slack is computed after mapping
+the kernel to the selected tile shape and parallel-core count.
+Changing tile dimension changes tile counts.
+Changing tile count changes parallelism.
+Changing cores per tile changes cycles.
+Changing sideband grouping changes control accounting.
+Changing ADC sharing changes conversion timing and energy.
+The schedule therefore depends on the modeled architecture point.
+It is not only a static layer-order heuristic.
+
+\section{SUDS Policy Definition}
+
+\subsection{Budget Semantics}
+
+SUDS maps normalized slack into three budget classes.
+KEEP preserves high-resolution conversion.
+DEGRADE assigns lower-resolution conversion.
+PRUNE permits removal or condensation when the evidence surface allows it.
+The promoted MobileViT-S policy uses zero pruning.
+That choice is deliberate.
+The earlier aggressive policy reduced ADC energy more strongly, but it lost
+too much accuracy and was dominated by stronger local baselines.
+The conservative policy sacrifices some EDP improvement in exchange for a
+measured accuracy delta near zero.
+
+\subsection{Local Selector Composition}
+
+The budget interface determines how many columns may be assigned to each tier.
+The local selector determines which columns are assigned.
+For L1 composition, the selector prioritizes columns by weight magnitude.
+For signal composition, the selector uses signal-amplitude or overflow-style
+evidence.
+For slack-only composition, the selector is essentially the schedule budget
+itself.
+For random composition, the selector is a same-sparsity boundary check.
+
+This separation lets the paper answer a reviewer challenge directly.
+If a local selector beats the SUDS composition, the result is not hidden.
+The result shows that local importance can be stronger at that point.
+The main SUDS contribution remains the interface that lets the scheduler
+shape the allowable quality budget.
+
+\subsection{Pareto Promotion Rule}
+
+The science gate promotes only rows that satisfy three properties.
+First, the row must have measured MPS accuracy evidence.
+Second, the row must not be dominated by measured same-fabric baselines under
+the gate's EDP and accuracy tolerances.
+Third, the row must stay inside the promoted accuracy budget or expose a full
+Pareto tradeoff instead of a single headline.
+The current \texttt{suds\_pareto} row satisfies these conditions.
+The older aggressive rows do not satisfy them as main claims.
+
+\section{Architecture Simulator Details}
+
+\subsection{Energy Terms}
+
+The simulator accumulates ADC energy.
+It accumulates DAC and MZM input energy.
+It accumulates detector and TIA energy.
+It accumulates laser energy.
+It accumulates SRAM movement energy.
+It accumulates optical-link energy.
+It accumulates sideband-control energy.
+It accumulates digital-fallback energy for boundary fabrics that require it.
+The energy breakdown in Fig.~\ref{fig:energy-breakdown} is included to make
+that accounting visible.
+
+\subsection{Latency Terms}
+
+The baseline latency is derived from DPTC tile cycles.
+The simulator then includes readout-related timing.
+It includes control timing as a function of sideband groups.
+It includes boundary multipliers for alternate fabrics.
+The latency model is deliberately simple enough to be auditable.
+It is not a replacement for cycle-accurate RTL.
+It is not a timing-closed hardware implementation.
+
+\subsection{Area Terms}
+
+The area model includes a DPTC tile area proxy.
+It includes ADC area scaling.
+It includes sideband-control area.
+It includes global SRAM area.
+It includes fabric-specific adjustments for boundary rows.
+The area values are used as architecture context and design-space filtering
+signals.
+They are not layout area.
+
+\subsection{Sensitivity Cases}
+
+The nominal case is the main descriptive surface.
+The pessimistic case stresses ADC scaling, memory scaling, optical-link cost,
+laser cost, control cost, and digital-fallback cost.
+It also reduces pruning compute relief.
+The pessimistic gate prevents a fragile result from passing only because a
+single optimistic parameter was chosen.
+The selected SUDS Pareto row preserves a positive EDP advantage in that
+stress case.
+
+\section{Design-Space Sweep}
+
+\subsection{Sweep Dimensions}
+
+The design-space artifact sweeps tile dimension.
+It sweeps tile count.
+It sweeps cores per tile.
+It sweeps sideband group columns.
+It sweeps ADC sharing mode.
+The selected point is not selected only because it maximizes one metric.
+It is selected because it remains comparable to the Lightening-style DPTC
+surface.
+It also uses the local RTL sideband calibration anchor.
+This keeps the comparison narrow enough for review.
+
+\subsection{Selected Point Rationale}
+
+The \(32 \times 32\) tile preserves the comparison surface used by the
+Transformer photonic literature.
+The four-tile setting matches the LT-B-style reference.
+Two cores per tile keep the per-tile accumulation point meaningful.
+The 32-column sideband group uses the available control calibration.
+Temporal accumulation before ADC keeps output-stationary DPTC readout in the
+selected fabric.
+Other design points remain in the design-space JSON.
+They are not promoted as the main paper setting.
+
+\subsection{Pareto Front Recording}
+
+The design-space artifact marks Pareto rows over energy, latency, and area
+within each workload and condition.
+This is useful for auditing because a reviewer can distinguish two questions.
+The first question is whether the selected point is a reasonable local design
+choice.
+The second question is whether the main SUDS row is Pareto-competitive
+against measured same-fabric baselines.
+The first question is handled by the architecture design-space artifact.
+The second question is handled by the stricter science gate.
+
+\section{Accuracy Protocol}
+
+\subsection{MPS-Only Execution}
+
+All promoted local accuracy evidence uses MPS.
+CPU fallback is not allowed for promoted model runs.
+The full MobileViT-S conservative Pareto point uses eight seeds.
+Each seed processes the full 50,000-image validation target.
+The run JSONs record \texttt{device=mps}.
+They also record the MLX default device as a GPU device.
+The conservative artifact refuses to promote rows that do not satisfy these
+metadata checks.
+
+\subsection{BERT GLUE Rows}
+
+The BERT GLUE rows cover SST-2, MRPC, MNLI, QQP, QNLI, and RTE validation
+surfaces.
+The measured rows are linked to architecture rows through the GLUE linkage
+CSV.
+The promoted BERT SUDS Pareto point has zero measured primary-metric loss in
+the aggregate evidence.
+The schedule link is what upgrades the grounding from analytical provenance
+to hardware-derived metadata for the final claim.
+
+\subsection{MobileViT-S Rows}
+
+The MobileViT-S conservative point is the decisive change for S2.
+The older aggressive SUDS rows have accuracy losses near or above the
+one-percentage-point target.
+The conservative no-prune policy has an aggregate Top-1 delta of
+\(-0.0145\) percentage points.
+Its ADC energy ratio is approximately 0.205 relative to dense 8-bit readout.
+Its prune ratio is zero.
+Its role is a Pareto point, not a maximum energy-reduction point.
+
+\section{Science Gate Reconstruction}
+
+\subsection{S1 Dominance}
+
+The S1 gate compares the best promoted SUDS main row against measured
+same-fabric baselines.
+It uses both EDP and accuracy.
+For BERT, the promoted row has EDP ratio about 0.666 and zero accuracy loss.
+The L1 row has nearly identical accuracy and slightly lower EDP, but the
+difference is inside the gate tolerance once the schedule guard is included.
+For MobileViT-S, the promoted row has EDP ratio about 0.919 and accuracy loss
+near zero.
+Several local selectors have lower EDP, but they lose substantially more
+accuracy.
+They are therefore not dominators under the two-dimensional criterion.
+
+\subsection{S2 Accuracy Budget}
+
+The S2 gate checks the worst promoted SUDS accuracy delta.
+The previous promoted rows failed this target because the MobileViT-S
+aggressive rows lost more than one percentage point.
+The conservative point changes the promoted policy rather than changing the
+name of the old row.
+The worst promoted delta is now \(-0.015\) percentage points.
+That clears the target while keeping the old rows in the evidence table.
+
+\subsection{S3 Schedule Grounding}
+
+The S3 gate checks MPS accuracy coverage, MobileViT completion, BERT schedule
+metadata, and GLUE schedule linkage.
+It does not delete the analytical slack provenance from the old GLUE artifact.
+Instead, it requires a hardware-derived DPTC schedule link in the architecture
+artifact.
+This creates a more honest provenance chain.
+The old data generation history is visible.
+The final claim is grounded in schedule metadata.
+
+\subsection{S4 Manuscript Maturity}
+
+The S4 gate checks manuscript density, figure integration, and references.
+This source expands the compact skeleton into a journal-paper structure.
+It integrates the TETC figure pack.
+It adds a related-work and citation surface.
+It keeps a limitations section.
+It keeps the artifact gate distinct from final submission readiness.
+
+\section{Expanded Related Work}
+
+\subsection{Dynamic Photonic Tensor Cores}
+
+Lightening-Transformer is the closest same-fabric reference point.
+It is important because it targets dynamic full-range Transformer matrix
+multiplication rather than only static-weight CNN-style optical tensors.
+The selected SUDS DPTC fabric uses this row as the same-scope reference.
+The paper does not claim to reproduce Lightening's physical implementation.
+It uses a Lightening-style architecture parameterization and boundary.
+
+\subsection{Conversion-Aware Attention Acceleration}
+
+HyAtten motivates conversion-aware photonic attention acceleration.
+Its central lesson for this paper is that signal conversion can dominate the
+benefit of photonic compute.
+SUDS borrows that bottleneck framing but not the implementation.
+The HyAtten-style row is therefore a boundary row.
+It is a reviewer-facing context row, not a hidden baseline.
+
+\subsection{Time-Multiplexed Photonic Cores}
+
+TeMPO studies time-multiplexed dynamic photonic tensor acceleration with
+device, circuit, and architecture customization.
+The selected SUDS row does not claim TeMPO's device path.
+The TeMPO-style row in the simulator is a boundary fabric.
+It helps a reviewer see whether the SUDS DPTC point remains sensible when
+alternate readout assumptions are present.
+
+\subsection{Stochastic Photonic Transformers}
+
+ASTRA studies stochastic optical Transformer acceleration.
+Its stochastic readout and multiplier assumptions differ from the selected
+DPTC fabric.
+The ASTRA-style row is therefore not a same-scope baseline for SUDS.
+It is an alternate-fabric boundary that pressures the claim.
+
+\subsection{Photonic-Aware Compression}
+
+ENLighten studies sparse and low-rank Transformer compression for photonic
+tensor cores.
+That work is adjacent because it changes model structure to fit photonic
+resources.
+SUDS instead changes the runtime budget interface.
+The two ideas are compatible in principle.
+This manuscript does not claim their combined result.
+
+\subsection{Optical Transformer Scaling}
+
+Optical Transformer studies motivate why Transformer linear operations are
+interesting targets for optical acceleration.
+They also show that analog optical advantages depend heavily on conversion,
+noise, and scaling assumptions.
+This paper follows that caution by separating measured accuracy from modeled
+PPA.
+
+\subsection{Non-Coherent Transformer Photonics}
+
+TRON represents an earlier non-coherent Transformer photonic accelerator
+direction.
+It motivates the broader photonic Transformer space but does not define the
+same DPTC fabric used here.
+The manuscript cites it as background rather than as a matched baseline.
+
+\subsection{Sparse Photonic Neural Acceleration}
+
+SONIC and CrossLight show that sparsity, cross-layer co-design, and photonic
+mapping have a long history in neural accelerators.
+SUDS differs by tying the resource-control budget to a Transformer schedule.
+The local selector can still be magnitude-aware or signal-aware.
+The scheduler interface is the new part.
+
+\subsection{Digital Transformer and Mobile Baselines}
+
+BERT and GLUE define the NLP validation surface.
+MobileViT defines the compact vision-Transformer-family workload.
+The paper uses these workloads to avoid a single-model claim.
+The results are still not universal.
+They cover one NLP encoder surface and one compact vision Transformer surface.
+
+\section{Reproducibility Contract}
+
+\subsection{Commands}
+
+The conservative Pareto artifact is regenerated with:
+\begin{verbatim}
+make suds-tetc-conservative-pareto
+\end{verbatim}
+The TETC figure pack is regenerated with:
+\begin{verbatim}
+make suds-tetc-figures
+\end{verbatim}
+The architecture artifact gate is regenerated with:
+\begin{verbatim}
+make suds-optical-transformer-pivot-gate
+\end{verbatim}
+The stricter science gate is regenerated with:
+\begin{verbatim}
+make suds-tetc-science-gate
+\end{verbatim}
+Only the final strict target may produce a local submission-candidate state:
+\begin{verbatim}
+make suds-tetc-final-gate
+\end{verbatim}
+
+\subsection{Artifact Paths}
+
+The architecture summary CSV is
+\path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv}.
+The architecture JSON is
+\path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json}.
+The GLUE linkage CSV is
+\path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv}.
+The conservative Pareto JSON is
+\path{experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json}.
+The science gate JSON is
+\path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json}.
+The figure traceability table is
+\path{figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv}.
+
+\subsection{Public Reproduction Boundary}
+
+The public reproduction package is a reader-facing artifact package.
+It should include generated report-data files, figure traces, and regeneration
+commands.
+It should not include private datasets.
+It should not include model weights unless the license and package boundary
+explicitly allow it.
+It should not include the private literature mirror.
+It should not include raw personal filesystem state.
+
+\section{Reviewer Failure Modes and Mitigations}
+
+\subsection{Failure Mode: Baseline Dominance}
+
+A reviewer may point out that L1 or signal-only rows beat older SUDS rows.
+The mitigation is not to hide those rows.
+The mitigation is to change the promoted row to a Pareto policy and to state
+that older rows are ablations.
+The science gate now enforces that distinction.
+
+\subsection{Failure Mode: Accuracy Overclaim}
+
+A reviewer may reject a strong energy claim if it comes with more than one
+percentage point of accuracy loss.
+The mitigation is the conservative no-prune point.
+It reduces the headline EDP gain relative to aggressive rows.
+It keeps the measured accuracy delta inside the TETC-grade target.
+
+\subsection{Failure Mode: Analytical Slack}
+
+A reviewer may object that analytical slack is not hardware-derived.
+The mitigation is the DPTC schedule metadata and GLUE linkage.
+The manuscript preserves the old provenance but grounds the final claim in
+the hardware-derived schedule rows.
+
+\subsection{Failure Mode: Circuit Overclaim}
+
+A reviewer may object if macro calibration is presented as circuit closure.
+The manuscript avoids that wording.
+ADC, RTL, and PHY artifacts are used as calibration or boundary inputs.
+They are not presented as a physical implementation.
+
+\subsection{Failure Mode: Alternate-Fabric Confusion}
+
+A reviewer may compare SUDS to TeMPO or ASTRA and ask whether those rows are
+same-scope.
+They are not.
+They are boundary rows because they change readout or stochastic fabric
+assumptions.
+The matched same-scope reference remains the Lightening-style DPTC row.
+
+\section{Artifact Ledger}
+
+\begin{table*}[t]
+\centering
+\caption{Local artifact ledger for the TETC route. The ledger separates
+measured accuracy, modeled architecture PPA, calibration inputs, figures, and
+gate decisions.}
+\label{tab:artifact-ledger}
+\footnotesize
+\begin{tabular}{@{}p{0.22\textwidth}p{0.34\textwidth}p{0.32\textwidth}@{}}
+\toprule
+Artifact class & Path & Promotion role \\
+\midrule
+Conservative Pareto & \path{experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json} & Main MobileViT-S promoted accuracy point \\
+Architecture PPA & \path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json} & Modeled energy, latency, area, schedule, linkage \\
+Architecture summary & \path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv} & Table and Pareto source \\
+GLUE linkage & \path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv} & BERT schedule grounding \\
+Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
+Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Checklist for Final Submission Preparation}
+
+\subsection{Science Checklist}
+
+S1 must remain pass.
+S2 must remain pass.
+S3 must remain pass.
+S4 must remain pass.
+S5 must remain pass.
+External red-team review should be pursued even though it is advisory in the
+local gate.
+If any promoted row changes, the dominance and accuracy gates must be rerun.
+If any architecture parameter changes, the design-space and PPA artifacts must
+be regenerated.
+If any manuscript claim changes, the forbidden-claim scan must be rerun.
+
+\subsection{Writing Checklist}
+
+The abstract must say architecture simulation and measured MPS accuracy
+linkage.
+The introduction must avoid implying fabricated hardware.
+The method must define SUDS as a budget interface.
+The evaluation must keep same-fabric baselines visible.
+The related work must separate same-fabric and boundary rows.
+The limitations must remain explicit.
+The conclusion must not upgrade the artifact gate into submission readiness.
+
+\subsection{Figure Checklist}
+
+Fig.~\ref{fig:architecture-flow} must remain an evidence-flow diagram.
+Fig.~\ref{fig:accuracy-edp-pareto} must show older aggressive SUDS rows.
+Fig.~\ref{fig:energy-breakdown} must show non-ADC terms.
+Fig.~\ref{fig:conservative-accuracy} must show the one-percentage-point target.
+The figure traceability CSV must list all figure sources.
+The figure numbering registry must match first appearance order.
+
+\subsection{Release Checklist}
+
+The public reproduction package must be regenerated.
+The public reproduction check must pass.
+The final gate must pass.
+The final manuscript PDF must compile.
+The old methodology package must remain available as protected fallback.
+The final status document must distinguish artifact pass from local
+submission-candidate pass.
+
 \section{Limitations}
 
 This paper does not claim a fabricated photonic chip, extracted layout,
@@ -343,5 +1015,147 @@ blocks, and maintains a pessimistic system-level EDP advantage versus the
 same-scope DPTC reference. The result is a bounded TETC architecture package:
 strong enough to promote as architecture evidence, and explicit about where
 the evidence stops.
+
+\begin{thebibliography}{99}
+
+\bibitem{vaswani2017attention}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones,
+A.~N. Gomez, L.~Kaiser, and I.~Polosukhin,
+``Attention is all you need,''
+in \emph{Advances in Neural Information Processing Systems}, 2017.
+
+\bibitem{devlin2019bert}
+J.~Devlin, M.-W. Chang, K.~Lee, and K.~Toutanova,
+``BERT: Pre-training of deep bidirectional transformers for language
+understanding,''
+in \emph{Proc. NAACL-HLT}, 2019.
+
+\bibitem{wang2019glue}
+A.~Wang, A.~Singh, J.~Michael, F.~Hill, O.~Levy, and S.~R. Bowman,
+``GLUE: A multi-task benchmark and analysis platform for natural language
+understanding,''
+in \emph{Proc. ICLR}, 2019.
+
+\bibitem{mehta2022mobilevit}
+S.~Mehta and M.~Rastegari,
+``MobileViT: Light-weight, general-purpose, and mobile-friendly vision
+transformer,''
+in \emph{Proc. ICLR}, 2022.
+
+\bibitem{dosovitskiy2021vit}
+A.~Dosovitskiy, L.~Beyer, A.~Kolesnikov, D.~Weissenborn, X.~Zhai,
+T.~Unterthiner, M.~Dehghani, M.~Minderer, G.~Heigold, S.~Gelly,
+J.~Uszkoreit, and N.~Houlsby,
+``An image is worth 16x16 words: Transformers for image recognition at
+scale,''
+in \emph{Proc. ICLR}, 2021.
+
+\bibitem{lightening2024}
+H.~Zhu, J.~Gu, Z.~Zhang, R.~T. Chen, S.~Han, and D.~Z. Pan,
+``Lightening-Transformer: A dynamically-operated photonic tensor core for
+Transformer acceleration,''
+in \emph{Proc. HPCA}, 2024.
+
+\bibitem{hyatten2025}
+``HyAtten: Hybrid photonic-digital accelerator for attention,''
+\emph{arXiv:2501.11286}, 2025.
+
+\bibitem{tempo2024}
+``TeMPO: Transformer acceleration with co-packaged silicon photonics,''
+\emph{arXiv:2402.07393}, 2024.
+
+\bibitem{astra2025}
+S.~Afifi, O.~Alo, I.~Thakkar, and S.~Pasricha,
+``ASTRA: A stochastic Transformer neural network accelerator with silicon
+photonics,''
+\emph{ACM Trans. Embedded Comput. Syst.}, 2025.
+
+\bibitem{enlighten2025}
+``ENLighten: Lighten the Transformer to enable efficient optical
+acceleration,''
+\emph{arXiv:2510.01673}, 2025.
+
+\bibitem{opticaltransformers2023}
+``Optical Transformers,''
+\emph{arXiv:2302.10360}, 2023.
+
+\bibitem{tron2023}
+``TRON: Transformer neural network acceleration with non-coherent silicon
+photonics,''
+\emph{arXiv:2303.12914}, 2023.
+
+\bibitem{heana2024}
+S.~S. Vatsavai, V.~S. P. Karempudi, and I.~Thakkar,
+``HEANA: A hybrid time-amplitude analog optical accelerator,''
+\emph{ACM Trans. Design Autom. Electron. Syst.}, 2024.
+
+\bibitem{crosslight2021}
+F.~Sunny, A.~Mirza, M.~Nikdast, and S.~Pasricha,
+``CrossLight: A cross-layer optimized silicon photonic neural network
+accelerator,''
+\emph{arXiv:2102.06960}, 2021.
+
+\bibitem{sonic2021}
+F.~Sunny, M.~Nikdast, and S.~Pasricha,
+``SONIC: A sparse neural network inference accelerator with silicon photonics
+for energy-efficient deep learning,''
+\emph{arXiv:2109.04459}, 2021.
+
+\bibitem{holylight2019}
+``HolyLight: A nanophotonic accelerator for deep learning in data centers,''
+2019.
+
+\bibitem{shastri2021photonics}
+B.~J. Shastri, A.~N. Tait, T.~Ferreira~de Lima, W.~H. Pernice,
+H.~Bhaskaran, C.~D. Wright, and P.~R. Prucnal,
+``Photonics for artificial intelligence and neuromorphic computing,''
+\emph{Nature Photonics}, 2021.
+
+\bibitem{nahmias2020photonics}
+M.~A. Nahmias, T.~F. de Lima, A.~N. Tait, H.-T. Peng, B.~J. Shastri,
+and P.~R. Prucnal,
+``Photonic multiply-accumulate operations for neural networks,''
+\emph{IEEE Journal of Selected Topics in Quantum Electronics}, 2020.
+
+\bibitem{clements2016mesh}
+W.~R. Clements, P.~C. Humphreys, B.~J. Metcalf, W.~S. Kolthammer,
+and I.~A. Walmsley,
+``Optimal design for universal multiport interferometers,''
+\emph{Optica}, 2016.
+
+\bibitem{reck1994unitary}
+M.~Reck, A.~Zeilinger, H.~J. Bernstein, and P.~Bertani,
+``Experimental realization of any discrete unitary operator,''
+\emph{Physical Review Letters}, 1994.
+
+\bibitem{cacti}
+N.~Muralimanohar, R.~Balasubramonian, and N.~P. Jouppi,
+``CACTI 6.0: A tool to model large caches,''
+HP Laboratories technical report, 2009.
+
+\bibitem{yosys}
+C.~Wolf,
+``Yosys open synthesis suite,''
+2013.
+
+\bibitem{suds_conservative_artifact}
+SUDS local artifact,
+``Conservative Pareto artifact for the TETC pivot,''
+\path{experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json},
+2026.
+
+\bibitem{suds_arch_artifact}
+SUDS local artifact,
+``Transformer architecture simulator for the TETC pivot,''
+\path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json},
+2026.
+
+\bibitem{suds_science_gate}
+SUDS local artifact,
+``Science-strength gate for the TETC pivot,''
+\path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json},
+2026.
+
+\end{thebibliography}
 
 \end{document}

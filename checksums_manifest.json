@@ -57,8 +57,8 @@
     },
     {
       "path": "docs/coordination/active/SUDS_OPTICAL_TRANSFORMER_TETC_PIVOT_PLAN.md",
-      "sha256": "a7a2ce5d7fbb24b4e098aee90a06ab3b67d4f0e7f22f82ca456ca19d1d10ab2f",
-      "size_bytes": 10075
+      "sha256": "e060ec425e055b85aed9aee42a6f24c3bec81114cf5caaab6a61e219cc7c965b",
+      "size_bytes": 11203
     },
     {
       "path": "docs/reports/20260512_j0_suds_baseline_protection.md",
@@ -82,23 +82,23 @@
     },
     {
       "path": "docs/reports/20260513_suds_optical_transformer_tetc_pivot_gate.md",
-      "sha256": "cdc5799ca4a20ed016965033a70de743607dbdaed84b79bbbc079eb60535f44b",
-      "size_bytes": 5477
+      "sha256": "677c01e614033faf9328cb0f48aa3862426cb83e7131a37fa12de53fb05313f9",
+      "size_bytes": 5735
     },
     {
       "path": "docs/reports/20260513_suds_tetc_architecture_optimization_research.md",
-      "sha256": "82b3cbd1c855ffc3e14060f54bf7fdec4b0b99a39edf07ab79cd2e642614bcaf",
-      "size_bytes": 5645
+      "sha256": "5ce0f99cc1787356b5d9c86939d5dc418033cd2052956467a8425acac5d49bb4",
+      "size_bytes": 5752
     },
     {
       "path": "docs/reports/20260513_suds_tetc_delta_literature_audit.md",
-      "sha256": "9240247a2522a599088128989c48746c3eecc792f7d6994003f795f72998f2bc",
-      "size_bytes": 3855
+      "sha256": "24e01433765ef59c510076c2f05858075e68ac88180b73853b0b971b029e6d59",
+      "size_bytes": 3995
     },
     {
       "path": "docs/reports/20260513_suds_tetc_internal_red_team.md",
-      "sha256": "e162511e67a9086bc353ce58a2d5498f2146b103884e0bbabf23ccb6e64162c7",
-      "size_bytes": 1502
+      "sha256": "3e5a9e185fd224b7bcae4f8b9de1370872ab7de582edafc743201927987c1412",
+      "size_bytes": 1503
     },
     {
       "path": "docs/reports/20260513_suds_tetc_public_repro_alignment.md",
@@ -107,8 +107,8 @@
     },
     {
       "path": "docs/reports/20260513_suds_transformer_architecture_sim.md",
-      "sha256": "7c8be8da80940f8083d481c44a1565f153ed752f8cee5aeaef32f6b1689af7f2",
-      "size_bytes": 12378
+      "sha256": "1901df35a917e62a21a3fd213269288382ec3bcdec5bf421078f8c726bd23ea8",
+      "size_bytes": 12949
     },
     {
       "path": "experiments/hardware/suds_control_plane.v",
@@ -182,8 +182,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv",
-      "sha256": "62d7a32cba12d9f3a447d1b68031c4690760b1ef028a0bf8eca622324cf15441",
-      "size_bytes": 116879
+      "sha256": "c64a52e78767541331576c5d825b787949a8c1cce144e32cbae4ed40882b8de5",
+      "size_bytes": 136442
     },
     {
       "path": "experiments/results/report_data/suds_glue_measured_validation_20260511_maxq.csv",
@@ -282,13 +282,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.csv",
-      "sha256": "bc6bb214c192683d9fbff85e6a5b6b682bda8c3899c9c49dbb924c56137ad267",
-      "size_bytes": 2806
+      "sha256": "31243aed25afcd2a563e6ba5889a0d1e912e99b1108b20d51f59466ba1f09a81",
+      "size_bytes": 2818
     },
     {
       "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
-      "sha256": "cdf22401be6c5b434dadaa88ee6573bf8457443fe900de6a72683051265aedff",
-      "size_bytes": 9754
+      "sha256": "e49649021fd330a7fb2b07a5337cc7b9b870e79935d03724020f7d13fd1dbe58",
+      "size_bytes": 9858
     },
     {
       "path": "experiments/results/report_data/suds_p2p3_submission_gate_20260511_p2p3_quality.json",
@@ -337,8 +337,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
-      "sha256": "7daf498b333e3db319bf8c95d32383a7a921e23a9f1f3abc276b02a274956ed8",
-      "size_bytes": 1994
+      "sha256": "f41246a688762cf13131a43327338b87f209c256464a0b096339ac1bb4250e66",
+      "size_bytes": 1995
     },
     {
       "path": "experiments/results/report_data/suds_tetc_internal_red_team_20260513_tetc_pivot.csv",
@@ -357,23 +357,23 @@
     },
     {
       "path": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.csv",
-      "sha256": "a40edf68e1ee220e740425c468f3b0420ecf4c2b17c4883063f3d7f5d50141ec",
-      "size_bytes": 3681426
+      "sha256": "e4cdcaa39776adf254bab02616bebc39db651b9c0e9a1147872de122f89ff006",
+      "size_bytes": 4306877
     },
     {
       "path": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.json",
-      "sha256": "10866ceef82701554a0762ecb71a276e2ff1a6e652d9fb5ee7d05e0b8f205793",
-      "size_bytes": 11202530
+      "sha256": "6c73fa74c2943c6003b038baadf34a0059b237b2784791ede4a5d063b9569d44",
+      "size_bytes": 13076779
     },
     {
       "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json",
-      "sha256": "b65861da8885203a3cd6c08aed059e7d2405a929565bd58cb1973b9721555bb0",
-      "size_bytes": 2550016
+      "sha256": "f6885bc890d91de2dfdf435eb75d65ed6df475394b09411189b18b61a53e8383",
+      "size_bytes": 2766821
     },
     {
       "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_kernels.csv",
-      "sha256": "c982b76b7ef7bfe8fa4d2aefd9d651d06ee3b628bac276cf10afdd8e0627e691",
-      "size_bytes": 817014
+      "sha256": "0b9cf09a66609f6e6ad58d3efda2c35e9760cc9881f0f062fdec6f1150f5f7dc",
+      "size_bytes": 881616
     },
     {
       "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_parameters.csv",
@@ -382,13 +382,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_sensitivity.csv",
-      "sha256": "0588848369b6804e16b74c1acc13f7d314302fe36563a1dbf78a06f73e84080e",
-      "size_bytes": 24031
+      "sha256": "8fe3555db3c728eb3318eb107fa228ac7dd79b6e68183d406136293486447f26",
+      "size_bytes": 25851
     },
     {
       "path": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv",
-      "sha256": "051c91ad35728d18d87785f2378ff73d6804a35be0f6148128782a95a6d72c2a",
-      "size_bytes": 47098
+      "sha256": "68ea068a40921ebe09aa34999d3662def0724c8daa5433d2e65f6d7326c68241",
+      "size_bytes": 50737
     },
     {
       "path": "experiments/results/review/20260511_suds_maxq_public/data_review_report.md",
@@ -852,8 +852,8 @@
     },
     {
       "path": "experiments/tools/build_suds_optical_transformer_pivot_gate.py",
-      "sha256": "6ac01aa236f2a68474f3e0bad363714f0444123e268ba6a15302ed7edc1229e6",
-      "size_bytes": 27855
+      "sha256": "69b6e8b8a90d7183a1c50930cdb917531972199930645d1b9cd3955213c4f013",
+      "size_bytes": 28076
     },
     {
       "path": "experiments/tools/build_suds_rtl_control_overhead.py",
@@ -867,8 +867,8 @@
     },
     {
       "path": "experiments/tools/build_suds_transformer_architecture_sim.py",
-      "sha256": "26cab561a81ad59706902430f872c221ed3081c4b4ccc4d7c393796c61efda07",
-      "size_bytes": 74713
+      "sha256": "6d65270437522478e3eed88c07e2fcfde600e2aa4cbefcf245d5056086e6d48d",
+      "size_bytes": 76479
     },
     {
       "path": "experiments/tools/check_figure_numbering_registry.py",
@@ -932,13 +932,13 @@
     },
     {
       "path": "paper/suds_tetc_architecture_manuscript.tex",
-      "sha256": "e4ad057c02a4802a182b10c05dfd44cf52da8b045b96ddf0d02457f3880a9a8f",
-      "size_bytes": 17147
+      "sha256": "3c74e9a15e7a9e233b3d13cfbab8ae54cbf50e81bfb30ff9d6881274d35295d9",
+      "size_bytes": 50241
     },
     {
       "path": "paper/suds_tetc_architecture_reframe.md",
-      "sha256": "4983b5466abb8bd205403feb0d8e21383e6cda5a6c7805d7ed37f1f62a617ffa",
-      "size_bytes": 5703
+      "sha256": "20e7855083bc4dee421d13a747271c1492006fe7812e180302f234bb8289b721",
+      "size_bytes": 5902
     },
     {
       "path": "requirements.txt",

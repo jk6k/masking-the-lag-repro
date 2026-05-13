@@ -50,9 +50,12 @@ study, not a fabrication, physical-design, foundry, or bench-energy claim.
    MobileViT Transformer-block validation only when both are backed by governed
    MPS runs and linked architecture outputs.
 5. **Strong baselines and ablations:** Compare against uniform ADC settings,
-   random, L1, slack-only, signal-only, SUDS-only ablation, SUDS+L1,
-   SUDS+signal, Lightening-style DPTC, HyAtten-style selector, TeMPO-style
-   time-multiplexed boundary, and ASTRA-style stochastic boundary rows.
+   random, L1, slack-only, signal-only, the promoted `suds_pareto` row,
+   SUDS-only ablation, SUDS+L1, SUDS+signal, Lightening-style DPTC,
+   HyAtten-style selector, TeMPO-style time-multiplexed boundary, and
+   ASTRA-style stochastic boundary rows. Only `suds_pareto` is a headline
+   SUDS row after the science gate; SUDS+L1 and SUDS+signal remain ablations
+   and boundary context.
 6. **Circuit calibration:** Use ADC macro, RTL synthesis, and PHY sweeps as
    parameter calibration and boundary evidence, not signoff.
 
@@ -69,7 +72,7 @@ study, not a fabrication, physical-design, foundry, or bench-energy claim.
 | Table 1 | Comparison to Lightening, HyAtten, TeMPO, ASTRA, ENLighten | KB-backed related work |
 | Table 2 | Architecture parameters and calibration sources | Literature + SPICE + RTL + PHY |
 | Table 3 | Selected tile/control/ADC-sharing operating point | Design-space Pareto artifacts |
-| Table 4 | Acceptance gate summary | Pivot gate report |
+| Table 4 | Acceptance gate summary | Pivot artifact gate plus science-strength gate |
 
 ## Delta Literature Audit
 

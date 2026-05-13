@@ -87,6 +87,7 @@
         "slack_only",
         "suds_l1",
         "suds_only",
+        "suds_pareto",
         "suds_signal",
         "tempo_time_multiplexed",
         "uniform_4bit",
@@ -102,8 +103,8 @@
         "control_sideband",
         "digital_fallback"
       ],
-      "min_pessimistic_edp_gain_pct": 20.993,
-      "min_pessimistic_energy_gain_pct": 18.575,
+      "min_pessimistic_edp_gain_pct": 14.602,
+      "min_pessimistic_energy_gain_pct": 14.753,
       "calibration_parameters": [
         "adc4_pj",
         "adc6_pj",
@@ -126,20 +127,21 @@
         "tile_dim",
         "tiles"
       ],
-      "glue_link_rows": 108,
+      "glue_link_rows": 126,
       "glue_link_conditions": [
         "l1",
         "lightening_dptc",
         "slack_only",
         "suds_l1",
         "suds_only",
+        "suds_pareto",
         "suds_signal"
       ],
       "artifact": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json",
       "summary_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv",
       "parameters_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_parameters.csv",
-      "design_space_rows": 3888,
-      "design_space_pareto_rows": 511,
+      "design_space_rows": 4536,
+      "design_space_pareto_rows": 594,
       "design_space_json": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.json",
       "design_space_csv": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.csv",
       "glue_link_csv": "experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv"
@@ -148,7 +150,7 @@
       "present": true,
       "status": "pass",
       "manuscript_status": "pass",
-      "manuscript_line_count": 347,
+      "manuscript_line_count": 1161,
       "red_team_status": "pass",
       "red_team_lens_count": 4,
       "external_red_team_status": "not_available_in_local_execution",
@@ -190,7 +192,7 @@
       "promotion_decision": "tetc_submission_ready",
       "required_failures": [],
       "required_partials": [],
-      "highest_priority_next_step": "Run final manuscript, figure, public repro, and external red-team release checks."
+      "highest_priority_next_step": "Run make suds-tetc-science-gate before treating the route as a local submission candidate; external red-team remains advisory."
     }
   },
   "rows": [
@@ -217,7 +219,7 @@
       "gate": "Two Transformer workloads on governed MPS",
       "required": true,
       "status": "pass",
-      "evidence": "MobileViT rows=192/192; GLUE tasks=sst2,mrpc,mnli,qqp,qnli,rte; devices=mps; BERT architecture link rows=108",
+      "evidence": "MobileViT rows=192/192; GLUE tasks=sst2,mrpc,mnli,qqp,qnli,rte; devices=mps; BERT architecture link rows=126",
       "blockers": "",
       "next_action": "Keep GLUE as measured MPS accuracy and architecture-modeled energy; rerun only if perturbation policy changes."
     },
@@ -226,7 +228,7 @@
       "gate": "System-level PPA advantage",
       "required": true,
       "status": "pass",
-      "evidence": "artifact=experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json; workloads=bert_base_glue_seq128,mobilevit_s_transformer_blocks_256; terms=adc,dac_mzm,detector_tia,laser,memory,optical_link,control_sideband,digital_fallback; min_pessimistic_edp_gain=20.993%; design_space_rows=3888; pareto_rows=511",
+      "evidence": "artifact=experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json; workloads=bert_base_glue_seq128,mobilevit_s_transformer_blocks_256; terms=adc,dac_mzm,detector_tia,laser,memory,optical_link,control_sideband,digital_fallback; min_pessimistic_edp_gain=14.602%; design_space_rows=4536; pareto_rows=594",
       "blockers": "",
       "next_action": "Use the architecture simulator summary table as the promoted system-level PPA surface."
     },
@@ -235,7 +237,7 @@
       "gate": "Strong baselines and ablations",
       "required": true,
       "status": "pass",
-      "evidence": "MobileViT conditions=e0_dense,e2_l1,e3_slack,e4_suds,e5_random,e6_signal,e7_overlay,e8_overflow; architecture conditions=astra_boundary,hyatten_style,l1,lightening_dptc,random,signal_only,slack_only,suds_l1,suds_only,suds_signal,tempo_time_multiplexed,uniform_4bit,uniform_8bit; HyAtten artifact conditions=composition_summary,e6_signal,e7_overlay,e8_overflow",
+      "evidence": "MobileViT conditions=e0_dense,e2_l1,e3_slack,e4_suds,e5_random,e6_signal,e7_overlay,e8_overflow; architecture conditions=astra_boundary,hyatten_style,l1,lightening_dptc,random,signal_only,slack_only,suds_l1,suds_only,suds_pareto,suds_signal,tempo_time_multiplexed,uniform_4bit,uniform_8bit; HyAtten artifact conditions=composition_summary,e6_signal,e7_overlay,e8_overflow",
       "blockers": "",
       "next_action": "Keep signal-only wins as composition-boundary evidence, not slack-only superiority."
     },

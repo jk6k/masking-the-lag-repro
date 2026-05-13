@@ -502,7 +502,7 @@ def highest_priority_next_step(
     if "G1" in by_id:
         return "Finish G1 manuscript integration, red-team artifact, and public-repro alignment without weakening the protected fallback."
     if promotion == "tetc_submission_ready":
-        return "Run final manuscript, figure, public repro, and external red-team release checks."
+        return "Run make suds-tetc-science-gate before treating the route as a local submission candidate; external red-team remains advisory."
     return "Complete missing route-lock artifacts."
 
 
@@ -579,12 +579,14 @@ Promotion decision: `{decision['promotion_decision']}`
 ## Interpretation
 
 The pivot route now has an architecture-level Transformer/DPTC simulator when
-G3 is passing. The simulator is still modeled system PPA, not bench-energy or
-circuit signoff. When G1 is passing, the architecture-first TETC manuscript,
-red-team substitute, public reproduction package, and report-data artifacts
-agree on the same claim boundaries. The protected methodology manuscript
-remains available as fallback provenance, but it is no longer the active route
-for this gate.
+G3 is passing. This pivot gate is an artifact-pack gate: it checks that the
+local architecture, manuscript, red-team substitute, public-repro alignment,
+and calibration artifacts exist and agree on claim boundaries. It is still
+not the final science-strength gate. Final local submission-candidate wording
+must additionally pass `make suds-tetc-science-gate`. The simulator is modeled
+system PPA, not bench-energy or circuit signoff. The protected methodology
+manuscript remains available as fallback provenance, but it is no longer the
+active route for this artifact gate.
 
 ## Regeneration
 

@@ -1,7 +1,7 @@
 # SUDS Optical Transformer TETC Pivot Plan
 
 Date: `2026-05-13`
-Status: `complete tetc_submission_ready local gate`
+Status: `local final gate passed; local submission candidate`
 Primary route: `IEEE TETC architecture-first optical Transformer accelerator`
 Stretch route: `IEEE Transactions on Computers after stronger architecture baselines`
 Fallback route: `JSA or protected 20260512 JETC/JSA-methodology package`
@@ -42,6 +42,10 @@ overwrite the protected fallback unless the TETC gate promotes it.
    Lightening-Transformer-style DPTC reference model.
 8. If a result is incomplete, it stays `boundary` or `appendix`; do not smooth
    it into a stronger story.
+9. The pivot gate is an artifact-pack gate only. Final local submission
+   promotion requires the stricter TETC science-strength gate to pass.
+10. External red-team review is useful but advisory for this local gate; it is
+   not a required blocker unless a later user decision makes it mandatory.
 
 ## 2. Target Contribution Stack
 
@@ -93,7 +97,7 @@ Acceptance:
 
 ### Wave B+: Architecture Research And Operating-Point Closure
 
-Status: `complete`
+Status: `complete; final gate passed`
 
 Deliverables:
 
@@ -190,18 +194,22 @@ Status: `complete`
 
 Deliverables:
 
-- `make suds-optical-transformer-pivot-gate` passes.
+- `make suds-optical-transformer-pivot-gate` passes as the artifact-pack gate.
+- `make suds-tetc-science-gate` passes as the final local science-strength
+  gate before the route can be called a local submission candidate.
 - Internal red-team covers architecture, photonic/circuit, systems, and
   reviewer-skeptic lenses.
 - External red-team is preferred; if unavailable, subagent/internal review is
-  recorded as a substitute, not an equivalent replacement.
+  recorded as a substitute, not an equivalent replacement. External red-team is
+  advisory and not mandatory in the current local gate.
 - Public reproduction build/check/render/check passes with the TETC
   architecture simulator, gate, red-team, and manuscript artifacts included.
 
 Acceptance:
 
-- Gate decision is `tetc_submission_ready`.
-- No `required` gate remains `fail` or `partial`.
+- Artifact gate decision is `tetc_submission_ready`.
+- Science gate decision is `science_gate_pass_local_submission_candidate`.
+- No required science-strength gate remains `fail` or `partial`.
 - Manuscript, figures, public repro, and report-data artifacts agree on the
   same claim boundaries.
 
@@ -217,16 +225,32 @@ Acceptance:
   validation linked to hardware-derived DPTC schedules.
 - Current ADC/RTL/PHY evidence is adequate for calibration and boundary support,
   not for circuit or device signoff.
-- No required local acceptance blocker remains in the pivot gate. Wave B/B+
-  supplies the Transformer DPTC simulator, design-space sweep, selected
-  operating point, and Lightening/HyAtten/TeMPO/ASTRA boundary rows; Wave F
-  supplies the promoted manuscript, red-team substitute, and public-repro
-  alignment.
+- The promoted main SUDS condition is `suds_pareto`; `SUDS+L1`,
+  `SUDS+signal`, and `suds_only` remain ablations or boundary context unless a
+  later science gate promotes a different row.
+- No required local acceptance blocker remains in the artifact pivot gate,
+  science-strength gate, or strict final gate. The latest strict target
+  `make suds-tetc-final-gate` exits successfully and the science decision is
+  `science_gate_pass_local_submission_candidate`. External red-team remains
+  advisory rather than mandatory.
 
 ## 5. Regeneration
 
 ```bash
 make suds-optical-transformer-pivot-gate
+```
+
+Final local submission-candidate promotion must additionally run:
+
+```bash
+make suds-tetc-science-gate
+```
+
+For automation, use the strict target below; it returns non-zero until the
+science gate clears:
+
+```bash
+make suds-tetc-final-gate
 ```
 
 Heavy follow-up runs must be launched with governed MPS commands, for example:

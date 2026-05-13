@@ -35,8 +35,9 @@ The active plan should treat Wave B+ as closed:
 - `G2/G3/G4/G5` already pass.
 - The selected operating point remains `tile_dim=32`, `tiles=4`,
   `cores_per_tile=2`, `sideband_group_cols=32`, `adc_sharing=temporal_accum`.
-- `SUDS+L1` and `SUDS+signal` are the main rows.
-- `suds_only` is an ablation.
+- `suds_pareto` is the only promoted main SUDS row after the science gate.
+- `SUDS+L1`, `SUDS+signal`, and `suds_only` are retained as ablations or
+  boundary context rather than promoted headline rows.
 - TeMPO and ASTRA remain boundary fabrics.
 - Signal-only, L1-only, HyAtten-style, and ENLighten-like selector wins should
   be written as local-selector boundary evidence.
@@ -47,8 +48,8 @@ Before promoting G1, update or red-team:
 
 1. Abstract and introduction: scheduler-derived budget interface, not direct
    slack selector.
-2. Main comparison table: `SUDS+L1` and `SUDS+signal` primary; `suds_only`
-   ablation.
+2. Main comparison table: `suds_pareto` primary; `SUDS+L1`, `SUDS+signal`,
+   and `suds_only` ablations.
 3. Architecture design-space table: selected operating point and reason.
 4. Related-work boundary table: Lightening, HyAtten, TeMPO, ASTRA, ENLighten,
    plus the 2026 delta items above.
@@ -56,4 +57,3 @@ Before promoting G1, update or red-team:
    deployment claims beyond the evidence.
 6. Reproduction alignment: report-data artifacts and manuscript table labels
    must agree.
-

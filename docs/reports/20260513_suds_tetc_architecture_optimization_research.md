@@ -28,7 +28,7 @@ dynamic PTC boundary needed for the design-space comparison.
 | HyAtten | Conversion cost is the dominant bottleneck; 32 x 32 arrays emit 1024 analog outputs/cycle; more than 85 percent of signals can use low-resolution conversion while high-range signals are handled digitally. | Keep `hyatten_style` as a strong conversion-fabric baseline and interpret signal-only wins as local-selector boundary evidence. | Do not claim a local HyAtten implementation or its area-normalized results; only model a matched low-resolution/digital-fallback row. |
 | TeMPO | Time-multiplexed dynamic PTC with slow-light modulators, multi-tile/multi-core sharing, and hierarchical photocurrent/temporal/digital accumulation. | Add `tempo_time_multiplexed` as an alternate ADC/readout sharing boundary in the sweep. | Do not merge TeMPO device/co-packaging assumptions into the selected Lightening-style DPTC point. |
 | ASTRA | Stochastic optical Transformer fabric with homodyne/single-wavelength VDPEs, no DAC-heavy analog multi-level encoding, OS dataflow, pipeline scheduling, and temporal analog accumulation. | Add `astra_boundary` as a stochastic readout/encoding boundary and use it to stress whether DPTC-style conversion is the right comparison surface. | Do not treat stochastic signed multipliers, serializers, OAGs, or comb-laser assumptions as SUDS evidence. |
-| ENLighten | PTC-aware low-rank plus structured column sparsity, L1-style column retention, densification, reconfigurable PTC granularity, power gating, and cross-PTC ADC/TIA sharing. | Use it to justify why L1/signal/HyAtten can be stronger local selectors; keep `suds_only` as ablation and promote `SUDS+L1` / `SUDS+signal` as main rows. | Do not claim ENLighten compression or reconfigurable sparse-engine benefits without a matching compression flow. |
+| ENLighten | PTC-aware low-rank plus structured column sparsity, L1-style column retention, densification, reconfigurable PTC granularity, power gating, and cross-PTC ADC/TIA sharing. | Use it to justify why L1/signal/HyAtten can be stronger local selectors; keep `suds_pareto` as the promoted main row and retain `SUDS+L1`, `SUDS+signal`, and `suds_only` as ablations or boundary context. | Do not claim ENLighten compression or reconfigurable sparse-engine benefits without a matching compression flow. |
 
 ## Design Decision
 
@@ -69,11 +69,12 @@ three responsibilities:
 3. Local selectors, especially L1 and signal/overflow selectors, choose exact
 columns within the budget.
 
-Main comparisons should be `SUDS+L1` and `SUDS+signal`. `suds_only` remains an
-ablation for the budget interface without a local selector. If L1, signal-only,
-or HyAtten-style rows beat a SUDS composition, the paper should keep the result
-as boundary evidence: local selection can beat budgeted composition under that
-workload and fabric, rather than proving that the budget interface is invalid.
+The promoted main comparison should be the science-gated `suds_pareto` row.
+`SUDS+L1`, `SUDS+signal`, and `suds_only` remain ablations for budget-interface
+aggressiveness and selector composition. If L1, signal-only, or HyAtten-style
+rows beat a SUDS composition, the paper should keep the result as boundary
+evidence: local selection can beat budgeted composition under that workload and
+fabric, rather than proving that the budget interface is invalid.
 
 ## Implementation Actions
 
@@ -83,4 +84,3 @@ workload and fabric, rather than proving that the budget interface is invalid.
 - Update the TETC manuscript source with "Architecture Design Space and
   Selected Operating Point" and a selected operating-point table.
 - Keep the protected fallback manuscript unchanged.
-

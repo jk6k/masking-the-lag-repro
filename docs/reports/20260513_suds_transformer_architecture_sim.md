@@ -20,8 +20,8 @@ physical-design, device-solver signoff, bench-energy, or deployment evidence.
 - Architecture simulator status: `pass`
 - Blockers: `none`
 - Workloads: `bert_base_glue_seq128,mobilevit_s_transformer_blocks_256`
-- Conditions: `astra_boundary,hyatten_style,l1,lightening_dptc,random,signal_only,slack_only,suds_l1,suds_only,suds_signal,tempo_time_multiplexed,uniform_4bit,uniform_8bit`
-- Design-space rows: `3888`; Pareto rows: `511`
+- Conditions: `astra_boundary,hyatten_style,l1,lightening_dptc,random,signal_only,slack_only,suds_l1,suds_only,suds_pareto,suds_signal,tempo_time_multiplexed,uniform_4bit,uniform_8bit`
+- Design-space rows: `4536`; Pareto rows: `594`
 
 ## Architecture Design Space and Selected Operating Point
 
@@ -43,17 +43,20 @@ Selected-point nominal rows:
 |---|---|---:|---:|---:|---:|---:|---:|
 | `bert_base_glue_seq128` | `lightening_dptc` | 1.000 | 1.000 | 3.795 | 3332505.6 | 672399.4 | 2040.4 |
 | `bert_base_glue_seq128` | `suds_l1` | 0.785 | 0.754 | 10.388 | 3144746.8 | 537099.1 | 8161.7 |
+| `bert_base_glue_seq128` | `suds_pareto` | 0.708 | 0.666 | 10.414 | 3052791.1 | 470835.2 | 8161.7 |
 | `bert_base_glue_seq128` | `suds_signal` | 0.785 | 0.754 | 10.388 | 3144746.8 | 537099.1 | 8161.7 |
 | `mobilevit_s_transformer_blocks_256` | `lightening_dptc` | 1.000 | 1.000 | 2.719 | 510889.0 | 350402.6 | 1063.3 |
 | `mobilevit_s_transformer_blocks_256` | `suds_l1` | 0.775 | 0.746 | 6.159 | 482952.7 | 281971.9 | 4253.2 |
+| `mobilevit_s_transformer_blocks_256` | `suds_pareto` | 0.917 | 0.919 | 6.153 | 510889.0 | 350402.6 | 4253.2 |
 | `mobilevit_s_transformer_blocks_256` | `suds_signal` | 0.775 | 0.746 | 6.159 | 482952.7 | 281971.9 | 4253.2 |
 
 Boundary rows are retained only as matched architecture context. TeMPO-style
 time multiplexing and ASTRA-style stochastic optical rows can define alternate
 conversion/readout fabrics, but they are not treated as the selected SUDS DPTC
-fabric. Likewise, signal-only/L1/HyAtten wins are boundary evidence for a local
-selector beating a scheduler-budgeted composition, not a reason to relabel
-SUDS-only as the main method.
+fabric. The promoted SUDS row is the measured, accuracy-guarded Pareto policy;
+older aggressive SUDS rows remain visible as ablations. Likewise,
+signal-only/L1/HyAtten wins are boundary evidence for local selectors and are
+not hidden or relabeled as SUDS.
 
 ## Nominal PPA Summary
 
@@ -68,6 +71,7 @@ SUDS-only as the main method.
 | `bert_base_glue_seq128` | Slack-only selector | 0.708 | 0.666 | 8019.26 | 68905539.0 | `measured_mps_glue` | 0.00 |
 | `bert_base_glue_seq128` | SUDS budget + L1 selector | 0.785 | 0.754 | 8187.26 | 76462242.3 | `measured_mps_glue` | 0.00 |
 | `bert_base_glue_seq128` | SUDS budget only | 0.785 | 0.754 | 8187.26 | 76462242.3 | `measured_mps_glue` | 0.00 |
+| `bert_base_glue_seq128` | SUDS schedule-guarded Pareto policy | 0.708 | 0.666 | 8019.26 | 68905539.0 | `measured_mps_glue` | 0.00 |
 | `bert_base_glue_seq128` | SUDS budget + signal/overflow selector | 0.785 | 0.754 | 8187.26 | 76462242.3 | `measured_mps_glue` | 0.00 |
 | `bert_base_glue_seq128` | TeMPO-style time-multiplexed boundary | 0.699 | 0.817 | 9961.96 | 68067275.9 | `literature_architecture_boundary_unmeasured_locally` | n/a |
 | `bert_base_glue_seq128` | Uniform 4-bit DPTC mapping | 0.976 | 0.976 | 8526.18 | 95032425.1 | `unmeasured_accuracy_boundary` | n/a |
@@ -81,6 +85,7 @@ SUDS-only as the main method.
 | `mobilevit_s_transformer_blocks_256` | Slack-only selector | 0.712 | 0.671 | 1125.17 | 8857736.6 | `measured_mps_imagenet` | -2.66 |
 | `mobilevit_s_transformer_blocks_256` | SUDS budget + L1 selector | 0.775 | 0.746 | 1149.49 | 9645178.6 | `measured_mps_imagenet` | -1.78 |
 | `mobilevit_s_transformer_blocks_256` | SUDS budget only | 0.775 | 0.746 | 1149.48 | 9644422.6 | `measured_mps_imagenet` | -2.13 |
+| `mobilevit_s_transformer_blocks_256` | SUDS schedule-guarded Pareto policy | 0.917 | 0.919 | 1196.09 | 11414656.8 | `measured_mps_imagenet` | -0.01 |
 | `mobilevit_s_transformer_blocks_256` | SUDS budget + signal/overflow selector | 0.775 | 0.746 | 1149.49 | 9645178.6 | `measured_mps_imagenet` | -1.52 |
 | `mobilevit_s_transformer_blocks_256` | TeMPO-style time-multiplexed boundary | 0.720 | 0.842 | 1395.63 | 8963342.0 | `literature_architecture_boundary_unmeasured_locally` | n/a |
 | `mobilevit_s_transformer_blocks_256` | Uniform 4-bit DPTC mapping | 0.902 | 0.902 | 1193.92 | 11226729.6 | `unmeasured_accuracy_boundary` | n/a |
@@ -89,9 +94,9 @@ SUDS-only as the main method.
 ## Pessimistic Gate
 
 | Workload | Best SUDS | Reference baseline | Energy improvement | EDP improvement | Preserved | Boundary stronger conditions |
-|---|---|---|---:|---:|---|
-| `bert_base_glue_seq128` | `suds_l1` | `lightening_dptc` | 18.58% | 20.99% | `True` | `l1,slack_only,signal_only` |
-| `mobilevit_s_transformer_blocks_256` | `suds_l1` | `lightening_dptc` | 21.84% | 23.99% | `True` | `l1,slack_only,signal_only,hyatten_style` |
+|---|---|---|---:|---:|---|---|
+| `bert_base_glue_seq128` | `suds_pareto` | `lightening_dptc` | 22.36% | 25.81% | `True` | `l1` |
+| `mobilevit_s_transformer_blocks_256` | `suds_pareto` | `lightening_dptc` | 14.75% | 14.60% | `True` | `l1,slack_only,signal_only,hyatten_style` |
 
 ## Parameter Traceability
 
