@@ -379,6 +379,129 @@ review.
 
 \section{Problem Statement and Claim Contract}
 
+\subsection{Core Research Question}
+
+The core research question is: given scheduler slack, a Transformer kernel
+DAG, and the current state of a DPTC-style photonic tile array, can the control
+plane choose KEEP, DEGRADE, and PRUNE budgets that minimize modeled system
+energy while satisfying kernel deadlines, resource constraints, calibration
+boundaries, and measured accuracy guards?
+
+This question intentionally defines SUDS as an architecture interface rather
+than as an empirical selector rule. The scheduler supplies deadline pressure.
+SUDS emits a budget. A local selector then spends that budget on exact columns.
+The output of SUDS is therefore a budget vector, not a final mask.
+
+\subsection{Deadline-Constrained Energy Minimization}
+
+Let \(G=(V,E)\) be the scheduled Transformer kernel DAG. Each node
+\(i \in V\) is a GEMM-like kernel with dimensions \(m_i,d_i,n_i\), release
+time \(r_i\), deadline \(D_i\), normalized scheduler slack \(\sigma_i\), and
+a controllable set of \(C_i\) output columns or column groups. Let \(X_t\)
+denote the state of tile resource \(t\): tile dimension, tile availability,
+core count, sideband grouping, ADC-sharing mode, memory/link state, and
+calibrated cost parameters. SUDS chooses
+\[
+B_i = (N_i^{\mathrm{K}},N_i^{\mathrm{D}},N_i^{\mathrm{P}}),
+\]
+the KEEP, DEGRADE, and PRUNE budget for kernel \(i\). The local selector
+\(\psi\) chooses the exact columns inside that budget.
+
+The architecture problem is:
+\begin{equation}
+\min_{\{B_i,s_i,Y_i\}}
+\sum_{i \in V} E_i(B_i,X_{Y_i},\mathcal{P})
+\label{eq:suds-energy-objective}
+\end{equation}
+subject to the schedule, budget, and evidence constraints below. Here
+\(s_i\) is the start time, \(Y_i\) is the tile-resource assignment, and
+\(\mathcal{P}\) is the calibrated parameter set. The energy term includes ADC,
+DAC/MZM, detector/TIA, laser, SRAM movement, optical-link movement,
+sideband-control, and digital-fallback terms. The paper reports EDP as an
+audit metric, but the problem being solved is deadline-constrained energy
+minimization.
+
+\begin{align}
+s_j &\ge s_i + L_i(B_i,X_{Y_i}), && \forall (i,j)\in E \label{eq:precedence}\\
+s_i + L_i(B_i,X_{Y_i}) &\le D_i, && \forall i \in V \label{eq:deadline}\\
+N_i^{\mathrm{K}}+N_i^{\mathrm{D}}+N_i^{\mathrm{P}} &= C_i, && \forall i \in V \label{eq:budget}\\
+B_i &\in \mathcal{B}(\sigma_i,X_{Y_i},\mathcal{P}), && \forall i \in V \label{eq:slack-budget}\\
+R_w(\{B_i\},\psi) &\le \epsilon_w, && \forall w \in \mathcal{W}_{\mathrm{prom}} .
+\label{eq:accuracy-risk}
+\end{align}
+
+Equation~\ref{eq:precedence} preserves DAG order.
+Equation~\ref{eq:deadline} is the deadline constraint.
+Equation~\ref{eq:budget} makes the SUDS output a conserved budget over
+columns or column groups.
+Equation~\ref{eq:slack-budget} encodes the slack-to-budget policy: low slack
+raises the required KEEP budget, while higher slack permits more DEGRADE or
+PRUNE budget. If a workload evidence surface does not permit pruning, the
+feasible set forces \(N_i^{\mathrm{P}}=0\). The promoted MobileViT-S Pareto
+point uses that zero-prune guard.
+Equation~\ref{eq:accuracy-risk} blocks headline promotion when the measured
+accuracy risk exceeds the workload guard.
+
+\begin{table*}[t]
+\centering
+\caption{Formal SUDS architecture problem variables and evidence surfaces.}
+\label{tab:formal-problem-vars}
+\begin{tabular}{p{0.16\textwidth}p{0.28\textwidth}p{0.46\textwidth}}
+\toprule
+Variable & Definition & Evidence surface \\
+\midrule
+\(G=(V,E)\) & Kernel DAG and precedence edges & Architecture kernel CSV \\
+\(m_i,d_i,n_i\) & GEMM dimensions for kernel \(i\) & BERT and MobileViT-S schedule rows \\
+\(r_i,D_i,s_i\) & Release, deadline, and scheduled start & DPTC schedule metadata \\
+\(\sigma_i\) & Normalized scheduler slack after tile mapping & \texttt{slack\_source=dptc\_photonic\_tile\_schedule} \\
+\(X_t\) & Tile state and selected operating point & Design-space JSON and selected DPTC point \\
+\(Y_i\) & Tile/resource assignment & Modeled selected DPTC resource surface \\
+\(C_i\) & Controllable columns or column groups & Kernel dimensions and sideband grouping \\
+\(B_i\) & KEEP/DEGRADE/PRUNE budget & SUDS policy and conservative Pareto rows \\
+\(\psi\) & Local selector spending the budget & L1, signal, overflow, slack-only, random, and boundary rows \\
+\(R_w,\epsilon_w\) & Workload risk and promoted accuracy guard & Governed MPS GLUE and MobileViT-S artifacts \\
+\(\mathcal{P}\) & Calibration and boundary parameters & ADC macro, RTL sideband, PHY, and literature anchors \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Formal Input and Output}
+
+The formal inputs are scheduler slack, kernel DAG, and tile state.
+Scheduler slack carries deadline pressure after DPTC mapping.
+The kernel DAG carries operation order, dimensions, release times, and
+deadlines.
+Tile state carries available photonic resources, conversion sharing, sideband
+grouping, memory/link state, and calibration parameters.
+
+The formal output is the budget \(B_i\).
+KEEP means high-resolution conversion is preserved.
+DEGRADE means lower-resolution or degraded readout is allowed.
+PRUNE means removal or condensation is allowed only when the evidence surface
+permits it.
+The exact column mask is deliberately outside the SUDS output contract.
+It is produced by the local selector inside the budget.
+
+\subsection{Claim-to-Evidence Contract}
+
+\begin{table*}[t]
+\centering
+\caption{Headline claim-to-evidence contract.}
+\label{tab:claim-evidence-contract}
+\begin{tabular}{p{0.23\textwidth}p{0.42\textwidth}p{0.27\textwidth}}
+\toprule
+Headline claim & Required evidence & Boundary \\
+\midrule
+SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, architecture evidence-flow figure, and formal contract report & Architecture interface, not slack-only importance oracle \\
+Input is slack, DAG, and tile state; output is KEEP/DEGRADE/PRUNE budget & Architecture kernel CSV, architecture JSON, and contract report & Budget output, not exact mask output \\
+Selected DPTC point has modeled system PPA advantage & Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate & Modeled PPA, not bench energy \\
+Promoted accuracy is measured on governed local runs & MPS GLUE validation, MobileViT-S conservative Pareto artifact, and GLUE architecture linkage & Accuracy claim only for measured surfaces \\
+Strong baselines and boundary fabrics are visible & Pivot gate G4 and architecture condition matrix & No universal dominance claim \\
+ADC, RTL, and PHY evidence calibrate simulator parameters & ADC macro, RTL sideband, PHY boundary, and parameter table artifacts & Calibration/proxy/boundary only \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
 \subsection{Why a Scheduler Interface is Needed}
 
 The motivating problem is not only that optical multiplication can be fast.

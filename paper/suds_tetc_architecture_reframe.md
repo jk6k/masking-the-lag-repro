@@ -15,6 +15,18 @@ photonic Transformer accelerators, allowing DPTC-style optical tiles to choose
 ADC precision, degradation, and pruning budgets jointly with local signal or
 model selectors.
 
+## Core Research Question
+
+Can a dynamic photonic Transformer accelerator minimize modeled system energy
+under kernel deadlines by converting scheduler slack, a kernel DAG, and current
+DPTC tile state into a KEEP/DEGRADE/PRUNE quality budget?
+
+This is the active architecture problem. SUDS is not an empirical rule that
+declares slack to be semantic importance. The scheduler provides deadline
+pressure, SUDS emits the budget, and local L1/signal/overflow selectors spend
+that budget on exact columns. The formal claim contract is recorded in
+`docs/reports/20260513_suds_architecture_problem_claim_contract.md`.
+
 ## Draft Abstract
 
 Dynamic photonic tensor cores can accelerate Transformer attention and
@@ -34,6 +46,21 @@ will promote only the subset that closes at system level against matched
 Lightening-style and HyAtten-style baselines, with TeMPO-style and ASTRA-style
 rows retained as boundary fabrics. The work is an architecture and simulation
 study, not a fabrication, physical-design, foundry, or bench-energy claim.
+
+## Formal Input/Output Contract
+
+| Contract element | Definition |
+|---|---|
+| Input: scheduler slack | Hardware-derived normalized slack after DPTC kernel mapping, release/deadline assignment, and tile-latency accounting. |
+| Input: kernel DAG | Transformer GEMM dependency graph with matrix dimensions, precedence edges, release times, and deadlines. |
+| Input: tile state | DPTC operating point, tile availability, sideband grouping, ADC-sharing mode, memory/link state, and calibration parameters. |
+| Output: budget | Per-kernel or per-column-group counts/ratios for `KEEP`, `DEGRADE`, and `PRUNE`. |
+| Non-output | Exact column masks; those are selected by local L1, signal, overflow, slack-only, or random policies inside the budget. |
+
+Objective: minimize modeled system energy subject to deadline, precedence,
+resource, budget-conservation, accuracy-risk, and calibration-domain
+constraints. EDP remains a reported audit metric and pessimistic-gate metric,
+but the core problem is deadline-constrained energy minimization.
 
 ## Contribution Order
 
@@ -58,6 +85,17 @@ study, not a fabrication, physical-design, foundry, or bench-energy claim.
    and boundary context.
 6. **Circuit calibration:** Use ADC macro, RTL synthesis, and PHY sweeps as
    parameter calibration and boundary evidence, not signoff.
+
+## Headline Claim Contract
+
+| Headline claim | Evidence requirement |
+|---|---|
+| SUDS is a scheduler-derived budget interface | Manuscript/reframe definition plus architecture evidence-flow figure. |
+| SUDS input is slack + DAG + tile state, output is KEEP/DEGRADE/PRUNE budget | Formal contract report plus architecture kernel CSV/JSON with schedule metadata. |
+| SUDS has modeled system-level PPA advantage at the selected DPTC point | Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate. |
+| Promoted accuracy is governed by measured MPS evidence | GLUE measured validation, MobileViT-S conservative Pareto artifact, and GLUE architecture linkage. |
+| Baselines and alternate fabrics are visible boundaries | Pivot gate G4 and architecture simulator condition matrix. |
+| ADC/RTL/PHY evidence calibrates parameters only | ADC macro, RTL sideband, PHY boundary reports, and architecture parameter table. |
 
 ## Required Main Tables And Figures
 
