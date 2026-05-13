@@ -8,7 +8,7 @@ Status: `pass`
 
 - Manifest alignment: `pass`
 - Generated public package validation: `pass`
-- Public root: `/Users/jk6k/Desktop/masking-the-lag-repro`
+- Public root: `<public_repro>`
 - Missing copy files: `none`
 - Missing required files: `none`
 - Missing required report-data files: `none`

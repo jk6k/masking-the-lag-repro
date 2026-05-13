@@ -10,7 +10,7 @@ experiments/datasets/
 weights/
 archives/
 tmp/
-original_papers/
+private_literature/
 oral_pre/
 peper_writing/
 .agents/

@@ -5,7 +5,7 @@ Scope: Wave B+ narrow architecture research for photonic Transformer accelerator
 
 ## Retrieval
 
-Local literature entry point was `original_papers/AI_KNOWLEDGE_BASE.md`. The
+Local literature entry point was `private literature-entry manifest`. The
 governed vector query was run with MPS/MLX:
 
 ```bash

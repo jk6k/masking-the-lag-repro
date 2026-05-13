@@ -374,12 +374,12 @@
     "build"
   ],
   "banned_metadata_tokens": [
-    "AI_KNOWLEDGE_BASE",
+    "private_literature_kb",
     "candidate_",
     "data_pack_worker",
     "draft_candidates",
     "markdown_v1_backup",
-    "original_papers/",
+    "private_literature/",
     "trial_pages"
   ]
 }

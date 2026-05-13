@@ -200,7 +200,7 @@ def public_repro_audit() -> dict[str, Any]:
         "status": "pass" if manifest_status == "pass" and validation_status == "pass" else "fail",
         "manifest_status": manifest_status,
         "validation_status": validation_status,
-        "public_root": str(public_root),
+        "public_root": "<public_repro>",
         "missing_copy_files": missing_copy,
         "missing_required_files": missing_required,
         "missing_required_report_data_files": missing_report_data,

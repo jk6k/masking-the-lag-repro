@@ -39,7 +39,7 @@
     {
       "gate": "worktree_snapshot",
       "command": "git status --short --branch",
-      "cwd": "/Users/jk6k/Desktop/fyp",
+      "cwd": "<source_repo>",
       "status": "recorded_dirty_existing_changes",
       "evidence_label": "audit",
       "promotion_decision": "do_not_replace_main_freeze",
@@ -48,16 +48,16 @@
     {
       "gate": "public_repro_build",
       "command": "caffeinate -dimsu make public-repro-build",
-      "cwd": "/Users/jk6k/Desktop/fyp",
+      "cwd": "<source_repo>",
       "status": "pass",
       "evidence_label": "audit",
       "promotion_decision": "do_not_replace_main_freeze",
-      "note": "Wrote /Users/jk6k/Desktop/masking-the-lag-repro."
+      "note": "Wrote <public_repro>."
     },
     {
       "gate": "public_repro_check",
       "command": "caffeinate -dimsu make public-repro-check",
-      "cwd": "/Users/jk6k/Desktop/fyp",
+      "cwd": "<source_repo>",
       "status": "pass",
       "evidence_label": "audit",
       "promotion_decision": "do_not_replace_main_freeze",
@@ -66,7 +66,7 @@
     {
       "gate": "public_repro_render",
       "command": "caffeinate -dimsu make public-repro-render",
-      "cwd": "/Users/jk6k/Desktop/fyp",
+      "cwd": "<source_repo>",
       "status": "pass",
       "evidence_label": "audit",
       "promotion_decision": "do_not_replace_main_freeze",
@@ -84,7 +84,7 @@
     {
       "gate": "spice_tool_check",
       "command": "command -v ngspice; command -v xyce; command -v Xyce",
-      "cwd": "/Users/jk6k/Desktop/fyp",
+      "cwd": "<source_repo>",
       "status": "blocked_tool_missing",
       "evidence_label": "audit",
       "promotion_decision": "boundary",

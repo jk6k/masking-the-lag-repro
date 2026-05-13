@@ -33,7 +33,7 @@
       "status": "pass",
       "manifest_status": "pass",
       "validation_status": "pass",
-      "public_root": "/Users/jk6k/Desktop/masking-the-lag-repro",
+      "public_root": "<public_repro>",
       "missing_copy_files": [],
       "missing_required_files": [],
       "missing_required_report_data_files": [],
