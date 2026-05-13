@@ -1,6 +1,6 @@
 # Reproducibility Guide
 
-The active anonymous public freeze is `20260511_suds_maxq`.
+The active anonymous public freeze is `20260513_tetc_pivot`.
 
 ## Lightweight Verification
 
@@ -34,10 +34,10 @@ source masters, and metadata rather than final figure-pack images.
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
 - TETC report data: `experiments/results/report_data/`
-- Figure metadata: `figures/paper_figures_20260511_suds_maxq/`
-- Figure registry: `figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv`
-- Traceability: `figures/paper_figures_20260511_suds_maxq/figure_traceability.csv`
-- Review metadata: `experiments/results/review/20260511_suds_maxq_public/`
+- Figure metadata: `figures/suds_tetc_20260513_tetc_pivot/`
+- Figure registry: `figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv`
+- Traceability: `figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv`
+- Review metadata: `experiments/results/review/20260513_tetc_pivot_public/`
 - Checksums: `checksums_manifest.json`
 
 ## Claim Boundary

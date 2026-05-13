@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "algorithm": "sha256",
-  "freeze_tag": "20260511_suds_maxq",
+  "freeze_tag": "20260513_tetc_pivot",
   "generated_by": "scripts/build_public_repro_repo.py",
-  "file_count": 188,
+  "file_count": 183,
   "files": [
     {
       "path": ".gitattributes",
@@ -27,13 +27,13 @@
     },
     {
       "path": "EXPORT_METADATA.json",
-      "sha256": "dda1d82f65e0d478c33cfef0bcfcce7b30c5402424ef7bf55ebc908f9efeed40",
-      "size_bytes": 176
+      "sha256": "53aa28b9bb9ab5ffcf0279cd72bfe5cb332c1278c6628a5ca47587e4fa72a9fd",
+      "size_bytes": 177
     },
     {
       "path": "Makefile",
-      "sha256": "ff01cfa013bc8900bd0b0f3c8ffa56b49fdabbc227eb94bc8d14e632346623ba",
-      "size_bytes": 1453
+      "sha256": "9d345b86c49d93d978e79c58c245facb1ae955c07c1b43a94956d96f12a06e74",
+      "size_bytes": 1171
     },
     {
       "path": "NOTICE.md",
@@ -42,18 +42,18 @@
     },
     {
       "path": "README.md",
-      "sha256": "a5736a391685b06c72272ce06f487321777b030536be0967e4180dcb0eef0b52",
-      "size_bytes": 2538
+      "sha256": "28bec905c8abd29af38b84e8e302991bc52229c4392909cb502619f2bb74bfce",
+      "size_bytes": 2537
     },
     {
       "path": "REPRODUCIBILITY.md",
-      "sha256": "eaf2cabe9a8c73f93297dbe53150ee16c7e94d48454bca484dbca3f67d811aaa",
-      "size_bytes": 2427
+      "sha256": "a61cf6b9ca7dd102e762184c39c8d863d4b0a17fb7c4b4e6a3ddae8f14942fc1",
+      "size_bytes": 2420
     },
     {
       "path": "configs/public_repro_manifest.json",
-      "sha256": "f3903e8bf880c01b612a8878e892f4a1cf5f0e62c5a7d243f013158395be3231",
-      "size_bytes": 23208
+      "sha256": "220a2f240d981bbbedb1b6a30d3b967318a56b04bf433aa4722af249f0f3f32b",
+      "size_bytes": 21143
     },
     {
       "path": "docs/coordination/active/SUDS_OPTICAL_TRANSFORMER_TETC_PIVOT_PLAN.md",
@@ -112,8 +112,8 @@
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",
-      "sha256": "f20d905778bdfa5c426a27ed83cfcf0eb33f697a7e8745b519a3719ef7dc0a17",
-      "size_bytes": 4709
+      "sha256": "8f92000e9ada2305b859b18abd12a34db99c10e092e470a22d0d57b5c54bdf10",
+      "size_bytes": 4702
     },
     {
       "path": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.csv",
@@ -381,24 +381,24 @@
       "size_bytes": 50737
     },
     {
-      "path": "experiments/results/review/20260511_suds_maxq_public/data_review_report.md",
-      "sha256": "c99b29487a182b59a8139fc5d4464f7550d4a30f7904ccdb2a7a42f8f594f9a8",
-      "size_bytes": 1023
+      "path": "experiments/results/review/20260513_tetc_pivot_public/data_review_report.md",
+      "sha256": "7e8891f0fa3380e57b8e75afc76345fb5af6cb4b47845e2d58a3dd30b2df4cd9",
+      "size_bytes": 1024
     },
     {
-      "path": "experiments/results/review/20260511_suds_maxq_public/figure_traceability.csv",
-      "sha256": "b7d0da79c8a93179bfc6948d7406a28f03502d800d7b929ed6f78d7eb5ea135b",
-      "size_bytes": 5671
+      "path": "experiments/results/review/20260513_tetc_pivot_public/figure_traceability.csv",
+      "sha256": "41eaf1b643ee2c62abe10e1a89178d2e19c481800bb1a7270d646652e44ea61d",
+      "size_bytes": 3710
     },
     {
-      "path": "experiments/results/review/20260511_suds_maxq_public/manuscript_evidence_map.csv",
-      "sha256": "9ee62073315a8842ecc2a07ba8e2f8e8411a6cb97a6c8a7fc777c657be927a83",
-      "size_bytes": 2632
+      "path": "experiments/results/review/20260513_tetc_pivot_public/manuscript_evidence_map.csv",
+      "sha256": "7857088a041e7eeb575ad35a2c3eb5860d83ccbaebdf6784498dc6c410e6d1c6",
+      "size_bytes": 1111
     },
     {
-      "path": "experiments/results/review/20260511_suds_maxq_public/review_manifest.json",
-      "sha256": "56b2d80fd9924df4153d861621cbdcab1e6b15267911e3091d52400a2906c585",
-      "size_bytes": 1180
+      "path": "experiments/results/review/20260513_tetc_pivot_public/review_manifest.json",
+      "sha256": "7a2a169f33eea0e5afd37eae36e60a5bd72d24a2d0a38f72e1aa535ca6720185",
+      "size_bytes": 1182
     },
     {
       "path": "experiments/results/runs/phase_b/phase_b_summary.json",
@@ -891,39 +891,14 @@
       "size_bytes": 25934
     },
     {
-      "path": "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",
-      "sha256": "57bfce9da4efaa12ceee767151211570b8258aff64b23c669048c646c977e98a",
-      "size_bytes": 2853
+      "path": "figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv",
+      "sha256": "e8db94aae057fdea8d0653a9e70e9266dd704e3a139361ad5d9252fd73f6fbd0",
+      "size_bytes": 343
     },
     {
-      "path": "figures/paper_figures_20260511_suds_maxq/figure_traceability.csv",
-      "sha256": "b7d0da79c8a93179bfc6948d7406a28f03502d800d7b929ed6f78d7eb5ea135b",
-      "size_bytes": 5671
-    },
-    {
-      "path": "figures/paper_figures_20260511_suds_maxq/pack_metadata.json",
-      "sha256": "4f3192722160cf480b7f94b2798ef90498ac392caa330901918b6d0ee4404442",
-      "size_bytes": 3491
-    },
-    {
-      "path": "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf",
-      "sha256": "fd817365c169bb741ab84556a03428c45f574bf1873d5f733e651315598975b8",
-      "size_bytes": 3213953
-    },
-    {
-      "path": "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.png",
-      "sha256": "baf2ffefe4b0673b3a916cd7531f4784bcbcfce6d398dc362fdd319928845c03",
-      "size_bytes": 2592457
-    },
-    {
-      "path": "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.pdf",
-      "sha256": "5593552336ef1d408994effcf810cfdc3956aaf05f6ff9f11040dfb1c24efbba",
-      "size_bytes": 2701103
-    },
-    {
-      "path": "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.png",
-      "sha256": "2ef8e90827ba3c0b01cbf15bc00edd6fb9f0b53c66108200a4331ecf8fc79b70",
-      "size_bytes": 2399265
+      "path": "figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv",
+      "sha256": "41eaf1b643ee2c62abe10e1a89178d2e19c481800bb1a7270d646652e44ea61d",
+      "size_bytes": 3710
     },
     {
       "path": "paper/suds_tetc_architecture_manuscript.tex",
@@ -942,8 +917,8 @@
     },
     {
       "path": "scripts/check_public_repro_repo.py",
-      "sha256": "d0817a47054e7fb7a1b9005b90d17d74a9dbe742773d71b6775d1e8985c44315",
-      "size_bytes": 25484
+      "sha256": "c3ce73ffec64136c38b4db4a86f83d013cf7ebd3f5588769f85e8396be88db1e",
+      "size_bytes": 25576
     }
   ]
 }

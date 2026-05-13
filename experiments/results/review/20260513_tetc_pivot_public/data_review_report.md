@@ -1,6 +1,6 @@
 # SUDS Public Reproduction Review Report
 
-Freeze: `20260511_suds_maxq`
+Freeze: `20260513_tetc_pivot`
 
 - Input freeze: pass. The public repository enters through `current_freeze.json`.
 - Evidence surface: pass. Phase summaries, slack manifest, TETC report data, and source figure inputs are present.

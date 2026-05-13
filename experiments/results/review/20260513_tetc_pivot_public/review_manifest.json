@@ -1,11 +1,11 @@
 {
-  "run_tag": "20260511_suds_maxq",
-  "freeze_tag": "20260511_suds_maxq",
-  "workflow": "suds_q2",
-  "paper_figures_dir": "figures/paper_figures_20260511_suds_maxq",
+  "run_tag": "20260513_tetc_pivot",
+  "freeze_tag": "20260513_tetc_pivot",
+  "workflow": "suds_tetc",
+  "paper_figures_dir": "figures/suds_tetc_20260513_tetc_pivot",
   "phase_dir": "experiments/results/runs",
   "report_data_dir": "experiments/results/report_data",
-  "review_dir": "experiments/results/review/20260511_suds_maxq_public",
+  "review_dir": "experiments/results/review/20260513_tetc_pivot_public",
   "public_surface": "anonymous_supplementary_reproduction_package",
   "included": [
     "phase summary JSON files",

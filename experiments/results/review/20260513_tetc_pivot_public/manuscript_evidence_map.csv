@@ -1,0 +1,5 @@
+figure_id,public_source_path,public_render_output,render_command,claim_boundary
+Fig1,experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json,build/rendered_figures/Fig1_TETCArchitectureEvidenceFlow.pdf,make render-paper-figures,Architecture schematic; modeled PPA and measured MPS accuracy linkage only.
+Fig2,experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv,build/rendered_figures/Fig2_AccuracyEDPPareto.pdf,make render-paper-figures,Nominal architecture rows; old aggressive SUDS rows and stronger baselines remain visible.
+Fig3,experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv,build/rendered_figures/Fig3_EnergyBreakdown.pdf,make render-paper-figures,Modeled energy components normalized to each workload's Lightening reference.
+Fig4,experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json,build/rendered_figures/Fig4_ConservativeParetoAccuracy.pdf,make render-paper-figures,Measured MPS MobileViT-S per-seed Top-1 deltas; no CPU fallback.

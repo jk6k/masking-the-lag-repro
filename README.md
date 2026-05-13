@@ -1,7 +1,7 @@
 # SUDS Anonymous Reproduction Package
 
 This repository is the double-blind supplementary reproduction package for the
-SUDS IEEE TETC evidence freeze `20260511_suds_maxq`.
+SUDS IEEE TETC evidence freeze `20260513_tetc_pivot`.
 
 It is intentionally smaller than the full development workspace. It contains
 the compact JSON/CSV evidence, accepted schematic source masters, metadata,
@@ -29,8 +29,8 @@ rerenders Fig1-Fig6 and Fig.A1-Fig.A4 into `build/rendered_figures/`.
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
 - TETC report data: `experiments/results/report_data/`
-- Figure metadata: `figures/paper_figures_20260511_suds_maxq/`
-- Review metadata: `experiments/results/review/20260511_suds_maxq_public/`
+- Figure metadata: `figures/suds_tetc_20260513_tetc_pivot/`
+- Review metadata: `experiments/results/review/20260513_tetc_pivot_public/`
 - Static-file checksums: `checksums_manifest.json`
 
 The public package keeps compact source artifacts and render scripts rather

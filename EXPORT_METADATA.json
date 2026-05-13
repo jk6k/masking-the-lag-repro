@@ -1,6 +1,6 @@
 {
   "generated_by": "scripts/build_public_repro_repo.py",
   "source_manifest": "configs/public_repro_manifest.json",
-  "freeze_tag": "20260511_suds_maxq",
+  "freeze_tag": "20260513_tetc_pivot",
   "remote_url": ""
 }

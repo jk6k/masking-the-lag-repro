@@ -1,17 +1,17 @@
 {
   "schema_version": 3,
-  "workflow": "suds_q2",
-  "description": "Whitelist contract for exporting the anonymous SUDS supplementary reproduction package with compact P2/P3 appendix evidence and the 20260513 TETC architecture-pivot artifacts.",
+  "workflow": "suds_tetc",
+  "description": "Whitelist contract for exporting the anonymous SUDS supplementary reproduction package with the 20260513 IEEE TETC architecture-pivot artifacts.",
   "default_destination": "../masking-the-lag-repro",
   "remote_url": "",
-  "freeze_tag": "20260511_suds_maxq",
+  "freeze_tag": "20260513_tetc_pivot",
   "mechanism_evidence_tag": "20260511_p2p3_quality",
   "tetc_evidence_tag": "20260513_tetc_pivot",
   "public_layers": {
     "phase_dir": "experiments/results/runs",
     "report_data_dir": "experiments/results/report_data",
-    "figures_dir": "figures/paper_figures_20260511_suds_maxq",
-    "review_dir": "experiments/results/review/20260511_suds_maxq_public",
+    "figures_dir": "figures/suds_tetc_20260513_tetc_pivot",
+    "review_dir": "experiments/results/review/20260513_tetc_pivot_public",
     "paper_sync_dir": "experiments/results/paper_sync"
   },
   "generated_templates_dir": "scripts/public_repro_templates",
@@ -19,16 +19,9 @@
     "Fig1",
     "Fig2",
     "Fig3",
-    "Fig4",
-    "Fig5",
-    "Fig6"
+    "Fig4"
   ],
-  "expected_appendix_figures": [
-    "AppF1",
-    "AppF2",
-    "AppF3",
-    "AppF4"
-  ],
+  "expected_appendix_figures": [],
   "required_files": [
     ".gitattributes",
     ".github/workflows/repro.yml",
@@ -102,17 +95,8 @@
     "experiments/results/report_data/suds_tetc_internal_red_team_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_public_repro_alignment_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
-    "figures/paper_figures_20260511_suds_maxq/pack_metadata.json",
-    "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",
-    "figures/paper_figures_20260511_suds_maxq/figure_traceability.csv",
-    "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf",
-    "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.png",
-    "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.pdf",
-    "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.png",
-    "experiments/results/review/20260511_suds_maxq_public/figure_traceability.csv",
-    "experiments/results/review/20260511_suds_maxq_public/review_manifest.json",
-    "experiments/results/review/20260511_suds_maxq_public/manuscript_evidence_map.csv",
-    "experiments/results/review/20260511_suds_maxq_public/data_review_report.md",
+    "figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv",
+    "figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv",
     "experiments/tools/check_figure_numbering_registry.py",
     "experiments/tools/check_suds_c1_survey_manifest.py",
     "experiments/tools/render_suds_figures.py",
@@ -215,13 +199,7 @@
     "Fig1",
     "Fig2",
     "Fig3",
-    "Fig4",
-    "Fig5",
-    "Fig6",
-    "AppF1",
-    "AppF2",
-    "AppF3",
-    "AppF4"
+    "Fig4"
   ],
   "copy_files": [
     ".gitattributes",
@@ -285,13 +263,8 @@
     "experiments/results/report_data/suds_tetc_internal_red_team_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_public_repro_alignment_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
-    "figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv",
-    "figures/paper_figures_20260511_suds_maxq/figure_traceability.csv",
-    "figures/paper_figures_20260511_suds_maxq/pack_metadata.json",
-    "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf",
-    "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.png",
-    "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.pdf",
-    "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.png",
+    "figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv",
+    "figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv",
     "experiments/tools/check_figure_numbering_registry.py",
     "experiments/tools/check_suds_c1_survey_manifest.py",
     "experiments/tools/render_suds_figures.py",
@@ -328,12 +301,7 @@
     "experiments/spice/suds_adc_macro"
   ],
   "review_files": [],
-  "allowed_binary_files": [
-    "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.pdf",
-    "figures/suds_ai_redraw_20260510/fig1_saig_suds_interface/Fig1_SAIG_SUDS_Interface_academic_2864w.png",
-    "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.pdf",
-    "figures/suds_ai_redraw_20260510/fig3_suds_ternary_policy/Fig3_SUDS_Ternary_Policy_selected_literature_style_2864w.png"
-  ],
+  "allowed_binary_files": [],
   "banned_roots": [
     ".agents",
     "archives",

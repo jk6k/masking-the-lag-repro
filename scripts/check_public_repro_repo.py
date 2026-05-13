@@ -75,7 +75,7 @@ def _workflow(manifest: dict[str, Any]) -> str:
 
 
 def _is_suds(manifest: dict[str, Any]) -> bool:
-    return _workflow(manifest) == "suds_q2"
+    return _workflow(manifest) in {"suds_q2", "suds_tetc"}
 
 
 def _csv_rows(path: Path) -> list[dict[str, str]]:
@@ -286,7 +286,7 @@ def _check_freeze(report: Report, manifest: dict[str, Any]) -> None:
         expected = {
             "run_tag": paths["freeze_tag"],
             "freeze_tag": paths["freeze_tag"],
-            "workflow": "suds_q2",
+            "workflow": _workflow(manifest),
             "phase_dir": phase_dir.as_posix(),
             "report_data_dir": report_data_dir.as_posix(),
             "paper_figures_dir": pack_dir.as_posix(),
@@ -417,7 +417,11 @@ def _check_registry_metadata(report: Report, manifest: dict[str, Any]) -> None:
 
     registry_rows = _csv_rows(registry_path)
     trace_rows = _csv_rows(traceability_path)
-    registry_ids = [row.get("figure_id", "") for row in registry_rows if row.get("numbering_status") == "active"]
+    registry_ids = [
+        row.get("figure_id", "")
+        for row in registry_rows
+        if (row.get("numbering_status") or row.get("status")) in {"active", "rendered"}
+    ]
     expected_main = [str(item) for item in manifest.get("expected_main_figures", [])]
     expected_appendix = [str(item) for item in manifest.get("expected_appendix_figures", [])]
     if not expected_main:
