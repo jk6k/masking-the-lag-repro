@@ -119,7 +119,13 @@ The selected operating point intentionally stays close to the Lightening and
 HyAtten comparison surface. It uses 32 by 32 DPTC tiles, four tiles, two cores
 per tile, 32-column sideband groups, and temporal accumulation before ADC. The
 design-space artifact sweeps 4536 configurations and identifies 594 Pareto
-rows; Table~\ref{tab:operating-point} records the promoted setting.
+rows over raw energy, latency, and area. The R5 multi-objective audit then
+joins this sweep to the measured accuracy and same-simulator baseline gates.
+It records that the selected point is not an unconstrained raw-PPA optimum;
+instead, it is the governed Pareto point used after applying the 1 pp
+accuracy budget, R3/R4 evidence linkage, memory-pressure, control-overhead,
+and calibration-sensitivity objectives. Table~\ref{tab:operating-point}
+records the promoted setting.
 
 \begin{table}[t]
 \centering
@@ -839,9 +845,15 @@ The first question is whether the selected point is a reasonable local design
 choice.
 The second question is whether the main SUDS row is Pareto-competitive
 against measured same-fabric baselines.
-The first question is handled by the architecture design-space artifact.
-The second question is handled by the same-simulator R4 baseline matrix and
-the stricter science gate.
+The R5 audit adds a third, stricter question: whether the selected
+\texttt{suds\_pareto} point remains nondominated after the accuracy budget,
+EDP, memory pressure, control overhead, and calibration-sensitivity proxy are
+considered together.
+It passes that governed multi-objective check for both active workloads.
+The audit also records raw energy/latency/area dominators for the selected
+point, so this paper does not claim global PPA optimality.
+The selected point is therefore promoted as a bounded, evidence-linked
+operating point rather than as the best possible tile/control configuration.
 
 \section{Accuracy Protocol}
 
@@ -1135,6 +1147,8 @@ Architecture summary & \path{experiments/results/report_data/suds_transformer_ar
 GLUE linkage & \path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv} & BERT schedule grounding \\
 Scheduler traces & \path{experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.json} & Promoted SUDS-aware trace IDs and scheduler ablation \\
 End-to-end accuracy & \path{experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json} & R3 MPS accuracy-to-PPA perturbation policy audit \\
+Same-simulator baselines & \path{experiments/results/report_data/suds_tetc_same_sim_baselines_20260513_tetc_pivot.json} & R4 equal-accuracy dominance and fairness matrix \\
+Pareto design space & \path{experiments/results/report_data/suds_tetc_pareto_design_space_20260513_tetc_pivot.json} & R5 governed multi-objective selected-point audit \\
 Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule
