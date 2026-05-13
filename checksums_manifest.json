@@ -62,7 +62,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_optical_transformer_tetc_pivot_gate.md",
-      "sha256": "d53539e680bfc7bc90cd339eaa7685d90fda20e590513cb1fe69bef95c75890f",
+      "sha256": "eabd4043eedc7af3200beebe54768fee2070eec067d2257a64f20604d11eac3e",
       "size_bytes": 5575
     },
     {
@@ -82,7 +82,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_internal_red_team.md",
-      "sha256": "3e5a9e185fd224b7bcae4f8b9de1370872ab7de582edafc743201927987c1412",
+      "sha256": "6f2b7bcb3ff7a8fc4d7047de159e93546472aade41a1ed3b4afa98efcd2f1fe4",
       "size_bytes": 1503
     },
     {
@@ -97,7 +97,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_science_gate.md",
-      "sha256": "d553d2fcb1330ed36b4b760483e07366f1e40f40f3f023de1a769b505cfa8e1a",
+      "sha256": "0526440d9645bad1b6b99b4d7e2f09f60fbf19b0dfcfe18d492d497c7a4d2aa4",
       "size_bytes": 3360
     },
     {
@@ -262,7 +262,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
-      "sha256": "0866254c3e46eafbdde6b33945d2fe8e18d6fa4a65557dfcda1bcf2dc0c8762e",
+      "sha256": "1c95a491b03fe39179ccc9f298c561b00fab33ceef87eee8c90247fb3317a1e8",
       "size_bytes": 9518
     },
     {
@@ -317,7 +317,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
-      "sha256": "f41246a688762cf13131a43327338b87f209c256464a0b096339ac1bb4250e66",
+      "sha256": "5763e5d756fe422eab7403f5e65fad14dc67cb1fc9db0b02f1a37fca1a49aaad",
       "size_bytes": 1995
     },
     {
@@ -337,12 +337,12 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.csv",
-      "sha256": "0e2d9fda20986c748034fa2c81f0cdfde4670e1f71eaefd81a9141c0f0230560",
+      "sha256": "13508712044e4a162324a337e078b52c9a37c55892ce6310a0aae9f1a2c7705c",
       "size_bytes": 1918
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json",
-      "sha256": "9d69fbf1fe218ed66323ca9836b45549126e360b6d4b24bcd8f6359567c035bc",
+      "sha256": "5f12fcc7c137576cb4aeeb058d70c6b07a20829925d7f103b76a63d6ef850df3",
       "size_bytes": 9082
     },
     {
