@@ -22,6 +22,8 @@ REPORT_OUT = REPO_ROOT / "docs/reports/20260513_suds_tetc_science_gate.md"
 PIVOT_GATE_JSON = REPORT_DATA / f"suds_optical_transformer_pivot_gate_{TAG}.json"
 ARCH_SUMMARY_CSV = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}_summary.csv"
 ARCH_JSON = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}.json"
+END_TO_END_ACCURACY_JSON = REPORT_DATA / f"suds_tetc_end_to_end_accuracy_{TAG}.json"
+SAME_SIM_BASELINES_JSON = REPORT_DATA / f"suds_tetc_same_sim_baselines_{TAG}.json"
 MANUSCRIPT = REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex"
 INTERNAL_RED_TEAM_JSON = REPORT_DATA / f"suds_tetc_internal_red_team_{TAG}.json"
 
@@ -193,6 +195,67 @@ def accuracy_budget(summary_rows: list[dict[str, str]]) -> dict[str, Any]:
     return {"status": status, "min_delta_pp": round(min_delta, 3), "blocker": blocker}
 
 
+def end_to_end_accuracy_boundary() -> dict[str, Any]:
+    payload = load_json(END_TO_END_ACCURACY_JSON)
+    summary = payload.get("summary", {})
+    decision = summary.get("decision", {})
+    rows = payload.get("rows", [])
+    promoted = [row for row in rows if row.get("condition") == "suds_pareto"]
+    blockers = list(decision.get("blockers") or [])
+    if decision.get("r3_acceptance_state") != "pass":
+        blockers.append("r3_acceptance_state_not_pass")
+    if len(promoted) < 2:
+        blockers.append("r3_promoted_workload_coverage_incomplete")
+    if not summary.get("all_promoted_policy_matched"):
+        blockers.append("r3_promoted_policy_not_matched")
+    if not summary.get("all_promoted_mps"):
+        blockers.append("r3_promoted_mps_missing")
+    if not summary.get("all_promoted_trace_linked"):
+        blockers.append("r3_promoted_trace_link_missing")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": decision.get("r3_acceptance_state", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "worst_promoted_delta": summary.get("worst_promoted_accuracy_delta_pp"),
+        "n_rows": summary.get("n_rows", 0),
+        "n_promoted_rows": len(promoted),
+    }
+
+
+def same_simulator_baseline_boundary() -> dict[str, Any]:
+    payload = load_json(SAME_SIM_BASELINES_JSON)
+    summary = payload.get("summary", {})
+    decision = summary.get("decision", {})
+    blockers = list(decision.get("blockers") or [])
+    if decision.get("r4_acceptance_state") != "pass":
+        blockers.append("r4_acceptance_state_not_pass")
+    if decision.get("stop_condition_state") != "no R4 hard stop":
+        blockers.append("r4_stop_condition_triggered")
+    if not summary.get("same_scope_assumptions_matched"):
+        blockers.append("same_scope_assumptions_not_matched")
+    if not summary.get("boundary_assumptions_documented"):
+        blockers.append("boundary_assumptions_not_documented")
+    if not summary.get("accuracy_labels_normalized"):
+        blockers.append("accuracy_labels_not_normalized")
+    if not summary.get("promoted_rows_fully_linked"):
+        blockers.append("promoted_rows_not_fully_linked")
+    if summary.get("dominators"):
+        blockers.append("same_scope_dominators_present")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": decision.get("r4_acceptance_state", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "n_rows": summary.get("n_rows", 0),
+        "n_same_scope_baselines": summary.get("n_same_scope_baselines", 0),
+        "n_boundary_baselines": summary.get("n_boundary_baselines", 0),
+        "n_promoted_rows": summary.get("n_promoted_rows", 0),
+        "dominators": summary.get("dominators", []),
+        "boundary_lower_edp_rows": summary.get("boundary_lower_edp_rows", []),
+    }
+
+
 def manuscript_maturity() -> dict[str, Any]:
     text = MANUSCRIPT.read_text(encoding="utf-8", errors="replace") if MANUSCRIPT.is_file() else ""
     has_references = "\\bibliography" in text or "\\begin{thebibliography}" in text
@@ -349,6 +412,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rows_csv = nominal_rows(load_csv(ARCH_SUMMARY_CSV))
     dominance = dominance_findings(rows_csv)
     accuracy = accuracy_budget(rows_csv)
+    end_to_end_accuracy = end_to_end_accuracy_boundary()
+    same_sim_baselines = same_simulator_baseline_boundary()
     workload = workload_grounding(pivot, architecture)
     maturity = manuscript_maturity()
     calibration = calibration_boundary(pivot)
@@ -380,12 +445,41 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "Rework the policy, operating point, or claim so SUDS is not dominated by measured same-fabric selectors.",
         ),
         gate_row(
+            "S1b",
+            "R4 same-simulator strong-baseline fairness matrix passes",
+            same_sim_baselines["status"],
+            (
+                f"r4={same_sim_baselines['acceptance']}; "
+                f"stop={same_sim_baselines['stop_condition']}; "
+                f"rows={same_sim_baselines['n_rows']}; "
+                f"same_scope={same_sim_baselines['n_same_scope_baselines']}; "
+                f"boundary={same_sim_baselines['n_boundary_baselines']}; "
+                f"dominators={len(same_sim_baselines['dominators'])}"
+            ),
+            same_sim_baselines["blockers"],
+            "Regenerate R4 and revise the claim if any same-scope baseline dominates SUDS under equal accuracy.",
+        ),
+        gate_row(
             "S2",
             "Promoted accuracy loss stays within a TETC-grade budget",
             accuracy["status"],
             f"worst_promoted_suds_delta_pp={accuracy['min_delta_pp']}",
             [accuracy["blocker"]] if accuracy["blocker"] else [],
             "Target <=1 pp loss for promoted rows or show a full accuracy/EDP Pareto instead of a single headline.",
+        ),
+        gate_row(
+            "S2b",
+            "R3 end-to-end perturbation accuracy is linked to PPA policy",
+            end_to_end_accuracy["status"],
+            (
+                f"r3={end_to_end_accuracy['acceptance']}; "
+                f"stop={end_to_end_accuracy['stop_condition']}; "
+                f"worst_delta={end_to_end_accuracy['worst_promoted_delta']}; "
+                f"rows={end_to_end_accuracy['n_rows']}; "
+                f"promoted_rows={end_to_end_accuracy['n_promoted_rows']}"
+            ),
+            end_to_end_accuracy["blockers"],
+            "Regenerate R3 and ensure promoted MPS rows match architecture tier ratios and R2 trace IDs.",
         ),
         gate_row(
             "S3",
@@ -442,6 +536,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "architecture_status": arch_status,
         "dominance": dominance,
         "accuracy": accuracy,
+        "end_to_end_accuracy": end_to_end_accuracy,
+        "same_sim_baselines": same_sim_baselines,
         "workload_grounding": workload,
         "manuscript_maturity": maturity,
         "calibration_boundary": calibration,

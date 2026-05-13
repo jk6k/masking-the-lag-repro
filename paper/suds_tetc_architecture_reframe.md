@@ -22,10 +22,14 @@ under kernel deadlines by converting scheduler slack, a kernel DAG, and current
 DPTC tile state into a KEEP/DEGRADE/PRUNE quality budget?
 
 This is the active architecture problem. SUDS is not an empirical rule that
-declares slack to be semantic importance. The scheduler provides deadline
-pressure, SUDS emits the budget, and local L1/signal/overflow selectors spend
-that budget on exact columns. The formal claim contract is recorded in
-`docs/reports/20260513_suds_architecture_problem_claim_contract.md`.
+declares slack to be a semantic importance oracle. The scheduler provides
+deadline pressure, SUDS emits the budget, and local L1/signal/overflow
+selectors spend that budget on exact columns. The formal claim contract is
+recorded in
+`docs/reports/20260513_suds_tetc_formal_claim_contract.md`, with
+machine-readable rows in
+`experiments/results/report_data/suds_tetc_formal_claim_contract_20260513_tetc_pivot.csv`
+and `.json`.
 
 ## Draft Abstract
 
@@ -91,7 +95,7 @@ but the core problem is deadline-constrained energy minimization.
 | Headline claim | Evidence requirement |
 |---|---|
 | SUDS is a scheduler-derived budget interface | Manuscript/reframe definition plus architecture evidence-flow figure. |
-| SUDS input is slack + DAG + tile state, output is KEEP/DEGRADE/PRUNE budget | Formal contract report plus architecture kernel CSV/JSON with schedule metadata. |
+| SUDS input is slack + DAG + tile state, output is KEEP/DEGRADE/PRUNE budget | Formal contract report plus machine-readable R0 contract CSV/JSON and architecture kernel CSV/JSON with schedule metadata. |
 | SUDS has modeled system-level PPA advantage at the selected DPTC point | Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate. |
 | Promoted accuracy is governed by measured MPS evidence | GLUE measured validation, MobileViT-S conservative Pareto artifact, and GLUE architecture linkage. |
 | Baselines and alternate fabrics are visible boundaries | Pivot gate G4 and architecture simulator condition matrix. |

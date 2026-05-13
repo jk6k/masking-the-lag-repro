@@ -179,12 +179,19 @@ def fnum(value: Any, default: float = math.nan) -> float:
         return default
 
 
+def normalize_svg(path: Path) -> None:
+    text = path.read_text(encoding="utf-8")
+    path.write_text("\n".join(line.rstrip() for line in text.splitlines()) + "\n", encoding="utf-8")
+
+
 def save_multi(fig: plt.Figure, out_dir: Path, stem: str) -> dict[str, str]:
     outputs: dict[str, str] = {}
     out_dir.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "svg", "png"):
         path = out_dir / f"{stem}.{ext}"
         fig.savefig(path)
+        if ext == "svg":
+            normalize_svg(path)
         outputs[ext] = rel(path)
     plt.close(fig)
     return outputs

@@ -165,6 +165,10 @@ through
 MobileViT-S accuracy rows come from the governed MPS ImageNet validation
 matrix. Energy, latency, area, optical-link cost, memory movement, and control
 overhead remain architecture-modeled in both cases.
+The R3 end-to-end accuracy artifact joins those measured MPS rows to the same
+KEEP/DEGRADE/PRUNE tier ratios used by PPA and to the R2 SUDS-aware trace IDs.
+It records the forward-pass perturbation surface as a tiered ADC/noise proxy,
+not bit-exact ADC, optical-device, silicon, or bench-energy evidence.
 
 \begin{figure*}[t]
 \centering
@@ -278,6 +282,12 @@ The ablation table separates budget allocation from exact-column selection. A
 case where signal-only, L1-only, or HyAtten-style selection beats a
 SUDS-composed row is kept as boundary evidence that local selectors can
 dominate the scheduler-derived budget for that workload and parameter setting.
+The same-simulator fairness matrix is generated separately from the architecture
+summary. It fixes the selected DPTC simulator configuration across the
+Lightening-style, uniform, random, L1, signal-only, slack-only, SUDS-only,
+SUDS+L1, SUDS+signal, and promoted SUDS rows, and it labels HyAtten-style,
+TeMPO-style, and ASTRA-style rows as boundary contexts with explicit differing
+assumptions.
 
 \section{Calibration Evidence}
 
@@ -484,6 +494,11 @@ It is produced by the local selector inside the budget.
 
 \subsection{Claim-to-Evidence Contract}
 
+The canonical R0 formal claim contract is the generated report
+\path{20260513_suds_tetc_formal_claim_contract.md}. Its machine-readable
+variable, constraint, and evidence-label table is the generated
+\path{suds_tetc_formal_claim_contract_20260513_tetc_pivot.csv/json} pair.
+
 \begin{table*}[t]
 \centering
 \caption{Headline claim-to-evidence contract.}
@@ -492,8 +507,8 @@ It is produced by the local selector inside the budget.
 \toprule
 Headline claim & Required evidence & Boundary \\
 \midrule
-SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, architecture evidence-flow figure, and formal contract report & Architecture interface, not slack-only importance oracle \\
-Input is slack, DAG, and tile state; output is KEEP/DEGRADE/PRUNE budget & Architecture kernel CSV, architecture JSON, and contract report & Budget output, not exact mask output \\
+SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, architecture evidence-flow figure, R0 formal contract report, and R2 scheduler-trace report & Architecture interface, not slack-only importance oracle \\
+Input is slack, DAG, and tile state; output is KEEP/DEGRADE/PRUNE budget & R0 formal contract CSV/JSON, architecture kernel CSV, R2 scheduler trace CSV, and architecture JSON & Budget output, not exact mask output \\
 Selected DPTC point has modeled system PPA advantage & Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate & Modeled PPA, not bench energy \\
 Promoted accuracy is measured on governed local runs & MPS GLUE validation, MobileViT-S conservative Pareto artifact, and GLUE architecture linkage & Accuracy claim only for measured surfaces \\
 Strong baselines and boundary fabrics are visible & Pivot gate G4 and architecture condition matrix & No universal dominance claim \\
@@ -637,6 +652,28 @@ including \texttt{suds\_pareto}.
 This is why the S3 gate passes while still reporting that the original GLUE
 slack field was analytical.
 
+The R2 scheduler-trace artifact strengthens that link by replaying the
+architecture rows through five scheduler variants: FIFO, ASAP,
+EDF/deadline-aware, utilization-aware, and SUDS-aware. The promoted
+\texttt{suds\_pareto} rows use SUDS-aware hardware-derived schedule trace
+IDs \texttt{r2\_7b7427345a30be24} for BERT-base GLUE and
+\texttt{r2\_e1d13a0a1855de8b} for MobileViT-S Transformer blocks. The same
+artifact records that scheduler distributions are distinguishable, with a
+maximum signature distance of 0.566732 against a 0.010000 stop threshold.
+This makes the promoted slack source an emitted scheduler trace rather than
+only a column in the architecture summary table.
+
+The R3 end-to-end perturbation artifact then checks the accuracy side of that
+same contract. It links the promoted BERT-base GLUE and MobileViT-S
+\texttt{suds\_pareto} rows to measured MPS forward passes, verifies that their
+accuracy-source tier ratios match the architecture PPA tier ratios with maximum
+policy-ratio delta 0.000000, and records the promoted trace IDs
+\texttt{r2\_7b7427345a30be24} and \texttt{r2\_e1d13a0a1855de8b}. The worst
+promoted accuracy delta is -0.014500 percentage points, inside the one
+percentage-point target. This artifact is still deliberately bounded: it is a
+model-forward tiered perturbation audit, not a bit-exact ADC or optical-device
+simulation.
+
 \subsection{Schedule Metadata Fields}
 
 Each schedule row includes the workload name.
@@ -651,6 +688,10 @@ Each row includes base latency.
 Each row includes schedule start time.
 Each row includes schedule deadline.
 Each row includes normalized scheduler slack.
+The R2 scheduler trace additionally records scheduler variant, schedule trace
+ID, dependency kernel IDs, release time, scheduled start, data-ready time,
+completion time, deadline slack, queue wait, tile assignment, resource queue
+state, and the KEEP/DEGRADE/PRUNE budget class.
 Each row includes a mapping evidence field.
 These fields are enough to ground the SUDS budget in the DPTC schedule.
 
@@ -665,6 +706,12 @@ Changing sideband grouping changes control accounting.
 Changing ADC sharing changes conversion timing and energy.
 The schedule therefore depends on the modeled architecture point.
 It is not only a static layer-order heuristic.
+R2 also shows that scheduler choice changes the slack distribution. SUDS-aware
+improves low-tail slack over FIFO for the promoted rows, while a
+utilization-aware scheduler has the highest p10 slack in the scheduler-only
+ablation. The paper therefore claims the scheduler-budget interface and the
+measured promoted operating point, not universal dominance by the SUDS-aware
+scheduler over every possible scheduling objective.
 
 \section{SUDS Policy Definition}
 
@@ -793,7 +840,8 @@ choice.
 The second question is whether the main SUDS row is Pareto-competitive
 against measured same-fabric baselines.
 The first question is handled by the architecture design-space artifact.
-The second question is handled by the stricter science gate.
+The second question is handled by the same-simulator R4 baseline matrix and
+the stricter science gate.
 
 \section{Accuracy Protocol}
 
@@ -845,6 +893,9 @@ near zero.
 Several local selectors have lower EDP, but they lose substantially more
 accuracy.
 They are therefore not dominators under the two-dimensional criterion.
+The R4 same-simulator matrix records zero same-scope dominators and separately
+reports lower-EDP alternate-fabric rows as boundary context rather than as
+claim-updating SUDS defeats.
 
 \subsection{S2 Accuracy Budget}
 
@@ -972,6 +1023,14 @@ The architecture artifact gate is regenerated with:
 \begin{verbatim}
 make suds-optical-transformer-pivot-gate
 \end{verbatim}
+The R2 hardware-derived scheduler traces are regenerated with:
+\begin{verbatim}
+make suds-tetc-scheduler-traces
+\end{verbatim}
+The R3 end-to-end perturbation accuracy audit is regenerated with:
+\begin{verbatim}
+make suds-tetc-end-to-end-accuracy
+\end{verbatim}
 The stricter science gate is regenerated with:
 \begin{verbatim}
 make suds-tetc-science-gate
@@ -989,6 +1048,14 @@ The architecture JSON is
 \path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json}.
 The GLUE linkage CSV is
 \path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv}.
+The R2 scheduler trace CSV is
+\path{experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.csv}.
+The R2 scheduler ablation CSV is
+\path{experiments/results/report_data/suds_tetc_scheduler_ablation_20260513_tetc_pivot.csv}.
+The R2 scheduler JSON is
+\path{experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.json}.
+The R3 end-to-end accuracy JSON is
+\path{experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json}.
 The conservative Pareto JSON is
 \path{experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json}.
 The science gate JSON is
@@ -1028,9 +1095,10 @@ It keeps the measured accuracy delta inside the TETC-grade target.
 \subsection{Failure Mode: Analytical Slack}
 
 A reviewer may object that analytical slack is not hardware-derived.
-The mitigation is the DPTC schedule metadata and GLUE linkage.
+The mitigation is the DPTC schedule metadata, GLUE linkage, and R2
+hardware-derived scheduler traces.
 The manuscript preserves the old provenance but grounds the final claim in
-the hardware-derived schedule rows.
+the hardware-derived schedule rows and explicit promoted schedule trace IDs.
 
 \subsection{Failure Mode: Circuit Overclaim}
 
@@ -1065,6 +1133,8 @@ Conservative Pareto & \path{experiments/results/report_data/suds_tetc_conservati
 Architecture PPA & \path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json} & Modeled energy, latency, area, schedule, linkage \\
 Architecture summary & \path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv} & Table and Pareto source \\
 GLUE linkage & \path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv} & BERT schedule grounding \\
+Scheduler traces & \path{experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.json} & Promoted SUDS-aware trace IDs and scheduler ablation \\
+End-to-end accuracy & \path{experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json} & R3 MPS accuracy-to-PPA perturbation policy audit \\
 Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule

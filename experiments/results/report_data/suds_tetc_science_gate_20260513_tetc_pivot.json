@@ -31,6 +31,52 @@
       "min_delta_pp": -0.015,
       "blocker": ""
     },
+    "end_to_end_accuracy": {
+      "status": "pass",
+      "blockers": [],
+      "acceptance": "pass",
+      "stop_condition": "no R3 hard stop",
+      "worst_promoted_delta": -0.01450000000000351,
+      "n_rows": 18,
+      "n_promoted_rows": 2
+    },
+    "same_sim_baselines": {
+      "status": "pass",
+      "blockers": [],
+      "acceptance": "pass",
+      "stop_condition": "no R4 hard stop",
+      "n_rows": 28,
+      "n_same_scope_baselines": 14,
+      "n_boundary_baselines": 6,
+      "n_promoted_rows": 2,
+      "dominators": [],
+      "boundary_lower_edp_rows": [
+        {
+          "workload": "bert_base_glue_seq128",
+          "condition": "astra_boundary",
+          "edp_ratio_vs_lightening": 0.4083029379442031,
+          "boundary_reason": "uses ASTRA-style stochastic optical fabric and digital-fallback boundary instead of the selected deterministic DPTC fabric; accuracy label is literature_architecture_boundary_unmeasured_locally"
+        },
+        {
+          "workload": "mobilevit_s_transformer_blocks_256",
+          "condition": "astra_boundary",
+          "edp_ratio_vs_lightening": 0.4884323057720997,
+          "boundary_reason": "uses ASTRA-style stochastic optical fabric and digital-fallback boundary instead of the selected deterministic DPTC fabric; accuracy label is literature_architecture_boundary_unmeasured_locally"
+        },
+        {
+          "workload": "mobilevit_s_transformer_blocks_256",
+          "condition": "hyatten_style",
+          "edp_ratio_vs_lightening": 0.7776816440773117,
+          "boundary_reason": "uses HyAtten-style low-resolution signal-selection boundary; accuracy is literature/unmeasured in this local artifact; accuracy label is literature_baseline_unmeasured_locally"
+        },
+        {
+          "workload": "mobilevit_s_transformer_blocks_256",
+          "condition": "tempo_time_multiplexed",
+          "edp_ratio_vs_lightening": 0.8420010036232098,
+          "boundary_reason": "uses TeMPO-style time-multiplexed readout boundary instead of the selected Lightening-style DPTC temporal-accumulation readout; accuracy label is literature_architecture_boundary_unmeasured_locally"
+        }
+      ]
+    },
     "workload_grounding": {
       "status": "pass",
       "blockers": [],
@@ -185,7 +231,7 @@
     },
     "manuscript_maturity": {
       "status": "pass",
-      "line_count": 1283,
+      "line_count": 1353,
       "has_references": true,
       "has_figures": true,
       "blockers": []
@@ -228,6 +274,15 @@
       "next_action": "Rework the policy, operating point, or claim so SUDS is not dominated by measured same-fabric selectors."
     },
     {
+      "gate_id": "S1b",
+      "gate": "R4 same-simulator strong-baseline fairness matrix passes",
+      "required": true,
+      "status": "pass",
+      "evidence": "r4=pass; stop=no R4 hard stop; rows=28; same_scope=14; boundary=6; dominators=0",
+      "blockers": "",
+      "next_action": "Regenerate R4 and revise the claim if any same-scope baseline dominates SUDS under equal accuracy."
+    },
+    {
       "gate_id": "S2",
       "gate": "Promoted accuracy loss stays within a TETC-grade budget",
       "required": true,
@@ -235,6 +290,15 @@
       "evidence": "worst_promoted_suds_delta_pp=-0.015",
       "blockers": "",
       "next_action": "Target <=1 pp loss for promoted rows or show a full accuracy/EDP Pareto instead of a single headline."
+    },
+    {
+      "gate_id": "S2b",
+      "gate": "R3 end-to-end perturbation accuracy is linked to PPA policy",
+      "required": true,
+      "status": "pass",
+      "evidence": "r3=pass; stop=no R3 hard stop; worst_delta=-0.01450000000000351; rows=18; promoted_rows=2",
+      "blockers": "",
+      "next_action": "Regenerate R3 and ensure promoted MPS rows match architecture tier ratios and R2 trace IDs."
     },
     {
       "gate_id": "S3",
@@ -250,7 +314,7 @@
       "gate": "Manuscript maturity reaches full journal-paper density",
       "required": true,
       "status": "pass",
-      "evidence": "line_count=1283; references=True; figures=True",
+      "evidence": "line_count=1353; references=True; figures=True",
       "blockers": "",
       "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
     },
