@@ -24,6 +24,7 @@ ARCH_SUMMARY_CSV = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}_summa
 ARCH_JSON = REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}.json"
 END_TO_END_ACCURACY_JSON = REPORT_DATA / f"suds_tetc_end_to_end_accuracy_{TAG}.json"
 SAME_SIM_BASELINES_JSON = REPORT_DATA / f"suds_tetc_same_sim_baselines_{TAG}.json"
+SYSTEM_SENSITIVITY_JSON = REPORT_DATA / f"suds_tetc_system_sensitivity_{TAG}.json"
 MANUSCRIPT = REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex"
 INTERNAL_RED_TEAM_JSON = REPORT_DATA / f"suds_tetc_internal_red_team_{TAG}.json"
 
@@ -256,6 +257,33 @@ def same_simulator_baseline_boundary() -> dict[str, Any]:
     }
 
 
+def system_sensitivity_boundary() -> dict[str, Any]:
+    payload = load_json(SYSTEM_SENSITIVITY_JSON)
+    summary = payload.get("summary", {})
+    decision = summary.get("decision", {})
+    blockers = list(decision.get("blockers") or [])
+    if decision.get("r6_acceptance_state") != "pass":
+        blockers.append("r6_acceptance_state_not_pass")
+    if decision.get("realistic_stop_condition_triggered"):
+        blockers.append("r6_realistic_stop_condition_triggered")
+    if not decision.get("named_nominal_and_pessimistic_preserve_benefit"):
+        blockers.append("r6_named_nominal_or_pessimistic_regime_not_preserved")
+    if summary.get("input_r3_acceptance_state") != "pass":
+        blockers.append("r6_r3_linkage_not_pass")
+    if summary.get("input_r5_acceptance_state") != "pass":
+        blockers.append("r6_r5_linkage_not_pass")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": decision.get("r6_acceptance_state", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "minimum_pessimistic_edp_improvement_pct": summary.get("minimum_pessimistic_edp_improvement_pct"),
+        "not_beneficial_sweep_rows": summary.get("not_beneficial_sweep_rows", 0),
+        "thin_margin_sweep_rows": summary.get("thin_margin_sweep_rows", 0),
+        "claim_narrowing_required": decision.get("claim_narrowing_required_for_extreme_sweeps", False),
+    }
+
+
 def manuscript_maturity() -> dict[str, Any]:
     text = MANUSCRIPT.read_text(encoding="utf-8", errors="replace") if MANUSCRIPT.is_file() else ""
     has_references = "\\bibliography" in text or "\\begin{thebibliography}" in text
@@ -414,6 +442,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     accuracy = accuracy_budget(rows_csv)
     end_to_end_accuracy = end_to_end_accuracy_boundary()
     same_sim_baselines = same_simulator_baseline_boundary()
+    system_sensitivity = system_sensitivity_boundary()
     workload = workload_grounding(pivot, architecture)
     maturity = manuscript_maturity()
     calibration = calibration_boundary(pivot)
@@ -518,6 +547,22 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "Keep SPICE/RTL/PHY evidence as calibration, proxy, or boundary evidence only.",
         ),
         gate_row(
+            "S5b",
+            "R6 memory, conversion, and link sensitivity preserves the bounded claim",
+            system_sensitivity["status"],
+            (
+                f"r6={system_sensitivity['acceptance']}; "
+                f"stop={system_sensitivity['stop_condition']}; "
+                f"min_pessimistic_edp_improvement_pct="
+                f"{system_sensitivity['minimum_pessimistic_edp_improvement_pct']}; "
+                f"not_beneficial_sweep_rows={system_sensitivity['not_beneficial_sweep_rows']}; "
+                f"thin_margin_sweep_rows={system_sensitivity['thin_margin_sweep_rows']}; "
+                f"claim_narrowing_required={system_sensitivity['claim_narrowing_required']}"
+            ),
+            system_sensitivity["blockers"],
+            "Regenerate R6 and narrow the claim if a realistic memory/conversion/link regime erases the benefit.",
+        ),
+        gate_row(
             "S6",
             "External red-team advisory",
             red_team["status"],
@@ -538,6 +583,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "accuracy": accuracy,
         "end_to_end_accuracy": end_to_end_accuracy,
         "same_sim_baselines": same_sim_baselines,
+        "system_sensitivity": system_sensitivity,
         "workload_grounding": workload,
         "manuscript_maturity": maturity,
         "calibration_boundary": calibration,

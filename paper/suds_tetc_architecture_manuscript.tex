@@ -244,13 +244,17 @@ Lightening-style DPTC row.}
 
 \subsection{Pessimistic Gate}
 
-The gate stresses ADC scaling, memory movement, optical-link penalties,
-control overhead, and reduced compute relief from pruning. Under that setting,
-the selected SUDS point preserves 22.36\% energy and 25.81\% EDP improvement
-for BERT-base GLUE, and 14.75\% energy and 14.60\% EDP improvement for
-MobileViT-S Transformer blocks, versus the same-scope Lightening-style
-reference. The gate report stores 14.60\% as the minimum required pessimistic EDP
-margin.
+The fixed architecture gate stresses ADC scaling, memory movement,
+optical-link penalties, control overhead, and reduced compute relief from
+pruning. Under that setting, the selected SUDS point preserves 22.36\%
+energy and 25.81\% EDP improvement for BERT-base GLUE, and 14.75\% energy
+and 14.60\% EDP improvement for MobileViT-S Transformer blocks, versus the
+same-scope Lightening-style reference. The R6 system-sensitivity audit then
+sweeps memory bandwidth, activation reuse, batch size, sequence length,
+ADC/DAC cost, laser multiplier, optical-link loss, and sideband overhead. Its
+named pessimistic regime preserves at least 12.10\% EDP improvement, while
+extreme one-at-a-time DAC/MZM scaling exposes the MobileViT-S boundary where
+the promoted point is no longer beneficial.
 
 \begin{figure}[t]
 \centering
@@ -808,6 +812,13 @@ The pessimistic gate prevents a fragile result from passing only because a
 single optimistic parameter was chosen.
 The selected SUDS Pareto row preserves a positive EDP advantage in that
 stress case.
+The R6 system-sensitivity artifact extends this into a parameter sweep over
+memory bandwidth, activation reuse, batch size, sequence length, ADC energy,
+DAC/MZM energy, laser multiplier, optical-link loss, and sideband-control
+overhead.
+The named nominal, optimistic, and pessimistic regimes preserve the bounded
+promoted claim, and the extreme DAC/MZM rows are retained as boundary evidence
+rather than hidden.
 
 \section{Design-Space Sweep}
 
@@ -1149,6 +1160,7 @@ Scheduler traces & \path{experiments/results/report_data/suds_tetc_scheduler_tra
 End-to-end accuracy & \path{experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json} & R3 MPS accuracy-to-PPA perturbation policy audit \\
 Same-simulator baselines & \path{experiments/results/report_data/suds_tetc_same_sim_baselines_20260513_tetc_pivot.json} & R4 equal-accuracy dominance and fairness matrix \\
 Pareto design space & \path{experiments/results/report_data/suds_tetc_pareto_design_space_20260513_tetc_pivot.json} & R5 governed multi-objective selected-point audit \\
+System sensitivity & \path{experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json} & R6 memory/conversion/link valid-regime and boundary audit \\
 Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule
@@ -1210,6 +1222,10 @@ not measured. TeMPO and ASTRA rows are boundary architecture contexts because
 they change the conversion or stochastic optical fabric. Full external red-team
 review remains preferred before submission, even though the local G1 gate now
 has an internal substitute and a public-repro alignment check.
+The R6 sensitivity sweep also shows that sufficiently extreme common DAC/MZM
+cost can erase the MobileViT-S promoted advantage, so the claim is bounded to
+the named valid memory/conversion/link regimes rather than universal photonic
+conversion dominance.
 
 \section{Conclusion}
 

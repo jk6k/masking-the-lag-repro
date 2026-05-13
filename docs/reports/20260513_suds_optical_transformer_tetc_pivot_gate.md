@@ -26,7 +26,7 @@ Promotion decision: `tetc_submission_ready`
 
 ## Evidence Snapshot
 
-- G1 release artifact: status `pass`, manuscript `pass` with `1367` lines, red-team `pass` across `4` lenses, external status `not_available_in_local_execution`, public-repro `pass` with validation `pass`.
+- G1 release artifact: status `pass`, manuscript `pass` with `1383` lines, red-team `pass` across `4` lenses, external status `not_available_in_local_execution`, public-repro `pass` with validation `pass`.
 - MobileViT measured matrix: `192/192` rows, models `mobilevit_s,mobilevit_xs,mobilevit_xxs`, conditions `e0_dense,e2_l1,e3_slack,e4_suds,e5_random,e6_signal,e7_overlay,e8_overflow`.
 - MobileViT-S composition boundary: max absolute Top-1 drop among E6/E7/E8 is `1.775` pp at minimum ADC ratio `0.463`.
 - BERT/GLUE measured validation: tasks `sst2,mrpc,mnli,qqp,qnli,rte`, devices `mps`, max aggregate delta `0.0` pp; slack source analytical = `True`.

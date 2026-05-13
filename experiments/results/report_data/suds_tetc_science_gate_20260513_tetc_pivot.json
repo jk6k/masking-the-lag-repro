@@ -77,6 +77,16 @@
         }
       ]
     },
+    "system_sensitivity": {
+      "status": "pass",
+      "blockers": [],
+      "acceptance": "pass",
+      "stop_condition": "no R6 hard stop; nominal and pessimistic named regimes preserve the bounded promoted EDP claim",
+      "minimum_pessimistic_edp_improvement_pct": 12.102428098701768,
+      "not_beneficial_sweep_rows": 2,
+      "thin_margin_sweep_rows": 6,
+      "claim_narrowing_required": true
+    },
     "workload_grounding": {
       "status": "pass",
       "blockers": [],
@@ -231,7 +241,7 @@
     },
     "manuscript_maturity": {
       "status": "pass",
-      "line_count": 1367,
+      "line_count": 1383,
       "has_references": true,
       "has_figures": true,
       "blockers": []
@@ -314,7 +324,7 @@
       "gate": "Manuscript maturity reaches full journal-paper density",
       "required": true,
       "status": "pass",
-      "evidence": "line_count=1367; references=True; figures=True",
+      "evidence": "line_count=1383; references=True; figures=True",
       "blockers": "",
       "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
     },
@@ -326,6 +336,15 @@
       "evidence": "ADC/RTL/PHY parameters are checked against the pivot architecture summary.",
       "blockers": "",
       "next_action": "Keep SPICE/RTL/PHY evidence as calibration, proxy, or boundary evidence only."
+    },
+    {
+      "gate_id": "S5b",
+      "gate": "R6 memory, conversion, and link sensitivity preserves the bounded claim",
+      "required": true,
+      "status": "pass",
+      "evidence": "r6=pass; stop=no R6 hard stop; nominal and pessimistic named regimes preserve the bounded promoted EDP claim; min_pessimistic_edp_improvement_pct=12.102428098701768; not_beneficial_sweep_rows=2; thin_margin_sweep_rows=6; claim_narrowing_required=True",
+      "blockers": "",
+      "next_action": "Regenerate R6 and narrow the claim if a realistic memory/conversion/link regime erases the benefit."
     },
     {
       "gate_id": "S6",
