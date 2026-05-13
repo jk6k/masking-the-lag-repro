@@ -3,7 +3,7 @@
     "tag": "20260513_tetc_pivot",
     "artifact_id": "suds_optical_transformer_pivot_gate_20260513_tetc_pivot",
     "evidence_label": "audit",
-    "promotion_decision": "pivot_scaffolded_not_submission_ready",
+    "promotion_decision": "tetc_submission_ready",
     "regeneration_command": "make suds-optical-transformer-pivot-gate"
   },
   "summary": {
@@ -144,6 +144,23 @@
       "design_space_csv": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.csv",
       "glue_link_csv": "experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv"
     },
+    "g1_release": {
+      "present": true,
+      "status": "pass",
+      "manuscript_status": "pass",
+      "manuscript_line_count": 346,
+      "red_team_status": "pass",
+      "red_team_lens_count": 4,
+      "external_red_team_status": "not_available_in_local_execution",
+      "external_equivalence": "not_equivalent_to_external_review",
+      "public_repro_status": "pass",
+      "public_repro_manifest_status": "pass",
+      "public_repro_validation_status": "pass",
+      "public_repro_validation_errors": 0,
+      "artifact": "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
+      "red_team_artifact": "experiments/results/report_data/suds_tetc_internal_red_team_20260513_tetc_pivot.json",
+      "public_repro_artifact": "experiments/results/report_data/suds_tetc_public_repro_alignment_20260513_tetc_pivot.json"
+    },
     "circuit": {
       "adc_present": true,
       "adc_status": "measured",
@@ -170,12 +187,10 @@
       "tetc_forbidden_terms": []
     },
     "decision": {
-      "promotion_decision": "pivot_scaffolded_not_submission_ready",
+      "promotion_decision": "tetc_submission_ready",
       "required_failures": [],
-      "required_partials": [
-        "G1"
-      ],
-      "highest_priority_next_step": "Draft and red-team the full architecture-first TETC manuscript source without weakening the protected fallback."
+      "required_partials": [],
+      "highest_priority_next_step": "Run final manuscript, figure, public repro, and external red-team release checks."
     }
   },
   "rows": [
@@ -192,10 +207,10 @@
       "gate_id": "G1",
       "gate": "Full TETC manuscript source",
       "required": true,
-      "status": "partial",
-      "evidence": "fallback_title=The Missing Interface: Timing Slack as a Quality-Budget Signal for Photonic/DPTC Resource Control; tetc_source=paper/suds_tetc_architecture_manuscript.tex; tetc_title=Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators",
+      "status": "pass",
+      "evidence": "fallback_title=The Missing Interface: Timing Slack as a Quality-Budget Signal for Photonic/DPTC Resource Control; tetc_source=paper/suds_tetc_architecture_manuscript.tex; tetc_title=Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators; g1_release=pass; red_team=pass; public_repro=pass/pass",
       "blockers": "",
-      "next_action": "Promote the architecture-first TETC source only after G2-G5 pass and red-team review."
+      "next_action": "Keep the architecture-first TETC source promoted only while manuscript, red-team, and public-repro alignment artifacts pass."
     },
     {
       "gate_id": "G2",
