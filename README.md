@@ -1,7 +1,7 @@
 # SUDS Anonymous Reproduction Package
 
 This repository is the double-blind supplementary reproduction package for the
-SUDS evidence freeze `20260511_suds_maxq`.
+SUDS IEEE TETC evidence freeze `20260511_suds_maxq`.
 
 It is intentionally smaller than the full development workspace. It contains
 the compact JSON/CSV evidence, accepted schematic source masters, metadata,
@@ -28,26 +28,26 @@ rerenders Fig1-Fig6 and Fig.A1-Fig.A4 into `build/rendered_figures/`.
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
-- MAX-Q report data: `experiments/results/report_data/`
+- TETC report data: `experiments/results/report_data/`
 - Figure metadata: `figures/paper_figures_20260511_suds_maxq/`
 - Review metadata: `experiments/results/review/20260511_suds_maxq_public/`
 - Static-file checksums: `checksums_manifest.json`
 
-Figure roles are fixed for this freeze:
+The public package keeps compact source artifacts and render scripts rather
+than final submitted images. Figure roles for the architecture-first TETC route
+are fixed in the TETC figure traceability metadata.
 
-- `Fig1`: SAIG/SUDS interface schematic
-- `Fig2`: slack signal availability and independence
-- `Fig3`: SUDS ternary quality-budget policy schematic
-- `Fig4`: modeled accuracy-energy trade-off
-- `Fig5`: tier distribution and ADC-energy waterfall
-- `Fig6`: full MobileViT-S measured ablation and modeled ADC ratio
-- `Fig.A1-Fig.A4`: threshold scan, SUDS+L1 overlay, synthetic profile stress, and parametric PHY check
+- `Fig1`: TETC architecture and evidence flow
+- `Fig2`: accuracy/EDP Pareto surface
+- `Fig3`: modeled energy-component breakdown
+- `Fig4`: conservative measured accuracy boundary
 
 ## Boundary
 
 The package supports paper inspection, traceability review, and local
-figure-regeneration from compact source artifacts. It includes P1
-interface-overhead and boundary-suite compact data. It does not include private
+figure-regeneration from compact source artifacts. It includes architecture
+simulation, calibration, public-repro alignment, and local red-team compact
+data. It does not include private
 datasets, model weights, private literature mirrors, trial drafts, candidate
 histories, historical FULLER freeze payloads, personal remotes, or absolute
 local paths.

@@ -1,7 +1,0 @@
-tag,gate,command,cwd,status,evidence_label,promotion_decision,claim_boundary_note
-20260512_j0_quality_boost,worktree_snapshot,git status --short --branch,<source_repo>,recorded_dirty_existing_changes,audit,do_not_replace_main_freeze,"Existing modified/untracked files were recorded and not reverted before J1."
-20260512_j0_quality_boost,public_repro_build,caffeinate -dimsu make public-repro-build,<source_repo>,pass,audit,do_not_replace_main_freeze,"Wrote <public_repro>."
-20260512_j0_quality_boost,public_repro_check,caffeinate -dimsu make public-repro-check,<source_repo>,pass,audit,do_not_replace_main_freeze,"check_public_repro_repo reported 0 error(s)."
-20260512_j0_quality_boost,public_repro_render,caffeinate -dimsu make public-repro-render,<source_repo>,pass,audit,do_not_replace_main_freeze,"Public figure render completed through Fig6 and appendix figures."
-20260512_j0_quality_boost,paper_compile,caffeinate -dimsu tectonic -X compile suds_paper_acmart.tex,paper,pass,audit,do_not_replace_main_freeze,"Tectonic wrote paper/suds_paper_acmart.pdf with TeX warnings only."
-20260512_j0_quality_boost,spice_tool_check,command -v ngspice; command -v xyce; command -v Xyce,<source_repo>,blocked_tool_missing,audit,boundary,"ngspice and Xyce/xyce were not found in PATH; J1 SPICE execution must record blocker/fallback."

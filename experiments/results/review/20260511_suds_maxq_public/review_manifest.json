@@ -10,12 +10,12 @@
   "included": [
     "phase summary JSON files",
     "slack manifest",
-    "MAX-Q measured-validation and modeled-energy report data",
-    "P1 interface-overhead and boundary-suite report data",
     "TETC optical Transformer architecture simulator and pivot-gate artifacts",
+    "TETC science gate, public-repro alignment, and local red-team artifacts",
+    "calibration and boundary report data used by the architecture parameter table",
     "figure registry and traceability metadata",
     "checksum manifest for exported static files",
-    "accepted Fig1/Fig3 schematic source masters",
+    "source figure masters and render scripts",
     "SUDS render and validation scripts"
   ],
   "excluded": [

@@ -256,7 +256,7 @@ Yosys cell count: `{cell_count}`
   cells. The timing, GE, and power columns are still proxy estimates because no
   liberty-backed OpenROAD or placed-and-routed flow is used here.
 - TCAS promotion still requires placed/routed or liberty/tool-calibrated area
-  and power. This artifact supports JETC appendix overhead accounting and
+  and power. This artifact supports architecture appendix overhead accounting and
   reviewer response.
 
 ## Artifacts

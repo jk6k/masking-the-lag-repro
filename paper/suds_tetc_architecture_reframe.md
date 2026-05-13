@@ -1,8 +1,8 @@
 # SUDS TETC Architecture Reframe
 
 Date: `2026-05-13`
-Status: `manuscript reframe blueprint`
-Protected fallback manuscript: `paper/suds_paper_acmart.tex`
+Status: `active IEEE TETC manuscript reframe blueprint`
+Active manuscript: `paper/suds_tetc_architecture_manuscript.tex`
 
 ## Working Title
 

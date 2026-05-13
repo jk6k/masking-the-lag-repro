@@ -1,0 +1,276 @@
+{
+  "metadata": {
+    "tag": "20260513_tetc_pivot",
+    "artifact_id": "suds_tetc_science_gate_20260513_tetc_pivot",
+    "evidence_label": "science_strength_gate",
+    "promotion_decision": "science_gate_pass_local_submission_candidate",
+    "regeneration_command": "make suds-tetc-science-gate"
+  },
+  "summary": {
+    "pivot_decision": "tetc_submission_ready",
+    "architecture_status": "pass",
+    "dominance": {
+      "status": "pass",
+      "findings": [
+        {
+          "workload": "bert_base_glue_seq128",
+          "status": "pass",
+          "best_suds": "suds_pareto edp=0.666 delta=0.000",
+          "dominators": []
+        },
+        {
+          "workload": "mobilevit_s_transformer_blocks_256",
+          "status": "pass",
+          "best_suds": "suds_pareto edp=0.919 delta=-0.015",
+          "dominators": []
+        }
+      ]
+    },
+    "accuracy": {
+      "status": "pass",
+      "min_delta_pp": -0.015,
+      "blocker": ""
+    },
+    "workload_grounding": {
+      "status": "pass",
+      "blockers": [],
+      "glue": {
+        "present": true,
+        "tasks": [
+          "sst2",
+          "mrpc",
+          "mnli",
+          "qqp",
+          "qnli",
+          "rte"
+        ],
+        "conditions": [
+          "e0_dense",
+          "e2_l1",
+          "e3_slack",
+          "e4_suds",
+          "e7_overlay",
+          "e8_overflow"
+        ],
+        "devices": [
+          "mps"
+        ],
+        "max_abs_delta_primary_pp": 0.0,
+        "analytical_slack": true,
+        "promotion_decision": "appendix"
+      },
+      "mobilevit": {
+        "present": true,
+        "completion_ratio": 1.0,
+        "measured_rows": 192,
+        "expected_rows": 192,
+        "models": [
+          "mobilevit_s",
+          "mobilevit_xs",
+          "mobilevit_xxs"
+        ],
+        "conditions": [
+          "e0_dense",
+          "e2_l1",
+          "e3_slack",
+          "e4_suds",
+          "e5_random",
+          "e6_signal",
+          "e7_overlay",
+          "e8_overflow"
+        ],
+        "mobilevit_s_max_abs_top1_drop_pp": 1.775,
+        "mobilevit_s_min_adc_ratio": 0.463
+      },
+      "architecture": {
+        "present": true,
+        "status": "pass",
+        "blockers": [],
+        "workloads": [
+          "bert_base_glue_seq128",
+          "mobilevit_s_transformer_blocks_256"
+        ],
+        "conditions": [
+          "astra_boundary",
+          "hyatten_style",
+          "l1",
+          "lightening_dptc",
+          "random",
+          "signal_only",
+          "slack_only",
+          "suds_l1",
+          "suds_only",
+          "suds_pareto",
+          "suds_signal",
+          "tempo_time_multiplexed",
+          "uniform_4bit",
+          "uniform_8bit"
+        ],
+        "system_terms": [
+          "adc",
+          "dac_mzm",
+          "detector_tia",
+          "laser",
+          "memory",
+          "optical_link",
+          "control_sideband",
+          "digital_fallback"
+        ],
+        "min_pessimistic_edp_gain_pct": 14.602,
+        "min_pessimistic_energy_gain_pct": 14.753,
+        "calibration_parameters": [
+          "adc4_pj",
+          "adc6_pj",
+          "adc8_pj",
+          "astra_stochastic_boundary",
+          "control_pj_per_sideband_group",
+          "cores_per_tile",
+          "dac_pj",
+          "enlighten_l1_boundary",
+          "frequency_ghz",
+          "hyatten_low_resolution_fraction",
+          "lightening_adc_temporal_factor",
+          "phy_nominal_pass_ratio",
+          "phy_pessimistic_laser_multiplier",
+          "selected_adc_sharing",
+          "selected_sideband_group_cols",
+          "sram_global_kib",
+          "sram_subarray_kib",
+          "tempo_time_multiplexing_boundary",
+          "tile_dim",
+          "tiles"
+        ],
+        "glue_link_rows": 126,
+        "glue_link_conditions": [
+          "l1",
+          "lightening_dptc",
+          "slack_only",
+          "suds_l1",
+          "suds_only",
+          "suds_pareto",
+          "suds_signal"
+        ],
+        "artifact": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json",
+        "summary_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv",
+        "parameters_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_parameters.csv",
+        "design_space_rows": 4536,
+        "design_space_pareto_rows": 594,
+        "design_space_json": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.json",
+        "design_space_csv": "experiments/results/report_data/suds_transformer_architecture_design_space_20260513_tetc_pivot.csv",
+        "glue_link_csv": "experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv"
+      },
+      "schedule_metadata": {
+        "status": "pass",
+        "bert_kernel_rows": 1008,
+        "bert_slack_sources": [
+          "dptc_photonic_tile_schedule"
+        ],
+        "schedule_fields_ok": true,
+        "glue_link_rows": 126,
+        "glue_link_conditions": [
+          "l1",
+          "lightening_dptc",
+          "slack_only",
+          "suds_l1",
+          "suds_only",
+          "suds_pareto",
+          "suds_signal"
+        ],
+        "linked_schedule_sources": [
+          "dptc_photonic_tile_schedule"
+        ],
+        "blockers": []
+      },
+      "original_glue_analytical_slack_retained_as_provenance": true
+    },
+    "manuscript_maturity": {
+      "status": "pass",
+      "line_count": 1161,
+      "has_references": true,
+      "has_figures": true,
+      "blockers": []
+    },
+    "calibration_boundary": {
+      "status": "pass",
+      "blockers": []
+    },
+    "red_team_advisory": {
+      "status": "pass",
+      "internal_status": "pass",
+      "external_status": "not_available_in_local_execution",
+      "external_required": false,
+      "external_equivalence": "not_equivalent_to_external_review"
+    },
+    "decision": {
+      "promotion_decision": "science_gate_pass_local_submission_candidate",
+      "required_failures": [],
+      "required_partials": [],
+      "external_red_team_required": false
+    }
+  },
+  "rows": [
+    {
+      "gate_id": "S0",
+      "gate": "Artifact gate is necessary but not sufficient",
+      "required": true,
+      "status": "pass",
+      "evidence": "pivot_decision=tetc_submission_ready; architecture_status=pass",
+      "blockers": "",
+      "next_action": "Keep the pivot gate as artifact-pack readiness only."
+    },
+    {
+      "gate_id": "S1",
+      "gate": "Promoted SUDS Pareto row is competitive against measured same-fabric baselines",
+      "required": true,
+      "status": "pass",
+      "evidence": "bert_base_glue_seq128: suds_pareto edp=0.666 delta=0.000; mobilevit_s_transformer_blocks_256: suds_pareto edp=0.919 delta=-0.015",
+      "blockers": "",
+      "next_action": "Rework the policy, operating point, or claim so SUDS is not dominated by measured same-fabric selectors."
+    },
+    {
+      "gate_id": "S2",
+      "gate": "Promoted accuracy loss stays within a TETC-grade budget",
+      "required": true,
+      "status": "pass",
+      "evidence": "worst_promoted_suds_delta_pp=-0.015",
+      "blockers": "",
+      "next_action": "Target <=1 pp loss for promoted rows or show a full accuracy/EDP Pareto instead of a single headline."
+    },
+    {
+      "gate_id": "S3",
+      "gate": "Transformer workload grounding is hardware-derived enough for the main claim",
+      "required": true,
+      "status": "pass",
+      "evidence": "glue_tasks=sst2,mrpc,mnli,qqp,qnli,rte; devices=mps; mobilevit_completion=1.0; pivot_glue_link_rows=126; schedule_kernel_rows=1008; schedule_link_rows=126; schedule_sources=dptc_photonic_tile_schedule; original_glue_analytical_slack=True",
+      "blockers": "",
+      "next_action": "Replace analytical BERT slack with hardware-derived schedule metadata before calling the route submission-ready."
+    },
+    {
+      "gate_id": "S4",
+      "gate": "Manuscript maturity reaches full journal-paper density",
+      "required": true,
+      "status": "pass",
+      "evidence": "line_count=1161; references=True; figures=True",
+      "blockers": "",
+      "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
+    },
+    {
+      "gate_id": "S5",
+      "gate": "Calibration boundaries remain traceable without circuit overclaim",
+      "required": true,
+      "status": "pass",
+      "evidence": "ADC/RTL/PHY parameters are checked against the pivot architecture summary.",
+      "blockers": "",
+      "next_action": "Keep SPICE/RTL/PHY evidence as calibration, proxy, or boundary evidence only."
+    },
+    {
+      "gate_id": "S6",
+      "gate": "External red-team advisory",
+      "required": false,
+      "status": "pass",
+      "evidence": "internal=pass; external=not_available_in_local_execution; external_required=False; equivalence=not_equivalent_to_external_review",
+      "blockers": "",
+      "next_action": "External red-team remains useful but is not a hard local blocker per user instruction."
+    }
+  ]
+}

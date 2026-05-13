@@ -23,7 +23,6 @@ ARTIFACTS = {
     "pivot_plan": REPO_ROOT / "docs/coordination/active/SUDS_OPTICAL_TRANSFORMER_TETC_PIVOT_PLAN.md",
     "reframe": REPO_ROOT / "paper/suds_tetc_architecture_reframe.md",
     "tetc_manuscript": REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex",
-    "fallback_manuscript": REPO_ROOT / "paper/suds_paper_acmart.tex",
     "architecture": REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}.json",
     "architecture_summary": REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}_summary.csv",
     "architecture_params": REPORT_DATA / f"suds_transformer_architecture_sim_{TAG}_parameters.csv",
@@ -279,16 +278,9 @@ def inspect_circuit() -> dict[str, Any]:
 
 
 def inspect_manuscript() -> dict[str, Any]:
-    text = read_text(ARTIFACTS["fallback_manuscript"])
     tetc_text = read_text(ARTIFACTS["tetc_manuscript"])
-    title_match = re.search(r"\\title\{([^}]*)\}", text)
     tetc_title_match = re.search(r"\\title\{([^}]*)\}", tetc_text)
     return {
-        "present": bool(text),
-        "title": title_match.group(1) if title_match else "",
-        "still_jetc_comment": "JETC" in text[:500],
-        "methodology_title": "The Missing Interface" in text[:2000],
-        "mentions_tetc": "TETC" in text[:5000],
         "tetc_present": bool(tetc_text),
         "tetc_title": tetc_title_match.group(1) if tetc_title_match else "",
         "tetc_architecture_first": "Dynamic Photonic Transformer" in tetc_text[:5000]
@@ -356,18 +348,17 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rows = [
         gate_row(
             "G0",
-            "Route lock and protected fallback",
+            "Route lock and TETC-only active package",
             "pass" if plan_exists and reframe_exists else "fail",
             f"plan={repo_path(ARTIFACTS['pivot_plan'])}; reframe={repo_path(ARTIFACTS['reframe'])}",
             [] if plan_exists and reframe_exists else ["pivot_plan_or_reframe_missing"],
-            "Create the pivot plan and reframe blueprint.",
+            "Keep the active package locked to the IEEE TETC route.",
         ),
         gate_row(
             "G1",
             "Full TETC manuscript source",
             "pass" if g1_ready else ("partial" if tetc_manuscript_ready else "fail"),
             (
-                f"fallback_title={manuscript['title']}; "
                 f"tetc_source={repo_path(ARTIFACTS['tetc_manuscript']) if manuscript['tetc_present'] else 'missing'}; "
                 f"tetc_title={manuscript['tetc_title']}; "
                 f"g1_release={g1_release['status']}; "
@@ -380,7 +371,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 else (
                     ["g1_release_artifacts_not_promoted"]
                     if tetc_manuscript_ready
-                    else ["protected_fallback_manuscript_is_still_methodology_route", "new_tetc_source_missing_or_scaffold_only"]
+                    else ["new_tetc_source_missing_or_scaffold_only"]
                 )
             )
             + ([f"forbidden_terms={','.join(manuscript['tetc_forbidden_terms'])}"] if manuscript["tetc_forbidden_terms"] else []),
@@ -446,7 +437,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "G6",
             "Target journal fit",
             "pass",
-            "Primary route is IEEE TETC; TC is stretch; JSA/protected JETC-methodology package is fallback.",
+            "Primary route is IEEE TETC Technical Track; TC remains a separate future stretch target.",
             [],
             "Recheck CAS/JCR partition in institutional database before final submission.",
             required=False,
@@ -500,7 +491,7 @@ def highest_priority_next_step(
     if "G5" in by_id:
         return "Tie ADC, RTL, and PHY calibration rows into the architecture parameter table."
     if "G1" in by_id:
-        return "Finish G1 manuscript integration, red-team artifact, and public-repro alignment without weakening the protected fallback."
+        return "Finish G1 manuscript integration, red-team artifact, and public-repro alignment for the TETC-only active package."
     if promotion == "tetc_submission_ready":
         return "Run make suds-tetc-science-gate before treating the route as a local submission candidate; external red-team remains advisory."
     return "Complete missing route-lock artifacts."
@@ -543,7 +534,6 @@ Promotion decision: `{decision['promotion_decision']}`
 
 - Primary route: `IEEE TETC architecture-first optical Transformer accelerator`
 - Stretch route: `IEEE Transactions on Computers`
-- Fallback route: `JSA or protected methodology package`
 - Required failures: `{','.join(decision['required_failures']) or 'none'}`
 - Required partials: `{','.join(decision['required_partials']) or 'none'}`
 - Highest-priority next step: {decision['highest_priority_next_step']}
@@ -584,9 +574,9 @@ local architecture, manuscript, red-team substitute, public-repro alignment,
 and calibration artifacts exist and agree on claim boundaries. It is still
 not the final science-strength gate. Final local submission-candidate wording
 must additionally pass `make suds-tetc-science-gate`. The simulator is modeled
-system PPA, not bench-energy or circuit signoff. The protected methodology
-manuscript remains available as fallback provenance, but it is no longer the
-active route for this artifact gate.
+system PPA, not bench-energy or circuit signoff. Legacy methodology-route
+materials are archival provenance only and are not part of the active TETC
+submission route for this artifact gate.
 
 ## Regeneration
 

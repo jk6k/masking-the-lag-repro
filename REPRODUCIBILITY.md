@@ -14,7 +14,7 @@ This checks:
 
 - freeze pointer consistency
 - SUDS figure numbering and traceability
-- phase-summary, slack-manifest, MAX-Q report-data, and AI schematic source inputs
+- phase-summary, slack-manifest, TETC report-data, and source figure inputs
 - checksum validation for tracked static artifacts
 - absence of datasets, weights, private KB material, archives, trial drafts, real author identity, personal remotes, and absolute local paths
 - clean tracked public surface when the directory is a Git checkout
@@ -33,7 +33,7 @@ source masters, and metadata rather than final figure-pack images.
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
-- MAX-Q report data: `experiments/results/report_data/`
+- TETC report data: `experiments/results/report_data/`
 - Figure metadata: `figures/paper_figures_20260511_suds_maxq/`
 - Figure registry: `figures/paper_figures_20260511_suds_maxq/figure_numbering_registry.csv`
 - Traceability: `figures/paper_figures_20260511_suds_maxq/figure_traceability.csv`
@@ -42,14 +42,13 @@ source masters, and metadata rather than final figure-pack images.
 
 ## Claim Boundary
 
-The public freeze supports the SUDS paper's scoped evidence surface: accepted
-AI schematics, modeled analytical figures, measured accuracy summaries for
-MobileViT-S and minimum GLUE/BERT tasks, calibrated energy-sensitivity tables,
-interface-overhead accounting, boundary/counterexample suite,
-synthetic-supporting stress checks, parametric PHY checks, and figure
-traceability. It does not promote universal scaling, silicon measurement,
-SPICE closure, measured hardware energy, broad workload generalization,
-deployment readiness, or hardware superiority.
+The public freeze supports the SUDS IEEE TETC scoped evidence surface:
+architecture-modeled PPA, governed measured accuracy summaries for MobileViT-S
+and GLUE/BERT tasks, calibrated ADC/RTL/PHY parameter inputs, design-space
+sweeps, public-repro alignment, local red-team review, and figure traceability.
+It does not promote universal scaling, silicon measurement, SPICE closure,
+measured hardware energy, broad workload generalization, deployment readiness,
+or hardware superiority.
 
 ## Full Rerun Boundary
 

@@ -4,7 +4,6 @@ Date: `2026-05-13`
 Status: `local final gate passed; local submission candidate`
 Primary route: `IEEE TETC architecture-first optical Transformer accelerator`
 Stretch route: `IEEE Transactions on Computers after stronger architecture baselines`
-Fallback route: `JSA or protected 20260512 JETC/JSA-methodology package`
 
 ## 0. Purpose
 
@@ -18,8 +17,8 @@ paper. The new thesis is:
 > model or signal selectors for ADC precision, degradation, and pruning
 > decisions.
 
-The old JETC package remains a protected fallback. New work must not weaken or
-overwrite the protected fallback unless the TETC gate promotes it.
+Legacy methodology-route artifacts are archival provenance only. New work for
+this plan must stay on the IEEE TETC architecture-first route.
 
 ## 1. Hard Rules
 
@@ -68,8 +67,8 @@ Deliverables:
   contribution order, figure/table map, and wording restrictions.
 - `docs/reports/20260513_suds_optical_transformer_tetc_pivot_gate.md` records
   the current readiness state.
-- `paper/suds_paper_acmart.tex` stays protected as the fallback manuscript
-  until the gate promotes a new full TETC manuscript source.
+- `paper/suds_tetc_architecture_manuscript.tex` is the active manuscript
+  source for the TETC route.
 
 Acceptance:
 
@@ -215,7 +214,6 @@ Acceptance:
 
 ## 4. Current Known State
 
-- Current fallback manuscript is still protected.
 - Current TETC manuscript source exists at
   `paper/suds_tetc_architecture_manuscript.tex`, and G1 is promoted by
   `docs/reports/20260513_suds_tetc_internal_red_team.md`,
@@ -232,7 +230,8 @@ Acceptance:
   science-strength gate, or strict final gate. The latest strict target
   `make suds-tetc-final-gate` exits successfully and the science decision is
   `science_gate_pass_local_submission_candidate`. External red-team remains
-  advisory rather than mandatory.
+  advisory rather than mandatory, but it is still the highest-value
+  pre-submission risk reducer.
 
 ## 5. Regeneration
 

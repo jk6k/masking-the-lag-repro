@@ -178,11 +178,6 @@
       "phy_pass_ratio": 0.601
     },
     "manuscript": {
-      "present": true,
-      "title": "The Missing Interface: Timing Slack as a Quality-Budget Signal for Photonic/DPTC Resource Control",
-      "still_jetc_comment": true,
-      "methodology_title": true,
-      "mentions_tetc": false,
       "tetc_present": true,
       "tetc_title": "Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators",
       "tetc_architecture_first": true,
@@ -198,19 +193,19 @@
   "rows": [
     {
       "gate_id": "G0",
-      "gate": "Route lock and protected fallback",
+      "gate": "Route lock and TETC-only active package",
       "required": true,
       "status": "pass",
       "evidence": "plan=docs/coordination/active/SUDS_OPTICAL_TRANSFORMER_TETC_PIVOT_PLAN.md; reframe=paper/suds_tetc_architecture_reframe.md",
       "blockers": "",
-      "next_action": "Create the pivot plan and reframe blueprint."
+      "next_action": "Keep the active package locked to the IEEE TETC route."
     },
     {
       "gate_id": "G1",
       "gate": "Full TETC manuscript source",
       "required": true,
       "status": "pass",
-      "evidence": "fallback_title=The Missing Interface: Timing Slack as a Quality-Budget Signal for Photonic/DPTC Resource Control; tetc_source=paper/suds_tetc_architecture_manuscript.tex; tetc_title=Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators; g1_release=pass; red_team=pass; public_repro=pass/pass",
+      "evidence": "tetc_source=paper/suds_tetc_architecture_manuscript.tex; tetc_title=Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators; g1_release=pass; red_team=pass; public_repro=pass/pass",
       "blockers": "",
       "next_action": "Keep the architecture-first TETC source promoted only while manuscript, red-team, and public-repro alignment artifacts pass."
     },
@@ -255,7 +250,7 @@
       "gate": "Target journal fit",
       "required": false,
       "status": "pass",
-      "evidence": "Primary route is IEEE TETC; TC is stretch; JSA/protected JETC-methodology package is fallback.",
+      "evidence": "Primary route is IEEE TETC Technical Track; TC remains a separate future stretch target.",
       "blockers": "",
       "next_action": "Recheck CAS/JCR partition in institutional database before final submission."
     }
