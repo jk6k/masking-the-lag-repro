@@ -20,21 +20,17 @@
     "public_repro_validation": {
       "status": "fail",
       "public_root": "<public_repro>",
-      "validation_error_count": 5,
+      "validation_error_count": 1,
       "validation_errors": [
-        "generated_public_repro_missing:experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.csv",
-        "generated_public_repro_missing:experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
-        "generated_public_repro_missing:docs/reports/20260514_suds_tetc_external_red_team.md",
-        "generated_public_repro_missing:docs/reports/20260514_suds_tetc_major_revision_response_scaffold.md",
-        "generated_public_repro_missing:experiments/tools/build_suds_tetc_external_red_team.py"
+        "banned public text token '<banned_public_text_token>' in experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json"
       ]
     },
     "public_text_leak_audit": {
       "status": "fail",
       "matches": [
         {
-          "path": "experiments/tools/render_suds_maxq_fig6_ablation.py",
-          "token": "paper_figures_20260511_suds_maxq"
+          "path": "experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
+          "token": "<banned_public_text_token>"
         }
       ],
       "match_count": 1

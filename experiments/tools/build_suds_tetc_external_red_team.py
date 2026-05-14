@@ -137,7 +137,7 @@ def public_repro_validation(public_root: Path, manifest: dict[str, Any]) -> dict
 
     report = validate(public_root)
     generated_manifest = load_json(public_root / "configs/public_repro_manifest.json")
-    errors = list(report.errors)
+    errors = [redact_tokens(error, manifest) for error in report.errors]
     if generated_manifest.get("tetc_evidence_tag") != TAG:
         errors.append(f"generated_manifest_tetc_evidence_tag_not_{TAG}")
     for rel_path in REQUIRED_PUBLIC_REPRO_PATHS:
@@ -160,12 +160,23 @@ def built_in_private_tokens() -> set[str]:
     }
 
 
+def redaction_tokens(manifest: dict[str, Any]) -> set[str]:
+    return built_in_private_tokens() | {
+        str(item) for item in manifest.get("banned_public_text_tokens", [])
+    }
+
+
+def redact_tokens(text: str, manifest: dict[str, Any]) -> str:
+    for token in sorted(redaction_tokens(manifest), key=len, reverse=True):
+        if token:
+            text = text.replace(token, "<banned_public_text_token>")
+    return text
+
+
 def public_text_leak_audit(public_root: Path, manifest: dict[str, Any]) -> dict[str, Any]:
     if not public_root.exists():
         return {"status": "missing", "matches": []}
-    tokens = built_in_private_tokens() | {
-        str(item) for item in manifest.get("banned_public_text_tokens", [])
-    }
+    tokens = redaction_tokens(manifest)
     matches: list[dict[str, str]] = []
     for path in sorted(public_root.rglob("*")):
         if ".git" in path.parts or not path.is_file():
@@ -181,7 +192,7 @@ def public_text_leak_audit(public_root: Path, manifest: dict[str, Any]) -> dict[
             continue
         for token in sorted(tokens):
             if token and token in text:
-                matches.append({"path": rel, "token": token})
+                matches.append({"path": rel, "token": "<banned_public_text_token>"})
     return {
         "status": "pass" if not matches else "fail",
         "matches": matches[:40],

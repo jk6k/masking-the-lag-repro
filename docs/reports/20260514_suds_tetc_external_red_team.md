@@ -11,7 +11,7 @@ Stop-condition state: `R11 hard stop: public package leak detected`
 - Manifest audit: `pass`
 - Generated package validation: `fail`
 - Public text leak audit: `fail`
-- Validation error count: `5`
+- Validation error count: `1`
 - Text leak match count: `1`
 
 Required live commands:

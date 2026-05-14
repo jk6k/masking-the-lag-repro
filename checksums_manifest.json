@@ -152,7 +152,7 @@
     },
     {
       "path": "docs/reports/20260514_suds_tetc_external_red_team.md",
-      "sha256": "d9b97c4a9976d444ec3d77bb2b9995a8b89321238f024b0da24aa8bd8bb46fec",
+      "sha256": "781231d97b5a231a10cf163401123c064fbf357365f21949639f7a2353c795d2",
       "size_bytes": 3854
     },
     {
@@ -402,8 +402,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
-      "sha256": "4db7314613befe62a96933295993daecc24fc9fa732119d8bb10112cc755b2bb",
-      "size_bytes": 5832
+      "sha256": "86da2f36172a55c912c8049057823110921073c370b153693119099e2fe5f6da",
+      "size_bytes": 5457
     },
     {
       "path": "experiments/results/report_data/suds_tetc_failure_suite_20260513_tetc_pivot.csv",
@@ -1032,8 +1032,8 @@
     },
     {
       "path": "experiments/tools/build_suds_tetc_external_red_team.py",
-      "sha256": "5786aec93b02853b7340a7480abb419152f3cf22c99c69dc9c339907013d61d2",
-      "size_bytes": 19971
+      "sha256": "235a0a9e71d44102f284fc18f83efcc3b74ee0ae9f37b77b9191ddbfc1ff1de0",
+      "size_bytes": 20378
     },
     {
       "path": "experiments/tools/build_suds_tetc_failure_uncertainty.py",
