@@ -3,16 +3,16 @@
 Date: `2026-05-14`
 Tag: `20260513_tetc_pivot`
 Evidence label: `r11_public_mini_benchmark_external_red_team`
-Status: `fail`
-Stop-condition state: `R11 hard stop: public package leak detected`
+Status: `pass`
+Stop-condition state: `no R11 hard stop`
 
 ## Public Mini Benchmark
 
 - Manifest audit: `pass`
-- Generated package validation: `fail`
-- Public text leak audit: `fail`
-- Validation error count: `1`
-- Text leak match count: `1`
+- Generated package validation: `pass`
+- Public text leak audit: `pass`
+- Validation error count: `0`
+- Text leak match count: `0`
 
 Required live commands:
 
@@ -54,8 +54,3 @@ Ask one or two external readers to review these four questions:
 
 External feedback should be resolved by either a code/data fix, a
 manuscript claim change, or an explicit accepted-risk entry before upload.
-
-## Blockers
-
-- `public_repro_validation_fail`
-- `public_text_leak_audit_fail`

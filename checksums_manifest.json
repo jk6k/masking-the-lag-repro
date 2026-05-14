@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/reports/20260514_suds_tetc_external_red_team.md",
-      "sha256": "781231d97b5a231a10cf163401123c064fbf357365f21949639f7a2353c795d2",
-      "size_bytes": 3854
+      "sha256": "bf3ffeae0522da0ff48a32ac68fd4aee79a13cf97375b19252e58d014ebe6ffc",
+      "size_bytes": 3748
     },
     {
       "path": "docs/reports/20260514_suds_tetc_major_revision_response_scaffold.md",
@@ -402,8 +402,8 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
-      "sha256": "86da2f36172a55c912c8049057823110921073c370b153693119099e2fe5f6da",
-      "size_bytes": 5457
+      "sha256": "4cee2056f5effa612bc9e77cff15f1a6159d8904177b4405f4e39a333751c714",
+      "size_bytes": 5011
     },
     {
       "path": "experiments/results/report_data/suds_tetc_failure_suite_20260513_tetc_pivot.csv",

@@ -8,8 +8,8 @@
   "summary": {
     "date": "2026-05-14",
     "tag": "20260513_tetc_pivot",
-    "r11_acceptance_state": "fail",
-    "stop_condition_state": "R11 hard stop: public package leak detected",
+    "r11_acceptance_state": "pass",
+    "stop_condition_state": "no R11 hard stop",
     "manifest_audit": {
       "status": "pass",
       "missing_copy_files": [],
@@ -18,22 +18,15 @@
       "blockers": []
     },
     "public_repro_validation": {
-      "status": "fail",
+      "status": "pass",
       "public_root": "<public_repro>",
-      "validation_error_count": 1,
-      "validation_errors": [
-        "banned public text token '<banned_public_text_token>' in experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json"
-      ]
+      "validation_error_count": 0,
+      "validation_errors": []
     },
     "public_text_leak_audit": {
-      "status": "fail",
-      "matches": [
-        {
-          "path": "experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
-          "token": "<banned_public_text_token>"
-        }
-      ],
-      "match_count": 1
+      "status": "pass",
+      "matches": [],
+      "match_count": 0
     },
     "external_reader_status": "packet_ready_not_sent_from_codex",
     "external_issue_policy": "fixed_or_accepted_risk",
@@ -45,10 +38,7 @@
       "make public-repro-render",
       "make public-repro-check"
     ],
-    "blockers": [
-      "public_repro_validation_fail",
-      "public_text_leak_audit_fail"
-    ]
+    "blockers": []
   },
   "rows": [
     {
