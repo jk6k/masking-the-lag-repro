@@ -172,6 +172,28 @@
         "no local governed DeiT-Tiny weights/dataset accuracy run found; R9 emits simulator-only traces instead of hiding the setup blocker"
       ]
     },
+    "failure_uncertainty": {
+      "status": "pass",
+      "blockers": [],
+      "acceptance": "pass",
+      "stop_condition": "no R10 hard stop; target-regime uncertainty preserves positive EDP advantage",
+      "rows": 29,
+      "families": [
+        "activation_sensitive_layers",
+        "conversion_dominated_boundary",
+        "high_memory_pressure",
+        "long_sequence",
+        "low_slack",
+        "signal_only_dominant",
+        "small_batch"
+      ],
+      "missing_required_families": [],
+      "should_not_use_rows": 28,
+      "target_min_ci95_lower_pct": 5.838487076004698,
+      "target_crosses_zero": false,
+      "boundary_crosses_zero": true,
+      "accuracy_seed_bootstrap_ok": true
+    },
     "workload_grounding": {
       "status": "pass",
       "blockers": [],
@@ -326,7 +348,7 @@
     },
     "manuscript_maturity": {
       "status": "pass",
-      "line_count": 1422,
+      "line_count": 1439,
       "has_references": true,
       "has_figures": true,
       "blockers": []
@@ -418,7 +440,7 @@
       "gate": "Manuscript maturity reaches full journal-paper density",
       "required": true,
       "status": "pass",
-      "evidence": "line_count=1422; references=True; figures=True",
+      "evidence": "line_count=1439; references=True; figures=True",
       "blockers": "",
       "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
     },
@@ -466,6 +488,15 @@
       "evidence": "r8=pass; stop=no R8 hard stop; ranges remain calibration and boundary evidence only; rows=13; adc_macro=measured; phy_pass=346; phy_fail=230; r6=pass; r7=pass; checksums=True; provenance=True; monotonic=True; claim_scan=pass; forbidden_matches=0",
       "blockers": "",
       "next_action": "Regenerate R8 and keep the paper wording at calibration/boundary level if device closure is absent."
+    },
+    {
+      "gate_id": "S5e",
+      "gate": "R10 failure cases and uncertainty bound the promoted claim",
+      "required": true,
+      "status": "pass",
+      "evidence": "r10=pass; stop=no R10 hard stop; target-regime uncertainty preserves positive EDP advantage; rows=29; families=activation_sensitive_layers,conversion_dominated_boundary,high_memory_pressure,long_sequence,low_slack,signal_only_dominant,small_batch; should_not_use_rows=28; target_min_ci95_lower_pct=5.838487076004698; target_crosses_zero=False; boundary_crosses_zero=True; accuracy_bootstrap=True",
+      "blockers": "",
+      "next_action": "Regenerate R10 and narrow the manuscript claim if target-regime uncertainty crosses zero advantage."
     },
     {
       "gate_id": "S6",

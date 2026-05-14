@@ -22,7 +22,7 @@ make render-paper-figures
 `make repro-check` validates the freeze pointer, SUDS figure registry,
 traceability, artifact paths, SHA-256 checksum manifest, anonymous package
 boundary, and exclusion of private materials. `make render-paper-figures`
-rerenders Fig1-Fig6 and Fig.A1-Fig.A4 into `build/rendered_figures/`.
+rerenders Fig1-Fig4 into `build/rendered_figures/`.
 
 ## Public Evidence Surface
 
@@ -47,10 +47,10 @@ are fixed in the TETC figure traceability metadata.
 The package supports paper inspection, traceability review, and local
 figure-regeneration from compact source artifacts. It includes architecture
 simulation, calibration, public-repro alignment, and local red-team compact
-data. It does not include private
-datasets, model weights, private literature mirrors, trial drafts, candidate
-histories, historical FULLER freeze payloads, personal remotes, or absolute
-local paths.
+data, R11 external-review accepted-risk records, and the major-revision
+response scaffold. It does not include private datasets, model weights,
+private literature mirrors, trial drafts, candidate histories, historical
+FULLER freeze payloads, personal remotes, or absolute local paths.
 
 Full accelerator-backed reruns are outside this anonymous compact package. On
 the project Mac, those governed maintainer reruns require Apple Silicon `mps`

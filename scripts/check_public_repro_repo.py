@@ -215,6 +215,25 @@ def _metadata_text_paths(manifest: dict[str, Any]) -> list[Path]:
     ]
 
 
+def _public_text_surface_tokens(manifest: dict[str, Any]) -> set[str]:
+    return _built_in_private_metadata_tokens() | _list_field(manifest, "banned_public_text_tokens")
+
+
+def _is_text_surface_file(path: Path) -> bool:
+    return path.suffix.lower() in {
+        ".csv",
+        ".json",
+        ".md",
+        ".tex",
+        ".txt",
+        ".log",
+        ".py",
+        ".v",
+        ".yml",
+        ".yaml",
+    } or path.name in {"Makefile", ".gitattributes", ".gitignore"}
+
+
 def _check_required(report: Report, manifest: dict[str, Any]) -> None:
     for rel_path in _required_files(manifest):
         if not (report.root / rel_path).is_file():
@@ -259,6 +278,25 @@ def _check_metadata_text(report: Report, manifest: dict[str, Any]) -> None:
         for token in banned_tokens:
             if token in text:
                 report.add(f"banned metadata token {token!r} in {rel_path.as_posix()}")
+
+
+def _check_public_text_surface(report: Report, manifest: dict[str, Any]) -> None:
+    banned_tokens = _public_text_surface_tokens(manifest)
+    if not banned_tokens:
+        return
+    for path in _iter_files(report.root):
+        rel = _rel(report.root, path)
+        if rel == MANIFEST_JSON.as_posix():
+            continue
+        if _is_allowed_local_path(rel, manifest) or not _is_text_surface_file(path):
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        for token in banned_tokens:
+            if token in text:
+                report.add(f"banned public text token {token!r} in {rel}")
 
 
 def _check_freeze(report: Report, manifest: dict[str, Any]) -> None:
@@ -599,6 +637,7 @@ def validate(root: Path) -> Report:
     _check_required(report, manifest)
     _check_banned_paths(report, manifest)
     _check_metadata_text(report, manifest)
+    _check_public_text_surface(report, manifest)
     _check_freeze(report, manifest)
     _check_public_repro_inputs(report, manifest)
     _check_checksums(report, manifest)

@@ -29,6 +29,8 @@ SYSTEM_SENSITIVITY_JSON = REPORT_DATA / f"suds_tetc_system_sensitivity_{TAG}.jso
 RTL_CONTROL_PLANE_JSON = REPORT_DATA / f"suds_tetc_rtl_control_plane_{TAG}.json"
 CALIBRATION_RANGES_JSON = REPORT_DATA / f"suds_tetc_calibration_ranges_{TAG}.json"
 WORKLOAD_EXPANSION_JSON = REPORT_DATA / f"suds_tetc_workload_expansion_{TAG}.json"
+FAILURE_UNCERTAINTY_JSON = REPORT_DATA / f"suds_tetc_uncertainty_{TAG}.json"
+EXTERNAL_RED_TEAM_JSON = REPORT_DATA / f"suds_tetc_external_red_team_{TAG}.json"
 MANUSCRIPT = REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex"
 INTERNAL_RED_TEAM_JSON = REPORT_DATA / f"suds_tetc_internal_red_team_{TAG}.json"
 
@@ -464,6 +466,82 @@ def workload_expansion_boundary() -> dict[str, Any]:
     }
 
 
+def failure_uncertainty_boundary() -> dict[str, Any]:
+    payload = load_json(FAILURE_UNCERTAINTY_JSON)
+    summary = payload.get("summary", {})
+    decision = summary.get("decision", {})
+    failure_suite = summary.get("failure_suite", {})
+    target = summary.get("target_regime_uncertainty", {})
+    boundary = summary.get("boundary_regime_uncertainty", {})
+    accuracy = summary.get("accuracy_seed_uncertainty", {})
+    blockers = list(decision.get("blockers") or [])
+    if decision.get("r10_acceptance_state") != "pass":
+        blockers.append("r10_acceptance_state_not_pass")
+    if decision.get("target_regime_uncertainty_crosses_zero_advantage"):
+        blockers.append("r10_target_uncertainty_crosses_zero_advantage")
+    if not decision.get("all_required_failure_families_present"):
+        blockers.append("r10_failure_family_coverage_incomplete")
+    if not decision.get("all_promoted_seed_bootstrap_within_accuracy_budget"):
+        blockers.append("r10_accuracy_seed_bootstrap_outside_budget")
+    if not decision.get("claim_narrowing_required_for_boundary_cases"):
+        blockers.append("r10_boundary_claim_narrowing_not_recorded")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": decision.get("r10_acceptance_state", "missing"),
+        "stop_condition": decision.get("stop_condition_state", "missing"),
+        "rows": failure_suite.get("rows", 0),
+        "families": failure_suite.get("families", []),
+        "missing_required_families": failure_suite.get("missing_required_families", []),
+        "should_not_use_rows": failure_suite.get("should_not_use_rows", 0),
+        "target_min_ci95_lower_pct": target.get("minimum_ci95_lower_pct"),
+        "target_crosses_zero": target.get("any_crosses_zero_advantage", "missing"),
+        "boundary_crosses_zero": boundary.get("any_crosses_zero_advantage", "missing"),
+        "accuracy_seed_bootstrap_ok": accuracy.get(
+            "all_promoted_seed_bootstrap_within_accuracy_budget", False
+        ),
+    }
+
+
+def public_mini_benchmark_boundary() -> dict[str, Any]:
+    payload = load_json(EXTERNAL_RED_TEAM_JSON)
+    summary = payload.get("summary", {})
+    manifest = summary.get("manifest_audit", {})
+    validation = summary.get("public_repro_validation", {})
+    text_scan = summary.get("public_text_leak_audit", {})
+    rows = payload.get("rows", [])
+    blockers = list(summary.get("blockers") or [])
+    if summary.get("r11_acceptance_state") != "pass":
+        blockers.append("r11_acceptance_state_not_pass")
+    if summary.get("stop_condition_state") != "no R11 hard stop":
+        blockers.append("r11_stop_condition_triggered")
+    if manifest.get("status") != "pass":
+        blockers.append("r11_manifest_audit_not_pass")
+    if validation.get("status") != "pass":
+        blockers.append("r11_public_repro_validation_not_pass")
+    if text_scan.get("status") != "pass":
+        blockers.append("r11_public_text_leak_audit_not_pass")
+    if summary.get("external_issue_policy") != "fixed_or_accepted_risk":
+        blockers.append("r11_external_issue_policy_not_closed")
+    if len(rows) < 5:
+        blockers.append("r11_external_issue_rows_incomplete")
+    return {
+        "status": "pass" if not blockers else "fail",
+        "blockers": sorted(set(blockers)),
+        "acceptance": summary.get("r11_acceptance_state", "missing"),
+        "stop_condition": summary.get("stop_condition_state", "missing"),
+        "manifest_status": manifest.get("status", "missing"),
+        "public_repro_validation_status": validation.get("status", "missing"),
+        "public_validation_error_count": validation.get("validation_error_count", "missing"),
+        "public_text_leak_status": text_scan.get("status", "missing"),
+        "public_text_leak_match_count": text_scan.get("match_count", 0),
+        "external_reader_status": summary.get("external_reader_status", "missing"),
+        "external_issue_policy": summary.get("external_issue_policy", "missing"),
+        "accepted_risk_count": summary.get("accepted_risk_count", 0),
+        "fixed_issue_count": summary.get("fixed_issue_count", 0),
+    }
+
+
 def manuscript_maturity() -> dict[str, Any]:
     text = MANUSCRIPT.read_text(encoding="utf-8", errors="replace") if MANUSCRIPT.is_file() else ""
     has_references = "\\bibliography" in text or "\\begin{thebibliography}" in text
@@ -627,6 +705,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rtl_control = rtl_control_plane_boundary()
     calibration_ranges = calibration_ranges_boundary()
     workload_expansion = workload_expansion_boundary()
+    failure_uncertainty = failure_uncertainty_boundary()
+    public_mini_benchmark = public_mini_benchmark_boundary()
     workload = workload_grounding(pivot, architecture)
     maturity = manuscript_maturity()
     calibration = calibration_boundary(pivot)
@@ -826,6 +906,24 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "Regenerate R8 and keep the paper wording at calibration/boundary level if device closure is absent.",
         ),
         gate_row(
+            "S5e",
+            "R10 failure cases and uncertainty bound the promoted claim",
+            failure_uncertainty["status"],
+            (
+                f"r10={failure_uncertainty['acceptance']}; "
+                f"stop={failure_uncertainty['stop_condition']}; "
+                f"rows={failure_uncertainty['rows']}; "
+                f"families={','.join(failure_uncertainty['families'])}; "
+                f"should_not_use_rows={failure_uncertainty['should_not_use_rows']}; "
+                f"target_min_ci95_lower_pct={failure_uncertainty['target_min_ci95_lower_pct']}; "
+                f"target_crosses_zero={failure_uncertainty['target_crosses_zero']}; "
+                f"boundary_crosses_zero={failure_uncertainty['boundary_crosses_zero']}; "
+                f"accuracy_bootstrap={failure_uncertainty['accuracy_seed_bootstrap_ok']}"
+            ),
+            failure_uncertainty["blockers"],
+            "Regenerate R10 and narrow the manuscript claim if target-regime uncertainty crosses zero advantage.",
+        ),
+        gate_row(
             "S6",
             "External red-team advisory",
             red_team["status"],
@@ -836,6 +934,26 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             [] if red_team["status"] == "pass" else ["internal_red_team_missing_or_failed"],
             "External red-team remains useful but is not a hard local blocker per user instruction.",
             required=False,
+        ),
+        gate_row(
+            "S7",
+            "R11 public mini-benchmark and external accepted-risk record passes",
+            public_mini_benchmark["status"],
+            (
+                f"r11={public_mini_benchmark['acceptance']}; "
+                f"stop={public_mini_benchmark['stop_condition']}; "
+                f"manifest={public_mini_benchmark['manifest_status']}; "
+                f"public_repro={public_mini_benchmark['public_repro_validation_status']}; "
+                f"validation_errors={public_mini_benchmark['public_validation_error_count']}; "
+                f"text_scan={public_mini_benchmark['public_text_leak_status']}; "
+                f"text_matches={public_mini_benchmark['public_text_leak_match_count']}; "
+                f"external={public_mini_benchmark['external_reader_status']}; "
+                f"policy={public_mini_benchmark['external_issue_policy']}; "
+                f"fixed={public_mini_benchmark['fixed_issue_count']}; "
+                f"accepted_risks={public_mini_benchmark['accepted_risk_count']}"
+            ),
+            public_mini_benchmark["blockers"],
+            "Regenerate R11 and rerun public-repro build/check/render/check before treating the public package as reviewer-checkable.",
         ),
     ]
 
@@ -851,6 +969,8 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "rtl_control_plane": rtl_control,
         "calibration_ranges": calibration_ranges,
         "workload_expansion": workload_expansion,
+        "failure_uncertainty": failure_uncertainty,
+        "public_mini_benchmark": public_mini_benchmark,
         "workload_grounding": workload,
         "manuscript_maturity": maturity,
         "calibration_boundary": calibration,

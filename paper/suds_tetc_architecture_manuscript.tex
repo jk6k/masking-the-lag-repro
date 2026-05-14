@@ -274,6 +274,11 @@ The reinforced R6 artifact also adds combined stress grids over conversion,
 link, memory, sequence length, ADC energy, and sideband overhead, plus stacked
 boundary scenarios. These rows are used to mark valid regions and failure
 boundaries; they are not promoted as realistic operating regimes.
+The R10 failure/uncertainty audit makes this boundary explicit: target-regime
+Monte Carlo over PPA parameters and threshold jitter keeps the 95\% EDP
+improvement interval positive for both promoted workloads, while boundary
+draws and counterexample rows identify where SUDS should be disabled, kept as
+simulator-only evidence, or replaced by local selector context.
 
 \begin{figure}[t]
 \centering
@@ -853,6 +858,11 @@ overhead.
 The named nominal, optimistic, and pessimistic regimes preserve the bounded
 promoted claim, and the extreme DAC/MZM rows are retained as boundary evidence
 rather than hidden.
+The R10 uncertainty artifact adds bootstrap confidence intervals for the
+measured accuracy seeds and Monte Carlo intervals for the target PPA regime;
+it also records low-slack, high-memory-pressure, small-batch, long-sequence,
+activation-sensitive, and signal-only-dominant cases where SUDS should not be
+used as a promoted universal policy.
 
 \section{Design-Space Sweep}
 
@@ -1197,6 +1207,7 @@ Pareto design space & \path{experiments/results/report_data/suds_tetc_pareto_des
 System sensitivity & \path{experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json} & R6 memory/conversion/link valid-regime and boundary audit \\
 RTL control plane & \path{experiments/results/report_data/suds_tetc_rtl_control_plane_20260513_tetc_pivot.json} & R7 control-sideband synthesis proxy and simulator linkage \\
 Calibration ranges & \path{experiments/results/report_data/suds_tetc_calibration_ranges_20260513_tetc_pivot.json} & R8 ADC and photonic nominal/pessimistic/boundary range audit \\
+Failure and uncertainty & \path{experiments/results/report_data/suds_tetc_uncertainty_20260513_tetc_pivot.json} & R10 counterexamples, bootstrap intervals, and target-regime Monte Carlo \\
 Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule
@@ -1265,6 +1276,12 @@ conversion dominance.
 The R8 calibration-range artifact similarly keeps ADC and photonic parameter
 ranges at calibration and boundary level; it does not convert the simulator into
 device-solver, foundry, extracted-layout, silicon, or bench-energy evidence.
+The R10 failure suite further bounds use of the interface: near-deadline
+low-slack kernels should fall back to keep-all or disabled control,
+memory-dominated regimes can reduce the margin, small-batch and long-sequence
+expansions require their own measured MPS accuracy before promotion, and
+signal-only rows remain selector-boundary evidence rather than proof of
+universal SUDS dominance.
 
 \section{Conclusion}
 

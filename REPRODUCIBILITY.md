@@ -16,7 +16,7 @@ This checks:
 - SUDS figure numbering and traceability
 - phase-summary, slack-manifest, TETC report-data, and source figure inputs
 - checksum validation for tracked static artifacts
-- absence of datasets, weights, private KB material, archives, trial drafts, real author identity, personal remotes, and absolute local paths
+- absence of datasets, weights, private KB material, archives, trial drafts, real author identity, personal remotes, absolute local paths, and active legacy-route entry points
 - clean tracked public surface when the directory is a Git checkout
 
 Render the paper figures into ignored build outputs:
@@ -46,9 +46,10 @@ The public freeze supports the SUDS IEEE TETC scoped evidence surface:
 architecture-modeled PPA, governed measured accuracy summaries for MobileViT-S
 and GLUE/BERT tasks, calibrated ADC/RTL/PHY parameter inputs, design-space
 sweeps, public-repro alignment, local red-team review, and figure traceability.
-It does not promote universal scaling, silicon measurement, SPICE closure,
-measured hardware energy, broad workload generalization, deployment readiness,
-or hardware superiority.
+It also carries the R11 external-review accepted-risk record and
+major-revision response scaffold. It does not promote universal scaling,
+silicon measurement, SPICE closure, measured hardware energy, broad workload
+generalization, deployment readiness, or hardware superiority.
 
 ## Full Rerun Boundary
 

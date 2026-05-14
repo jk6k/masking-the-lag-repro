@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "tag": "20260513_tetc_pivot",
+    "artifact_id": "suds_tetc_external_red_team_20260513_tetc_pivot",
+    "evidence_label": "r11_public_mini_benchmark_external_red_team",
+    "regeneration_command": "make suds-tetc-external-red-team"
+  },
+  "summary": {
+    "date": "2026-05-14",
+    "tag": "20260513_tetc_pivot",
+    "r11_acceptance_state": "fail",
+    "stop_condition_state": "R11 hard stop: public package leak detected",
+    "manifest_audit": {
+      "status": "pass",
+      "missing_copy_files": [],
+      "missing_required_files": [],
+      "missing_required_report_data_files": [],
+      "blockers": []
+    },
+    "public_repro_validation": {
+      "status": "fail",
+      "public_root": "<public_repro>",
+      "validation_error_count": 5,
+      "validation_errors": [
+        "generated_public_repro_missing:experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.csv",
+        "generated_public_repro_missing:experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
+        "generated_public_repro_missing:docs/reports/20260514_suds_tetc_external_red_team.md",
+        "generated_public_repro_missing:docs/reports/20260514_suds_tetc_major_revision_response_scaffold.md",
+        "generated_public_repro_missing:experiments/tools/build_suds_tetc_external_red_team.py"
+      ]
+    },
+    "public_text_leak_audit": {
+      "status": "fail",
+      "matches": [
+        {
+          "path": "experiments/tools/render_suds_maxq_fig6_ablation.py",
+          "token": "paper_figures_20260511_suds_maxq"
+        }
+      ],
+      "match_count": 1
+    },
+    "external_reader_status": "packet_ready_not_sent_from_codex",
+    "external_issue_policy": "fixed_or_accepted_risk",
+    "accepted_risk_count": 1,
+    "fixed_issue_count": 4,
+    "public_repro_commands": [
+      "make public-repro-build",
+      "make public-repro-check",
+      "make public-repro-render",
+      "make public-repro-check"
+    ],
+    "blockers": [
+      "public_repro_validation_fail",
+      "public_text_leak_audit_fail"
+    ]
+  },
+  "rows": [
+    {
+      "issue_id": "R11-EXT0",
+      "lens": "external_independence",
+      "severity": "medium",
+      "status": "accepted_risk",
+      "finding": "No independent reader could be contacted from this local Codex execution.",
+      "resolution": "The public packet and request questions are ready; the manuscript and reports state that the local substitute is not equivalent to external review.",
+      "claim_change": "Keep external red-team review preferred before submission, advisory in local gates, and not counted as independent validation.",
+      "evidence": "paper/suds_tetc_architecture_manuscript.tex; docs/reports/20260513_suds_tetc_pre_review_major_revision.md"
+    },
+    {
+      "issue_id": "R11-EXT1",
+      "lens": "simulator_credibility",
+      "severity": "high",
+      "status": "fixed",
+      "finding": "A reviewer will ask whether the architecture simulator is more than static accounting.",
+      "resolution": "R1 event traces and R2 scheduler traces are included in the public package; R10 records failure and uncertainty boundaries.",
+      "claim_change": "Use event-level modeled architecture wording, not hardware-measured or cycle-accurate silicon wording.",
+      "evidence": "suds_tetc_event_sim_20260513_tetc_pivot.json; suds_tetc_scheduler_traces_20260513_tetc_pivot.json; suds_tetc_uncertainty_20260513_tetc_pivot.json"
+    },
+    {
+      "issue_id": "R11-EXT2",
+      "lens": "baseline_fairness",
+      "severity": "high",
+      "status": "fixed",
+      "finding": "Same-simulator baselines and alternate-fabric boundaries must be visible to a skeptical reviewer.",
+      "resolution": "R4 same-simulator fairness and R5 Pareto rationale are exported; TeMPO/ASTRA/HyAtten remain boundary rows where assumptions differ.",
+      "claim_change": "Promote only suds_pareto and keep local-selector or alternate-fabric wins as boundary evidence.",
+      "evidence": "suds_tetc_same_sim_baselines_20260513_tetc_pivot.json; suds_tetc_pareto_design_space_20260513_tetc_pivot.json"
+    },
+    {
+      "issue_id": "R11-EXT3",
+      "lens": "public_reproducibility",
+      "severity": "high",
+      "status": "fixed",
+      "finding": "The mini benchmark must be small, checkable, and free of private paths, data, weights, and legacy-route entry points.",
+      "resolution": "The manifest whitelists compact traces, configs, reports, render scripts, checksums, and reviewer instructions; public validation scans the exported text surface.",
+      "claim_change": "Describe the public package as a reader-facing artifact package, not a full governed MPS rerun bundle.",
+      "evidence": "configs/public_repro_manifest.json; checksums_manifest.json; scripts/check_public_repro_repo.py"
+    },
+    {
+      "issue_id": "R11-EXT4",
+      "lens": "major_revision_readiness",
+      "severity": "medium",
+      "status": "fixed",
+      "finding": "Likely major-revision objections need pre-written response hooks tied to artifacts.",
+      "resolution": "A reviewer-response scaffold maps simulator, baseline, calibration, workload, uncertainty, and reproducibility objections to exact evidence artifacts.",
+      "claim_change": "Do not answer with stronger headline numbers unless a regenerated science gate supports them.",
+      "evidence": "docs/reports/20260514_suds_tetc_major_revision_response_scaffold.md"
+    }
+  ],
+  "artifacts": {
+    "csv": "experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.csv",
+    "json": "experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
+    "report": "docs/reports/20260514_suds_tetc_external_red_team.md",
+    "major_revision_scaffold": "docs/reports/20260514_suds_tetc_major_revision_response_scaffold.md"
+  }
+}
