@@ -62,7 +62,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_optical_transformer_tetc_pivot_gate.md",
-      "sha256": "5ee688866eae5442841418d07fe5e3743c053fa7cfcd29d856ca075d522a5ba6",
+      "sha256": "44e4fa66c0b3d888cd0e854a8da6c94d89206420fb843e7265c7cf56c06d2d72",
       "size_bytes": 5575
     },
     {
@@ -97,7 +97,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_internal_red_team.md",
-      "sha256": "219c287fbe1b4664a2eec3ad7c771a72ba3af1f01c8107258366e3acd7d29af8",
+      "sha256": "e68b683a46662fe156474477a6d8a6c30ee5169f7fd7cb1999980878329eed3e",
       "size_bytes": 1503
     },
     {
@@ -317,7 +317,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
-      "sha256": "75f578e31cb2dcc6c37a4f79bd585419d59d18d0e2d7fa573f9cf6251433b6a6",
+      "sha256": "1a2f57247875830e7e9f4e6385f5d223f684124edfea576bdeffc6c8d1d23ec4",
       "size_bytes": 9518
     },
     {
@@ -412,7 +412,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
-      "sha256": "6b9ad5c582b3be89af5520b593494933ae03d87632ecf9d880feb23766cd0b32",
+      "sha256": "b27981fe721cacfa87ea5fd3f3bd70b9e669682c9266e52952137b9d920348df",
       "size_bytes": 1995
     },
     {
@@ -617,8 +617,8 @@
     },
     {
       "path": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/yosys_synthesis.log",
-      "sha256": "6f41bdc2f5ef36c5aab572440028f576156e309aeddd1f9862a32843f6998bf9",
-      "size_bytes": 41191
+      "sha256": "8041ae4bc5680085fd84866df262732c7a287495dbdbf83f711eb2d6b537819e",
+      "size_bytes": 41194
     },
     {
       "path": "experiments/spice/suds_adc_macro/README.md",
