@@ -194,6 +194,21 @@
       "boundary_crosses_zero": true,
       "accuracy_seed_bootstrap_ok": true
     },
+    "public_mini_benchmark": {
+      "status": "pass",
+      "blockers": [],
+      "acceptance": "pass",
+      "stop_condition": "no R11 hard stop",
+      "manifest_status": "pass",
+      "public_repro_validation_status": "pass",
+      "public_validation_error_count": 0,
+      "public_text_leak_status": "pass",
+      "public_text_leak_match_count": 0,
+      "external_reader_status": "packet_ready_not_sent_from_codex",
+      "external_issue_policy": "fixed_or_accepted_risk",
+      "accepted_risk_count": 1,
+      "fixed_issue_count": 4
+    },
     "workload_grounding": {
       "status": "pass",
       "blockers": [],
@@ -506,6 +521,15 @@
       "evidence": "internal=pass; external=not_available_in_local_execution; external_required=False; equivalence=not_equivalent_to_external_review",
       "blockers": "",
       "next_action": "External red-team remains useful but is not a hard local blocker per user instruction."
+    },
+    {
+      "gate_id": "S7",
+      "gate": "R11 public mini-benchmark and external accepted-risk record passes",
+      "required": true,
+      "status": "pass",
+      "evidence": "r11=pass; stop=no R11 hard stop; manifest=pass; public_repro=pass; validation_errors=0; text_scan=pass; text_matches=0; external=packet_ready_not_sent_from_codex; policy=fixed_or_accepted_risk; fixed=4; accepted_risks=1",
+      "blockers": "",
+      "next_action": "Regenerate R11 and rerun public-repro build/check/render/check before treating the public package as reviewer-checkable."
     }
   ]
 }

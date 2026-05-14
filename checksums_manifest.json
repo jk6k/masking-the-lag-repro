@@ -132,8 +132,8 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_science_gate.md",
-      "sha256": "7ca70f47305bf259f941cff477b2fb10bc4a10b2c4d8eaf61665fa1671221991",
-      "size_bytes": 6857
+      "sha256": "7bb6b52addac9201897a8ca466dcec97558e75b9b7c82ab4a577a94528447f63",
+      "size_bytes": 7299
     },
     {
       "path": "docs/reports/20260513_suds_tetc_system_sensitivity.md",
@@ -472,13 +472,13 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.csv",
-      "sha256": "f88d6f1b36491ef3b98c51df9236560007f51ace89e7039d346da8565f352175",
-      "size_bytes": 5261
+      "sha256": "f1b483c5eb2b59820e55d8705333b3a40e67b57ecbae355d3be0a345c6a033cb",
+      "size_bytes": 5683
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json",
-      "sha256": "77c72659d9984feb482b0d37455e1fcf1bd88c8358bdc387ef0882e42b7b4b33",
-      "size_bytes": 20057
+      "sha256": "769f9681fd1f626b273015c3d7ab6a32ef87f294296a3a819659aa36e7bfcf82",
+      "size_bytes": 21179
     },
     {
       "path": "experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.csv",
