@@ -398,9 +398,11 @@ make suds-optical-transformer-pivot-gate
 which rebuilds the architecture simulator, G1 release artifacts, and pivot gate.
 The public reproduction manifest includes the TETC architecture simulator
 summary, kernel, sensitivity, parameter, design-space, GLUE-linkage, gate,
-red-team, and public-repro alignment artifacts. A separate generated public
+red-team, public-repro alignment, R11 public mini-benchmark, and
+major-revision response scaffold artifacts. A separate generated public
 package check verifies that datasets, weights, private literature mirrors,
-trial histories, and personal paths are excluded.
+trial histories, personal paths, and active legacy-route entry points are
+excluded.
 
 \begin{table}[t]
 \centering
@@ -1208,6 +1210,7 @@ System sensitivity & \path{experiments/results/report_data/suds_tetc_system_sens
 RTL control plane & \path{experiments/results/report_data/suds_tetc_rtl_control_plane_20260513_tetc_pivot.json} & R7 control-sideband synthesis proxy and simulator linkage \\
 Calibration ranges & \path{experiments/results/report_data/suds_tetc_calibration_ranges_20260513_tetc_pivot.json} & R8 ADC and photonic nominal/pessimistic/boundary range audit \\
 Failure and uncertainty & \path{experiments/results/report_data/suds_tetc_uncertainty_20260513_tetc_pivot.json} & R10 counterexamples, bootstrap intervals, and target-regime Monte Carlo \\
+Public mini benchmark & \path{experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json} & R11 public-repro validation, accepted-risk red-team record, and response scaffold \\
 Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule
@@ -1254,6 +1257,7 @@ The figure numbering registry must match first appearance order.
 
 The public reproduction package must be regenerated.
 The public reproduction check must pass.
+The R11 public mini-benchmark and accepted-risk record must remain pass.
 The final gate must pass.
 The final manuscript PDF must compile.
 The final status document must distinguish artifact pass from local
