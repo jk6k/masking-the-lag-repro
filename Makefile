@@ -14,7 +14,7 @@ repro-check:
 
 render-paper-figures:
 	rm -rf $(BUILD_FIG_DIR)
-	$(PYTHON) experiments/tools/render_suds_tetc_submission_data_figures.py \
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) experiments/tools/render_suds_tetc_submission_data_figures.py \
 		--summary-csv $(REPORT_DATA_DIR)/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv \
 		--conservative-json $(REPORT_DATA_DIR)/suds_tetc_conservative_pareto_20260513_tetc_pivot.json \
 		--scheduler-ablation-csv $(REPORT_DATA_DIR)/suds_tetc_scheduler_ablation_20260513_tetc_pivot.csv \
