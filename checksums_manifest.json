@@ -62,7 +62,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_optical_transformer_tetc_pivot_gate.md",
-      "sha256": "b72435e68f12e0e54340112d0ba5caab075760df946e0bb31789dadd7c0d263d",
+      "sha256": "3d1dfd5a9690dcaa765dc6e611e383ec16667d46f46f46bbebd5316666da4f6d",
       "size_bytes": 5563
     },
     {
@@ -97,7 +97,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_internal_red_team.md",
-      "sha256": "55d265770731b5c219c8cf6d5a932c64ea14641ed7267bac32d6dd338b33ec01",
+      "sha256": "d85c333df10aa493b18b83eae82a43111465b98f20255fa09b762f676d3c4dad",
       "size_bytes": 1521
     },
     {
@@ -132,7 +132,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_science_gate.md",
-      "sha256": "63287a05110253433c0a9f0c4448cc4a07305a47bcb4e0074be671c6a71cd359",
+      "sha256": "e3ebd7a52f65c477d840afd1ee966ebe2c1918ea60beedd0b6e5e0c698152b56",
       "size_bytes": 7267
     },
     {
@@ -342,7 +342,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
-      "sha256": "7f81ae47354df7c6603b980152b4dd07d37492be3bbd7fb136193e766b6b65fe",
+      "sha256": "0b4fa9ea9bb003f22dd4dc5bbc6adf83bddbf8bd0d6ffc221d4ec9f4b99dde1f",
       "size_bytes": 9506
     },
     {
@@ -477,7 +477,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
-      "sha256": "cb94d8ac52fa18d782f521a50b5c874fcca2de94cd82b157edff79fb58670e93",
+      "sha256": "c4f7024e2c1d68b70b59097cf34683e8a82cc7ebb6d9da94911c76dba0a8e6a6",
       "size_bytes": 2037
     },
     {
@@ -497,7 +497,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_internal_adversarial_review_20260514_r12_reinforcement.json",
-      "sha256": "5937da3e80ad52f19b155dd5acacd7eca57368c11e2b91a454daab19b9f01694",
+      "sha256": "e0b690f88e4524cfe765e2d7f4106db8feb522e18a09daecb5961a076734ee69",
       "size_bytes": 10650
     },
     {
@@ -562,7 +562,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_rtl_simulation_20260514_r12_reinforcement.json",
-      "sha256": "e99c493660b2a971271a12d4ee71c6a5a28527dacd946321d50e6356df975cba",
+      "sha256": "a93f65d9e810180ba1a6c3cde296e0320332ba672263fca2df9c20dc2b788a16",
       "size_bytes": 1571
     },
     {
@@ -587,12 +587,12 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.csv",
-      "sha256": "ba4456a996c8647a4750a25653d9157f7ce50f13e82f1e11d48d702a0b104eba",
+      "sha256": "0333a59551dc275d6a90563a3b37be7756fa1b2d75d5e34196eb0a6debb705b1",
       "size_bytes": 5651
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json",
-      "sha256": "653be4795643bcedfdf7251b81faf21960d233363b01552a7626e08034cd0513",
+      "sha256": "fca504b1162e5bcf3213ac019d8265798f6d8759a0108837bc2e86a3ef3fe856",
       "size_bytes": 21121
     },
     {
@@ -732,7 +732,7 @@
     },
     {
       "path": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/yosys_synthesis.log",
-      "sha256": "7b4eb53e63b9e15e56a0e25199150c9cea5af13ba9296da51f975947293350b8",
+      "sha256": "11e5a51e0045d6607b96603e437d86c15507fdc9b49c77f4001e89dd6c5ac1e1",
       "size_bytes": 41191
     },
     {

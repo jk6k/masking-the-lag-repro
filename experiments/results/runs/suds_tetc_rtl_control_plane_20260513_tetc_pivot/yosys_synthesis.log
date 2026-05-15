@@ -875,7 +875,7 @@ Dumping module `\suds_control_plane'.
 
 5. Executing JSON backend.
 
-End of script. Logfile hash: 9736d631cb, time: 0.19s, user: 0.08s, system: 0.01s, MEM: 25.66 MB peak
+End of script. Logfile hash: 9736d631cb, time: 0.19s, user: 0.08s, system: 0.01s, MEM: 25.88 MB peak
 Yosys 0.65 (git sha1 aec814bdf3071f7e0fd0fbe43f7f711e99d01e24, clang++ 21.0.0 -fPIC -O3)
-Time spent: 52% 1x abc (0 sec), 7% 1x techmap (0 sec), ...
+Time spent: 52% 1x abc (0 sec), 8% 1x techmap (0 sec), ...
 
