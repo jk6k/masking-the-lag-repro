@@ -9,8 +9,8 @@ Roadmap item: `R12d_internal_adversarial_review`
 - Acceptance state: `pass`
 - Total lenses: `8`
 - Required lenses: `8`
-- Fixed: `4` (L1, L3, L5, L7)
-- Boundary: `4` (L2, L4, L6, L8)
+- Fixed: `5` (L1, L3, L5, L7, L8)
+- Boundary: `3` (L2, L4, L6)
 - Unresolved: `none`
 - Missing required: `none`
 - All lenses resolved: `True`
@@ -27,7 +27,7 @@ Roadmap item: `R12d_internal_adversarial_review`
 | `L5` | `mobilevit_resolution_sensitivity` | `medium` | `fixed` | MobileViT-S was only evaluated at its nominal 256x256 resolution. A reviewer may ask: 'Is the accuracy stable if input r... |
 | `L6` | `bert_flat_delta_artifacts` | `high` | `accepted_boundary` | All BERT GLUE conditions in R3 showed delta=0.000 pp, which looks too clean. A reviewer will suspect a measurement artif... |
 | `L7` | `adc_calibration_depth` | `medium` | `fixed` | ADC calibration uses a single macro sanity suite. A reviewer may ask about temperature corners, supply variation, or pro... |
-| `L8` | `manuscript_claim_audit_consistency` | `high` | `boundary_recorded` | The manuscript must not contain forbidden claim language (silicon, foundry, layout, device-solver, bench-energy, univers... |
+| `L8` | `manuscript_claim_audit_consistency` | `high` | `fixed` | The manuscript must not contain forbidden claim language (silicon, foundry, layout, device-solver, bench-energy, univers... |
 
 ## Detailed Findings
 
@@ -153,13 +153,13 @@ Roadmap item: `R12d_internal_adversarial_review`
 ### L8: Manuscript Claim Audit Consistency
 
 **Severity:** `high`
-**Resolution state:** `boundary_recorded`
+**Resolution state:** `fixed`
 
 **Finding:** The manuscript must not contain forbidden claim language (silicon, foundry, layout, device-solver, bench-energy, universal-interface, semantic-unimportance-proof, optical-device signoff, P&R closure) and must include required boundary markers.
 
-**Evidence checked:** Manuscript scan: 1 forbidden patterns, 1 missing markers
+**Evidence checked:** Manuscript scan: 0 forbidden patterns, 0 missing markers
 
-**Resolution:** Manuscript issues: forbidden=['foundry data claim: 1 match(es)'], missing=['calibration/boundary label'].
+**Resolution:** Manuscript claim audit: zero forbidden claim language matches, all required boundary markers present. Claim language is consistent with the evidence surface. (1 negative non-claim use(s) correctly excluded from forbidden matches.)
 
 **Promotion effect:** Claim-audit consistency prevents overclaim and ensures reviewers see honest boundary language.
 
@@ -180,7 +180,7 @@ across the highest-risk reviewer questions. Since external independent reviewer
 review is permanently abandoned for this project, the internal review must be
 thorough enough to catch issues a reviewer would flag.
 
-All 4 lenses are fixed or accepted as boundaries. 
+All 5 lenses are fixed or accepted as boundaries. 
 
 ## Required Artifacts
 

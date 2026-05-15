@@ -5,7 +5,7 @@
     "roadmap_item": "R3_end_to_end_perturbation_accuracy",
     "evidence_label": "measured_mps_end_to_end_perturbation_accuracy",
     "promotion_decision": "pass",
-    "git_hash": "ca8f73c",
+    "git_hash": "9c2cdf7",
     "regeneration_command": "make suds-tetc-end-to-end-accuracy",
     "deterministic_config_id": "5eb22b7185c02618",
     "source_artifacts": {
@@ -20,12 +20,12 @@
     },
     "source_artifact_sha256": {
       "architecture_summary_csv": "212cdbf846376591eea65768ccc1ad692d64efcee6e7a90d548c569f31a3d7d0",
-      "architecture_json": "1502c57ffc4b4cd6f375c089056ce91c9656f5268f4db23d914bb4c597e22b90",
-      "scheduler_trace_csv": "9e6044b7b00061874b3d037bc57fcd72b72eb94f46442308f8f400c34b1f1fd7",
+      "architecture_json": "f093f540b4ad73e234f27c21461341edd39f17e5554046669911f4db4f8a58f1",
+      "scheduler_trace_csv": "037f6328139527096f1511c9dc22c8127535daebe4b57b9fea196fba459f959f",
       "glue_json": "727e499e23930b6bb42a00232598914445e2ef94679066a5250c7852d945e764",
       "glue_linkage_csv": "de94d0d45ddefe5bc2e8e94d5e9b01f2da3b8d3ce16432077d563c263b405a42",
       "mobilevit_json": "f38001f7d2f7d03b3bff10f60c624cbac0ad4d79306a6134f7fc318c52405a66",
-      "conservative_pareto_json": "b485acdc9d92ffc24bf07a28d2d1f6ed0f41b02022a07769ed07534076e945fd",
+      "conservative_pareto_json": "1ab2ebb8fbbd523f40d3b69e0883304747441035b9ecda5af6d54d59be6b55db",
       "conservative_pareto_csv": "0db0dfcf214b3cb66ece7c9e035eb35abcb28db927941f32d6be9191cb3c90f5"
     }
   },

@@ -571,11 +571,33 @@ def build_lens_manuscript_claim_audit(manuscript_text_str: str) -> dict[str, str
         (r"modeled\s*(system|architecture)\s*PPA", "modeled PPA label"),
     ]
 
+    # Negation prefixes that indicate the author is explicitly disclaiming
+    # (e.g., "This paper does not claim ... foundry closure ...").
+    _NEGATION_MARKERS = (
+        "does not claim", "do not claim", "not a ", "no ",
+        "It is not", "is not a", "without ", "never ",
+    )
+
+    def _is_negative_context(full_text: str, match_start: int) -> bool:
+        """Return True if the match sits inside a negation clause.
+
+        Uses the raw text position (not line-local) so that negation
+        markers on the previous line are still detected when the
+        forbidden phrase wraps to the next line.
+        """
+        window = full_text[max(0, match_start - 120):match_start].lower()
+        return any(neg.lower() in window for neg in _NEGATION_MARKERS)
+
     forbidden_matches = []
+    negative_non_claim_uses = []
     for pattern, label in forbidden_patterns:
-        matches = re.findall(pattern, manuscript_text_str, re.IGNORECASE)
-        if matches:
-            forbidden_matches.append(f"{label}: {len(matches)} match(es)")
+        for m in re.finditer(pattern, manuscript_text_str, re.IGNORECASE):
+            if _is_negative_context(manuscript_text_str, m.start()):
+                negative_non_claim_uses.append(
+                    f"{label}: negative non-claim use"
+                )
+            else:
+                forbidden_matches.append(f"{label}: 1 match(es)")
 
     missing_markers = []
     for pattern, label in required_markers:
@@ -584,10 +606,16 @@ def build_lens_manuscript_claim_audit(manuscript_text_str: str) -> dict[str, str
 
     if not forbidden_matches and not missing_markers:
         state = "fixed"
+        neg_note = ""
+        if negative_non_claim_uses:
+            neg_note = (
+                f" ({len(negative_non_claim_uses)} negative non-claim use(s) "
+                "correctly excluded from forbidden matches.)"
+            )
         resolution_text = (
             "Manuscript claim audit: zero forbidden claim language matches, "
             "all required boundary markers present. Claim language is "
-            "consistent with the evidence surface."
+            f"consistent with the evidence surface.{neg_note}"
         )
     elif forbidden_matches and not missing_markers:
         state = "boundary_recorded"

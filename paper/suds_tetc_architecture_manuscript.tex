@@ -270,7 +270,7 @@ R12b GLUE task expansion & 120 governed rows across eight GLUE tasks stress the 
 R12e MobileViT-S resolution sweep & 24 full-ImageNet rows across resolutions preserve the conservative MobileViT-S accuracy framing & Robustness around the promoted setting, not a new vision model claim \\
 R12a and R12h control/calibration & Iverilog functional simulation passes 31/31 checks and 12/12 features; ADC corners cover 36/36 rows & Functional simulation and calibration only; no timing, layout, or bench-energy closure \\
 R12c and R12g transfer/generalization & Cross-workload and DeiT-Tiny records make non-promoted workloads auditable & Cross-workload transfer and DeiT-Tiny accuracy deltas are boundary evidence \\
-R12f BERT perturbation mechanism & Multi-seed perturbation rows expose mechanism sensitivity & Mechanism-delta artifacts remain explanatory, not a stronger accuracy claim \\
+R12f BERT perturbation mechanism & Binary column zeroing preserves BERT accuracy (delta = 0.000 pp); Gaussian noise injection causes larger seed-sensitive drops & Mechanism-delta artifacts remain boundary evidence, not a stronger accuracy claim \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -354,8 +354,8 @@ assumptions.
 
 \section{Calibration Evidence}
 
-The architecture simulator consumes calibration and boundary artifacts rather
-than claiming circuit closure. ADC tier energy is tied to the local ADC macro
+The architecture simulator consumes calibration and boundary evidence artifacts
+rather than claiming circuit closure. ADC tier energy is tied to the local ADC macro
 sanity suite. Sideband-control cost is tied to the Yosys RTL control-plane
 artifact. Optical-link assumptions are tied to the PHY boundary sweep. These
 artifacts calibrate simulator parameters and stress settings only.
@@ -678,6 +678,9 @@ These labels are intentionally repeated in the artifacts.
 They make the paper less rhetorically smooth, but they make it harder to
 overclaim.
 For a journal submission, that is the right tradeoff.
+Taken together, these labels classify all non-accuracy evidence as
+calibration and boundary evidence rather than as circuit closure or
+silicon measurement.
 
 \subsection{Non-Claims}
 
@@ -968,6 +971,11 @@ The measured rows are linked to architecture rows through the GLUE linkage
 CSV.
 The promoted BERT SUDS Pareto point has zero measured primary-metric loss in
 the aggregate evidence.
+The perturbation mechanism used for the promoted BERT rows is binary column
+zeroing: columns assigned to DEGRADE or PRUNE tiers are zeroed in the forward
+pass. Gaussian noise injection is an alternative mechanism that produces larger,
+seed-sensitive accuracy drops; it is retained as boundary evidence in R12f, not
+as the promoted perturbation implementation.
 The schedule link is what upgrades the grounding from analytical provenance
 to hardware-derived metadata for the final claim.
 
@@ -1321,8 +1329,8 @@ cost can erase the MobileViT-S promoted advantage, so the claim is bounded to
 the named valid memory/conversion/link regimes rather than universal photonic
 conversion dominance.
 The R8 calibration-range artifact similarly keeps ADC and photonic parameter
-ranges at calibration and boundary level; it does not convert the simulator into
-device-solver, foundry, extracted-layout, silicon, or bench-energy evidence.
+ranges as calibration and boundary evidence; it does not convert the simulator
+into device-solver, extracted-layout, silicon, or bench-energy evidence.
 The R10 failure suite further bounds use of the interface: near-deadline
 low-slack kernels should fall back to keep-all or disabled control,
 memory-dominated regimes can reduce the margin, small-batch and long-sequence
@@ -1331,8 +1339,9 @@ signal-only rows remain selector-boundary evidence rather than proof of
 universal SUDS dominance.
 The R12 reinforcement layer further records three explicit boundaries:
 cross-workload transfer can degrade MobileViT-S when a BERT-calibrated schedule
-is reused, BERT perturbation mechanism deltas are sensitive to implementation
-details and seeds, and DeiT-Tiny measured accuracy loses more than one
+is reused, BERT perturbation accuracy under the promoted binary-column-zeroing
+mechanism is stable while Gaussian noise injection deltas are sensitive to seed
+and scale, and DeiT-Tiny measured accuracy loses more than one
 percentage point under the tested setting. These records keep R12 as
 robustness and boundary evidence rather than a promotion of universal workload
 or vision-model applicability.

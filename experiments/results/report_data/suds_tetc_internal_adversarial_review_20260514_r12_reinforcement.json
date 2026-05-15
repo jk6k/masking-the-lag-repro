@@ -5,36 +5,36 @@
     "roadmap_item": "R12d_internal_adversarial_review",
     "evidence_label": "internal_adversarial_review_expanded",
     "regeneration_command": "make suds-tetc-internal-adversarial-review",
-    "git_hash": "ca8f73c",
+    "git_hash": "9c2cdf7",
     "input_sha256": {
-      "r12a_json": "4a05812cba4be49b3ad4b6de1f3703c1c1e7b59c3fcc2a33ac7bc912026656e9",
+      "r12a_json": "e99c493660b2a971271a12d4ee71c6a5a28527dacd946321d50e6356df975cba",
       "r12b_json": "30df3af67fc66d57983ce3c676e9b75eb8201805aee4c7a78fd4c2a12dd71594",
       "r12c_json": "4de5dd12acd4a16d8586282a48abee74b3cc21a617ec95e1e4a064387de8c15e",
       "r12e_json": "90e8ec50d1d4f087bf68d6238ba0dab8288e9c7b6ed79ae429474f389bc19405",
-      "r12f_json": "4f8d9bc64cfcadc8d6ae0d4e7f793862cc84181d362917a77015114f72a38907",
+      "r12f_json": "50ae767605712d92f14590d48d655bdd72d4b603d4f26c9f4cbf722dda628773",
       "r12g_json": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
       "r8_json": "308178e0fc9cd1697e6ce8756d5ef86a55a185faca8abaf1ce82fd37bff1585a",
       "r12h_json": "b8351c5402caf913ed7c21d6c23793a35e45683b43b158bda176478501f46036",
-      "manuscript": "60d4f59ff93d0f88cde9be6719869e67a9c9b4fe3d30cac6536df6998301ed2f"
+      "manuscript": "23ed93b4488c5a98849886b1799464fd921cd0106a05f124648d24533f8eaef8"
     }
   },
   "acceptance": {
     "acceptance_state": "pass",
     "total_lenses": 8,
     "required_lenses": 8,
-    "fixed_lenses": 4,
+    "fixed_lenses": 5,
     "fixed_lens_ids": [
       "L1",
       "L3",
       "L5",
-      "L7"
+      "L7",
+      "L8"
     ],
-    "boundary_lenses": 4,
+    "boundary_lenses": 3,
     "boundary_lens_ids": [
       "L2",
       "L4",
-      "L6",
-      "L8"
+      "L6"
     ],
     "unresolved_lenses": [],
     "invalid_state_lenses": [],
@@ -133,9 +133,9 @@
       "lens": "manuscript_claim_audit_consistency",
       "severity": "high",
       "finding": "The manuscript must not contain forbidden claim language (silicon, foundry, layout, device-solver, bench-energy, universal-interface, semantic-unimportance-proof, optical-device signoff, P&R closure) and must include required boundary markers.",
-      "evidence_checked": "Manuscript scan: 1 forbidden patterns, 1 missing markers",
-      "resolution": "Manuscript issues: forbidden=['foundry data claim: 1 match(es)'], missing=['calibration/boundary label'].",
-      "resolution_state": "boundary_recorded",
+      "evidence_checked": "Manuscript scan: 0 forbidden patterns, 0 missing markers",
+      "resolution": "Manuscript claim audit: zero forbidden claim language matches, all required boundary markers present. Claim language is consistent with the evidence surface. (1 negative non-claim use(s) correctly excluded from forbidden matches.)",
+      "resolution_state": "fixed",
       "promotion_effect": "Claim-audit consistency prevents overclaim and ensures reviewers see honest boundary language.",
       "consumed_artifacts": "paper/suds_tetc_architecture_manuscript.tex;paper/suds_tetc_architecture_reframe.md",
       "follow_up_items": ""
