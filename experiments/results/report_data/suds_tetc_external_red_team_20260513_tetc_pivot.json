@@ -2,7 +2,7 @@
   "metadata": {
     "tag": "20260513_tetc_pivot",
     "artifact_id": "suds_tetc_external_red_team_20260513_tetc_pivot",
-    "evidence_label": "r11_public_mini_benchmark_internal_red_team",
+    "evidence_label": "r11_public_mini_benchmark_external_red_team",
     "regeneration_command": "make suds-tetc-external-red-team"
   },
   "summary": {
@@ -31,8 +31,8 @@
     "external_reader_status": "explicitly_abandoned",
     "external_issue_policy": "all_fixed_internally",
     "abandoned_issue_count": 1,
-    "fixed_issue_count": 4,
     "accepted_risk_count": 0,
+    "fixed_issue_count": 4,
     "public_repro_commands": [
       "make public-repro-build",
       "make public-repro-check",

@@ -42,13 +42,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "6b1c8cbd6b547e9cf16a28785e4555ae2759e089eb1d39a28cd406a980896aca",
-      "size_bytes": 2768
+      "sha256": "4906be1d07a9c13e6f0718400a84e4d750ce3dff7c11196fc6c6ed33c3d21924",
+      "size_bytes": 2767
     },
     {
       "path": "REPRODUCIBILITY.md",
-      "sha256": "91d768b0dd2e1fc4dff4aee8d3d991ce66cf491b379ee8e30e79fc696eef29f8",
-      "size_bytes": 2889
+      "sha256": "82753f6cecabf82a03c2a29c5182dffcfcd55bba86f1c6f191b8dbdaaeb2703c",
+      "size_bytes": 2888
     },
     {
       "path": "configs/public_repro_manifest.json",
@@ -157,8 +157,8 @@
     },
     {
       "path": "docs/reports/20260514_suds_tetc_external_red_team.md",
-      "sha256": "eb2f4ffa11c2cd5d5ef29bfb6139f841639b7e1aae1236e0c8f80446920492e0",
-      "size_bytes": 3213
+      "sha256": "2712ab99d58231dd8f25c74d0c7ff3c5036e134f6016b182e47f8dd82937119c",
+      "size_bytes": 3689
     },
     {
       "path": "docs/reports/20260514_suds_tetc_internal_adversarial_review.md",
@@ -467,7 +467,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json",
-      "sha256": "c60d3aad97b1d56e0602414df16dd52d1fecaa2f9054cc789b55218eabca98bf",
+      "sha256": "93519b221c30c9a58b9fd5068b8df8b04b43450a2e82274d1ebc2af490f1307c",
       "size_bytes": 5087
     },
     {
@@ -652,8 +652,8 @@
     },
     {
       "path": "experiments/results/review/20260513_tetc_pivot_public/data_review_report.md",
-      "sha256": "79da630ef80169014916d5742896cb06eed009307de22b2ecbcc82602dcf8f46",
-      "size_bytes": 1437
+      "sha256": "91da7c4263e362e1ee2365667ba3eef730390ae92e8884bb97fa55db8df66e71",
+      "size_bytes": 1434
     },
     {
       "path": "experiments/results/review/20260513_tetc_pivot_public/figure_traceability.csv",
@@ -667,8 +667,8 @@
     },
     {
       "path": "experiments/results/review/20260513_tetc_pivot_public/review_manifest.json",
-      "sha256": "8f108c276fc7adf275fbc60010020aa5ac3e842907f3275b5c9bcfd3933096d0",
-      "size_bytes": 1261
+      "sha256": "dcfbd9bbe106c0741762a680bea9a813575a314547e16769cd3c5927aa3ec73a",
+      "size_bytes": 1258
     },
     {
       "path": "experiments/results/runs/phase_b/phase_b_summary.json",
@@ -1467,8 +1467,8 @@
     },
     {
       "path": "paper/suds_tetc_architecture_manuscript.tex",
-      "sha256": "87c9c0c245cbbb779ad3e276f3e18c558081ca8c7fb09272a5c7b86ed682331d",
-      "size_bytes": 73136
+      "sha256": "20bdc7f5e1ae6bfff62ef0a3ebe88be7cb6735a0b2793eef324faebc98b0a41f",
+      "size_bytes": 73151
     },
     {
       "path": "paper/suds_tetc_architecture_reframe.md",

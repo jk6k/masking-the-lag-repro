@@ -46,7 +46,7 @@ The public freeze supports the SUDS IEEE TETC scoped evidence surface:
 architecture-modeled PPA, governed measured accuracy summaries for MobileViT-S
 and GLUE/BERT tasks, calibrated ADC/RTL/PHY parameter inputs, design-space
 sweeps, public-repro alignment, local red-team review, and figure traceability.
-It also carries the R11 external-review accepted-risk record and
+It also carries the R11 external-abandonment closure record and
 major-revision response scaffold. R12 post-R11 reinforcement is included as
 compact support and boundary evidence: RTL functional simulation, GLUE task
 coverage, MobileViT resolution checks, BERT perturbation-mechanism rows,
