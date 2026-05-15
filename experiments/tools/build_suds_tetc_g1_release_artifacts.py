@@ -32,7 +32,7 @@ REQUIRED_MANUSCRIPT_MARKERS = [
     "suds_glue_architecture_linkage_20260513_tetc_pivot.csv",
     "Internal Red-Team Summary",
     "public reproduction manifest includes the TETC architecture simulator",
-    "equivalent external",
+    "external independent reviewer review is permanently abandoned",
 ]
 
 REQUIRED_PUBLIC_REPRO_FILES = [
@@ -232,7 +232,7 @@ def write_red_team(rows: list[dict[str, Any]], manuscript: dict[str, Any]) -> di
             "tag": TAG,
             "artifact_id": f"suds_tetc_internal_red_team_{TAG}",
             "evidence_label": "internal_red_team_substitute",
-            "external_red_team_status": "not_available_in_local_execution",
+            "external_red_team_status": "explicitly_abandoned",
             "external_equivalence": "not_equivalent_to_external_review",
         },
         "summary": {
@@ -253,13 +253,13 @@ def write_red_team(rows: list[dict[str, Any]], manuscript: dict[str, Any]) -> di
         "",
         f"Tag: `{TAG}`",
         "Evidence label: `internal_red_team_substitute`",
-        "External reviewer status: `not_available_in_local_execution`",
+        "External reviewer status: `explicitly_abandoned`",
         "External equivalence: `not_equivalent_to_external_review`",
         f"Status: `{status}`",
         "",
-        "This is a local multi-lens substitute for the preferred external red-team.",
-        "It is sufficient for the local G1 promotion gate, but it should not be",
-        "described as equivalent to an independent external review.",
+        "External independent reviewer review is permanently abandoned for this project.",
+        "This local multi-lens audit is sufficient for the local G1 promotion gate,",
+        "but it should not be described as equivalent to an independent external review.",
         "",
         "## Findings",
         "",

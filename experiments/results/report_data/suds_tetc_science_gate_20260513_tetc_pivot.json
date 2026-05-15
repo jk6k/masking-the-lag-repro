@@ -375,7 +375,7 @@
     "red_team_advisory": {
       "status": "pass",
       "internal_status": "pass",
-      "external_status": "not_available_in_local_execution",
+      "external_status": "explicitly_abandoned",
       "external_required": false,
       "external_equivalence": "not_equivalent_to_external_review"
     },
@@ -518,7 +518,7 @@
       "gate": "External red-team advisory",
       "required": false,
       "status": "pass",
-      "evidence": "internal=pass; external=not_available_in_local_execution; external_required=False; equivalence=not_equivalent_to_external_review",
+      "evidence": "internal=pass; external=explicitly_abandoned; external_required=False; equivalence=not_equivalent_to_external_review",
       "blockers": "",
       "next_action": "External red-team remains useful but is not a hard local blocker per user instruction."
     },

@@ -1,13 +1,14 @@
 # SUDS TETC Internal Red-Team Review
 
 Tag: `20260513_tetc_pivot`
-Evidence label: `internal_red_team`
-External reviewer status: `permanently_abandoned`
+Evidence label: `internal_red_team_substitute`
+External reviewer status: `explicitly_abandoned`
+External equivalence: `not_equivalent_to_external_review`
 Status: `pass`
 
-This is the project's internal multi-lens red-team review. External
-independent reviewer review is permanently abandoned for this project.
-This review is sufficient for the local G1 promotion gate.
+External independent reviewer review is permanently abandoned for this project.
+This local multi-lens audit is sufficient for the local G1 promotion gate,
+but it should not be described as equivalent to an independent external review.
 
 ## Findings
 
@@ -21,6 +22,6 @@ This review is sufficient for the local G1 promotion gate.
 ## Manuscript Audit
 
 - Source: `paper/suds_tetc_architecture_manuscript.tex`
-- Line count: `1443`
+- Line count: `1495`
 - Missing markers: `none`
 - Forbidden terms: `none`

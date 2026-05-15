@@ -3,7 +3,7 @@
     "tag": "20260513_tetc_pivot",
     "artifact_id": "suds_tetc_internal_red_team_20260513_tetc_pivot",
     "evidence_label": "internal_red_team_substitute",
-    "external_red_team_status": "not_available_in_local_execution",
+    "external_red_team_status": "explicitly_abandoned",
     "external_equivalence": "not_equivalent_to_external_review"
   },
   "summary": {

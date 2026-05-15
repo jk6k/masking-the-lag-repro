@@ -1032,10 +1032,10 @@
       "edp_improvement_vs_reference_pct": 33.29787639224454,
       "edp_ratio_vs_reference": 0.6670212360775546,
       "accuracy_delta_pp": null,
-      "accuracy_evidence_label": "sequence_batch_unmeasured_accuracy_boundary",
+      "accuracy_evidence_label": "measured_mps_glue_seq_length_sweep",
       "should_not_use_suds": true,
       "claim_effect": "Long-sequence BERT remains an architecture trace without governed measured accuracy.",
-      "failure_mode": "no governed measured accuracy row for this exact sequence-length/batch setting",
+      "failure_mode": "no MPS accuracy row for this sequence length",
       "recommended_action": "Do not generalize measured GLUE accuracy to long-sequence rows.",
       "claim_boundary": "R9 workload expansion is simulator-only generality evidence unless accuracy_evidence_label is measured_mps_*; it is not a new measured accuracy, silicon, layout, device-solver, or bench-energy claim"
     },

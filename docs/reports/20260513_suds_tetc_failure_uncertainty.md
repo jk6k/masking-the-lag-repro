@@ -84,7 +84,7 @@ replace the target regime.
 | `r10_conversion_boundary_r6_sweep_dac_energy_scale_64_mobilevit_s_transformer_blocks_256` | `conversion_dominated_boundary` | `mobilevit_s_transformer_blocks_256` | `suds_pareto` | `True` | DAC/MZM or combined conversion stress crosses the zero-advantage boundary |
 | `r10_high_memory_pressure_bert_base_glue_seq128` | `high_memory_pressure` | `bert_base_glue_seq128` | `suds_pareto` | `False` | memory movement dominates the conversion savings |
 | `r10_high_memory_pressure_mobilevit_s_transformer_blocks_256` | `high_memory_pressure` | `mobilevit_s_transformer_blocks_256` | `suds_pareto` | `True` | memory movement dominates the conversion savings |
-| `r10_long_sequence_bert512_accuracy_boundary` | `long_sequence` | `bert_base_seq512_batch1_r9` | `suds_pareto` | `True` | no governed measured accuracy row for this exact sequence-length/batch setting |
+| `r10_long_sequence_bert512_accuracy_boundary` | `long_sequence` | `bert_base_seq512_batch1_r9` | `suds_pareto` | `True` | no MPS accuracy row for this sequence length |
 | `r10_low_slack_forced_keep_bert_base_glue_seq128` | `low_slack` | `bert_base_glue_seq128` | `suds_forced_keep_all` | `True` | low slack leaves no safe budget to degrade or prune columns |
 | `r10_low_slack_forced_keep_mobilevit_s_transformer_blocks_256` | `low_slack` | `mobilevit_s_transformer_blocks_256` | `suds_forced_keep_all` | `True` | low slack leaves no safe budget to degrade or prune columns |
 | `r10_signal_only_dominant_signal_only_mobilevit_s_transformer_blocks_256` | `signal_only_dominant` | `mobilevit_s_transformer_blocks_256` | `signal_only` | `True` | signal-only selector dominates raw PPA but not the promoted accuracy/fairness contract |

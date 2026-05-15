@@ -18,11 +18,11 @@
         "suds_glue_architecture_linkage_20260513_tetc_pivot.csv",
         "Internal Red-Team Summary",
         "public reproduction manifest includes the TETC architecture simulator",
-        "equivalent external"
+        "external independent reviewer review is permanently abandoned"
       ],
       "missing_markers": [],
       "forbidden_terms": [],
-      "line_count": 1443
+      "line_count": 1495
     },
     "red_team": {
       "status": "pass",

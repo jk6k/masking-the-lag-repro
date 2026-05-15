@@ -5,8 +5,8 @@
     "date": "2026-05-13",
     "tag": "20260513_tetc_pivot",
     "seed": 23,
-    "git_hash": "d335c6f",
-    "deterministic_config_id": "9a7829bbb9d43c83",
+    "git_hash": "ca8f73c",
+    "deterministic_config_id": "faccefe7912397bd",
     "deterministic_config": {
       "tag": "20260513_tetc_pivot",
       "seed": 23,
@@ -67,7 +67,7 @@
       "source_hashes": {
         "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_kernels.csv": "b2fbd7ca5d80a3da3f56b36ae14288f3842097c428d6311561dbd7bd9d14f976",
         "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv": "212cdbf846376591eea65768ccc1ad692d64efcee6e7a90d548c569f31a3d7d0",
-        "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json": "ec2375e3f532b973d7118bee6d4dffd25652531c6d30396440dfaaf77cd3f48c"
+        "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json": "1502c57ffc4b4cd6f375c089056ce91c9656f5268f4db23d914bb4c597e22b90"
       }
     },
     "architecture_artifact_id": "suds_transformer_architecture_sim_20260513_tetc_pivot",
