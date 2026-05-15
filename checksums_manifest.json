@@ -662,8 +662,8 @@
     },
     {
       "path": "experiments/results/review/20260513_tetc_pivot_public/figure_traceability.csv",
-      "sha256": "e03d417aa28e6512f0c2a91f852a847f50e1a5d6ade6da5eb064363ba294507f",
-      "size_bytes": 6827
+      "sha256": "9fac6dba38628457dcd197c5763dab9fe0dc77536d34daca74200322f6137e4c",
+      "size_bytes": 6799
     },
     {
       "path": "experiments/results/review/20260513_tetc_pivot_public/manuscript_evidence_map.csv",
@@ -1477,8 +1477,8 @@
     },
     {
       "path": "figures/suds_tetc_20260516_submission_figure_pack/figure_traceability.csv",
-      "sha256": "e03d417aa28e6512f0c2a91f852a847f50e1a5d6ade6da5eb064363ba294507f",
-      "size_bytes": 6827
+      "sha256": "9fac6dba38628457dcd197c5763dab9fe0dc77536d34daca74200322f6137e4c",
+      "size_bytes": 6799
     },
     {
       "path": "paper/suds_tetc_architecture_manuscript.tex",
@@ -1497,8 +1497,8 @@
     },
     {
       "path": "scripts/check_public_repro_repo.py",
-      "sha256": "621f4b7d5bce9b2e6adc16b08a75a3ad2e53925cf5794ce81c6d937cca155bea",
-      "size_bytes": 27014
+      "sha256": "3d72862ab666ecdcb46e9e1795924f48d6d33aad282e36632e03546e3fec06e9",
+      "size_bytes": 27106
     }
   ]
 }

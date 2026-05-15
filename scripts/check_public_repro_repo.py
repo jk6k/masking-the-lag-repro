@@ -458,7 +458,12 @@ def _check_registry_metadata(report: Report, manifest: dict[str, Any]) -> None:
     registry_ids = [
         row.get("figure_id", "")
         for row in registry_rows
-        if (row.get("numbering_status") or row.get("status")) in {"active", "rendered"}
+        if (row.get("numbering_status") or row.get("status")) in {
+            "active",
+            "rendered",
+            "candidate",
+            "freeze_candidate",
+        }
     ]
     configured_main = manifest.get("expected_main_figures")
     configured_appendix = manifest.get("expected_appendix_figures")
