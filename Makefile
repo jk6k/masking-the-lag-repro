@@ -3,7 +3,7 @@ FREEZE_TAG := 20260513_tetc_pivot
 QUICK_DIR := experiments/results/quick_reports/20260513_tetc_pivot
 PHASE_DIR := experiments/results/runs
 REPORT_DATA_DIR := experiments/results/report_data
-PACK_DIR := figures/suds_tetc_20260513_tetc_pivot
+PACK_DIR := figures/suds_tetc_20260516_submission_figure_pack
 REVIEW_DIR := experiments/results/review/20260513_tetc_pivot_public
 BUILD_FIG_DIR := build/rendered_figures
 
@@ -14,8 +14,10 @@ repro-check:
 
 render-paper-figures:
 	rm -rf $(BUILD_FIG_DIR)
-	$(PYTHON) experiments/tools/render_suds_tetc_figures.py \
+	$(PYTHON) experiments/tools/render_suds_tetc_submission_data_figures.py \
 		--summary-csv $(REPORT_DATA_DIR)/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv \
+		--conservative-json $(REPORT_DATA_DIR)/suds_tetc_conservative_pareto_20260513_tetc_pivot.json \
+		--scheduler-ablation-csv $(REPORT_DATA_DIR)/suds_tetc_scheduler_ablation_20260513_tetc_pivot.csv \
 		--output-dir $(BUILD_FIG_DIR)
 
 test:

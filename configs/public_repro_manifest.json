@@ -11,7 +11,7 @@
   "public_layers": {
     "phase_dir": "experiments/results/runs",
     "report_data_dir": "experiments/results/report_data",
-    "figures_dir": "figures/suds_tetc_20260513_tetc_pivot",
+    "figures_dir": "figures/suds_tetc_20260516_submission_figure_pack",
     "review_dir": "experiments/results/review/20260513_tetc_pivot_public",
     "paper_sync_dir": "experiments/results/paper_sync"
   },
@@ -20,7 +20,10 @@
     "Fig1",
     "Fig2",
     "Fig3",
-    "Fig4"
+    "Fig4",
+    "Fig5",
+    "Fig6",
+    "Fig7"
   ],
   "expected_appendix_figures": [],
   "required_files": [
@@ -92,6 +95,7 @@
     "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.csv",
     "experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.json",
+    "experiments/results/report_data/suds_tetc_scheduler_ablation_20260513_tetc_pivot.csv",
     "experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.csv",
     "experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_baseline_fairness_20260513_tetc_pivot.csv",
@@ -134,9 +138,11 @@
     "experiments/results/report_data/suds_tetc_adc_corner_cases_20260514_r12_reinforcement.json",
     "experiments/results/report_data/suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.csv",
     "experiments/results/report_data/suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.json",
-    "figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv",
-    "figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv",
+    "figures/suds_tetc_20260516_submission_figure_pack/figure_numbering_registry.csv",
+    "figures/suds_tetc_20260516_submission_figure_pack/figure_traceability.csv",
     "experiments/tools/check_figure_numbering_registry.py",
+    "experiments/tools/render_suds_tetc_submission_data_figures.py",
+    "experiments/tools/render_suds_tetc_scheduler_evidence.py",
     "experiments/tools/check_suds_c1_survey_manifest.py",
     "experiments/tools/render_suds_figures.py",
     "experiments/tools/build_suds_interface_overhead.py",
@@ -267,6 +273,7 @@
     "suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
     "suds_tetc_scheduler_traces_20260513_tetc_pivot.csv",
     "suds_tetc_scheduler_traces_20260513_tetc_pivot.json",
+    "suds_tetc_scheduler_ablation_20260513_tetc_pivot.csv",
     "suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.csv",
     "suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json",
     "suds_tetc_baseline_fairness_20260513_tetc_pivot.csv",
@@ -311,10 +318,10 @@
     "suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.json"
   ],
   "rendered_by_public_make": [
-    "Fig1",
-    "Fig2",
-    "Fig3",
-    "Fig4"
+    "Fig4",
+    "Fig5",
+    "Fig6",
+    "Fig7"
   ],
   "copy_files": [
     ".gitattributes",
@@ -374,6 +381,7 @@
     "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.csv",
     "experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.json",
+    "experiments/results/report_data/suds_tetc_scheduler_ablation_20260513_tetc_pivot.csv",
     "experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.csv",
     "experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json",
     "experiments/results/report_data/suds_tetc_baseline_fairness_20260513_tetc_pivot.csv",
@@ -416,9 +424,11 @@
     "experiments/results/report_data/suds_tetc_adc_corner_cases_20260514_r12_reinforcement.json",
     "experiments/results/report_data/suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.csv",
     "experiments/results/report_data/suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.json",
-    "figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv",
-    "figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv",
+    "figures/suds_tetc_20260516_submission_figure_pack/figure_numbering_registry.csv",
+    "figures/suds_tetc_20260516_submission_figure_pack/figure_traceability.csv",
     "experiments/tools/check_figure_numbering_registry.py",
+    "experiments/tools/render_suds_tetc_submission_data_figures.py",
+    "experiments/tools/render_suds_tetc_scheduler_evidence.py",
     "experiments/tools/check_suds_c1_survey_manifest.py",
     "experiments/tools/render_suds_figures.py",
     "experiments/tools/build_suds_interface_overhead.py",

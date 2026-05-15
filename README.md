@@ -29,7 +29,7 @@ rerenders Fig1-Fig4 into `build/rendered_figures/`.
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
 - TETC report data: `experiments/results/report_data/`
-- Figure metadata: `figures/suds_tetc_20260513_tetc_pivot/`
+- Figure metadata: `figures/suds_tetc_20260516_submission_figure_pack/`
 - Review metadata: `experiments/results/review/20260513_tetc_pivot_public/`
 - Static-file checksums: `checksums_manifest.json`
 

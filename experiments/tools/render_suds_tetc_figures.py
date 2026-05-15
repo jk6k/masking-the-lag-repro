@@ -83,6 +83,17 @@ MARKERS = {
     "hyatten_style": "o",
 }
 
+COMPONENT_HATCHES = {
+    "adc": "",
+    "dac_mzm": "///",
+    "detector_tia": "\\\\\\",
+    "laser": "..",
+    "memory": "xx",
+    "optical_link": "++",
+    "control": "--",
+    "digital": "oo",
+}
+
 LABELS = {
     "lightening_dptc": "Lightening DPTC",
     "l1": "L1",
@@ -373,8 +384,9 @@ def render_fig3(args: argparse.Namespace, rows: list[dict[str, str]]) -> dict[st
                 bottom=bottom,
                 label=label,
                 color=COLORS[color_key],
-                edgecolor="white",
-                linewidth=0.4,
+                edgecolor="#2B2B2B",
+                hatch=COMPONENT_HATCHES[color_key],
+                linewidth=0.35,
             )
             bottom += np.asarray(vals)
         ax.set_title(title)

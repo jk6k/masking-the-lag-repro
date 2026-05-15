@@ -1,5 +1,0 @@
-figure_id,manuscript_order,canonical_stem,title,status
-Fig1,1,Fig1_TETCArchitectureEvidenceFlow,Architecture and evidence flow,rendered
-Fig2,2,Fig2_AccuracyEDPPareto,Accuracy/EDP Pareto surface,rendered
-Fig3,3,Fig3_EnergyBreakdown,Energy breakdown,rendered
-Fig4,4,Fig4_ConservativeParetoAccuracy,Conservative Pareto accuracy evidence,rendered

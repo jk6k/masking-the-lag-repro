@@ -2,7 +2,7 @@
   "run_tag": "20260513_tetc_pivot",
   "freeze_tag": "20260513_tetc_pivot",
   "workflow": "suds_tetc",
-  "paper_figures_dir": "figures/suds_tetc_20260513_tetc_pivot",
+  "paper_figures_dir": "figures/suds_tetc_20260516_submission_figure_pack",
   "phase_dir": "experiments/results/runs",
   "report_data_dir": "experiments/results/report_data",
   "review_dir": "experiments/results/review/20260513_tetc_pivot_public",

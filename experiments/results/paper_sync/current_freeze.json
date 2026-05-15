@@ -5,7 +5,7 @@
   "route": "IEEE TETC architecture-first optical Transformer accelerator",
   "phase_dir": "experiments/results/runs",
   "report_data_dir": "experiments/results/report_data",
-  "paper_figures_dir": "figures/suds_tetc_20260513_tetc_pivot",
+  "paper_figures_dir": "figures/suds_tetc_20260516_submission_figure_pack",
   "review_dir": "experiments/results/review/20260513_tetc_pivot_public",
   "canonical_paper": "paper/suds_tetc_architecture_manuscript.tex",
   "canonical_pdf": "paper/suds_tetc_architecture_manuscript.pdf",
@@ -16,8 +16,8 @@
   "public_repro_manifest_json": "configs/public_repro_manifest.json",
   "r12_reinforcement_tag": "20260514_r12_reinforcement",
   "r12_acceptance_decision": "r12_acceptance_gate_pass_with_boundaries",
-  "figure_numbering_registry_csv": "figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv",
-  "figure_traceability_csv": "figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv",
+  "figure_numbering_registry_csv": "figures/suds_tetc_20260516_submission_figure_pack/figure_numbering_registry.csv",
+  "figure_traceability_csv": "figures/suds_tetc_20260516_submission_figure_pack/figure_traceability.csv",
   "architecture_sim_json": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json",
   "architecture_summary_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv",
   "architecture_sensitivity_csv": "experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_sensitivity.csv",
@@ -66,6 +66,7 @@
   "r12_internal_adversarial_review_report": "docs/reports/20260514_suds_tetc_internal_adversarial_review.md",
   "r12_adc_corner_cases_report": "docs/reports/20260514_suds_tetc_adc_corner_cases.md",
   "r12_acceptance_gate_report": "docs/reports/20260514_suds_tetc_r12_acceptance_gate.md",
+  "submission_figure_pack_report": "docs/reports/20260516_suds_tetc_submission_figure_pack_review.md",
   "promoted_at": "2026-05-13",
   "artifact_gate_decision": "tetc_submission_ready",
   "science_gate_decision": "science_gate_pass_local_submission_candidate",
@@ -74,13 +75,19 @@
     "Fig1",
     "Fig2",
     "Fig3",
-    "Fig4"
+    "Fig4",
+    "Fig5",
+    "Fig6",
+    "Fig7"
   ],
   "main_figures": [
     "Fig1",
     "Fig2",
     "Fig3",
-    "Fig4"
+    "Fig4",
+    "Fig5",
+    "Fig6",
+    "Fig7"
   ],
   "appendix_figures": [],
   "double_blind_public_surface": true,
@@ -91,6 +98,6 @@
     "20260512_j2_quality_boost"
   ],
   "claim_boundary": "TETC architecture-first SUDS freeze: architecture-modeled Transformer DPTC PPA; measured MPS accuracy rows for promoted conservative Pareto evidence; same-surface modeled baselines and design-space sweeps; ADC/RTL/PHY calibration and boundary support; local internal red-team and public-repro alignment. Post-R11 R12 reinforcement adds RTL functional simulation, eight-task GLUE/task coverage, MobileViT-S resolution robustness, ADC corner rows, internal adversarial review, and explicit cross-workload/perturbation/DeiT boundary records without changing the headline PPA or accuracy claim. No silicon measurement, foundry/layout closure, bench energy, SPICE-level system validation, deployment readiness, universal scheduler-interface claim, broad hardware-measured GLUE energy, universal workload transfer, universal vision-model applicability, or slack-as-semantic-importance claim.",
-  "notes": "Promoted after the 2026-05-13 TETC pivot, artifact-pack gate, science-strength gate, and strict final gate. R12 is retained as post-R11 reinforcement under tag 20260514_r12_reinforcement; the freeze tag remains 20260513_tetc_pivot. MAX-Q/JETC artifacts remain predecessor evidence only unless explicitly re-promoted through this TETC route contract.",
-  "pack_metadata_json": "figures/suds_tetc_20260513_tetc_pivot/pack_metadata.json"
+  "notes": "Promoted after the 2026-05-13 TETC pivot, artifact-pack gate, science-strength gate, and strict final gate. The paper-facing figure pack is the synchronized 2026-05-16 seven-figure submission pack; the evidence freeze tag remains 20260513_tetc_pivot because the report-data rows are unchanged. R12 is retained as post-R11 reinforcement under tag 20260514_r12_reinforcement. MAX-Q/JETC artifacts remain predecessor evidence only unless explicitly re-promoted through this TETC route contract.",
+  "pack_metadata_json": "figures/suds_tetc_20260516_submission_figure_pack/pack_metadata.json"
 }

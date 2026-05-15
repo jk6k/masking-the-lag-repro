@@ -13,6 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PACK_PREFIX = "paper_figures_"
+SUDS_PACK_PREFIX = "suds_tetc_"
 REGISTRY_NAME = "figure_numbering_registry.csv"
 TRACEABILITY_NAME = "figure_traceability.csv"
 EXPECTED_FIELDS = [
@@ -25,6 +26,52 @@ EXPECTED_FIELDS = [
     "source_kind",
     "source_record",
     "notes",
+]
+CANDIDATE_FIELDS = [
+    "run_tag",
+    "figure_id",
+    "figure_number",
+    "title",
+    "artifact_type",
+    "pdf_path",
+    "png_path",
+    "svg_path",
+    "source_snapshot",
+    "status",
+    "notes",
+]
+CANDIDATE_TRACE_FIELDS = [
+    "run_tag",
+    "figure_id",
+    "workflow",
+    "primary_source",
+    "brief",
+    "render_or_copy_command",
+    "pdf",
+    "svg",
+    "png",
+    "source_snapshot",
+    "review_status",
+    "notes",
+]
+SIMPLE_TETC_FIELDS = [
+    "figure_id",
+    "manuscript_order",
+    "canonical_stem",
+    "title",
+    "status",
+]
+SIMPLE_TETC_TRACE_FIELDS = [
+    "figure_id",
+    "canonical_stem",
+    "figure_type",
+    "run_tag",
+    "primary_source",
+    "brief",
+    "pdf",
+    "svg",
+    "png",
+    "caption_scope_note",
 ]
 FIG_RE = re.compile(r"^Fig(\d+)$")
 APP_RE = re.compile(r"^AppF(\d+)$")
@@ -99,9 +146,147 @@ def _resolve_pack_dir(args: argparse.Namespace) -> Path:
 
 
 def _extract_run_tag(pack_dir: Path) -> str:
-    if not pack_dir.name.startswith(PACK_PREFIX):
+    if pack_dir.name.startswith(PACK_PREFIX):
+        return pack_dir.name[len(PACK_PREFIX) :]
+    if pack_dir.name.startswith(SUDS_PACK_PREFIX):
+        return pack_dir.name[len(SUDS_PACK_PREFIX) :]
+    else:
         raise SystemExit(f"Unexpected frozen pack directory name: {pack_dir}")
-    return pack_dir.name[len(PACK_PREFIX) :]
+
+
+def _validate_candidate_registry(
+    registry_rows: list[dict[str, str]],
+    traceability_path: Path,
+    pack_dir: Path,
+    run_tag: str,
+) -> int:
+    errors: list[str] = []
+    if list(registry_rows[0].keys()) != CANDIDATE_FIELDS:
+        raise SystemExit(
+            f"Registry fields mismatch for {pack_dir / REGISTRY_NAME}: "
+            f"expected {CANDIDATE_FIELDS}, observed {list(registry_rows[0].keys())}"
+        )
+    observed_ids: list[str] = []
+    for expected_number, row in enumerate(registry_rows, start=1):
+        figure_id = row.get("figure_id", "")
+        observed_ids.append(figure_id)
+        if row.get("run_tag") != run_tag:
+            errors.append(f"Registry run_tag mismatch for {figure_id}: {row.get('run_tag')} vs {run_tag}")
+        if figure_id != f"Fig{expected_number}":
+            errors.append(f"Candidate figures must be contiguous: row {expected_number} has {figure_id}")
+        if row.get("figure_number") != str(expected_number):
+            errors.append(f"figure_number mismatch for {figure_id}: {row.get('figure_number')}")
+        if row.get("status") not in {"candidate", "freeze_candidate"}:
+            errors.append(f"Unsupported candidate status for {figure_id}: {row.get('status')}")
+        for field in ("pdf_path", "png_path", "svg_path", "source_snapshot"):
+            rel_path = row.get(field) or ""
+            if not rel_path:
+                continue
+            path = _repo_path(rel_path)
+            if not path.is_file():
+                errors.append(f"Missing candidate artifact for {figure_id} ({field}): {rel_path}")
+            elif field in {"pdf_path", "png_path", "svg_path"} and not path.name.startswith(f"{figure_id}_"):
+                errors.append(f"Candidate artifact stem mismatch for {figure_id}: {rel_path}")
+
+    trace_rows = _load_csv(traceability_path)
+    if not trace_rows:
+        errors.append(f"Empty traceability file: {traceability_path}")
+    elif list(trace_rows[0].keys()) != CANDIDATE_TRACE_FIELDS:
+        errors.append(
+            f"Traceability fields mismatch for {traceability_path}: "
+            f"expected {CANDIDATE_TRACE_FIELDS}, observed {list(trace_rows[0].keys())}"
+        )
+    trace_ids = [row.get("figure_id", "") for row in trace_rows]
+    if trace_ids != observed_ids:
+        errors.append(f"Traceability figure order mismatch: registry={observed_ids}, traceability={trace_ids}")
+    for row in trace_rows:
+        figure_id = row.get("figure_id", "")
+        if row.get("run_tag") != run_tag:
+            errors.append(f"Traceability run_tag mismatch for {figure_id}: {row.get('run_tag')} vs {run_tag}")
+        if row.get("review_status") not in {"candidate_pass", "freeze_candidate_pass"}:
+            errors.append(f"Unsupported traceability review_status for {figure_id}: {row.get('review_status')}")
+        for field in ("pdf", "png", "svg", "source_snapshot"):
+            rel_path = row.get(field) or ""
+            if rel_path and not _repo_path(rel_path).is_file():
+                errors.append(f"Missing traced candidate artifact for {figure_id} ({field}): {rel_path}")
+
+    if pack_dir.name != f"{SUDS_PACK_PREFIX}{run_tag}" and pack_dir.name != f"{PACK_PREFIX}{run_tag}":
+        errors.append(f"Pack directory/run_tag mismatch: {pack_dir.name} vs {run_tag}")
+    if errors:
+        for item in errors:
+            print(f"[figure-numbering-check][error] {item}", file=sys.stderr)
+        return 1
+    print(
+        "[figure-numbering-check] ok "
+        f"run_tag={run_tag} candidate_schema=true active={len(registry_rows)} "
+        f"main_active={observed_ids[0]}..{observed_ids[-1]}"
+    )
+    return 0
+
+
+def _validate_simple_tetc_registry(
+    registry_rows: list[dict[str, str]],
+    traceability_path: Path,
+    pack_dir: Path,
+    run_tag: str,
+) -> int:
+    errors: list[str] = []
+    observed_ids: list[str] = []
+    if list(registry_rows[0].keys()) != SIMPLE_TETC_FIELDS:
+        raise SystemExit(
+            f"Registry fields mismatch for {pack_dir / REGISTRY_NAME}: "
+            f"expected {SIMPLE_TETC_FIELDS}, observed {list(registry_rows[0].keys())}"
+        )
+    for expected_number, row in enumerate(registry_rows, start=1):
+        figure_id = row.get("figure_id", "")
+        observed_ids.append(figure_id)
+        if figure_id != f"Fig{expected_number}":
+            errors.append(f"Simple TETC figures must be contiguous: row {expected_number} has {figure_id}")
+        if row.get("manuscript_order") != str(expected_number):
+            errors.append(f"manuscript_order mismatch for {figure_id}: {row.get('manuscript_order')}")
+        if row.get("status") not in {"rendered", "candidate", "freeze_candidate"}:
+            errors.append(f"Unsupported simple TETC status for {figure_id}: {row.get('status')}")
+        stem = row.get("canonical_stem", "")
+        if not stem.startswith(f"{figure_id}_"):
+            errors.append(f"canonical_stem must start with figure_id for {figure_id}: {stem}")
+
+    trace_rows = _load_csv(traceability_path)
+    if not trace_rows:
+        errors.append(f"Empty traceability file: {traceability_path}")
+    elif list(trace_rows[0].keys()) != SIMPLE_TETC_TRACE_FIELDS:
+        errors.append(
+            f"Traceability fields mismatch for {traceability_path}: "
+            f"expected {SIMPLE_TETC_TRACE_FIELDS}, observed {list(trace_rows[0].keys())}"
+        )
+    trace_ids = [row.get("figure_id", "") for row in trace_rows]
+    if trace_ids != observed_ids:
+        errors.append(f"Traceability figure order mismatch: registry={observed_ids}, traceability={trace_ids}")
+    for row in trace_rows:
+        figure_id = row.get("figure_id", "")
+        if row.get("run_tag") != run_tag:
+            errors.append(f"Traceability run_tag mismatch for {figure_id}: {row.get('run_tag')} vs {run_tag}")
+        stem = row.get("canonical_stem", "")
+        if not stem.startswith(f"{figure_id}_"):
+            errors.append(f"Traceability canonical_stem mismatch for {figure_id}: {stem}")
+        for field in ("pdf", "png", "svg"):
+            rel_path = row.get(field) or ""
+            if not rel_path:
+                continue
+            path = _repo_path(rel_path)
+            if not path.is_file():
+                errors.append(f"Missing traced TETC artifact for {figure_id} ({field}): {rel_path}")
+            elif path.stem != stem:
+                errors.append(f"Traced TETC artifact stem mismatch for {figure_id} ({field}): {rel_path}")
+    if errors:
+        for item in errors:
+            print(f"[figure-numbering-check][error] {item}", file=sys.stderr)
+        return 1
+    print(
+        "[figure-numbering-check] ok "
+        f"run_tag={run_tag} simple_tetc_schema=true active={len(registry_rows)} "
+        f"main_active={observed_ids[0]}..{observed_ids[-1]}"
+    )
+    return 0
 
 
 def _validate_registry_order(rows: list[RegistryRow], errors: list[str]) -> None:
@@ -329,6 +514,14 @@ def main() -> int:
         raise SystemExit(f"Missing registry: {registry_path}")
     if not traceability_path.is_file():
         raise SystemExit(f"Missing traceability file: {traceability_path}")
+
+    raw_registry_rows = _load_csv(registry_path)
+    if not raw_registry_rows:
+        raise SystemExit(f"Empty registry: {registry_path}")
+    if list(raw_registry_rows[0].keys()) == CANDIDATE_FIELDS:
+        return _validate_candidate_registry(raw_registry_rows, traceability_path, pack_dir, run_tag)
+    if list(raw_registry_rows[0].keys()) == SIMPLE_TETC_FIELDS:
+        return _validate_simple_tetc_registry(raw_registry_rows, traceability_path, pack_dir, run_tag)
 
     rows = _load_registry(registry_path)
     errors: list[str] = []

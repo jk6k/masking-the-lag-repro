@@ -10,7 +10,7 @@
 \usepackage{array}
 \usepackage{makecell}
 
-\graphicspath{{../figures/suds_tetc_20260513_tetc_pivot/}}
+\graphicspath{{../figures/suds_tetc_20260516_submission_figure_pack/}}
 
 \title{Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators}
 \author{Anonymous Authors}
@@ -60,6 +60,10 @@ budgets. Local selectors then choose the exact columns inside those budgets.
 This framing is important: SUDS is not a claim that slack alone is a semantic
 importance oracle. It is a budget interface that composes scheduler pressure
 with local L1, signal-amplitude, or overflow-style selectors.
+Fig.~\ref{fig:timing-slack-bottleneck} gives the motivation for converting
+otherwise idle slack into an explicit hardware budget. The architecture and
+budgeting mechanism are detailed in Fig.~\ref{fig:suds-microarchitecture} and
+Fig.~\ref{fig:suds-budget-interface}.
 
 This manuscript is the active architecture-first route for IEEE TETC. The
 contribution stack is restricted to architecture modeling, measured MPS
@@ -89,17 +93,31 @@ This paper makes five architecture-facing contributions:
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{Fig1_TETCArchitectureEvidenceFlow.pdf}
-\caption{SUDS TETC architecture and evidence flow.
-The figure separates measured MPS accuracy evidence, Transformer GEMM
-extraction, hardware-derived DPTC schedule metadata, the SUDS budget
-interface, local column selection, calibration boundaries, and modeled PPA.
-It is an architecture and evidence-flow diagram, not a device, layout, or
-bench-energy claim.}
-\label{fig:architecture-flow}
+\includegraphics[width=\textwidth]{Fig1_TimingSlackBottleneck.pdf}
+\caption{Motivation: harvesting scheduler-visible timing slack.
+In a baseline DPTC execution, a Transformer kernel can finish before its
+downstream deadline while still spending energy at the high-precision operating
+point. SUDS exposes that timing slack to the photonic tile controller as a
+KEEP/DEGRADE/PRUNE budget, allowing lower-energy execution that still meets the
+deadline. The figure is a conceptual timing diagram; it illustrates the
+slack-to-budget interface rather than a measured timing trace.}
+\label{fig:timing-slack-bottleneck}
 \end{figure*}
 
 \section{Architecture Model}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{Fig2_SUDSMicroarchitecture.pdf}
+\caption{SUDS system architecture and micro-datapath.
+The software scheduler supplies kernel data and normalized timing slack to a
+SUDS control interface. The photonic tile controller maps slack to
+KEEP/DEGRADE/PRUNE budget counts, while the hardware tile keeps the DPTC data
+path separated into electronic frontend, optical core, and electronic backend.
+Local selectors spend the budget using column-local signal or L1 information,
+then configure ADC precision, degradation, or pruning.}
+\label{fig:suds-microarchitecture}
+\end{figure*}
 
 \subsection{Transformer Kernel Mapping}
 
@@ -166,6 +184,18 @@ science gate promotes only the schedule-guarded \texttt{suds\_pareto} row as
 the main SUDS claim; the more aggressive SUDS+L1 and SUDS+signal rows remain
 visible ablations and boundary context.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{Fig3_SUDSBudgetInterface.pdf}
+\caption{SUDS budget interface and local selection mechanism.
+The budget generator maps normalized slack to a count-level KEEP/DEGRADE/PRUNE
+budget. The local selector then ranks output columns by local signal or L1
+magnitude and spends that budget on concrete columns. The numeric
+\(\sigma=0.6\) and \(2/4/2\) budget split are illustrative, not a new measured
+data row.}
+\label{fig:suds-budget-interface}
+\end{figure*}
+
 \section{Evaluation Surface}
 
 \subsection{Workloads and Evidence Labels}
@@ -195,7 +225,7 @@ headline claim.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{Fig2_AccuracyEDPPareto.pdf}
+\includegraphics[width=\textwidth]{Fig4_AccuracyEDPPareto.pdf}
 \caption{Accuracy/EDP Pareto surface for nominal selected-point rows.
 The highlighted SUDS Pareto row is the only promoted SUDS main row in the
 science gate. Older aggressive SUDS rows and stronger local-selector baselines
@@ -277,12 +307,13 @@ R12f BERT perturbation mechanism & Binary column zeroing preserves BERT accuracy
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{Fig3_EnergyBreakdown.pdf}
+\includegraphics[width=\textwidth]{Fig5_EnergyBreakdown.pdf}
 \caption{Modeled energy-component breakdown at the selected operating point.
 The stacked bars show that the architecture evidence is not ADC-only: DAC/MZM,
 detector/TIA, laser, memory movement, optical-link movement, and control
 sideband energy are all included and normalized to the same-workload
-Lightening-style DPTC row.}
+Lightening-style DPTC row. Hatches and outlines provide a grayscale-safe
+secondary encoding for print review.}
 \label{fig:energy-breakdown}
 \end{figure*}
 
@@ -311,7 +342,7 @@ simulator-only evidence, or replaced by local selector context.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{Fig4_ConservativeParetoAccuracy.pdf}
+\includegraphics[width=\columnwidth]{Fig6_ConservativeParetoAccuracy.pdf}
 \caption{Measured per-seed MobileViT-S Top-1 deltas for the conservative SUDS
 Pareto point. All eight full ImageNet validation seeds use the governed MPS
 backend and stay within the 1 percentage-point target band.}
@@ -592,7 +623,7 @@ variable, constraint, and evidence-label table is the generated
 \toprule
 Headline claim & Required evidence & Boundary \\
 \midrule
-SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, architecture evidence-flow figure, R0 formal contract report, and R2 scheduler-trace report & Architecture interface, not slack-only importance oracle \\
+SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, timing-slack motivation figure, architecture overview figure, budget-mechanism figure, R0 formal contract report, and R2 scheduler-trace report & Architecture interface, not slack-only importance oracle \\
 Input is slack, DAG, and tile state; output is KEEP/DEGRADE/PRUNE budget & R0 formal contract CSV/JSON, architecture kernel CSV, R2 scheduler trace CSV, and architecture JSON & Budget output, not exact mask output \\
 Selected DPTC point has modeled system PPA advantage & Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate & Modeled PPA, not bench energy \\
 Promoted accuracy is measured on governed local runs & MPS GLUE validation, MobileViT-S conservative Pareto artifact, GLUE architecture linkage, R12b eight-task GLUE rows, and R12e MobileViT-S resolution rows & Accuracy claim only for measured promoted surfaces and robustness checks \\
@@ -752,6 +783,20 @@ maximum signature distance of 0.566732 against a 0.010000 stop threshold.
 This makes the promoted slack source an emitted scheduler trace rather than
 only a column in the architecture summary table.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{Fig7_SchedulerSlackBudgetEvidence.pdf}
+\caption{Scheduler-visible slack and SUDS budget evidence for the promoted
+nominal rows. The left panel reports scheduler slack distributions across
+FIFO, ASAP, deadline-aware, utilization-aware, and SUDS-aware trace variants.
+The middle panel shows the KEEP/DEGRADE/PRUNE budget mix for the promoted
+SUDS-aware traces. The right panel compares SUDS-aware and FIFO low-tail slack
+and queue-wait behavior. This is scheduler-trace evidence for the promoted
+budget interface, not a claim that one scheduler objective universally
+dominates every alternative.}
+\label{fig:scheduler-slack-budget}
+\end{figure*}
+
 The R3 end-to-end perturbation artifact then checks the accuracy side of that
 same contract. It links the promoted BERT-base GLUE and MobileViT-S
 \texttt{suds\_pareto} rows to measured MPS forward passes, verifies that their
@@ -798,9 +843,10 @@ It is not only a static layer-order heuristic.
 R2 also shows that scheduler choice changes the slack distribution. SUDS-aware
 improves low-tail slack over FIFO for the promoted rows, while a
 utilization-aware scheduler has the highest p10 slack in the scheduler-only
-ablation. The paper therefore claims the scheduler-budget interface and the
-measured promoted operating point, not universal dominance by the SUDS-aware
-scheduler over every possible scheduling objective.
+ablation, as summarized in Fig.~\ref{fig:scheduler-slack-budget}. The paper
+therefore claims the scheduler-budget interface and the measured promoted
+operating point, not universal dominance by the SUDS-aware scheduler over every
+possible scheduling objective.
 
 \section{SUDS Policy Definition}
 
@@ -1131,6 +1177,10 @@ The TETC figure pack is regenerated with:
 \begin{verbatim}
 make suds-tetc-figures
 \end{verbatim}
+The seven-figure submission-candidate pack is refreshed with:
+\begin{verbatim}
+make suds-tetc-submission-figure-pack
+\end{verbatim}
 The architecture artifact gate is regenerated with:
 \begin{verbatim}
 make suds-optical-transformer-pivot-gate
@@ -1173,7 +1223,7 @@ The conservative Pareto JSON is
 The science gate JSON is
 \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json}.
 The figure traceability table is
-\path{figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv}.
+\path{figures/suds_tetc_20260516_submission_figure_pack/figure_traceability.csv}.
 
 \subsection{Public Reproduction Boundary}
 
@@ -1262,7 +1312,7 @@ R12 perturbation boundary & \path{experiments/results/report_data/suds_tetc_bert
 R12 DeiT boundary & \path{experiments/results/report_data/suds_tetc_deit_tiny_accuracy_20260514_r12_reinforcement.json} & Vision generality boundary \\
 R12 RTL simulation & \path{experiments/results/report_data/suds_tetc_rtl_simulation_20260514_r12_reinforcement.json} & Iverilog functional simulation support \\
 R12 calibration & \path{experiments/results/report_data/suds_tetc_adc_corner_cases_20260514_r12_reinforcement.json} & ADC corner coverage \\
-Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
+Figure pack & \path{figures/suds_tetc_20260516_submission_figure_pack/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule
 \end{tabular}
@@ -1296,10 +1346,19 @@ The conclusion must not upgrade the artifact gate into submission readiness.
 
 \subsection{Figure Checklist}
 
-Fig.~\ref{fig:architecture-flow} must remain an evidence-flow diagram.
+Fig.~\ref{fig:timing-slack-bottleneck} must remain a motivation diagram and
+must not be described as a measured trace.
+Fig.~\ref{fig:suds-microarchitecture} must remain the architecture overview
+and preserve the electronic frontend, optical core, electronic backend, and
+sidecar SUDS control plane.
+Fig.~\ref{fig:suds-budget-interface} must keep the example budget split
+illustrative.
 Fig.~\ref{fig:accuracy-edp-pareto} must show older aggressive SUDS rows.
-Fig.~\ref{fig:energy-breakdown} must show non-ADC terms.
+Fig.~\ref{fig:energy-breakdown} must show non-ADC terms with grayscale-safe
+secondary encoding.
 Fig.~\ref{fig:conservative-accuracy} must show the one-percentage-point target.
+Fig.~\ref{fig:scheduler-slack-budget} must remain scheduler-trace evidence and
+must not claim universal SUDS-aware scheduler dominance.
 The figure traceability CSV must list all figure sources.
 The figure numbering registry must match first appearance order.
 

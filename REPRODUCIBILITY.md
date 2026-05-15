@@ -34,9 +34,9 @@ source masters, and metadata rather than final figure-pack images.
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
 - Phase summaries and slack manifest: `experiments/results/runs/`
 - TETC report data: `experiments/results/report_data/`
-- Figure metadata: `figures/suds_tetc_20260513_tetc_pivot/`
-- Figure registry: `figures/suds_tetc_20260513_tetc_pivot/figure_numbering_registry.csv`
-- Traceability: `figures/suds_tetc_20260513_tetc_pivot/figure_traceability.csv`
+- Figure metadata: `figures/suds_tetc_20260516_submission_figure_pack/`
+- Figure registry: `figures/suds_tetc_20260516_submission_figure_pack/figure_numbering_registry.csv`
+- Traceability: `figures/suds_tetc_20260516_submission_figure_pack/figure_traceability.csv`
 - Review metadata: `experiments/results/review/20260513_tetc_pivot_public/`
 - Checksums: `checksums_manifest.json`
 
