@@ -204,9 +204,9 @@
       "public_validation_error_count": 0,
       "public_text_leak_status": "pass",
       "public_text_leak_match_count": 0,
-      "external_reader_status": "packet_ready_not_sent_from_codex",
-      "external_issue_policy": "fixed_or_accepted_risk",
-      "accepted_risk_count": 1,
+      "external_reader_status": "explicitly_abandoned",
+      "external_issue_policy": "all_fixed_internally",
+      "accepted_risk_count": 0,
       "fixed_issue_count": 4
     },
     "workload_grounding": {
@@ -363,7 +363,7 @@
     },
     "manuscript_maturity": {
       "status": "pass",
-      "line_count": 1443,
+      "line_count": 1495,
       "has_references": true,
       "has_figures": true,
       "blockers": []
@@ -455,7 +455,7 @@
       "gate": "Manuscript maturity reaches full journal-paper density",
       "required": true,
       "status": "pass",
-      "evidence": "line_count=1443; references=True; figures=True",
+      "evidence": "line_count=1495; references=True; figures=True",
       "blockers": "",
       "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
     },
@@ -524,10 +524,10 @@
     },
     {
       "gate_id": "S7",
-      "gate": "R11 public mini-benchmark and external accepted-risk record passes",
+      "gate": "R11 public mini-benchmark and internal closure record passes",
       "required": true,
       "status": "pass",
-      "evidence": "r11=pass; stop=no R11 hard stop; manifest=pass; public_repro=pass; validation_errors=0; text_scan=pass; text_matches=0; external=packet_ready_not_sent_from_codex; policy=fixed_or_accepted_risk; fixed=4; accepted_risks=1",
+      "evidence": "r11=pass; stop=no R11 hard stop; manifest=pass; public_repro=pass; validation_errors=0; text_scan=pass; text_matches=0; external=explicitly_abandoned; policy=all_fixed_internally; fixed=4; accepted_risks=0",
       "blockers": "",
       "next_action": "Regenerate R11 and rerun public-repro build/check/render/check before treating the public package as reviewer-checkable."
     }

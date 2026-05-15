@@ -43,8 +43,8 @@ this plan must stay on the IEEE TETC architecture-first route.
    it into a stronger story.
 9. The pivot gate is an artifact-pack gate only. Final local submission
    promotion requires the stricter TETC science-strength gate to pass.
-10. External red-team review is useful but advisory for this local gate; it is
-   not a required blocker unless a later user decision makes it mandatory.
+10. External independent reviewer review is permanently abandoned for this
+   project.
 
 ## 2. Target Contribution Stack
 
@@ -197,10 +197,8 @@ Deliverables:
 - `make suds-tetc-science-gate` passes as the final local science-strength
   gate before the route can be called a local submission candidate.
 - Internal red-team covers architecture, photonic/circuit, systems, and
-  reviewer-skeptic lenses.
-- External red-team is preferred; if unavailable, subagent/internal review is
-  recorded as a substitute, not an equivalent replacement. External red-team is
-  advisory and not mandatory in the current local gate.
+  reviewer-skeptic lenses. External independent reviewer review is permanently
+  abandoned; the internal review is fully self-contained.
 - Public reproduction build/check/render/check passes with the TETC
   architecture simulator, gate, red-team, and manuscript artifacts included.
 
@@ -229,9 +227,8 @@ Acceptance:
 - No required local acceptance blocker remains in the artifact pivot gate,
   science-strength gate, or strict final gate. The latest strict target
   `make suds-tetc-final-gate` exits successfully and the science decision is
-  `science_gate_pass_local_submission_candidate`. External red-team remains
-  advisory rather than mandatory, but it is still the highest-value
-  pre-submission risk reducer.
+  `science_gate_pass_local_submission_candidate`. External independent
+  reviewer review is permanently abandoned.
 
 ## 5. Regeneration
 

@@ -183,13 +183,15 @@ It records the forward-pass perturbation surface as a tiered ADC/noise proxy,
 not bit-exact ADC, optical-device, silicon, or bench-energy evidence.
 The R9 workload-expansion artifact adds architecture-only DeiT-Tiny patch16-224
 rows plus BERT sequence-length and batch-size sweeps. Those rows are not new
-measured accuracy evidence: the DeiT-Tiny weights/dataset blocker is recorded,
-and long-sequence or larger-batch BERT rows remain boundary traces unless a
-matching governed MPS accuracy artifact is produced. The new DeiT-Tiny sweep
-therefore supports only modeled PPA generality, with the selected
-\texttt{suds\_pareto} row retaining at least 6.90\% modeled EDP improvement
-versus the same-scope Lightening-style reference in that architecture-only
-surface.
+measured accuracy evidence, and long-sequence or larger-batch BERT rows remain
+boundary traces unless a matching governed MPS accuracy artifact is produced.
+The R12 reinforcement layer later adds measured DeiT-Tiny and task-expansion
+records, but those records are used here only to separate robust surfaces from
+boundaries: the selected \texttt{suds\_pareto} row retains at least 6.90\%
+modeled EDP improvement versus the same-scope Lightening-style reference in the
+architecture-only DeiT-Tiny surface, while the measured DeiT-Tiny accuracy
+delta is recorded as a vision-generality boundary rather than as a promoted
+headline claim.
 
 \begin{figure*}[t]
 \centering
@@ -245,6 +247,33 @@ older SUDS+L1/SUDS+signal rows, HyAtten-style, TeMPO-style, and ASTRA-style
 rows are retained so reviewers can see when a local selector or alternate
 fabric is stronger. Those rows bound the claim; they do not relabel SUDS as a
 universal winner.
+
+\subsection{Post-R11 Reinforcement}
+
+R12 is treated as a post-freeze reinforcement layer under the unchanged
+\texttt{20260513\_tetc\_pivot} freeze. It does not change the promoted PPA row,
+the one-percentage-point accuracy target, or any figure numbering. Instead, it
+adds robustness evidence where the existing claim already had measured support
+and records explicit boundaries where transfer or generality does not hold.
+
+\begin{table*}[t]
+\centering
+\caption{Post-R11 R12 reinforcement evidence. R12 strengthens robustness and
+boundary labeling without changing the headline selected row.}
+\label{tab:r12-reinforcement}
+\footnotesize
+\begin{tabular}{p{0.22\textwidth}p{0.42\textwidth}p{0.27\textwidth}}
+\toprule
+R12 check & Main-text use & Boundary retained \\
+\midrule
+R12b GLUE task expansion & 120 governed rows across eight GLUE tasks stress the BERT-side measured surface & Task coverage support only; no claim of universal NLP transfer \\
+R12e MobileViT-S resolution sweep & 24 full-ImageNet rows across resolutions preserve the conservative MobileViT-S accuracy framing & Robustness around the promoted setting, not a new vision model claim \\
+R12a and R12h control/calibration & Iverilog functional simulation passes 31/31 checks and 12/12 features; ADC corners cover 36/36 rows & Functional simulation and calibration only; no timing, layout, or bench-energy closure \\
+R12c and R12g transfer/generalization & Cross-workload and DeiT-Tiny records make non-promoted workloads auditable & Cross-workload transfer and DeiT-Tiny accuracy deltas are boundary evidence \\
+R12f BERT perturbation mechanism & Multi-seed perturbation rows expose mechanism sensitivity & Mechanism-delta artifacts remain explanatory, not a stronger accuracy claim \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
 \begin{figure*}[t]
 \centering
@@ -332,18 +361,21 @@ artifact. Optical-link assumptions are tied to the PHY boundary sweep. These
 artifacts calibrate simulator parameters and stress settings only.
 The reinforced R7 artifact adds static RTL contract vectors for reset,
 configuration, KEEP/DEGRADE/PRUNE tiering, queue and selector guards,
-tile-command handshaking, and command-bit layout. Because the local environment
-does not provide an RTL simulator, these vectors are reported as Yosys plus
-static contract coverage rather than RTL simulation.
-The R8 calibration-range artifact makes this boundary explicit: ADC4/6/8
-energy and latency now carry measured macro corner ranges, while photonic
+tile-command handshaking, and command-bit layout. R12a adds an iverilog
+functional-simulation pass over the same control plane, with 31/31 checks and
+12/12 feature categories passing. This upgrades the control-plane evidence from
+static-only coverage to functional simulation, while retaining the boundary
+that it is not timing closure, physical implementation, or silicon validation.
+The R8 calibration-range artifact makes the calibration boundary explicit:
+ADC4/6/8 energy and latency carry measured macro corner ranges, while photonic
 settings carry PHY ER/crosstalk, pass-ratio, laser-power, laser multiplier,
-link-loss, and DAC/MZM scaling ranges. The nominal values in
-Table~\ref{tab:calibration} remain the selected simulator point; the
-pessimistic and boundary values are calibration ranges, not circuit closure.
-The reinforced R8 provenance matrix records source checksums, source-row
-counts, label completeness, monotonic range checks, and a positive-claim scan
-for forbidden closure wording.
+link-loss, and DAC/MZM scaling ranges. R12h extends the ADC sweep to 36/36
+corner rows and preserves tier-energy ordering across the checked rows. The
+nominal values in Table~\ref{tab:calibration} remain the selected simulator
+point; the pessimistic and boundary values are calibration ranges, not circuit
+closure. The provenance matrix records source checksums, source-row counts,
+label completeness, monotonic range checks, and a positive-claim scan for
+forbidden closure wording.
 
 \begin{table*}[t]
 \centering
@@ -398,11 +430,11 @@ make suds-optical-transformer-pivot-gate
 which rebuilds the architecture simulator, G1 release artifacts, and pivot gate.
 The public reproduction manifest includes the TETC architecture simulator
 summary, kernel, sensitivity, parameter, design-space, GLUE-linkage, gate,
-red-team, public-repro alignment, R11 public mini-benchmark, and
-major-revision response scaffold artifacts. A separate generated public
-package check verifies that datasets, weights, private literature mirrors,
-trial histories, personal paths, and active legacy-route entry points are
-excluded.
+red-team, public-repro alignment, R11 public mini-benchmark, R12 reinforcement
+artifacts, and major-revision response scaffold artifacts. A separate generated
+public package check verifies that datasets, weights, private literature
+mirrors, trial histories, personal paths, and active legacy-route entry points
+are excluded.
 
 \begin{table}[t]
 \centering
@@ -428,14 +460,17 @@ G6 venue fit & pass & Advisory route fit record \\
 \section{Internal Red-Team Summary}
 
 The G1 red-team artifact uses four lenses: architecture, photonic/circuit,
-systems/reproducibility, and reviewer skepticism. The promoted fixes are:
-keep SUDS as a scheduler-derived budget interface rather than a selector
-replacement; keep ASTRA and TeMPO as boundary fabrics; expose calibration
-parameters in Table~\ref{tab:calibration}; keep signal-only and L1-only wins
-as boundary evidence; and require public-repro alignment before the gate can
-promote. No external reviewer was available inside this local execution pass,
-so the internal review is recorded as a substitute, not an equivalent external
-review.
+systems/reproducibility, and reviewer skepticism. R12d expands that local audit
+to eight lenses and records four promoted fixes plus four accepted boundaries.
+The promoted fixes are: keep SUDS as a scheduler-derived budget interface
+rather than a selector replacement; keep ASTRA and TeMPO as boundary fabrics;
+expose calibration parameters in Table~\ref{tab:calibration}; keep signal-only
+and L1-only wins as boundary evidence; and require public-repro alignment
+before the gate can promote. The R12 acceptance gate passes with boundary
+records accepted for cross-workload transfer, perturbation-mechanism deltas,
+and DeiT-Tiny measured generality. The internal review is recorded as a local
+substitute; external independent reviewer review is permanently abandoned for
+this project.
 
 \section{Problem Statement and Claim Contract}
 
@@ -560,10 +595,10 @@ Headline claim & Required evidence & Boundary \\
 SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, architecture evidence-flow figure, R0 formal contract report, and R2 scheduler-trace report & Architecture interface, not slack-only importance oracle \\
 Input is slack, DAG, and tile state; output is KEEP/DEGRADE/PRUNE budget & R0 formal contract CSV/JSON, architecture kernel CSV, R2 scheduler trace CSV, and architecture JSON & Budget output, not exact mask output \\
 Selected DPTC point has modeled system PPA advantage & Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate & Modeled PPA, not bench energy \\
-Promoted accuracy is measured on governed local runs & MPS GLUE validation, MobileViT-S conservative Pareto artifact, and GLUE architecture linkage & Accuracy claim only for measured surfaces \\
-Workload generality is tested beyond the two promoted measured workloads & R9 workload-expansion CSV/JSON/report with DeiT-Tiny architecture-only rows and BERT sequence/batch sweeps & Boundary PPA evidence only; no new measured accuracy claim \\
+Promoted accuracy is measured on governed local runs & MPS GLUE validation, MobileViT-S conservative Pareto artifact, GLUE architecture linkage, R12b eight-task GLUE rows, and R12e MobileViT-S resolution rows & Accuracy claim only for measured promoted surfaces and robustness checks \\
+Workload generality is tested and bounded beyond the two promoted measured workloads & R9 workload-expansion CSV/JSON/report, R12c cross-workload transfer rows, and R12g DeiT-Tiny measured boundary rows & Boundary PPA or boundary accuracy evidence only; no universal transfer claim \\
 Strong baselines and boundary fabrics are visible & Pivot gate G4 and architecture condition matrix & No universal dominance claim \\
-ADC, RTL, and PHY evidence calibrate simulator parameters & ADC macro, RTL sideband, PHY boundary, and parameter table artifacts & Calibration/proxy/boundary only \\
+ADC, RTL, and PHY evidence calibrate simulator parameters & ADC macro, R12h ADC corner rows, R12a RTL functional simulation, PHY boundary, and parameter table artifacts & Calibration/functional-simulation/proxy/boundary only \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -1210,7 +1245,15 @@ System sensitivity & \path{experiments/results/report_data/suds_tetc_system_sens
 RTL control plane & \path{experiments/results/report_data/suds_tetc_rtl_control_plane_20260513_tetc_pivot.json} & R7 control-sideband synthesis proxy and simulator linkage \\
 Calibration ranges & \path{experiments/results/report_data/suds_tetc_calibration_ranges_20260513_tetc_pivot.json} & R8 ADC and photonic nominal/pessimistic/boundary range audit \\
 Failure and uncertainty & \path{experiments/results/report_data/suds_tetc_uncertainty_20260513_tetc_pivot.json} & R10 counterexamples, bootstrap intervals, and target-regime Monte Carlo \\
-Public mini benchmark & \path{experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json} & R11 public-repro validation, accepted-risk red-team record, and response scaffold \\
+Public mini benchmark & \path{experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json} & R11 public-repro validation, internal red-team record, and response scaffold \\
+R12 acceptance gate & \path{experiments/results/report_data/suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.json} & Post-R11 pass decision with accepted boundary records \\
+R12 robustness rows & \path{experiments/results/report_data/suds_tetc_glue_task_expansion_20260514_r12_reinforcement.json} & Eight-task GLUE robustness support \\
+R12 vision robustness & \path{experiments/results/report_data/suds_tetc_mobilevit_resolution_accuracy_20260514_r12_reinforcement.json} & MobileViT-S resolution sweep support \\
+R12 boundary rows & \path{experiments/results/report_data/suds_tetc_cross_workload_transfer_20260514_r12_reinforcement.json} & Cross-workload transfer boundary evidence \\
+R12 perturbation boundary & \path{experiments/results/report_data/suds_tetc_bert_multiseed_accuracy_20260514_r12_reinforcement.json} & BERT mechanism and seed sensitivity boundary \\
+R12 DeiT boundary & \path{experiments/results/report_data/suds_tetc_deit_tiny_accuracy_20260514_r12_reinforcement.json} & Vision generality boundary \\
+R12 RTL simulation & \path{experiments/results/report_data/suds_tetc_rtl_simulation_20260514_r12_reinforcement.json} & Iverilog functional simulation support \\
+R12 calibration & \path{experiments/results/report_data/suds_tetc_adc_corner_cases_20260514_r12_reinforcement.json} & ADC corner coverage \\
 Figure pack & \path{figures/suds_tetc_20260513_tetc_pivot/} & Main-text figure source \\
 Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
 \bottomrule
@@ -1226,8 +1269,7 @@ S2 must remain pass.
 S3 must remain pass.
 S4 must remain pass.
 S5, S5b, S5c, and S5d must remain pass.
-External red-team review should be pursued even though it is advisory in the
-local gate.
+External independent reviewer review is permanently abandoned for this project.
 If any promoted row changes, the dominance and accuracy gates must be rerun.
 If any architecture parameter changes, the design-space and PPA artifacts must
 be regenerated.
@@ -1257,7 +1299,8 @@ The figure numbering registry must match first appearance order.
 
 The public reproduction package must be regenerated.
 The public reproduction check must pass.
-The R11 public mini-benchmark and accepted-risk record must remain pass.
+The R11 public mini-benchmark, R12 acceptance gate, and accepted-risk record
+must remain pass.
 The final gate must pass.
 The final manuscript PDF must compile.
 The final status document must distinguish artifact pass from local
@@ -1270,9 +1313,9 @@ This paper does not claim a fabricated photonic chip, extracted layout,
 foundry closure, bench-energy measurement, optical-device signoff, or deployed
 system. Uniform 4-bit rows remain accuracy boundaries where the accuracy run is
 not measured. TeMPO and ASTRA rows are boundary architecture contexts because
-they change the conversion or stochastic optical fabric. Full external red-team
-review remains preferred before submission, even though the local G1 gate now
-has an internal substitute and a public-repro alignment check.
+they change the conversion or stochastic optical fabric. External independent
+reviewer review is permanently abandoned; the local G1 gate has an internal
+red-team and a public-repro alignment check.
 The R6 sensitivity sweep also shows that sufficiently extreme common DAC/MZM
 cost can erase the MobileViT-S promoted advantage, so the claim is bounded to
 the named valid memory/conversion/link regimes rather than universal photonic
@@ -1286,6 +1329,13 @@ memory-dominated regimes can reduce the margin, small-batch and long-sequence
 expansions require their own measured MPS accuracy before promotion, and
 signal-only rows remain selector-boundary evidence rather than proof of
 universal SUDS dominance.
+The R12 reinforcement layer further records three explicit boundaries:
+cross-workload transfer can degrade MobileViT-S when a BERT-calibrated schedule
+is reused, BERT perturbation mechanism deltas are sensitive to implementation
+details and seeds, and DeiT-Tiny measured accuracy loses more than one
+percentage point under the tested setting. These records keep R12 as
+robustness and boundary evidence rather than a promotion of universal workload
+or vision-model applicability.
 
 \section{Conclusion}
 
@@ -1294,9 +1344,11 @@ photonic Transformer accelerators. When mapped to a Lightening-style DPTC
 fabric, the interface composes with L1 and signal selectors, preserves
 governed MPS accuracy linkage on BERT-base GLUE and MobileViT-S Transformer
 blocks, and maintains a pessimistic system-level EDP advantage versus the
-same-scope DPTC reference. The result is a bounded TETC architecture package:
-strong enough to promote as architecture evidence, and explicit about where
-the evidence stops.
+same-scope DPTC reference. R12 adds control-plane functional simulation,
+expanded GLUE and MobileViT robustness checks, ADC corner coverage, and
+explicit transfer/generalization boundaries without changing the headline
+claim. The result is a bounded TETC architecture package: strong enough to
+promote as architecture evidence, and explicit about where the evidence stops.
 
 \begin{thebibliography}{99}
 

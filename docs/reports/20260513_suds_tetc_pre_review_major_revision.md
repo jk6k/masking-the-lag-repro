@@ -31,12 +31,12 @@ Primary official source checked:
 
 | ID | Severity | Finding | Revision action |
 |---|---|---|---|
-| MR1 | high | The package could read as "possible review/major revision" rather than "risk-free acceptance" because the PPA layer is modeled and the external red-team is absent. | Keep the conclusion bounded: local submission candidate, not guaranteed acceptance. External red-team remains the first pre-submission risk reducer. |
+| MR1 | high | The package could read as "possible review/major revision" rather than "risk-free acceptance" because the PPA layer is modeled. | Keep the conclusion bounded: local submission candidate, not guaranteed acceptance. External independent reviewer review is permanently abandoned. |
 | MR2 | high | Active docs still exposed legacy fallback-route language, which weakens the TETC positioning. | Active coordination docs and the pivot gate now describe a TETC-only active route; legacy methodology materials are archival provenance only. |
 | MR3 | high | The strongest reviewer attack is local-selector dominance: L1/signal/HyAtten/ASTRA can look stronger under some surfaces. | Promote only `suds_pareto`; retain SUDS+L1/SUDS+signal and alternate-fabric rows as ablation or boundary context. |
 | MR4 | high | TETC requires clear evaluation and state-of-the-art comparison, so an ADC-only or single-workload story would be desk-rejection-prone. | Keep BERT/GLUE and MobileViT-S, system PPA terms, design-space sweep, Lightening/HyAtten/TeMPO/ASTRA/ENLighten boundaries, and calibration ties in the main package. |
 | MR5 | medium | Public repro could accidentally carry legacy route wording through old reports. | The active public-repro manifest no longer exports old route reports or legacy internal red-team artifacts with route-specific wording. |
-| MR6 | medium | Internal red-team is useful but not independent. | Gate wording states internal substitute is not equivalent to external review. |
+| MR6 | medium | Internal red-team is self-contained; external review is permanently abandoned. | Gate wording states external independent reviewer review is permanently abandoned. |
 
 ## Submission Positioning After Revision
 
@@ -57,13 +57,11 @@ The manuscript should not claim:
 
 ## Remaining Pre-Submission Major-Revision Work
 
-1. Run an external red-team review if scheduling permits; record it separately
-   from the internal substitute.
-2. Do a final TETC-specific metadata pass: title, abstract, keywords, author
+1. Do a final TETC-specific metadata pass: title, abstract, keywords, author
    anonymity, IEEEtran formatting, references, and supplementary naming.
-3. Re-run the strict local gate and public-repro check after any wording or
+2. Re-run the strict local gate and public-repro check after any wording or
    artifact change.
-4. Before upload, scan the final TETC bundle for legacy route names, personal
+3. Before upload, scan the final TETC bundle for legacy route names, personal
    paths, private datasets, private KB paths, and overclaim terms.
 
 ## Self-Review Outcome

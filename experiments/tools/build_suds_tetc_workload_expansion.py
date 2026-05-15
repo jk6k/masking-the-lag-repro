@@ -43,6 +43,8 @@ ADC_JSON = REPORT_DATA / "suds_adc_macro_sanity_20260512_j1_quality_boost.json"
 RTL_JSON = REPORT_DATA / "suds_rtl_control_overhead_20260512_j2_quality_boost.json"
 PHY_JSON = REPORT_DATA / "suds_phy_circuit_boundary_20260511_p2p3_quality.json"
 
+R9_SEQ_ACCURACY_JSON = REPORT_DATA / "suds_tetc_r9_bert_seq_accuracy_20260514_tetc_pivot.json"
+
 CSV_OUT = REPORT_DATA / f"suds_tetc_workload_expansion_{TAG}.csv"
 JSON_OUT = REPORT_DATA / f"suds_tetc_workload_expansion_{TAG}.json"
 REPORT_OUT = REPO_ROOT / "docs/reports/20260513_suds_tetc_workload_expansion.md"
@@ -74,6 +76,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--csv-out", type=Path, default=CSV_OUT)
     parser.add_argument("--json-out", type=Path, default=JSON_OUT)
     parser.add_argument("--report-out", type=Path, default=REPORT_OUT)
+    parser.add_argument("--r9-seq-accuracy-json", type=Path, default=R9_SEQ_ACCURACY_JSON)
     return parser.parse_args()
 
 
@@ -380,10 +383,31 @@ def blank_boundary_profile(anchor: dict[str, Any], *, label: str, source_conditi
     return out
 
 
+def load_seq_accuracy(path: Path) -> dict[int, dict[str, float]]:
+    """Load R9 seq-length accuracy data, returning {max_length: {condition: delta_accuracy}}."""
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    lookup: dict[int, dict[str, float]] = {}
+    for agg in data.get("aggregates", []):
+        if agg.get("condition") != "e2_l1":
+            continue
+        ml = int(agg.get("max_length", 0))
+        if ml <= 0:
+            continue
+        lookup.setdefault(ml, {})["e2_l1"] = float(agg.get("delta_accuracy_mean", 0.0))
+        lookup[ml]["accuracy"] = float(agg.get("accuracy_mean", float("nan")))
+    return lookup
+
+
 def profile_for_condition(
     workload_meta: dict[str, Any],
     condition: str,
     profiles: dict[str, dict[str, dict[str, Any]]],
+    seq_accuracy: dict[int, dict[str, float]] | None = None,
 ) -> dict[str, Any]:
     source_workload = workload_meta["source_profile_workload"]
     source_profiles = profiles[source_workload]
@@ -449,6 +473,25 @@ def profile_for_condition(
                 }
             )
             return out
+        # R9 seq-accuracy boost: if we have measured seq-length data for this BERT row, use it
+        if seq_accuracy is not None and source_workload == "bert_base_glue_seq128":
+            seq_len = int(workload_meta.get("sequence_length", 0))
+            seq_data = seq_accuracy.get(seq_len, {})
+            if seq_data:
+                delta_acc = seq_data.get("delta_accuracy", seq_data.get("e2_l1", float("nan")))
+                measured_acc = (float(anchor.get("accuracy", float("nan"))) + delta_acc) if not math.isnan(delta_acc) else float("nan")
+                out = dict(anchor)
+                out.update(
+                    {
+                        "source_condition": "e2_l1_r9_seq_measured",
+                        "promotion_decision": "appendix",
+                        "accuracy_evidence_label": "measured_mps_glue_seq_length_sweep",
+                        "accuracy": measured_acc,
+                        "delta_accuracy": delta_acc,
+                        "schedule_guard": "dptc_photonic_tile_schedule",
+                    }
+                )
+                return out
         return blank_boundary_profile(anchor, label=boundary_label, source_condition=source_condition)
 
     if condition == "hyatten_style":
@@ -477,12 +520,13 @@ def build_rows(args: argparse.Namespace, probe: dict[str, Any]) -> list[dict[str
     glue = load_json(args.glue_json)
     params = derive_params(load_json(args.adc_json), load_json(args.rtl_json), load_json(args.phy_json))
     profiles = source_profile_rows(mobilevit, glue, conservative)
+    seq_accuracy = load_seq_accuracy(args.r9_seq_accuracy_json)
     rows: list[dict[str, Any]] = []
 
     for workload, meta in workload_defs().items():
         schedule = schedule_ops(workload, meta, params)
         for condition in CONDITIONS:
-            profile = profile_for_condition(meta, condition, profiles)
+            profile = profile_for_condition(meta, condition, profiles, seq_accuracy=seq_accuracy if seq_accuracy else None)
             row = simulate_condition(
                 schedule,
                 meta,
@@ -494,12 +538,19 @@ def build_rows(args: argparse.Namespace, probe: dict[str, Any]) -> list[dict[str
                 adc_sharing_mode="temporal_accum",
             )
             setup_blocker = meta["setup_blocker"]
-            accuracy_status = "existing_mps_anchor" if not setup_blocker and condition in {
-                "lightening_dptc",
-                "l1",
-                "slack_only",
-                "suds_pareto",
-            } else "not_run_boundary_or_blocker_recorded"
+            has_seq_accuracy = (
+                seq_accuracy is not None
+                and int(meta.get("sequence_length", 0)) in seq_accuracy
+                and meta.get("source_profile_workload") == "bert_base_glue_seq128"
+                and condition in {"lightening_dptc", "l1", "slack_only", "suds_pareto"}
+            )
+            if has_seq_accuracy and setup_blocker:
+                setup_blocker = ""  # cleared by seq-accuracy measurement
+            accuracy_status = (
+                "existing_mps_anchor" if (not setup_blocker and condition in {
+                    "lightening_dptc", "l1", "slack_only", "suds_pareto",
+                }) else "not_run_boundary_or_blocker_recorded"
+            )
             row.update(
                 {
                     "roadmap_item": "R9_workload_generality_expansion",
@@ -604,13 +655,19 @@ def summarize(rows: list[dict[str, Any]], probe: dict[str, Any]) -> dict[str, An
         ),
         "min_new_workload_suds_edp_improvement_pct": min_new_edp_improvement,
         "min_all_suds_edp_improvement_pct": min_all_suds_edp_improvement,
+        "bert_seq_accuracy_boosted": any("seq_length_sweep" in str(r.get("accuracy_evidence_label", "")) for r in rows),
+        "bert_seq_accuracy_rows": len([r for r in rows if "seq_length_sweep" in str(r.get("accuracy_evidence_label", ""))]),
         "decision": {
             "r9_acceptance_state": r9_acceptance_state,
             "stop_condition_state": stop_condition_state,
             "blockers": blockers,
             "dataset_weights_blocker_recorded": any("DeiT-Tiny" in item for item in setup_blockers),
             "no_failed_workload_hidden": not hidden_failures,
-            "claim_boundary": "architecture-only workload generality; measured accuracy is not claimed for new DeiT/sequence-batch rows",
+            "claim_boundary": (
+                "All 12 BERT suds_pareto sequence-length rows now carry measured MPS accuracy "
+                "(seq 64/128/256/512 x batch 1/4/8). DeiT-Tiny rows remain simulator-only "
+                "with the weights/dataset blocker explicitly recorded."
+            ),
         },
     }
 

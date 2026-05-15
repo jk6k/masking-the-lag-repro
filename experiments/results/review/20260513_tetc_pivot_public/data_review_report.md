@@ -6,6 +6,7 @@ Freeze: `20260513_tetc_pivot`
 - Evidence surface: pass. Phase summaries, slack manifest, TETC report data, and source figure inputs are present.
 - TETC pivot surface: pass. Architecture simulator, design-space, GLUE linkage, science gate, pivot gate, public-repro alignment, and internal red-team artifacts are included as compact artifacts.
 - R11 review surface: pass. Public mini-benchmark, external red-team accepted-risk record, and major-revision response scaffold are included as compact artifacts.
+- R12 reinforcement surface: pass. RTL functional simulation, GLUE expansion, MobileViT resolution, cross-workload, BERT multi-seed, DeiT-Tiny boundary, ADC corner, adversarial-review, and acceptance-gate artifacts are included as compact artifacts.
 - Checksum surface: pass. `checksums_manifest.json` records SHA-256 hashes for exported static files.
 - Figure-generation surface: pass. Public render commands regenerate reviewer-facing figures into ignored build outputs.
 - Claim boundary: pass. The package supports modeled mechanisms, measured accuracy validation, calibrated energy sensitivity, synthetic-supporting, and parametric-supporting evidence only.

@@ -47,9 +47,14 @@ architecture-modeled PPA, governed measured accuracy summaries for MobileViT-S
 and GLUE/BERT tasks, calibrated ADC/RTL/PHY parameter inputs, design-space
 sweeps, public-repro alignment, local red-team review, and figure traceability.
 It also carries the R11 external-review accepted-risk record and
-major-revision response scaffold. It does not promote universal scaling,
+major-revision response scaffold. R12 post-R11 reinforcement is included as
+compact support and boundary evidence: RTL functional simulation, GLUE task
+coverage, MobileViT resolution checks, BERT perturbation-mechanism rows,
+DeiT-Tiny and cross-workload boundary records, ADC corner rows, adversarial
+review, and the R12 acceptance gate. It does not promote universal scaling,
 silicon measurement, SPICE closure, measured hardware energy, broad workload
-generalization, deployment readiness, or hardware superiority.
+generalization, universal vision applicability, deployment readiness, or
+hardware superiority.
 
 ## Full Rerun Boundary
 

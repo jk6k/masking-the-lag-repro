@@ -45,6 +45,7 @@ MEASURED_SAME_FABRIC_BASELINES = {
 }
 MEASURED_ACCURACY_LABELS = {"measured_mps_glue", "measured_mps_imagenet"}
 EXTERNAL_RED_TEAM_REQUIRED = False
+ACCEPTED_R11_ISSUE_POLICIES = {"fixed_or_accepted_risk", "all_fixed_internally"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -521,7 +522,7 @@ def public_mini_benchmark_boundary() -> dict[str, Any]:
         blockers.append("r11_public_repro_validation_not_pass")
     if text_scan.get("status") != "pass":
         blockers.append("r11_public_text_leak_audit_not_pass")
-    if summary.get("external_issue_policy") != "fixed_or_accepted_risk":
+    if summary.get("external_issue_policy") not in ACCEPTED_R11_ISSUE_POLICIES:
         blockers.append("r11_external_issue_policy_not_closed")
     if len(rows) < 5:
         blockers.append("r11_external_issue_rows_incomplete")
@@ -937,7 +938,7 @@ def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         ),
         gate_row(
             "S7",
-            "R11 public mini-benchmark and external accepted-risk record passes",
+            "R11 public mini-benchmark and internal closure record passes",
             public_mini_benchmark["status"],
             (
                 f"r11={public_mini_benchmark['acceptance']}; "

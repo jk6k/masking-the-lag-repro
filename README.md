@@ -47,8 +47,10 @@ are fixed in the TETC figure traceability metadata.
 The package supports paper inspection, traceability review, and local
 figure-regeneration from compact source artifacts. It includes architecture
 simulation, calibration, public-repro alignment, and local red-team compact
-data, R11 external-review accepted-risk records, and the major-revision
-response scaffold. It does not include private datasets, model weights,
+data, R11 external-review accepted-risk records, the major-revision response
+scaffold, and R12 post-R11 reinforcement records for RTL simulation, GLUE task
+coverage, MobileViT resolution, transfer/DeiT/BERT boundaries, ADC corners, and
+acceptance gating. It does not include private datasets, model weights,
 private literature mirrors, trial drafts, candidate histories, historical
 FULLER freeze payloads, personal remotes, or absolute local paths.
 

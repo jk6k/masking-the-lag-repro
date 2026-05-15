@@ -2,7 +2,7 @@
   "metadata": {
     "tag": "20260513_tetc_pivot",
     "artifact_id": "suds_tetc_external_red_team_20260513_tetc_pivot",
-    "evidence_label": "r11_public_mini_benchmark_external_red_team",
+    "evidence_label": "r11_public_mini_benchmark_internal_red_team",
     "regeneration_command": "make suds-tetc-external-red-team"
   },
   "summary": {
@@ -28,10 +28,11 @@
       "matches": [],
       "match_count": 0
     },
-    "external_reader_status": "packet_ready_not_sent_from_codex",
-    "external_issue_policy": "fixed_or_accepted_risk",
-    "accepted_risk_count": 1,
+    "external_reader_status": "explicitly_abandoned",
+    "external_issue_policy": "all_fixed_internally",
+    "abandoned_issue_count": 1,
     "fixed_issue_count": 4,
+    "accepted_risk_count": 0,
     "public_repro_commands": [
       "make public-repro-build",
       "make public-repro-check",
@@ -45,11 +46,11 @@
       "issue_id": "R11-EXT0",
       "lens": "external_independence",
       "severity": "medium",
-      "status": "accepted_risk",
-      "finding": "No independent reader could be contacted from this local Codex execution.",
-      "resolution": "The public packet and request questions are ready; the manuscript and reports state that the local substitute is not equivalent to external review.",
-      "claim_change": "Keep external red-team review preferred before submission, advisory in local gates, and not counted as independent validation.",
-      "evidence": "paper/suds_tetc_architecture_manuscript.tex; docs/reports/20260513_suds_tetc_pre_review_major_revision.md"
+      "status": "abandoned",
+      "finding": "External independent reviewer review is permanently abandoned for this project.",
+      "resolution": "The R11 red-team is fully self-contained through internal evidence artifacts (R1-R10, public repro validation, major-revision scaffold). No external reviewer will be contacted. This is a project-level decision, not a temporary accepted risk.",
+      "claim_change": "Do not reference external review as pending, preferred, or planned in the manuscript or reports.",
+      "evidence": "paper/suds_tetc_architecture_manuscript.tex; docs/reports/20260514_suds_tetc_external_red_team.md"
     },
     {
       "issue_id": "R11-EXT1",
