@@ -159,7 +159,7 @@ Roadmap item: `R12d_internal_adversarial_review`
 
 **Evidence checked:** Manuscript scan: 0 forbidden patterns, 0 missing markers
 
-**Resolution:** Manuscript claim audit: zero forbidden claim language matches, all required boundary markers present. Claim language is consistent with the evidence surface. (1 negative non-claim use(s) correctly excluded from forbidden matches.)
+**Resolution:** Manuscript claim audit: zero forbidden claim language matches, all required boundary markers present. Claim language is consistent with the evidence surface.
 
 **Promotion effect:** Claim-audit consistency prevents overclaim and ensures reviewers see honest boundary language.
 

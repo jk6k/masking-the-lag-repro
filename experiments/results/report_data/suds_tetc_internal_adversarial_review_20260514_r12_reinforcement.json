@@ -7,7 +7,7 @@
     "regeneration_command": "make suds-tetc-internal-adversarial-review",
     "git_hash": "9c2cdf7",
     "input_sha256": {
-      "r12a_json": "e99c493660b2a971271a12d4ee71c6a5a28527dacd946321d50e6356df975cba",
+      "r12a_json": "a93f65d9e810180ba1a6c3cde296e0320332ba672263fca2df9c20dc2b788a16",
       "r12b_json": "30df3af67fc66d57983ce3c676e9b75eb8201805aee4c7a78fd4c2a12dd71594",
       "r12c_json": "4de5dd12acd4a16d8586282a48abee74b3cc21a617ec95e1e4a064387de8c15e",
       "r12e_json": "90e8ec50d1d4f087bf68d6238ba0dab8288e9c7b6ed79ae429474f389bc19405",
@@ -15,7 +15,7 @@
       "r12g_json": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
       "r8_json": "308178e0fc9cd1697e6ce8756d5ef86a55a185faca8abaf1ce82fd37bff1585a",
       "r12h_json": "b8351c5402caf913ed7c21d6c23793a35e45683b43b158bda176478501f46036",
-      "manuscript": "5b080f4424181b3d0edb62810278c316db7fbbd932c3b719d918fe2ca12efdea"
+      "manuscript": "976879e7ee58544cae776c21ca58aee7e7a0a95f40a48bfcab6b1e95af8c8694"
     }
   },
   "acceptance": {
@@ -134,7 +134,7 @@
       "severity": "high",
       "finding": "The manuscript must not contain forbidden claim language (silicon, foundry, layout, device-solver, bench-energy, universal-interface, semantic-unimportance-proof, optical-device signoff, P&R closure) and must include required boundary markers.",
       "evidence_checked": "Manuscript scan: 0 forbidden patterns, 0 missing markers",
-      "resolution": "Manuscript claim audit: zero forbidden claim language matches, all required boundary markers present. Claim language is consistent with the evidence surface. (1 negative non-claim use(s) correctly excluded from forbidden matches.)",
+      "resolution": "Manuscript claim audit: zero forbidden claim language matches, all required boundary markers present. Claim language is consistent with the evidence surface.",
       "resolution_state": "fixed",
       "promotion_effect": "Claim-audit consistency prevents overclaim and ensures reviewers see honest boundary language.",
       "consumed_artifacts": "paper/suds_tetc_architecture_manuscript.tex;paper/suds_tetc_architecture_reframe.md",
