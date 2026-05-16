@@ -9,20 +9,31 @@
     "manuscript": {
       "status": "pass",
       "source": "paper/suds_tetc_architecture_manuscript.tex",
+      "supplement": "submissions/tetc_20260517_submission/supplement/README.md",
       "required_markers": [
         "\\label{tab:operating-point}",
         "\\label{tab:ppa-summary}",
         "\\label{tab:baseline-contract}",
         "\\label{tab:calibration}",
-        "\\label{tab:gate}",
+        "\\begin{IEEEkeywords}",
         "suds_glue_architecture_linkage_20260513_tetc_pivot.csv",
-        "Internal Red-Team Summary",
-        "public reproduction manifest includes the TETC architecture simulator",
-        "external independent reviewer review is permanently abandoned"
+        "Related Work and Boundary Comparison",
+        "supplemental material rather than embedded in the main manuscript PDF",
+        "Public-reproduction alignment and local gate checks are not external"
       ],
       "missing_markers": [],
+      "required_supplement_markers": [
+        "Supplemental Material README",
+        "Reproduction Commands",
+        "Evidence Ledger",
+        "Robustness Records Moved From Main Text",
+        "Public Reproduction Boundary",
+        "suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.json",
+        "suds_tetc_science_gate_20260513_tetc_pivot.json"
+      ],
+      "missing_supplement_markers": [],
       "forbidden_terms": [],
-      "line_count": 1564
+      "line_count": 1070
     },
     "red_team": {
       "status": "pass",

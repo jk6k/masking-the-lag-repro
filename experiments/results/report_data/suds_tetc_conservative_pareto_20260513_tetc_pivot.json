@@ -4,7 +4,7 @@
     "artifact_id": "suds_tetc_conservative_pareto_20260513_tetc_pivot",
     "evidence_label": "measured_mps_imagenet_conservative_pareto",
     "promotion_decision": "conservative_pareto_ready",
-    "git_hash": "9c2cdf7",
+    "git_hash": "2532085",
     "regeneration_command": "make suds-tetc-conservative-pareto",
     "source_artifacts": {
       "run_dir": "experiments/results/runs/suds_tetc_conservative_pareto_20260513",

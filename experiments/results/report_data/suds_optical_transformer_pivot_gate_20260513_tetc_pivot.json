@@ -150,7 +150,7 @@
       "present": true,
       "status": "pass",
       "manuscript_status": "pass",
-      "manuscript_line_count": 1564,
+      "manuscript_line_count": 1070,
       "red_team_status": "pass",
       "red_team_lens_count": 4,
       "external_red_team_status": "explicitly_abandoned",

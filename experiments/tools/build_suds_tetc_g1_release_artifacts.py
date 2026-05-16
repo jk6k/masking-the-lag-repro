@@ -21,6 +21,7 @@ PUBLIC_REPRO_REPORT = REPO_ROOT / "docs/reports/20260513_suds_tetc_public_repro_
 G1_JSON = REPORT_DATA / f"suds_tetc_g1_release_artifacts_{TAG}.json"
 
 MANUSCRIPT = REPO_ROOT / "paper/suds_tetc_architecture_manuscript.tex"
+SUPPLEMENT_README = REPO_ROOT / "submissions/tetc_20260517_submission/supplement/README.md"
 PUBLIC_REPRO_MANIFEST = REPO_ROOT / "configs/public_repro_manifest.json"
 
 REQUIRED_MANUSCRIPT_MARKERS = [
@@ -28,11 +29,32 @@ REQUIRED_MANUSCRIPT_MARKERS = [
     r"\label{tab:ppa-summary}",
     r"\label{tab:baseline-contract}",
     r"\label{tab:calibration}",
-    r"\label{tab:gate}",
+    r"\begin{IEEEkeywords}",
     "suds_glue_architecture_linkage_20260513_tetc_pivot.csv",
-    "Internal Red-Team Summary",
-    "public reproduction manifest includes the TETC architecture simulator",
-    "external independent reviewer review is permanently abandoned",
+    "Related Work and Boundary Comparison",
+    "supplemental material rather than embedded in the main manuscript PDF",
+    "Public-reproduction alignment and local gate checks are not external",
+]
+
+FORBIDDEN_MANUSCRIPT_MARKERS = [
+    "Manuscript Review Summary",
+    "Reviewer Failure Modes and Mitigations",
+    "Evidence File Ledger",
+    "Reproducibility Contract",
+    "Expanded Related Work",
+    "suds_conservative_artifact",
+    "suds_arch_artifact",
+    "suds_science_gate",
+]
+
+REQUIRED_SUPPLEMENT_MARKERS = [
+    "Supplemental Material README",
+    "Reproduction Commands",
+    "Evidence Ledger",
+    "Robustness Records Moved From Main Text",
+    "Public Reproduction Boundary",
+    "suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.json",
+    "suds_tetc_science_gate_20260513_tetc_pivot.json",
 ]
 
 REQUIRED_PUBLIC_REPRO_FILES = [
@@ -119,13 +141,29 @@ def forbidden_claim_terms() -> list[str]:
 
 def manuscript_audit() -> dict[str, Any]:
     text = MANUSCRIPT.read_text(encoding="utf-8", errors="replace") if MANUSCRIPT.is_file() else ""
+    supplement_text = (
+        SUPPLEMENT_README.read_text(encoding="utf-8", errors="replace")
+        if SUPPLEMENT_README.is_file()
+        else ""
+    )
     missing = [marker for marker in REQUIRED_MANUSCRIPT_MARKERS if marker not in text]
+    missing_supplement = [
+        marker for marker in REQUIRED_SUPPLEMENT_MARKERS if marker not in supplement_text
+    ]
     forbidden = [term for term in forbidden_claim_terms() if term.lower() in text.lower()]
+    forbidden.extend(marker for marker in FORBIDDEN_MANUSCRIPT_MARKERS if marker in text)
     return {
-        "status": "pass" if text and not missing and not forbidden else "fail",
+        "status": (
+            "pass"
+            if text and supplement_text and not missing and not missing_supplement and not forbidden
+            else "fail"
+        ),
         "source": repo_path(MANUSCRIPT),
+        "supplement": repo_path(SUPPLEMENT_README),
         "required_markers": REQUIRED_MANUSCRIPT_MARKERS,
         "missing_markers": missing,
+        "required_supplement_markers": REQUIRED_SUPPLEMENT_MARKERS,
+        "missing_supplement_markers": missing_supplement,
         "forbidden_terms": forbidden,
         "line_count": len(text.splitlines()),
     }

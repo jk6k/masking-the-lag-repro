@@ -13,82 +13,90 @@
 \graphicspath{{../figures/suds_tetc_20260516_submission_figure_pack/}}
 
 \title{Scheduler-Derived Budget Interfaces for Dynamic Photonic Transformer Accelerators}
-\author{Anonymous Authors}
+\author{Junchi Zhen%
+\thanks{Junchi Zhen is with the School of Advanced Technology, Xi'an Jiaotong-Liverpool University, Suzhou, China (e-mail: Junchi.Zhen9@gmail.com; Junchi.Zhen22@student.xjtlu.edu.cn). Corresponding author: Junchi Zhen.}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
 Dynamic photonic tensor cores can accelerate Transformer attention and
-feed-forward kernels, but their system efficiency is constrained by conversion,
-memory movement, operand broadcast, and a missing control path between the
-software scheduler and accelerator-internal quality knobs. This paper presents
-SUDS, a scheduler-derived budget interface for Dynamic Photonic Transformer
-accelerators. SUDS exposes timing slack as KEEP, DEGRADE, and PRUNE budgets for
-Lightening-style dynamic photonic tensor-core tiles, then composes those
-budgets with local L1 or signal-amplitude selectors for ADC precision,
+feed-forward kernels, but their system benefit is limited by data conversion,
+memory movement, operand broadcast, and the lack of a clean control path from a
+software scheduler to accelerator quality controls. This paper presents SUDS, a
+scheduler-derived budget interface for dynamic photonic Transformer
+accelerators. The interface exposes timing slack as KEEP, DEGRADE, and PRUNE
+budgets for Lightening-style photonic tensor-core tiles, and lets local L1 or
+signal-amplitude selectors spend those budgets on converter precision,
 degradation, and pruning decisions. The architecture model maps BERT-base GLUE
 encoder kernels and MobileViT-S Transformer blocks to four-tile, two-core
-DPTC-style optical arrays and accounts for optical compute, E/O and O/E
-conversion, memory movement, optical-link cost, sideband-control overhead, and
-sensitivity settings tied to ADC macro, RTL, and PHY boundary artifacts. Across
-two Transformer workloads, the selected SUDS operating point keeps governed MPS
-accuracy rows linked to architecture-modeled PPA and preserves at least
-14.60\% pessimistic EDP improvement versus the same-scope Lightening-style
-DPTC reference. The evidence is architecture simulation plus governed MPS
-accuracy validation and calibration artifacts. It is not a fabrication, layout,
+optical arrays while accounting for optical compute, electro-optic conversion,
+memory traffic, optical-link cost, sideband control, and calibrated sensitivity
+settings. Across two Transformer workloads, the selected operating point links
+local MPS accuracy runs to modeled system metrics and preserves at least
+14.60\% pessimistic EDP improvement over the same-scope Lightening-style
+reference. The result is an architecture-simulation claim with measured local
+accuracy linkage and calibration evidence; it is not a fabrication, layout,
 foundry, circuit-signoff, optical-device-signoff, or bench-energy claim.
 \end{abstract}
 
+\begin{IEEEkeywords}
+Silicon photonics, optical accelerators, Transformer acceleration,
+scheduler-aware control, approximate computing, architecture simulation.
+\end{IEEEkeywords}
+
 \section{Introduction}
 
-Transformer accelerators based on dynamic photonic tensor cores can attack the
-matrix multiplications that dominate attention and feed-forward layers. A
-Lightening-style DPTC fabric supplies a useful comparison point because it
-supports dynamic full-range matrix multiplication rather than only
-weight-static optical tensors. HyAtten-style systems sharpen a different
-observation: conversion is often the limiting term, so low-resolution
-converters and local signal selectors matter. These mechanisms still leave a
-control-interface gap. The scheduler already knows when a kernel has timing
-slack, but converter precision, degradation, and pruning choices are usually
-selected by local model or signal proxies alone.
+Transformer accelerators based on dynamic photonic tensor cores are attractive
+because attention and feed-forward layers are dominated by matrix
+multiplication in modern Transformer workloads and benchmarks
+\cite{vaswani2017attention,devlin2019bert,wang2019glue,mehta2022mobilevit,dosovitskiy2021vit}.
+A Lightening-style fabric is a useful reference because it
+supports dynamic full-range matrix products, not only weight-static optical
+tensors \cite{lightening2024}. HyAtten-style work highlights a complementary
+bottleneck: even when
+the optical core is fast, conversion can dominate the end-to-end cost, so
+low-resolution readout and local signal selection matter \cite{hyatten2025}.
+What remains missing is a control interface between these hardware knobs and the schedule that
+already knows when a kernel has timing slack.
 
-SUDS turns that timing information into a resource-control budget. The
-scheduler exports per-layer and per-column slack to the accelerator control
-plane. The photonic tile controller maps slack to KEEP, DEGRADE, and PRUNE
-budgets. Local selectors then choose the exact columns inside those budgets.
-This framing is important: SUDS is not a claim that slack alone is a semantic
-importance oracle. It is a budget interface that composes scheduler pressure
-with local L1, signal-amplitude, or overflow-style selectors.
+SUDS turns that timing information into an explicit resource budget. The
+scheduler exports slack to the accelerator control plane; the photonic tile
+controller converts it into KEEP, DEGRADE, and PRUNE counts; and local selectors
+choose the exact columns inside those counts. This distinction is central to
+the paper. SUDS is not a claim that slack alone is a semantic importance
+oracle. It is an interface that combines scheduler pressure with local L1,
+signal-amplitude, or overflow-style selectors.
 Fig.~\ref{fig:timing-slack-bottleneck} gives the motivation for converting
 otherwise idle slack into an explicit hardware budget. The architecture and
 budgeting mechanism are detailed in Fig.~\ref{fig:suds-microarchitecture} and
 Fig.~\ref{fig:suds-budget-interface}.
 
-This manuscript is the active architecture-first route for IEEE TETC. The
-contribution stack is restricted to architecture modeling, measured MPS
-accuracy linkage, and calibration evidence.
+The scope is deliberately architecture-first: the paper models the accelerator
+system, links selected rows to measured local accuracy runs, and uses
+calibration evidence only to parameterize and stress the model.
 
 \section{Contributions}
 
-This paper makes five architecture-facing contributions:
+This paper makes five contributions:
 
 \begin{enumerate}
-  \item A Transformer-to-DPTC mapping for BERT-base encoder kernels and
-  MobileViT-S Transformer blocks, including conversion, memory, optical-link,
-  and sideband-control accounting.
-  \item A scheduler-derived SUDS budget interface that converts timing slack
-  into explicit KEEP, DEGRADE, and PRUNE budgets for ADC precision,
+  \item A mapping from BERT-base encoder kernels and MobileViT-S Transformer
+  blocks to dynamic photonic tensor-core arrays, including conversion, memory,
+  optical-link, and sideband-control accounting.
+  \item A scheduler-derived budget interface that converts timing slack into
+  explicit KEEP, DEGRADE, and PRUNE budgets for converter precision,
   degradation, and pruning.
   \item A deterministic architecture simulator and design-space sweep over
   tile dimension, tile count, cores per tile, sideband grouping, and
-  ADC-sharing mode.
+  converter-sharing mode.
   \item A matched comparison matrix covering uniform 8-bit, uniform 4-bit,
-  random, L1, slack-only, SUDS-only, SUDS+L1, SUDS+signal, HyAtten-style,
-  TeMPO-style, ASTRA-style, and Lightening-style DPTC rows.
-  \item A calibration table tying ADC macro, RTL sideband, and PHY boundary
-  artifacts to simulator parameters while keeping their evidence labels
-  bounded.
+  random, local-selector, slack-only, SUDS-only, composed-SUDS, HyAtten-style,
+  TeMPO-style, ASTRA-style, and Lightening-style operating points
+  \cite{tempo2024,astra2025}.
+  \item A calibration table that ties converter macro, control-plane, and
+  physical-link evidence to simulator parameters without treating those inputs
+  as circuit or device signoff.
 \end{enumerate}
 
 \begin{figure*}[t]
@@ -122,34 +130,31 @@ then configure ADC precision, degradation, or pruning.}
 \subsection{Transformer Kernel Mapping}
 
 The simulator represents each Transformer operation as a tiled matrix
-multiplication on a DPTC array. BERT-base uses the 12-layer encoder at sequence
-length 128 and includes QKV projection, QK score, attention-value, output
-projection, and two FFN kernels per layer. MobileViT-S uses the repository's
-Transformer-block operation manifest and promotes the linear attention and FFN
-kernels under \texttt{global\_rep}. Each GEMM is lowered into DPTC tile work,
-with latency and energy accumulated over optical compute, DAC/MZM,
-detector/TIA, ADC, laser, SRAM movement, optical-link movement, and
-sideband-control groups.
+multiplication on the selected photonic array. BERT-base uses the 12-layer
+encoder at sequence length 128 and includes QKV projection, QK score,
+attention-value, output projection, and two feed-forward kernels per layer.
+MobileViT-S uses the repository's Transformer-block operation manifest and
+includes the linear attention and feed-forward kernels under
+\texttt{global\_rep}. Each matrix multiplication is lowered into tile work, and
+the model accumulates latency and energy from optical compute, DAC/MZM input
+conversion, detector/TIA readout, ADC conversion, laser power, SRAM movement,
+optical-link movement, and sideband-control groups.
 
 \subsection{Selected Operating Point}
 
 The selected operating point intentionally stays close to the Lightening and
-HyAtten comparison surface. It uses 32 by 32 DPTC tiles, four tiles, two cores
-per tile, 32-column sideband groups, and temporal accumulation before ADC. The
-design-space artifact sweeps 4536 configurations and identifies 594 Pareto
-rows over raw energy, latency, and area. The R5 multi-objective audit then
-joins this sweep to the measured accuracy and same-simulator baseline gates.
-It records that the selected point is not an unconstrained raw-PPA optimum;
-instead, it is the governed Pareto point used after applying the 1 pp
-accuracy budget, R3/R4 evidence linkage, memory-pressure, control-overhead,
-and calibration-sensitivity objectives. Table~\ref{tab:operating-point}
-records the promoted setting.
-The reinforced R5 selection-rationale artifact adds a selected-neighborhood
-audit and records raw-PPA dominators as explicit pressure against any global
-PPA-optimality wording. Those variants improve one or more raw PPA axes, but
-they do not replace the promoted point because the promoted claim is tied to
-the governed accuracy, fairness, memory-pressure, control, and calibration
-surface.
+HyAtten comparison surface. It uses 32 by 32 photonic tensor-core tiles, four
+tiles, two cores per tile, 32-column sideband groups, and temporal accumulation
+before conversion. The design-space sweep covers 4536 configurations and
+identifies 594 Pareto rows over raw energy, latency, and area. The chosen point
+is not an unconstrained optimum over those raw metrics. It is the row retained
+after applying the one-percentage-point accuracy budget, same-simulator
+baseline comparison, memory-pressure objective, control-overhead objective, and
+calibration-sensitivity objective. Table~\ref{tab:operating-point} records this
+setting. Neighboring designs that improve a raw system metric remain visible in
+the design-space data, but they do not replace the selected point because the
+paper evaluates a constrained operating point rather than claiming global
+optimality.
 
 \begin{table}[t]
 \centering
@@ -174,15 +179,14 @@ ADC sharing & Temporal accumulation & Output-stationary DPTC readout \\
 \subsection{SUDS Control Layer}
 
 For each scheduled kernel, the simulator records issue time, tile latency,
-downstream deadline, and normalized slack. SUDS maps slack to a tier budget:
-low slack keeps high-resolution conversion, medium slack degrades to
-low-resolution conversion, and high slack permits pruning or stronger
-degradation. SUDS+L1 and SUDS+signal keep the scheduler-derived tier counts but
-use local selectors to choose exact columns. SUDS-only is retained as an
-ablation that isolates the budget interface from the local selector. The
-science gate promotes only the schedule-guarded \texttt{suds\_pareto} row as
-the main SUDS claim; the more aggressive SUDS+L1 and SUDS+signal rows remain
-visible ablations and boundary context.
+downstream deadline, and normalized slack. Low slack keeps high-resolution
+conversion, medium slack permits lower-resolution readout, and high slack can
+permit pruning or stronger degradation when the measured workload surface
+allows it. The L1 and signal-composed variants keep the scheduler-derived tier
+counts but use local selectors to choose exact columns. The SUDS-only ablation
+isolates the budget interface from the local selector. Only the
+schedule-guarded \texttt{suds\_pareto} row is used as the main result; the more
+aggressive composed rows remain visible as ablations and boundary context.
 
 \begin{figure*}[t]
 \centering
@@ -200,35 +204,31 @@ data row.}
 
 \subsection{Workloads and Evidence Labels}
 
-The promoted architecture rows cover two Transformer workloads. BERT-base GLUE
-accuracy rows are measured on PyTorch MPS and linked to the BERT DPTC schedule
-through
+The selected rows cover two Transformer workloads. BERT-base GLUE accuracy is
+measured through PyTorch on the local MPS backend and linked to the BERT
+schedule through
 \path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv}.
-MobileViT-S accuracy rows come from the governed MPS ImageNet validation
-matrix. Energy, latency, area, optical-link cost, memory movement, and control
-overhead remain architecture-modeled in both cases.
-The R3 end-to-end accuracy artifact joins those measured MPS rows to the same
-KEEP/DEGRADE/PRUNE tier ratios used by PPA and to the R2 SUDS-aware trace IDs.
-It records the forward-pass perturbation surface as a tiered ADC/noise proxy,
-not bit-exact ADC, optical-device, silicon, or bench-energy evidence.
-The R9 workload-expansion artifact adds architecture-only DeiT-Tiny patch16-224
-rows plus BERT sequence-length and batch-size sweeps. Those rows are not new
-measured accuracy evidence, and long-sequence or larger-batch BERT rows remain
-boundary traces unless a matching governed MPS accuracy artifact is produced.
-The R12 reinforcement layer later adds measured DeiT-Tiny and task-expansion
-records, but those records are used here only to separate robust surfaces from
-boundaries: the selected \texttt{suds\_pareto} row retains at least 6.90\%
-modeled EDP improvement versus the same-scope Lightening-style reference in the
-architecture-only DeiT-Tiny surface, while the measured DeiT-Tiny accuracy
-delta is recorded as a vision-generality boundary rather than as a promoted
-headline claim.
+MobileViT-S accuracy comes from the local ImageNet validation matrix on the
+same backend. Energy, latency, area, optical-link cost, memory movement, and
+control overhead remain modeled system quantities in both cases.
+The end-to-end linkage check joins the measured rows to the same
+KEEP/DEGRADE/PRUNE tier ratios used by the simulator and to the selected
+scheduler traces. It should be read as a forward-pass tiered perturbation
+surface, not as bit-exact converter, optical-device, silicon, or bench-energy
+evidence. Additional workload rows cover DeiT-Tiny patch16-224 and BERT
+sequence-length and batch-size sweeps. These rows help define generality and
+failure boundaries, but they do not become selected claims unless they have
+matching local accuracy evidence. In the DeiT-Tiny surface, for example, the
+selected \texttt{suds\_pareto} row retains at least 6.90\% modeled EDP
+improvement over the same-scope Lightening-style reference, while the measured
+accuracy delta is retained as a vision-generality boundary.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{Fig4_AccuracyEDPPareto.pdf}
 \caption{Accuracy/EDP Pareto surface for nominal selected-point rows.
-The highlighted SUDS Pareto row is the only promoted SUDS main row in the
-science gate. Older aggressive SUDS rows and stronger local-selector baselines
+The highlighted SUDS Pareto row is the only selected SUDS main row. Older
+aggressive SUDS rows and stronger local-selector baselines
 remain visible so the claim cannot hide same-fabric dominance relationships.}
 \label{fig:accuracy-edp-pareto}
 \end{figure*}
@@ -259,7 +259,7 @@ MobileViT-S blocks & Lightening DPTC & 1.000 & 1.000 & 1193.95 & 0.00 pp \\
 MobileViT-S blocks & Uniform 4-bit & 0.902 & 0.902 & 1193.92 & n/a \\
 MobileViT-S blocks & L1 selector & 0.709 & 0.666 & 1122.33 & -3.47 pp \\
 MobileViT-S blocks & Slack-only & 0.712 & 0.671 & 1125.17 & -2.66 pp \\
-MobileViT-S blocks & SUDS Pareto & 0.917 & 0.919 & 1193.99 & -0.015 pp \\
+MobileViT-S blocks & SUDS Pareto & 0.917 & 0.919 & 1196.09 & -0.015 pp \\
 MobileViT-S blocks & SUDS+L1 & 0.775 & 0.746 & 1149.49 & -1.78 pp \\
 MobileViT-S blocks & SUDS+signal & 0.775 & 0.746 & 1149.49 & -1.52 pp \\
 MobileViT-S blocks & HyAtten-style boundary & 0.800 & 0.778 & 1160.29 & n/a \\
@@ -269,7 +269,7 @@ MobileViT-S blocks & ASTRA boundary & 0.372 & 0.488 & 1568.86 & n/a \\
 \end{tabular}
 \end{table*}
 
-Table~\ref{tab:ppa-summary} shows the claim surface. The promoted SUDS row is
+Table~\ref{tab:ppa-summary} shows the claim surface. The selected SUDS row is
 the schedule-guarded Pareto policy. For BERT it selects the measured zero-loss
 L1 operating point under the DPTC schedule guard; for MobileViT-S it selects
 the measured no-prune conservative point. L1-only, slack-only, signal-only,
@@ -278,32 +278,16 @@ rows are retained so reviewers can see when a local selector or alternate
 fabric is stronger. Those rows bound the claim; they do not relabel SUDS as a
 universal winner.
 
-\subsection{Post-R11 Reinforcement}
+\subsection{Additional Robustness Evidence}
 
-R12 is treated as a post-freeze reinforcement layer under the unchanged
-\texttt{20260513\_tetc\_pivot} freeze. It does not change the promoted PPA row,
-the one-percentage-point accuracy target, or any figure numbering. Instead, it
-adds robustness evidence where the existing claim already had measured support
-and records explicit boundaries where transfer or generality does not hold.
-
-\begin{table*}[t]
-\centering
-\caption{Post-R11 R12 reinforcement evidence. R12 strengthens robustness and
-boundary labeling without changing the headline selected row.}
-\label{tab:r12-reinforcement}
-\footnotesize
-\begin{tabular}{p{0.22\textwidth}p{0.42\textwidth}p{0.27\textwidth}}
-\toprule
-R12 check & Main-text use & Boundary retained \\
-\midrule
-R12b GLUE task expansion & 120 governed rows across eight GLUE tasks stress the BERT-side measured surface & Task coverage support only; no claim of universal NLP transfer \\
-R12e MobileViT-S resolution sweep & 24 full-ImageNet rows across resolutions preserve the conservative MobileViT-S accuracy framing & Robustness around the promoted setting, not a new vision model claim \\
-R12a and R12h control/calibration & Iverilog functional simulation passes 31/31 checks and 12/12 features; ADC corners cover 36/36 rows & Functional simulation and calibration only; no timing, layout, or bench-energy closure \\
-R12c and R12g transfer/generalization & Cross-workload and DeiT-Tiny records make non-promoted workloads auditable & Cross-workload transfer and DeiT-Tiny accuracy deltas are boundary evidence \\
-R12f BERT perturbation mechanism & Binary column zeroing preserves BERT accuracy (delta = 0.000 pp); Gaussian noise injection causes larger seed-sensitive drops & Mechanism-delta artifacts remain boundary evidence, not a stronger accuracy claim \\
-\bottomrule
-\end{tabular}
-\end{table*}
+The later robustness records leave the selected system row, the
+one-percentage-point accuracy target, and the figure set unchanged. Their role
+is to strengthen evidence around measured surfaces and to record cases where
+transfer or generality does not hold. They include eight-task GLUE expansion,
+MobileViT-S resolution sweeps, Iverilog control-plane functional simulation,
+ADC corner coverage, cross-workload transfer rows, DeiT-Tiny boundary rows, and
+BERT perturbation-mechanism checks. Their full ledger is placed in the
+supplement; the main text uses them only to bound the selected claim.
 
 \begin{figure*}[t]
 \centering
@@ -317,34 +301,32 @@ secondary encoding for print review.}
 \label{fig:energy-breakdown}
 \end{figure*}
 
-\subsection{Pessimistic Gate}
+\subsection{Pessimistic Stress Test}
 
-The fixed architecture gate stresses ADC scaling, memory movement,
+The fixed architecture stress test varies converter scaling, memory movement,
 optical-link penalties, control overhead, and reduced compute relief from
-pruning. Under that setting, the selected SUDS point preserves 22.36\%
-energy and 25.81\% EDP improvement for BERT-base GLUE, and 14.75\% energy
-and 14.60\% EDP improvement for MobileViT-S Transformer blocks, versus the
-same-scope Lightening-style reference. The R6 system-sensitivity audit then
-sweeps memory bandwidth, activation reuse, batch size, sequence length,
-ADC/DAC cost, laser multiplier, optical-link loss, and sideband overhead. Its
-named pessimistic regime preserves at least 12.10\% EDP improvement, while
-extreme one-at-a-time DAC/MZM scaling exposes the MobileViT-S boundary where
-the promoted point is no longer beneficial.
-The reinforced R6 artifact also adds combined stress grids over conversion,
-link, memory, sequence length, ADC energy, and sideband overhead, plus stacked
-boundary scenarios. These rows are used to mark valid regions and failure
-boundaries; they are not promoted as realistic operating regimes.
-The R10 failure/uncertainty audit makes this boundary explicit: target-regime
-Monte Carlo over PPA parameters and threshold jitter keeps the 95\% EDP
-improvement interval positive for both promoted workloads, while boundary
-draws and counterexample rows identify where SUDS should be disabled, kept as
-simulator-only evidence, or replaced by local selector context.
+pruning. Under that setting, the selected point preserves 22.36\% energy and
+25.81\% EDP improvement for BERT-base GLUE, and 14.75\% energy and 14.60\%
+EDP improvement for MobileViT-S Transformer blocks, versus the same-scope
+Lightening-style reference. A broader sensitivity sweep then varies memory
+bandwidth, activation reuse, batch size, sequence length, converter cost, laser
+multiplier, optical-link loss, and sideband overhead. The named pessimistic
+regime preserves at least 12.10\% EDP improvement, while extreme one-at-a-time
+DAC/MZM scaling exposes the MobileViT-S boundary where the selected point is no
+longer beneficial. Combined stress grids over conversion, link, memory,
+sequence length, converter energy, and sideband overhead are used to mark valid
+regions and failure boundaries rather than to define realistic operating
+regimes. Monte Carlo analysis over target-regime system parameters and
+threshold jitter keeps the 95\% EDP improvement interval positive for both
+selected workloads; boundary draws and counterexample rows identify when the
+interface should be disabled, left as simulator-only evidence, or replaced by
+local selector context.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{Fig6_ConservativeParetoAccuracy.pdf}
 \caption{Measured per-seed MobileViT-S Top-1 deltas for the conservative SUDS
-Pareto point. All eight full ImageNet validation seeds use the governed MPS
+Pareto point. All eight full ImageNet validation seeds use the local MPS
 backend and stay within the 1 percentage-point target band.}
 \label{fig:conservative-accuracy}
 \end{figure}
@@ -353,8 +335,8 @@ backend and stay within the 1 percentage-point target band.}
 
 \begin{table}[t]
 \centering
-\caption{Baseline and ablation contract. Main-text claims are made only where
-the evidence status and claim boundary match the selected DPTC fabric.}
+\caption{Baseline and ablation scope. Main-text claims are made only where
+the evidence status matches the selected DPTC fabric.}
 \label{tab:baseline-contract}
 \footnotesize
 \begin{tabular}{@{}p{0.23\columnwidth}p{0.34\columnwidth}p{0.33\columnwidth}@{}}
@@ -379,34 +361,27 @@ dominate the scheduler-derived budget for that workload and parameter setting.
 The same-simulator fairness matrix is generated separately from the architecture
 summary. It fixes the selected DPTC simulator configuration across the
 Lightening-style, uniform, random, L1, signal-only, slack-only, SUDS-only,
-SUDS+L1, SUDS+signal, and promoted SUDS rows, and it labels HyAtten-style,
+SUDS+L1, SUDS+signal, and selected SUDS rows, and it labels HyAtten-style,
 TeMPO-style, and ASTRA-style rows as boundary contexts with explicit differing
 assumptions.
 
 \section{Calibration Evidence}
 
-The architecture simulator consumes calibration and boundary evidence artifacts
-rather than claiming circuit closure. ADC tier energy is tied to the local ADC macro
-sanity suite. Sideband-control cost is tied to the Yosys RTL control-plane
-artifact. Optical-link assumptions are tied to the PHY boundary sweep. These
-artifacts calibrate simulator parameters and stress settings only.
-The reinforced R7 artifact adds static RTL contract vectors for reset,
-configuration, KEEP/DEGRADE/PRUNE tiering, queue and selector guards,
-tile-command handshaking, and command-bit layout. R12a adds an iverilog
-functional-simulation pass over the same control plane, with 31/31 checks and
-12/12 feature categories passing. This upgrades the control-plane evidence from
-static-only coverage to functional simulation, while retaining the boundary
-that it is not timing closure, physical implementation, or silicon validation.
-The R8 calibration-range artifact makes the calibration boundary explicit:
-ADC4/6/8 energy and latency carry measured macro corner ranges, while photonic
-settings carry PHY ER/crosstalk, pass-ratio, laser-power, laser multiplier,
-link-loss, and DAC/MZM scaling ranges. R12h extends the ADC sweep to 36/36
-corner rows and preserves tier-energy ordering across the checked rows. The
-nominal values in Table~\ref{tab:calibration} remain the selected simulator
-point; the pessimistic and boundary values are calibration ranges, not circuit
-closure. The provenance matrix records source checksums, source-row counts,
-label completeness, monotonic range checks, and a positive-claim scan for
-forbidden closure wording.
+The architecture simulator uses calibration and boundary evidence to set
+parameters; it does not claim circuit closure. Converter-tier energy is tied to
+the local ADC macro sanity suite, SRAM movement and area are bounded with
+CACTI-style cache estimates \cite{cacti}, sideband-control cost is tied to the
+Yosys control-plane proxy \cite{yosys}, and optical-link assumptions are tied to
+the physical-link boundary sweep. Static control-plane vectors cover reset, configuration,
+KEEP/DEGRADE/PRUNE tiering, queue and selector guards, tile-command
+handshaking, and command-bit layout. An Iverilog functional-simulation pass
+over the same control plane passes 31/31 checks and 12/12 feature categories,
+which strengthens the control evidence without turning it into timing closure,
+physical implementation, or silicon validation. Table~\ref{tab:calibration}
+keeps the nominal simulator values separate from pessimistic and boundary
+ranges. The traceability matrix records source checksums, source-row counts,
+label completeness, monotonic range checks, and a scan for closure wording that
+the evidence does not support.
 
 \begin{table*}[t]
 \centering
@@ -418,7 +393,7 @@ reproduction package.}
 \footnotesize
 \begin{tabular}{llll}
 \toprule
-Parameter & Value & Evidence label & Claim boundary \\
+Parameter & Value & Evidence label & Boundary \\
 \midrule
 \texttt{tile\_dim} & 32 & literature-anchored assumption & architecture parameter \\
 \texttt{tiles} & 4 & literature-anchored assumption & matched reference setting \\
@@ -437,73 +412,35 @@ Parameter & Value & Evidence label & Claim boundary \\
 \end{tabular}
 \end{table*}
 
-\section{Related-Work Boundaries}
+\section{Related Work and Boundary Comparison}
 
-The 2026 delta audit did not reopen the selected architecture point, but it did
-sharpen the boundary language. ASTRA-style stochastic photonic Transformer
-rows are kept as alternate-fabric boundaries. TeMPO-style time multiplexing is
-modeled as a boundary readout fabric, not a same-scope SUDS DPTC baseline.
-Light-Bound Transformer robustness work is adjacent to noise training rather
-than scheduler-derived budget control. Electro-optic attention nonlinearities
-target Softmax/Sigmoid-like functions, while this simulator focuses on GEMM,
-conversion, memory, optical-link, and control accounting. PRISM-style block
-selection targets long-context KV-cache retrieval, and non-photonic CIM
-Transformer accelerators remain reviewer-pressure context outside the matched
-photonic/DPTC surface.
+SUDS is closest to dynamic photonic Transformer acceleration, but it targets a
+different control layer. Lightening-Transformer supplies the same-scope dynamic
+full-range DPTC reference, while HyAtten exposes how conversion and
+low-resolution readout can dominate end-to-end attention acceleration
+\cite{lightening2024,hyatten2025}. TeMPO and ASTRA are retained as
+alternate-fabric boundaries because they change the readout or stochastic
+compute assumptions rather than only adding a scheduler-derived budget
+\cite{tempo2024,astra2025}. ENLighten changes model structure through
+photonic-aware compression, Optical Transformers study optical scaling and
+noise tolerance, and TRON represents non-coherent silicon-photonic Transformer
+acceleration \cite{enlighten2025,opticaltransformers2023,tron2023}. Earlier
+photonic neural accelerators, photonic-AI surveys, and linear-optical mesh
+foundations provide context for the converter, MAC, and mesh assumptions but are
+not same-scope scheduler interfaces
+\cite{heana2024,crosslight2021,sonic2021,holylight2019,shastri2021photonics,nahmias2020photonics,clements2016mesh,reck1994unitary}.
 
-\section{Reproducibility and Gate Status}
+\section{Reproducibility and Evidence Status}
 
-All promoted rows are regenerated through deterministic CSV and JSON artifacts.
-The primary command is:
-\begin{verbatim}
-make suds-optical-transformer-pivot-gate
-\end{verbatim}
-which rebuilds the architecture simulator, G1 release artifacts, and pivot gate.
-The public reproduction manifest includes the TETC architecture simulator
-summary, kernel, sensitivity, parameter, design-space, GLUE-linkage, gate,
-red-team, public-repro alignment, R11 public mini-benchmark, R12 reinforcement
-artifacts, and major-revision response scaffold artifacts. A separate generated
-public package check verifies that datasets, weights, private literature
-mirrors, trial histories, personal paths, and active legacy-route entry points
-are excluded.
+All selected rows are regenerated through deterministic CSV and JSON artifacts
+under the active TETC freeze. The public reproduction package contains compact
+report data, figure traceability, render scripts, and validation metadata, while
+excluding private datasets, model weights, private literature mirrors, personal
+paths, and archived legacy-route work. The full command ledger, file ledger,
+R12 robustness records, and final gate transcript are supplied as separate
+supplemental material rather than embedded in the main manuscript PDF.
 
-\begin{table}[t]
-\centering
-\caption{TETC promotion gate after G1 integration. G6 is advisory because
-venue partition must be rechecked in the submitter's institutional database.}
-\label{tab:gate}
-\footnotesize
-\begin{tabular}{@{}p{0.31\columnwidth}p{0.13\columnwidth}p{0.44\columnwidth}@{}}
-\toprule
-Gate & Status & Evidence \\
-\midrule
-G0 route lock & pass & TETC-only active package plus reframe \\
-G1 manuscript source & pass & Integrated source, red-team, repro alignment \\
-G2 workloads & pass & MobileViT-S and BERT/GLUE on MPS \\
-G3 PPA & pass & System-level architecture simulator \\
-G4 baselines & pass & Uniform, selector, SUDS, architecture rows \\
-G5 calibration & pass & ADC, RTL, PHY tied to parameters \\
-G6 venue fit & pass & Advisory route fit record \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\section{Internal Red-Team Summary}
-
-The G1 red-team artifact uses four lenses: architecture, photonic/circuit,
-systems/reproducibility, and reviewer skepticism. R12d expands that local audit
-to eight lenses and records four promoted fixes plus four accepted boundaries.
-The promoted fixes are: keep SUDS as a scheduler-derived budget interface
-rather than a selector replacement; keep ASTRA and TeMPO as boundary fabrics;
-expose calibration parameters in Table~\ref{tab:calibration}; keep signal-only
-and L1-only wins as boundary evidence; and require public-repro alignment
-before the gate can promote. The R12 acceptance gate passes with boundary
-records accepted for cross-workload transfer, perturbation-mechanism deltas,
-and DeiT-Tiny measured generality. The internal review is recorded as a local
-substitute; external independent reviewer review is permanently abandoned for
-this project.
-
-\section{Problem Statement and Claim Contract}
+\section{Problem Statement and Evidence Boundary}
 
 \subsection{Core Research Question}
 
@@ -543,8 +480,8 @@ subject to the schedule, budget, and evidence constraints below. Here
 \(s_i\) is the start time, \(Y_i\) is the tile-resource assignment, and
 \(\mathcal{P}\) is the calibrated parameter set. The energy term includes ADC,
 DAC/MZM, detector/TIA, laser, SRAM movement, optical-link movement,
-sideband-control, and digital-fallback terms. The paper reports EDP as an
-audit metric, but the problem being solved is deadline-constrained energy
+sideband-control, and digital-fallback terms. The paper reports EDP as a
+secondary metric, but the problem being solved is deadline-constrained energy
 minimization.
 
 \begin{align}
@@ -563,33 +500,12 @@ columns or column groups.
 Equation~\ref{eq:slack-budget} encodes the slack-to-budget policy: low slack
 raises the required KEEP budget, while higher slack permits more DEGRADE or
 PRUNE budget. If a workload evidence surface does not permit pruning, the
-feasible set forces \(N_i^{\mathrm{P}}=0\). The promoted MobileViT-S Pareto
+feasible set forces \(N_i^{\mathrm{P}}=0\). The selected MobileViT-S Pareto
 point uses that zero-prune guard.
-Equation~\ref{eq:accuracy-risk} blocks headline promotion when the measured
-accuracy risk exceeds the workload guard.
-
-\begin{table*}[t]
-\centering
-\caption{Formal SUDS architecture problem variables and evidence surfaces.}
-\label{tab:formal-problem-vars}
-\begin{tabular}{p{0.16\textwidth}p{0.28\textwidth}p{0.46\textwidth}}
-\toprule
-Variable & Definition & Evidence surface \\
-\midrule
-\(G=(V,E)\) & Kernel DAG and precedence edges & Architecture kernel CSV \\
-\(m_i,d_i,n_i\) & GEMM dimensions for kernel \(i\) & BERT and MobileViT-S schedule rows \\
-\(r_i,D_i,s_i\) & Release, deadline, and scheduled start & DPTC schedule metadata \\
-\(\sigma_i\) & Normalized scheduler slack after tile mapping & \texttt{slack\_source=dptc\_photonic\_tile\_schedule} \\
-\(X_t\) & Tile state and selected operating point & Design-space JSON and selected DPTC point \\
-\(Y_i\) & Tile/resource assignment & Modeled selected DPTC resource surface \\
-\(C_i\) & Controllable columns or column groups & Kernel dimensions and sideband grouping \\
-\(B_i\) & KEEP/DEGRADE/PRUNE budget & SUDS policy and conservative Pareto rows \\
-\(\psi\) & Local selector spending the budget & L1, signal, overflow, slack-only, random, and boundary rows \\
-\(R_w,\epsilon_w\) & Workload risk and promoted accuracy guard & Governed MPS GLUE and MobileViT-S artifacts \\
-\(\mathcal{P}\) & Calibration and boundary parameters & ADC macro, RTL sideband, PHY, and literature anchors \\
-\bottomrule
-\end{tabular}
-\end{table*}
+Equation~\ref{eq:accuracy-risk} prevents a workload from becoming a headline
+result when its measured accuracy risk exceeds the workload guard. The full
+variable-to-evidence table is in the supplement so the main paper can keep the
+formal objective concise.
 
 \subsection{Formal Input and Output}
 
@@ -608,31 +524,14 @@ permits it.
 The exact column mask is deliberately outside the SUDS output contract.
 It is produced by the local selector inside the budget.
 
-\subsection{Claim-to-Evidence Contract}
+\subsection{Claim-to-Evidence Boundary}
 
-The canonical R0 formal claim contract is the generated report
-\path{20260513_suds_tetc_formal_claim_contract.md}. Its machine-readable
-variable, constraint, and evidence-label table is the generated
-\path{suds_tetc_formal_claim_contract_20260513_tetc_pivot.csv/json} pair.
-
-\begin{table*}[t]
-\centering
-\caption{Headline claim-to-evidence contract.}
-\label{tab:claim-evidence-contract}
-\begin{tabular}{p{0.23\textwidth}p{0.42\textwidth}p{0.27\textwidth}}
-\toprule
-Headline claim & Required evidence & Boundary \\
-\midrule
-SUDS is a scheduler-derived budget interface & Manuscript/reframe definition, timing-slack motivation figure, architecture overview figure, budget-mechanism figure, R0 formal contract report, and R2 scheduler-trace report & Architecture interface, not slack-only importance oracle \\
-Input is slack, DAG, and tile state; output is KEEP/DEGRADE/PRUNE budget & R0 formal contract CSV/JSON, architecture kernel CSV, R2 scheduler trace CSV, and architecture JSON & Budget output, not exact mask output \\
-Selected DPTC point has modeled system PPA advantage & Architecture simulator report, JSON, summary CSV, sensitivity CSV, and science gate & Modeled PPA, not bench energy \\
-Promoted accuracy is measured on governed local runs & MPS GLUE validation, MobileViT-S conservative Pareto artifact, GLUE architecture linkage, R12b eight-task GLUE rows, and R12e MobileViT-S resolution rows & Accuracy claim only for measured promoted surfaces and robustness checks \\
-Workload generality is tested and bounded beyond the two promoted measured workloads & R9 workload-expansion CSV/JSON/report, R12c cross-workload transfer rows, and R12g DeiT-Tiny measured boundary rows & Boundary PPA or boundary accuracy evidence only; no universal transfer claim \\
-Strong baselines and boundary fabrics are visible & Pivot gate G4 and architecture condition matrix & No universal dominance claim \\
-ADC, RTL, and PHY evidence calibrate simulator parameters & ADC macro, R12h ADC corner rows, R12a RTL functional simulation, PHY boundary, and parameter table artifacts & Calibration/functional-simulation/proxy/boundary only \\
-\bottomrule
-\end{tabular}
-\end{table*}
+The claim-to-evidence contract is simple: SUDS is a scheduler-derived budget
+interface, its input is slack plus DAG and tile state, its output is a
+KEEP/DEGRADE/PRUNE budget rather than an exact mask, and its selected rows
+combine modeled system PPA with measured local accuracy evidence. Workload
+generality, ADC/RTL/PHY calibration, and alternate-fabric comparisons remain
+boundary support, not stronger hardware or universal-transfer claims.
 
 \subsection{Why a Scheduler Interface is Needed}
 
@@ -656,7 +555,7 @@ rightly ask why L1 or signal-only rows are not the main method.
 If the method were presented as a pure signal selector, then the scheduler
 would disappear and the architecture contribution would collapse into an
 existing local heuristic.
-The evidence now promotes a third position.
+The evidence supports a third position.
 The scheduler supplies a hardware-derived budget.
 The local selector chooses columns inside that budget.
 The paper claims the interface and the measured operating point, not
@@ -664,20 +563,16 @@ universal dominance over every local selector.
 
 \subsection{Claim Units}
 
-The claim unit in this paper is an architecture row.
-An architecture row combines a workload, a DPTC operating point, a control
-policy, a measured or bounded accuracy source, and a modeled PPA accounting
-surface.
-Rows are not interchangeable across evidence labels.
-A measured MPS accuracy row can support accuracy retention.
-An architecture-modeled PPA row can support energy, latency, area, and EDP
-reasoning.
-An ADC macro row can support a parameter value.
-An RTL synthesis proxy can support a sideband-control parameter.
-A PHY sweep can support an optical-link boundary setting.
-None of these rows alone supports a fabricated-chip conclusion.
+The paper reports claims at the level of an architecture row: a workload, a
+photonic tensor-core operating point, a control policy, an accuracy source, and
+a modeled system-accounting surface. These rows are not interchangeable. A
+measured local accuracy row supports accuracy retention, while the architecture
+model supports energy, latency, area, and EDP reasoning. Converter macro data,
+control-plane synthesis proxies, and physical-link sweeps support parameter
+choices and stress settings. None of these evidence sources, alone or together,
+supports a fabricated-chip conclusion.
 
-The main promoted condition is \texttt{suds\_pareto}.
+The main selected condition is \texttt{suds\_pareto}.
 For BERT-base GLUE, \texttt{suds\_pareto} uses the measured zero-loss L1
 condition under the DPTC schedule guard.
 For MobileViT-S, \texttt{suds\_pareto} uses the measured no-prune
@@ -685,51 +580,40 @@ signal-overflow condition with \(\tau_{\mathrm{low}}=0.30\) and
 \(\tau_{\mathrm{high}}=0.95\).
 The older \texttt{suds\_l1} and \texttt{suds\_signal} rows are retained as
 ablations because they show what happens when the budget is more aggressive.
-They are not hidden.
-They are not relabeled.
-They are not used as the main submission claim.
+They are not hidden, relabeled, or used as the main paper claim.
 
 \subsection{Evidence Labels}
 
-The manuscript uses explicit evidence labels.
-\texttt{measured\_mps\_glue} means that GLUE validation was evaluated through
-the governed local MPS backend.
-\texttt{measured\_mps\_imagenet} means that MobileViT-S ImageNet validation
-was evaluated through the governed local MPS backend.
-\texttt{modeled\_system\_ppa} means that the PPA numbers come from the
-architecture simulator.
-\texttt{ngspice\_or\_fallback\_macro\_calibration} means that the ADC tier
-values are calibration values for the simulator.
-\texttt{rtl\_synthesis\_proxy} means that sideband-control energy is tied to
-a synthesis proxy, not to placed-and-routed timing closure.
-\texttt{parametric\_boundary} means that a parameter stress case is bounded by
-a sweep rather than by a physical implementation.
+The manuscript uses explicit evidence labels so that different kinds of support
+are not merged into a stronger conclusion than they can justify.
+\texttt{measured\_mps\_glue} and \texttt{measured\_mps\_imagenet} mark GLUE
+and MobileViT-S validation through the local MPS backend.
+\texttt{modeled\_system\_ppa} marks energy, latency, area, and EDP values from
+the architecture simulator.
+\texttt{ngspice\_or\_fallback\_macro\_calibration} marks converter-tier values
+used to calibrate the simulator.
+\texttt{rtl\_synthesis\_proxy} ties sideband-control energy to a synthesis
+proxy rather than to placed-and-routed timing closure.
+\texttt{parametric\_boundary} marks stress settings bounded by sweeps rather
+than by a physical implementation.
 
-These labels are intentionally repeated in the artifacts.
-They make the paper less rhetorically smooth, but they make it harder to
-overclaim.
-For a journal submission, that is the right tradeoff.
-Taken together, these labels classify all non-accuracy evidence as
-calibration and boundary evidence rather than as circuit closure or
-silicon measurement.
+Together, these labels keep non-accuracy evidence in the calibration and
+boundary category rather than recasting it as circuit closure or silicon
+measurement.
 
 \subsection{Non-Claims}
 
-This work does not report a fabricated accelerator.
-It does not report layout timing.
-It does not report a foundry-backed circuit tapeout.
-It does not report measured chip energy.
-It does not report a real photonic-device experiment for SUDS.
-It does not report a circuit-signoff result.
-It does not claim that SUDS dominates every selector at every accuracy point.
-It does not claim that a time-multiplexed or stochastic photonic fabric is
-same-scope with the selected DPTC point.
-It does not claim that the local internal red team is equivalent to external
-peer review.
+This work is not a fabricated-accelerator report: it does not include layout
+timing, a foundry-backed tapeout, measured chip energy, a physical photonic
+device experiment for SUDS, or circuit signoff. It also does not claim that
+SUDS dominates every selector at every accuracy point, or that time-multiplexed
+and stochastic photonic fabrics are same-scope with the selected DPTC point.
+The local internal review is included for transparency, not as a substitute for
+external peer review.
 
-The contribution is narrower and more defensible.
-It is a schedule-derived architecture interface with measured accuracy
-linkage, matched same-fabric baselines, and a reproducible artifact gate.
+The contribution is narrower and more defensible: a schedule-derived
+architecture interface with measured accuracy linkage, matched same-fabric
+baselines, and a reproducible evidence trail.
 
 \section{Scheduler-Derived Metadata}
 
@@ -742,190 +626,154 @@ kernels.
 At sequence length 128 this creates a deterministic GEMM schedule.
 The MobileViT-S schedule is extracted from the local operation manifest.
 Only Transformer-block linear operations under the \texttt{global\_rep}
-surface are promoted into the Transformer workload.
-Convolutional support layers remain outside the promoted DPTC Transformer
-kernel accounting.
+surface are included in the Transformer workload.
+Convolutional support layers remain outside the selected Transformer-kernel
+accounting.
 
-For each GEMM, the simulator records matrix dimensions \(m\), \(d\), and
-\(n\).
-The mapping computes tile counts along the three dimensions.
-It derives the number of DPTC tiles, output groups, output values, operand
-values, and base latency.
+For each matrix multiplication, the simulator records matrix dimensions
+\(m\), \(d\), and \(n\). The mapping computes tile counts along the three
+dimensions and derives output groups, output values, operand values, and base
+latency.
 It also assigns a schedule start time and a downstream deadline.
 The normalized slack value is then derived from the schedule window rather
 than from an analytical layer index alone.
 The architecture JSON records the field
 \texttt{slack\_source=dptc\_photonic\_tile\_schedule}.
 
-\subsection{From Analytical Provenance to Schedule Metadata}
+\subsection{From Analytical Slack Records to Schedule Metadata}
 
-The original GLUE measured artifact retains analytical slack provenance.
-That provenance is useful because it records how the earlier GLUE rows were
-generated.
-It is not sufficient for the final TETC claim.
-The science gate therefore requires an additional hardware-derived schedule
-link.
-The current architecture artifact supplies 1008 BERT schedule-kernel rows.
-It also supplies 126 GLUE linkage rows.
+The original GLUE measured record retains its analytical slack field. That
+field is useful because it shows how the earlier GLUE rows were generated, but
+it is not sufficient for the final TETC claim. The final evidence chain
+therefore adds a hardware-derived schedule link. The current architecture files
+supply 1008 BERT schedule-kernel rows and 126 GLUE linkage rows.
 The linkage rows connect measured GLUE rows to architecture conditions,
 including \texttt{suds\_pareto}.
-This is why the S3 gate passes while still reporting that the original GLUE
-slack field was analytical.
+This keeps the old data-generation history visible while grounding the final
+claim in schedule metadata.
 
-The R2 scheduler-trace artifact strengthens that link by replaying the
-architecture rows through five scheduler variants: FIFO, ASAP,
-EDF/deadline-aware, utilization-aware, and SUDS-aware. The promoted
+The scheduler-trace record strengthens that link by replaying the architecture
+rows through five scheduler variants: FIFO, ASAP,
+EDF/deadline-aware, utilization-aware, and SUDS-aware. The selected
 \texttt{suds\_pareto} rows use SUDS-aware hardware-derived schedule trace
 IDs \texttt{r2\_7b7427345a30be24} for BERT-base GLUE and
 \texttt{r2\_e1d13a0a1855de8b} for MobileViT-S Transformer blocks. The same
-artifact records that scheduler distributions are distinguishable, with a
+record shows that scheduler distributions are distinguishable, with a
 maximum signature distance of 0.566732 against a 0.010000 stop threshold.
-This makes the promoted slack source an emitted scheduler trace rather than
+This makes the selected slack source an emitted scheduler trace rather than
 only a column in the architecture summary table.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{Fig7_SchedulerSlackBudgetEvidence.pdf}
-\caption{Scheduler-visible slack and SUDS budget evidence for the promoted
+\caption{Scheduler-visible slack and SUDS budget evidence for the selected
 nominal rows. The left panel reports scheduler slack distributions across
 FIFO, ASAP, deadline-aware, utilization-aware, and SUDS-aware trace variants.
-The middle panel shows the KEEP/DEGRADE/PRUNE budget mix for the promoted
+The middle panel shows the KEEP/DEGRADE/PRUNE budget mix for the selected
 SUDS-aware traces. The right panel compares SUDS-aware and FIFO low-tail slack
-and queue-wait behavior. This is scheduler-trace evidence for the promoted
+and queue-wait behavior. This is scheduler-trace evidence for the selected
 budget interface, not a claim that one scheduler objective universally
 dominates every alternative.}
 \label{fig:scheduler-slack-budget}
 \end{figure*}
 
-The R3 end-to-end perturbation artifact then checks the accuracy side of that
-same contract. It links the promoted BERT-base GLUE and MobileViT-S
+The end-to-end perturbation record then checks the accuracy side of that same
+link. It connects the selected BERT-base GLUE and MobileViT-S
 \texttt{suds\_pareto} rows to measured MPS forward passes, verifies that their
 accuracy-source tier ratios match the architecture PPA tier ratios with maximum
-policy-ratio delta 0.000000, and records the promoted trace IDs
+policy-ratio delta 0.000000, and records the selected trace IDs
 \texttt{r2\_7b7427345a30be24} and \texttt{r2\_e1d13a0a1855de8b}. The worst
-promoted accuracy delta is -0.014500 percentage points, inside the one
-percentage-point target. This artifact is still deliberately bounded: it is a
-model-forward tiered perturbation audit, not a bit-exact ADC or optical-device
+selected accuracy delta is -0.014500 percentage points, inside the one
+percentage-point target. This record is still deliberately bounded: it is a
+model-forward tiered perturbation check, not a bit-exact ADC or optical-device
 simulation.
 
 \subsection{Schedule Metadata Fields}
 
-Each schedule row includes the workload name.
-Each row includes the kernel identifier.
-Each row includes the kernel class.
-Each row includes the layer index.
-Each row includes matrix dimensions.
-Each row includes DPTC tile counts.
-Each row includes output groups.
-Each row includes output values.
-Each row includes base latency.
-Each row includes schedule start time.
-Each row includes schedule deadline.
-Each row includes normalized scheduler slack.
-The R2 scheduler trace additionally records scheduler variant, schedule trace
-ID, dependency kernel IDs, release time, scheduled start, data-ready time,
-completion time, deadline slack, queue wait, tile assignment, resource queue
-state, and the KEEP/DEGRADE/PRUNE budget class.
-Each row includes a mapping evidence field.
-These fields are enough to ground the SUDS budget in the DPTC schedule.
+The schedule metadata records the workload, kernel identifier and class, layer
+index, matrix dimensions, tile counts, output groups, output values, base
+latency, scheduled start, deadline, normalized slack, and mapping-evidence
+field. The scheduler trace adds the scheduler variant, trace ID, dependency
+kernels, release and data-ready times, completion time, deadline slack, queue
+wait, tile assignment, resource-queue state, and KEEP/DEGRADE/PRUNE budget
+class. These fields are sufficient to tie the emitted budget to the
+selected photonic tensor-core schedule.
 
 \subsection{Why the Schedule is Hardware-Derived}
 
-The schedule is hardware-derived because the slack is computed after mapping
-the kernel to the selected tile shape and parallel-core count.
-Changing tile dimension changes tile counts.
-Changing tile count changes parallelism.
-Changing cores per tile changes cycles.
-Changing sideband grouping changes control accounting.
-Changing ADC sharing changes conversion timing and energy.
-The schedule therefore depends on the modeled architecture point.
-It is not only a static layer-order heuristic.
-R2 also shows that scheduler choice changes the slack distribution. SUDS-aware
-improves low-tail slack over FIFO for the promoted rows, while a
+The schedule is hardware-derived because slack is computed after mapping each
+kernel to the selected tile shape, tile count, parallel-core count, sideband
+grouping, and converter-sharing mode. Changing any of these choices changes
+tile counts, parallelism, cycles, control accounting, or conversion timing and
+energy. The resulting slack is therefore tied to the modeled architecture point
+rather than to a static layer-order heuristic. The scheduler-trace study also
+shows that scheduler choice changes the slack distribution: SUDS-aware traces
+improve low-tail slack over FIFO for the selected rows, while a
 utilization-aware scheduler has the highest p10 slack in the scheduler-only
-ablation, as summarized in Fig.~\ref{fig:scheduler-slack-budget}. The paper
-therefore claims the scheduler-budget interface and the measured promoted
-operating point, not universal dominance by the SUDS-aware scheduler over every
-possible scheduling objective.
+ablation shown in Fig.~\ref{fig:scheduler-slack-budget}. The paper therefore
+claims the scheduler-budget interface and the selected operating point, not
+universal dominance by one scheduling objective.
 
 \section{SUDS Policy Definition}
 
 \subsection{Budget Semantics}
 
-SUDS maps normalized slack into three budget classes.
-KEEP preserves high-resolution conversion.
-DEGRADE assigns lower-resolution conversion.
-PRUNE permits removal or condensation when the evidence surface allows it.
-The promoted MobileViT-S policy uses zero pruning.
-That choice is deliberate.
-The earlier aggressive policy reduced ADC energy more strongly, but it lost
-too much accuracy and was dominated by stronger local baselines.
-The conservative policy sacrifices some EDP improvement in exchange for a
-measured accuracy delta near zero.
+SUDS maps normalized slack into three budget classes. KEEP preserves
+high-resolution conversion, DEGRADE assigns lower-resolution conversion, and
+PRUNE permits removal or condensation only when the measured workload surface
+allows it. The selected MobileViT-S policy uses zero pruning: the earlier
+aggressive policy reduced converter energy more strongly, but it lost too much
+accuracy and was dominated by stronger local baselines. The conservative policy
+therefore sacrifices some EDP improvement in exchange for a measured accuracy
+delta near zero.
 
 \subsection{Local Selector Composition}
 
-The budget interface determines how many columns may be assigned to each tier.
-The local selector determines which columns are assigned.
-For L1 composition, the selector prioritizes columns by weight magnitude.
-For signal composition, the selector uses signal-amplitude or overflow-style
-evidence.
-For slack-only composition, the selector is essentially the schedule budget
-itself.
-For random composition, the selector is a same-sparsity boundary check.
+The budget interface determines how many columns may be assigned to each tier;
+the local selector determines which columns are assigned. L1 composition ranks
+columns by weight magnitude, signal composition uses signal-amplitude or
+overflow-style evidence, slack-only composition follows the schedule budget
+directly, and random composition provides a same-sparsity boundary case.
 
-This separation lets the paper answer a reviewer challenge directly.
-If a local selector beats the SUDS composition, the result is not hidden.
-The result shows that local importance can be stronger at that point.
-The main SUDS contribution remains the interface that lets the scheduler
-shape the allowable quality budget.
+This separation lets the paper answer a reviewer challenge directly. If a local
+selector beats a SUDS-composed row, the result is reported as evidence that
+local importance can be stronger for that workload and setting. The main
+contribution remains the scheduler interface that shapes the allowable quality
+budget.
 
-\subsection{Pareto Promotion Rule}
+\subsection{Pareto Selection Rule}
 
-The science gate promotes only rows that satisfy three properties.
-First, the row must have measured MPS accuracy evidence.
-Second, the row must not be dominated by measured same-fabric baselines under
-the gate's EDP and accuracy tolerances.
-Third, the row must stay inside the promoted accuracy budget or expose a full
-Pareto tradeoff instead of a single headline.
-The current \texttt{suds\_pareto} row satisfies these conditions.
-The older aggressive rows do not satisfy them as main claims.
+The selection rule keeps only rows that have measured local accuracy evidence,
+are not dominated by measured same-fabric baselines under the EDP and accuracy
+tolerances, and either stay inside the selected accuracy budget or expose a full
+Pareto tradeoff. The current \texttt{suds\_pareto} row satisfies these
+conditions; the older aggressive rows are therefore ablations rather than main
+claims.
 
 \section{Architecture Simulator Details}
 
 \subsection{Energy Terms}
 
-The simulator accumulates ADC energy.
-It accumulates DAC and MZM input energy.
-It accumulates detector and TIA energy.
-It accumulates laser energy.
-It accumulates SRAM movement energy.
-It accumulates optical-link energy.
-It accumulates sideband-control energy.
-It accumulates digital-fallback energy for boundary fabrics that require it.
-The energy breakdown in Fig.~\ref{fig:energy-breakdown} is included to make
-that accounting visible.
+The simulator accumulates energy from ADC conversion, DAC/MZM input conversion,
+detector/TIA readout, laser power, SRAM movement, optical-link movement,
+sideband control, and digital fallback for boundary fabrics that require it.
+Fig.~\ref{fig:energy-breakdown} makes this accounting visible rather than
+leaving the energy result as a single aggregate number.
 
 \subsection{Latency Terms}
 
-The baseline latency is derived from DPTC tile cycles.
-The simulator then includes readout-related timing.
-It includes control timing as a function of sideband groups.
-It includes boundary multipliers for alternate fabrics.
-The latency model is deliberately simple enough to be auditable.
-It is not a replacement for cycle-accurate RTL.
-It is not a timing-closed hardware implementation.
+Baseline latency is derived from photonic tile cycles. The simulator then adds
+readout-related timing, sideband-group control timing, and boundary multipliers
+for alternate fabrics. The latency model is deliberately simple enough to audit;
+it is not a replacement for cycle-accurate RTL or a timing-closed hardware
+implementation.
 
 \subsection{Area Terms}
 
-The area model includes a DPTC tile area proxy.
-It includes ADC area scaling.
-It includes sideband-control area.
-It includes global SRAM area.
-It includes fabric-specific adjustments for boundary rows.
-The area values are used as architecture context and design-space filtering
-signals.
-They are not layout area.
+The area model combines a photonic tile proxy, converter area scaling,
+sideband-control area, global SRAM area, and fabric-specific adjustments for
+boundary rows. These values provide architecture context and design-space
+filtering signals; they are not layout area.
 
 \subsection{Sensitivity Cases}
 
@@ -933,491 +781,159 @@ The nominal case is the main descriptive surface.
 The pessimistic case stresses ADC scaling, memory scaling, optical-link cost,
 laser cost, control cost, and digital-fallback cost.
 It also reduces pruning compute relief.
-The pessimistic gate prevents a fragile result from passing only because a
+The pessimistic stress test prevents a fragile result from passing only because a
 single optimistic parameter was chosen.
-The selected SUDS Pareto row preserves a positive EDP advantage in that
+The selected Pareto row preserves a positive EDP advantage in that
 stress case.
-The R6 system-sensitivity artifact extends this into a parameter sweep over
+The system-sensitivity record extends this into a parameter sweep over
 memory bandwidth, activation reuse, batch size, sequence length, ADC energy,
 DAC/MZM energy, laser multiplier, optical-link loss, and sideband-control
 overhead.
 The named nominal, optimistic, and pessimistic regimes preserve the bounded
-promoted claim, and the extreme DAC/MZM rows are retained as boundary evidence
+selected claim, and the extreme DAC/MZM rows are retained as boundary evidence
 rather than hidden.
-The R10 uncertainty artifact adds bootstrap confidence intervals for the
+The uncertainty record adds bootstrap confidence intervals for the
 measured accuracy seeds and Monte Carlo intervals for the target PPA regime;
 it also records low-slack, high-memory-pressure, small-batch, long-sequence,
-activation-sensitive, and signal-only-dominant cases where SUDS should not be
-used as a promoted universal policy.
+activation-sensitive, and signal-only-dominant cases where the interface should not be
+used as a universal policy.
 
 \section{Design-Space Sweep}
 
 \subsection{Sweep Dimensions}
 
-The design-space artifact sweeps tile dimension.
-It sweeps tile count.
-It sweeps cores per tile.
-It sweeps sideband group columns.
-It sweeps ADC sharing mode.
-The selected point is not selected only because it maximizes one metric.
-It is selected because it remains comparable to the Lightening-style DPTC
-surface.
-It also uses the local RTL sideband calibration anchor.
-This keeps the comparison narrow enough for review.
+The design-space sweep varies tile dimension, tile count, cores per tile,
+sideband group columns, and converter-sharing mode. The selected point is not
+chosen because it maximizes a single metric. It is retained because it remains
+comparable to the Lightening-style photonic tensor-core surface and uses the
+available sideband-control calibration anchor, keeping the comparison narrow
+enough for review.
 
 \subsection{Selected Point Rationale}
 
 The \(32 \times 32\) tile preserves the comparison surface used by the
-Transformer photonic literature.
-The four-tile setting matches the LT-B-style reference.
-Two cores per tile keep the per-tile accumulation point meaningful.
-The 32-column sideband group uses the available control calibration.
-Temporal accumulation before ADC keeps output-stationary DPTC readout in the
-selected fabric.
-Other design points remain in the design-space JSON.
-They are not promoted as the main paper setting.
+Transformer photonic literature. Four tiles match the LT-B-style reference, two
+cores per tile keep the per-tile accumulation point meaningful, and the
+32-column sideband group uses the available control calibration. Temporal
+accumulation before conversion keeps output-stationary readout in the selected
+fabric. Other design points remain in the design-space JSON but are not used as
+the main paper setting.
 
 \subsection{Pareto Front Recording}
 
-The design-space artifact marks Pareto rows over energy, latency, and area
-within each workload and condition.
-This is useful for auditing because a reviewer can distinguish two questions.
-The first question is whether the selected point is a reasonable local design
-choice.
-The second question is whether the main SUDS row is Pareto-competitive
-against measured same-fabric baselines.
-The R5 audit adds a third, stricter question: whether the selected
-\texttt{suds\_pareto} point remains nondominated after the accuracy budget,
-EDP, memory pressure, control overhead, and calibration-sensitivity proxy are
-considered together.
-It passes that governed multi-objective check for both active workloads.
-The audit also records raw energy/latency/area dominators for the selected
-point, so this paper does not claim global PPA optimality.
-The selected point is therefore promoted as a bounded, evidence-linked
-operating point rather than as the best possible tile/control configuration.
+The design-space files mark Pareto rows over energy, latency, and area within
+each workload and condition. This lets a reviewer separate three questions:
+whether the selected point is a reasonable local design choice, whether the main
+row is Pareto-competitive against measured same-fabric baselines, and
+whether \texttt{suds\_pareto} remains nondominated after accounting for the
+accuracy budget, EDP, memory pressure, control overhead, and calibration
+sensitivity. It satisfies that multi-objective criterion for both active
+workloads. Raw energy/latency/area dominators are still recorded, so the paper
+does not claim global PPA optimality.
 
 \section{Accuracy Protocol}
 
 \subsection{MPS-Only Execution}
 
-All promoted local accuracy evidence uses MPS.
-CPU fallback is not allowed for promoted model runs.
-The full MobileViT-S conservative Pareto point uses eight seeds.
-Each seed processes the full 50,000-image validation target.
-The run JSONs record \texttt{device=mps}.
-They also record the MLX default device as a GPU device.
-The conservative artifact refuses to promote rows that do not satisfy these
-metadata checks.
+All selected local accuracy runs use the MPS backend; CPU fallback is not used
+for selected model evidence. The full MobileViT-S conservative Pareto point
+uses eight seeds, and each seed processes the full 50,000-image validation
+target. The run JSON files record \texttt{device=mps} and record the MLX
+default device as a GPU device. Rows without this metadata are excluded from the
+conservative selected surface.
 
 \subsection{BERT GLUE Rows}
 
 The BERT GLUE rows cover SST-2, MRPC, MNLI, QQP, QNLI, and RTE validation
-surfaces.
-The measured rows are linked to architecture rows through the GLUE linkage
-CSV.
-The promoted BERT SUDS Pareto point has zero measured primary-metric loss in
-the aggregate evidence.
-The perturbation mechanism used for the promoted BERT rows is binary column
+surfaces and are linked to architecture rows through the GLUE linkage CSV. The
+selected BERT Pareto point has zero measured primary-metric loss in the
+aggregate evidence.
+The perturbation mechanism used for the selected BERT rows is binary column
 zeroing: columns assigned to DEGRADE or PRUNE tiers are zeroed in the forward
 pass. Gaussian noise injection is an alternative mechanism that produces larger,
-seed-sensitive accuracy drops; it is retained as boundary evidence in R12f, not
-as the promoted perturbation implementation.
-The schedule link is what upgrades the grounding from analytical provenance
+seed-sensitive accuracy drops; it is retained as boundary evidence, not as the
+selected perturbation implementation.
+The schedule link is what moves the grounding from analytical slack records
 to hardware-derived metadata for the final claim.
 
 \subsection{MobileViT-S Rows}
 
-The MobileViT-S conservative point is the decisive change for S2.
-The older aggressive SUDS rows have accuracy losses near or above the
-one-percentage-point target.
-The conservative no-prune policy has an aggregate Top-1 delta of
-\(-0.0145\) percentage points.
-Its ADC energy ratio is approximately 0.205 relative to dense 8-bit readout.
-Its prune ratio is zero.
-Its role is a Pareto point, not a maximum energy-reduction point.
+The MobileViT-S conservative point replaces older aggressive rows whose
+accuracy losses were near or above the one-percentage-point target. The
+no-prune policy has an aggregate Top-1 delta of \(-0.0145\) percentage points,
+a converter-energy ratio of approximately 0.205 relative to dense 8-bit readout, and
+a prune ratio of zero. Its role is to define a measured Pareto point, not the
+maximum possible energy-reduction point.
 
-\section{Science Gate Reconstruction}
+\section{Evidence Selection}
 
-\subsection{S1 Dominance}
+\subsection{Same-Fabric Dominance}
 
-The S1 gate compares the best promoted SUDS main row against measured
-same-fabric baselines.
-It uses both EDP and accuracy.
-For BERT, the promoted row has EDP ratio about 0.666 and zero accuracy loss.
-The L1 row has nearly identical accuracy and slightly lower EDP, but the
-difference is inside the gate tolerance once the schedule guard is included.
-For MobileViT-S, the promoted row has EDP ratio about 0.919 and accuracy loss
-near zero.
-Several local selectors have lower EDP, but they lose substantially more
-accuracy.
-They are therefore not dominators under the two-dimensional criterion.
-The R4 same-simulator matrix records zero same-scope dominators and separately
-reports lower-EDP alternate-fabric rows as boundary context rather than as
-claim-updating SUDS defeats.
+The selected row is compared with measured same-fabric baselines using
+both EDP and accuracy. For BERT, the selected row has an EDP ratio of about
+0.666 and zero accuracy loss. The L1 row has nearly identical accuracy and
+slightly lower EDP, but the difference is inside the selection tolerance once
+the schedule guard is included. For MobileViT-S, the selected row has an EDP
+ratio of about 0.919 and accuracy loss near zero. Several local selectors have
+lower EDP, but they lose substantially more accuracy and therefore do not
+dominate under the two-dimensional criterion. Alternate-fabric rows with lower
+EDP are reported separately as boundary context.
 
-\subsection{S2 Accuracy Budget}
+\subsection{Accuracy Budget}
 
-The S2 gate checks the worst promoted SUDS accuracy delta.
-The previous promoted rows failed this target because the MobileViT-S
-aggressive rows lost more than one percentage point.
-The conservative point changes the promoted policy rather than changing the
-name of the old row.
-The worst promoted delta is now \(-0.015\) percentage points.
-That clears the target while keeping the old rows in the evidence table.
+The selected accuracy target is one percentage point. Earlier aggressive
+MobileViT-S rows exceeded that limit, so the selected policy changes rather
+than relabeling the old row. The worst selected delta is now \(-0.015\)
+percentage points, while the older rows remain in the evidence table.
 
-\subsection{S3 Schedule Grounding}
+\subsection{Schedule Grounding}
 
-The S3 gate checks MPS accuracy coverage, MobileViT completion, BERT schedule
-metadata, and GLUE schedule linkage.
-It does not delete the analytical slack provenance from the old GLUE artifact.
-Instead, it requires a hardware-derived DPTC schedule link in the architecture
-artifact.
-This creates a more honest provenance chain.
-The old data generation history is visible.
-The final claim is grounded in schedule metadata.
-
-\subsection{S4 Manuscript Maturity}
-
-The S4 gate checks manuscript density, figure integration, and references.
-This source expands the compact skeleton into a journal-paper structure.
-It integrates the TETC figure pack.
-It adds a related-work and citation surface.
-It keeps a limitations section.
-It keeps the artifact gate distinct from final submission readiness.
-
-\section{Expanded Related Work}
-
-\subsection{Dynamic Photonic Tensor Cores}
-
-Lightening-Transformer is the closest same-fabric reference point.
-It is important because it targets dynamic full-range Transformer matrix
-multiplication rather than only static-weight CNN-style optical tensors.
-The selected SUDS DPTC fabric uses this row as the same-scope reference.
-The paper does not claim to reproduce Lightening's physical implementation.
-It uses a Lightening-style architecture parameterization and boundary.
-
-\subsection{Conversion-Aware Attention Acceleration}
-
-HyAtten motivates conversion-aware photonic attention acceleration.
-Its central lesson for this paper is that signal conversion can dominate the
-benefit of photonic compute.
-SUDS borrows that bottleneck framing but not the implementation.
-The HyAtten-style row is therefore a boundary row.
-It is a reviewer-facing context row, not a hidden baseline.
-
-\subsection{Time-Multiplexed Photonic Cores}
-
-TeMPO studies time-multiplexed dynamic photonic tensor acceleration with
-device, circuit, and architecture customization.
-The selected SUDS row does not claim TeMPO's device path.
-The TeMPO-style row in the simulator is a boundary fabric.
-It helps a reviewer see whether the SUDS DPTC point remains sensible when
-alternate readout assumptions are present.
-
-\subsection{Stochastic Photonic Transformers}
-
-ASTRA studies stochastic optical Transformer acceleration.
-Its stochastic readout and multiplier assumptions differ from the selected
-DPTC fabric.
-The ASTRA-style row is therefore not a same-scope baseline for SUDS.
-It is an alternate-fabric boundary that pressures the claim.
-
-\subsection{Photonic-Aware Compression}
-
-ENLighten studies sparse and low-rank Transformer compression for photonic
-tensor cores.
-That work is adjacent because it changes model structure to fit photonic
-resources.
-SUDS instead changes the runtime budget interface.
-The two ideas are compatible in principle.
-This manuscript does not claim their combined result.
-
-\subsection{Optical Transformer Scaling}
-
-Optical Transformer studies motivate why Transformer linear operations are
-interesting targets for optical acceleration.
-They also show that analog optical advantages depend heavily on conversion,
-noise, and scaling assumptions.
-This paper follows that caution by separating measured accuracy from modeled
-PPA.
-
-\subsection{Non-Coherent Transformer Photonics}
-
-TRON represents an earlier non-coherent Transformer photonic accelerator
-direction.
-It motivates the broader photonic Transformer space but does not define the
-same DPTC fabric used here.
-The manuscript cites it as background rather than as a matched baseline.
-
-\subsection{Sparse Photonic Neural Acceleration}
-
-SONIC and CrossLight show that sparsity, cross-layer co-design, and photonic
-mapping have a long history in neural accelerators.
-SUDS differs by tying the resource-control budget to a Transformer schedule.
-The local selector can still be magnitude-aware or signal-aware.
-The scheduler interface is the new part.
-
-\subsection{Digital Transformer and Mobile Baselines}
-
-BERT and GLUE define the NLP validation surface.
-MobileViT defines the compact vision-Transformer-family workload.
-The paper uses these workloads to avoid a single-model claim.
-The results are still not universal.
-They cover one NLP encoder surface and one compact vision Transformer surface.
-
-\section{Reproducibility Contract}
-
-\subsection{Commands}
-
-The conservative Pareto artifact is regenerated with:
-\begin{verbatim}
-make suds-tetc-conservative-pareto
-\end{verbatim}
-The TETC figure pack is regenerated with:
-\begin{verbatim}
-make suds-tetc-figures
-\end{verbatim}
-The seven-figure submission-candidate pack is refreshed with:
-\begin{verbatim}
-make suds-tetc-submission-figure-pack
-\end{verbatim}
-The architecture artifact gate is regenerated with:
-\begin{verbatim}
-make suds-optical-transformer-pivot-gate
-\end{verbatim}
-The R2 hardware-derived scheduler traces are regenerated with:
-\begin{verbatim}
-make suds-tetc-scheduler-traces
-\end{verbatim}
-The R3 end-to-end perturbation accuracy audit is regenerated with:
-\begin{verbatim}
-make suds-tetc-end-to-end-accuracy
-\end{verbatim}
-The stricter science gate is regenerated with:
-\begin{verbatim}
-make suds-tetc-science-gate
-\end{verbatim}
-Only the final strict target may produce a local submission-candidate state:
-\begin{verbatim}
-make suds-tetc-final-gate
-\end{verbatim}
-
-\subsection{Artifact Paths}
-
-The architecture summary CSV is
-\path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv}.
-The architecture JSON is
-\path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json}.
-The GLUE linkage CSV is
-\path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv}.
-The R2 scheduler trace CSV is
-\path{experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.csv}.
-The R2 scheduler ablation CSV is
-\path{experiments/results/report_data/suds_tetc_scheduler_ablation_20260513_tetc_pivot.csv}.
-The R2 scheduler JSON is
-\path{experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.json}.
-The R3 end-to-end accuracy JSON is
-\path{experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json}.
-The conservative Pareto JSON is
-\path{experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json}.
-The science gate JSON is
-\path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json}.
-The figure traceability table is
-\path{figures/suds_tetc_20260516_submission_figure_pack/figure_traceability.csv}.
-
-\subsection{Public Reproduction Boundary}
-
-The public reproduction package is a reader-facing artifact package.
-It should include generated report-data files, figure traces, and regeneration
-commands.
-It should not include private datasets.
-It should not include model weights unless the license and package boundary
-explicitly allow it.
-It should not include the private literature mirror.
-It should not include raw personal filesystem state.
-
-\section{Reviewer Failure Modes and Mitigations}
-
-\subsection{Failure Mode: Baseline Dominance}
-
-A reviewer may point out that L1 or signal-only rows beat older SUDS rows.
-The mitigation is not to hide those rows.
-The mitigation is to change the promoted row to a Pareto policy and to state
-that older rows are ablations.
-The science gate now enforces that distinction.
-
-\subsection{Failure Mode: Accuracy Overclaim}
-
-A reviewer may reject a strong energy claim if it comes with more than one
-percentage point of accuracy loss.
-The mitigation is the conservative no-prune point.
-It reduces the headline EDP gain relative to aggressive rows.
-It keeps the measured accuracy delta inside the TETC-grade target.
-
-\subsection{Failure Mode: Analytical Slack}
-
-A reviewer may object that analytical slack is not hardware-derived.
-The mitigation is the DPTC schedule metadata, GLUE linkage, and R2
-hardware-derived scheduler traces.
-The manuscript preserves the old provenance but grounds the final claim in
-the hardware-derived schedule rows and explicit promoted schedule trace IDs.
-
-\subsection{Failure Mode: Circuit Overclaim}
-
-A reviewer may object if macro calibration is presented as circuit closure.
-The manuscript avoids that wording.
-ADC, RTL, and PHY artifacts are used as calibration or boundary inputs.
-They are not presented as a physical implementation.
-
-\subsection{Failure Mode: Alternate-Fabric Confusion}
-
-A reviewer may compare SUDS to TeMPO or ASTRA and ask whether those rows are
-same-scope.
-They are not.
-They are boundary rows because they change readout or stochastic fabric
-assumptions.
-The matched same-scope reference remains the Lightening-style DPTC row.
-
-\section{Artifact Ledger}
-
-\begin{table*}[t]
-\centering
-\caption{Local artifact ledger for the TETC route. The ledger separates
-measured accuracy, modeled architecture PPA, calibration inputs, figures, and
-gate decisions.}
-\label{tab:artifact-ledger}
-\footnotesize
-\begin{tabular}{@{}p{0.22\textwidth}p{0.34\textwidth}p{0.32\textwidth}@{}}
-\toprule
-Artifact class & Path & Promotion role \\
-\midrule
-Conservative Pareto & \path{experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json} & Main MobileViT-S promoted accuracy point \\
-Architecture PPA & \path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json} & Modeled energy, latency, area, schedule, linkage \\
-Architecture summary & \path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot_summary.csv} & Table and Pareto source \\
-GLUE linkage & \path{experiments/results/report_data/suds_glue_architecture_linkage_20260513_tetc_pivot.csv} & BERT schedule grounding \\
-Scheduler traces & \path{experiments/results/report_data/suds_tetc_scheduler_traces_20260513_tetc_pivot.json} & Promoted SUDS-aware trace IDs and scheduler ablation \\
-End-to-end accuracy & \path{experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.json} & R3 MPS accuracy-to-PPA perturbation policy audit \\
-Same-simulator baselines & \path{experiments/results/report_data/suds_tetc_same_sim_baselines_20260513_tetc_pivot.json} & R4 equal-accuracy dominance and fairness matrix \\
-Pareto design space & \path{experiments/results/report_data/suds_tetc_pareto_design_space_20260513_tetc_pivot.json} & R5 governed multi-objective selected-point audit \\
-System sensitivity & \path{experiments/results/report_data/suds_tetc_system_sensitivity_20260513_tetc_pivot.json} & R6 memory/conversion/link valid-regime and boundary audit \\
-RTL control plane & \path{experiments/results/report_data/suds_tetc_rtl_control_plane_20260513_tetc_pivot.json} & R7 control-sideband synthesis proxy and simulator linkage \\
-Calibration ranges & \path{experiments/results/report_data/suds_tetc_calibration_ranges_20260513_tetc_pivot.json} & R8 ADC and photonic nominal/pessimistic/boundary range audit \\
-Failure and uncertainty & \path{experiments/results/report_data/suds_tetc_uncertainty_20260513_tetc_pivot.json} & R10 counterexamples, bootstrap intervals, and target-regime Monte Carlo \\
-Public mini benchmark & \path{experiments/results/report_data/suds_tetc_external_red_team_20260513_tetc_pivot.json} & R11 public-repro validation, internal red-team record, and response scaffold \\
-R12 acceptance gate & \path{experiments/results/report_data/suds_tetc_r12_acceptance_gate_20260514_r12_reinforcement.json} & Post-R11 pass decision with accepted boundary records \\
-R12 robustness rows & \path{experiments/results/report_data/suds_tetc_glue_task_expansion_20260514_r12_reinforcement.json} & Eight-task GLUE robustness support \\
-R12 vision robustness & \path{experiments/results/report_data/suds_tetc_mobilevit_resolution_accuracy_20260514_r12_reinforcement.json} & MobileViT-S resolution sweep support \\
-R12 boundary rows & \path{experiments/results/report_data/suds_tetc_cross_workload_transfer_20260514_r12_reinforcement.json} & Cross-workload transfer boundary evidence \\
-R12 perturbation boundary & \path{experiments/results/report_data/suds_tetc_bert_multiseed_accuracy_20260514_r12_reinforcement.json} & BERT mechanism and seed sensitivity boundary \\
-R12 DeiT boundary & \path{experiments/results/report_data/suds_tetc_deit_tiny_accuracy_20260514_r12_reinforcement.json} & Vision generality boundary \\
-R12 RTL simulation & \path{experiments/results/report_data/suds_tetc_rtl_simulation_20260514_r12_reinforcement.json} & Iverilog functional simulation support \\
-R12 calibration & \path{experiments/results/report_data/suds_tetc_adc_corner_cases_20260514_r12_reinforcement.json} & ADC corner coverage \\
-Figure pack & \path{figures/suds_tetc_20260516_submission_figure_pack/} & Main-text figure source \\
-Science gate & \path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json} & Submission-candidate decision \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-\section{Checklist for Final Submission Preparation}
-
-\subsection{Science Checklist}
-
-S1 must remain pass.
-S2 must remain pass.
-S3 must remain pass.
-S4 must remain pass.
-S5, S5b, S5c, and S5d must remain pass.
-External independent reviewer review is permanently abandoned for this project.
-If any promoted row changes, the dominance and accuracy gates must be rerun.
-If any architecture parameter changes, the design-space and PPA artifacts must
-be regenerated.
-If any manuscript claim changes, the forbidden-claim scan must be rerun.
-
-\subsection{Writing Checklist}
-
-The abstract must say architecture simulation and measured MPS accuracy
-linkage.
-The introduction must avoid implying fabricated hardware.
-The method must define SUDS as a budget interface.
-The evaluation must keep same-fabric baselines visible.
-The related work must separate same-fabric and boundary rows.
-The limitations must remain explicit.
-The conclusion must not upgrade the artifact gate into submission readiness.
-
-\subsection{Figure Checklist}
-
-Fig.~\ref{fig:timing-slack-bottleneck} must remain a motivation diagram and
-must not be described as a measured trace.
-Fig.~\ref{fig:suds-microarchitecture} must remain the architecture overview
-and preserve the electronic frontend, optical core, electronic backend, and
-sidecar SUDS control plane.
-Fig.~\ref{fig:suds-budget-interface} must keep the example budget split
-illustrative.
-Fig.~\ref{fig:accuracy-edp-pareto} must show older aggressive SUDS rows.
-Fig.~\ref{fig:energy-breakdown} must show non-ADC terms with grayscale-safe
-secondary encoding.
-Fig.~\ref{fig:conservative-accuracy} must show the one-percentage-point target.
-Fig.~\ref{fig:scheduler-slack-budget} must remain scheduler-trace evidence and
-must not claim universal SUDS-aware scheduler dominance.
-The figure traceability CSV must list all figure sources.
-The figure numbering registry must match first appearance order.
-
-\subsection{Release Checklist}
-
-The public reproduction package must be regenerated.
-The public reproduction check must pass.
-The R11 public mini-benchmark, R12 acceptance gate, and external-abandonment
-closure record must remain pass.
-The final gate must pass.
-The final manuscript PDF must compile.
-The final status document must distinguish artifact pass from local
-submission-candidate pass and must keep the active package locked to IEEE
-TETC.
+The schedule-grounding evidence links MPS accuracy, MobileViT completion, BERT
+schedule metadata, and GLUE schedule linkage. The older analytical slack record
+is kept as data-generation history, but the final claim is grounded in a
+hardware-derived schedule link in the architecture files.
 
 \section{Limitations}
 
 This paper does not claim a fabricated photonic chip, extracted layout,
 foundry-backed circuit signoff, bench-energy measurement, optical-device
 signoff, or deployed system. Uniform 4-bit rows remain accuracy boundaries
-where the accuracy run is
-not measured. TeMPO and ASTRA rows are boundary architecture contexts because
-they change the conversion or stochastic optical fabric. External independent
-reviewer review is permanently abandoned; the local G1 gate has an internal
-red-team and a public-repro alignment check.
-The R6 sensitivity sweep also shows that sufficiently extreme common DAC/MZM
-cost can erase the MobileViT-S promoted advantage, so the claim is bounded to
-the named valid memory/conversion/link regimes rather than universal photonic
-conversion dominance.
-The R8 calibration-range artifact similarly keeps ADC and photonic parameter
-ranges as calibration and boundary evidence; it does not convert the simulator
-into device-solver, extracted-layout, silicon, or bench-energy evidence.
-The R10 failure suite further bounds use of the interface: near-deadline
-low-slack kernels should fall back to keep-all or disabled control,
-memory-dominated regimes can reduce the margin, small-batch and long-sequence
-expansions require their own measured MPS accuracy before promotion, and
-signal-only rows remain selector-boundary evidence rather than proof of
-universal SUDS dominance.
-The R12 reinforcement layer further records three explicit boundaries:
-cross-workload transfer can degrade MobileViT-S when a BERT-calibrated schedule
-is reused, BERT perturbation accuracy under the promoted binary-column-zeroing
-mechanism is stable while Gaussian noise injection deltas are sensitive to seed
-and scale, and DeiT-Tiny measured accuracy loses more than one
-percentage point under the tested setting. These records keep R12 as
-robustness and boundary evidence rather than a promotion of universal workload
-or vision-model applicability.
+where the accuracy run is not measured. TeMPO and ASTRA rows are boundary
+architecture contexts because they change the conversion or stochastic optical
+fabric. Public-reproduction alignment and local gate checks are not external
+peer review.
+The sensitivity sweep also shows that sufficiently extreme common DAC/MZM cost
+can erase the MobileViT-S selected advantage, so the claim is bounded to the
+named valid memory/conversion/link regimes rather than universal photonic
+conversion dominance. Calibration ranges similarly keep converter and photonic
+parameters as calibration and boundary evidence; they do not convert the
+simulator into device-solver, extracted-layout, silicon, or bench-energy
+evidence. Failure and uncertainty records further bound the interface:
+near-deadline low-slack kernels should fall back to keep-all or disabled
+control, memory-dominated regimes can reduce the margin, small-batch and
+long-sequence expansions require their own measured MPS accuracy before
+selection, and signal-only rows remain selector-boundary evidence rather than
+proof of universal dominance by the interface.
+Additional robustness records make three boundaries explicit: cross-workload
+transfer can degrade MobileViT-S when a BERT-calibrated schedule is reused;
+BERT perturbation accuracy under the selected binary-column-zeroing mechanism
+is stable while Gaussian noise injection deltas are sensitive to seed and
+scale; and DeiT-Tiny measured accuracy loses more than one percentage point
+under the tested setting. These records support robustness and boundary
+labeling, not universal workload or vision-model applicability.
 
 \section{Conclusion}
 
 SUDS reframes scheduler slack as an explicit budget interface for dynamic
-photonic Transformer accelerators. When mapped to a Lightening-style DPTC
-fabric, the interface composes with L1 and signal selectors, preserves
-governed MPS accuracy linkage on BERT-base GLUE and MobileViT-S Transformer
-blocks, and maintains a pessimistic system-level EDP advantage versus the
-same-scope DPTC reference. R12 adds control-plane functional simulation,
-expanded GLUE and MobileViT robustness checks, ADC corner coverage, and
-explicit transfer/generalization boundaries without changing the headline
-claim. The result is a bounded TETC architecture package: strong enough to
-promote as architecture evidence, and explicit about where the evidence stops.
+photonic Transformer accelerators. When mapped to a Lightening-style photonic
+tensor-core fabric, the interface composes with local selectors, keeps measured
+accuracy linkage on BERT-base GLUE and MobileViT-S Transformer blocks, and
+maintains a pessimistic system-level EDP advantage over the same-scope
+reference. Additional control-plane simulation, GLUE and MobileViT robustness
+rows, converter-corner coverage, and transfer/generalization records strengthen
+the selected evidence while preserving the same headline claim. The resulting
+TETC package is intentionally bounded: it is strong enough to present as
+architecture evidence, and explicit about where that evidence stops.
 
 \begin{thebibliography}{99}
 
@@ -1454,17 +970,22 @@ scale,''
 in \emph{Proc. ICLR}, 2021.
 
 \bibitem{lightening2024}
-H.~Zhu, J.~Gu, Z.~Zhang, R.~T. Chen, S.~Han, and D.~Z. Pan,
-``Lightening-Transformer: A dynamically-operated photonic tensor core for
-Transformer acceleration,''
-in \emph{Proc. HPCA}, 2024.
+H.~Zhu, J.~Gu, H.~Wang, Z.~Jiang, Z.~Zhang, R.~Tang, C.~Feng,
+S.~Han, R.~T. Chen, and D.~Z. Pan,
+``Lightening-Transformer: A dynamically-operated optically-interconnected
+photonic Transformer accelerator,''
+in \emph{Proc. HPCA}, 2024, pp.~686--703.
 
 \bibitem{hyatten2025}
-``HyAtten: Hybrid photonic-digital accelerator for attention,''
+H.~Li, D.~Chen, and T.~Mitra,
+``Hybrid photonic-digital accelerator for attention mechanism,''
 \emph{arXiv:2501.11286}, 2025.
 
 \bibitem{tempo2024}
-``TeMPO: Transformer acceleration with co-packaged silicon photonics,''
+M.~Zhang, D.~Yin, N.~Gangi, A.~Begovi{\'c}, A.~Chen,
+Z.~R. Huang, and J.~Gu,
+``TeMPO: Efficient time-multiplexed dynamic photonic tensor core for edge AI
+with compact slow-light electro-optic modulator,''
 \emph{arXiv:2402.07393}, 2024.
 
 \bibitem{astra2025}
@@ -1473,16 +994,28 @@ S.~Afifi, O.~Alo, I.~Thakkar, and S.~Pasricha,
 photonics,''
 \emph{ACM Trans. Embedded Comput. Syst.}, 2025.
 
+\bibitem{cacti}
+N.~Muralimanohar, R.~Balasubramonian, and N.~P. Jouppi,
+``CACTI 6.0: A tool to model large caches,''
+HP Laboratories technical report, 2009.
+
+\bibitem{yosys}
+C.~Wolf,
+``Yosys open synthesis suite,''
+2013.
+
 \bibitem{enlighten2025}
-``ENLighten: Lighten the Transformer to enable efficient optical
-acceleration,''
+H.~Zhu, Z.~Zhou, S.~Ning, X.~Wu, R.~Chen, Y.~Wan, and D.~Pan,
+``ENLighten: Lighten the Transformer, enable efficient optical acceleration,''
 \emph{arXiv:2510.01673}, 2025.
 
 \bibitem{opticaltransformers2023}
+M.~G. Anderson, S.-Y. Ma, T.~Wang, L.~G. Wright, and P.~L. McMahon,
 ``Optical Transformers,''
 \emph{arXiv:2302.10360}, 2023.
 
 \bibitem{tron2023}
+S.~Afifi, F.~Sunny, M.~Nikdast, and S.~Pasricha,
 ``TRON: Transformer neural network acceleration with non-coherent silicon
 photonics,''
 \emph{arXiv:2303.12914}, 2023.
@@ -1505,8 +1038,9 @@ for energy-efficient deep learning,''
 \emph{arXiv:2109.04459}, 2021.
 
 \bibitem{holylight2019}
+W.~Liu, W.~Liu, Y.~Ye, Q.~Lou, Y.~Xie, and L.~Jiang,
 ``HolyLight: A nanophotonic accelerator for deep learning in data centers,''
-2019.
+in \emph{Proc. DATE}, 2019.
 
 \bibitem{shastri2021photonics}
 B.~J. Shastri, A.~N. Tait, T.~Ferreira~de Lima, W.~H. Pernice,
@@ -1530,34 +1064,6 @@ and I.~A. Walmsley,
 M.~Reck, A.~Zeilinger, H.~J. Bernstein, and P.~Bertani,
 ``Experimental realization of any discrete unitary operator,''
 \emph{Physical Review Letters}, 1994.
-
-\bibitem{cacti}
-N.~Muralimanohar, R.~Balasubramonian, and N.~P. Jouppi,
-``CACTI 6.0: A tool to model large caches,''
-HP Laboratories technical report, 2009.
-
-\bibitem{yosys}
-C.~Wolf,
-``Yosys open synthesis suite,''
-2013.
-
-\bibitem{suds_conservative_artifact}
-SUDS local artifact,
-``Conservative Pareto artifact for the TETC pivot,''
-\path{experiments/results/report_data/suds_tetc_conservative_pareto_20260513_tetc_pivot.json},
-2026.
-
-\bibitem{suds_arch_artifact}
-SUDS local artifact,
-``Transformer architecture simulator for the TETC pivot,''
-\path{experiments/results/report_data/suds_transformer_architecture_sim_20260513_tetc_pivot.json},
-2026.
-
-\bibitem{suds_science_gate}
-SUDS local artifact,
-``Science-strength gate for the TETC pivot,''
-\path{experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json},
-2026.
 
 \end{thebibliography}
 

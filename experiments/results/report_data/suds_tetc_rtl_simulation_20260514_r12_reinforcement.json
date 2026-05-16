@@ -12,7 +12,7 @@
     "claim_boundary": "functional_simulation_only; no P&R, timing-closure, gate-level back-annotation, or foundry claim"
   },
   "summary": {
-    "date": "2026-05-16",
+    "date": "2026-05-17",
     "tag": "20260514_r12_reinforcement",
     "verdict": "pass",
     "pass_count": 31,
