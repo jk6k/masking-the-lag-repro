@@ -197,8 +197,8 @@
     },
     {
       "path": "docs/reports/20260517_suds_tetc_r13_final_freeze.md",
-      "sha256": "0d9b1b7a22babbdb4ad4440f6188e3d6546285e06cbfc860c88ce193131d5755",
-      "size_bytes": 3158
+      "sha256": "f9fdbb966750a9865e81c1e8e6dfa7609578ca7c28bd247e74163a02c8acffd6",
+      "size_bytes": 4657
     },
     {
       "path": "experiments/hardware/suds_control_plane.v",
