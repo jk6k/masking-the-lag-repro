@@ -1,0 +1,93 @@
+meta:
+  tag: 20260421_true_sc_e0_e6_runtime_smoke_current
+  run_prefix: 20260421_true_sc_e0_e6_preflight
+  purpose: current-row runtime-smoke overlay over canonical true-SC E0-E6 contract
+paths:
+  template_yaml: /Users/jk6k/Desktop/fyp/configs/true_sc_e0_e6_runtime_smoke_current_template_20260421.yaml
+  generated_config_dir: /Users/jk6k/Desktop/fyp/experiments/results/generated_configs/20260421_true_sc_e0_e6_runtime_smoke_current
+  switch_matrix_csv: /Users/jk6k/Desktop/fyp/experiments/results/report_data/true_sc_e0_e6_runtime_smoke_current_switch_matrix_20260421.csv
+  switch_matrix_json: /Users/jk6k/Desktop/fyp/experiments/results/report_data/true_sc_e0_e6_runtime_smoke_current_switch_matrix_20260421.json
+  accuracy_contract_csv: /Users/jk6k/Desktop/fyp/experiments/results/report_data/true_sc_e0_e6_runtime_smoke_current_accuracy_contract_20260421.csv
+  accuracy_contract_json: /Users/jk6k/Desktop/fyp/experiments/results/report_data/true_sc_e0_e6_runtime_smoke_current_accuracy_contract_20260421.json
+  accuracy_scaffold_csv: /Users/jk6k/Desktop/fyp/experiments/results/report_data/true_sc_e0_e6_runtime_smoke_current_accuracy_row_scaffold_20260421.csv
+  preflight_json: /Users/jk6k/Desktop/fyp/experiments/results/report_data/true_sc_e0_e6_runtime_smoke_current_preflight_20260421.json
+  preflight_note_md: /Users/jk6k/Desktop/fyp/docs/reports/20260421_true_sc_e0_e6_runtime_smoke_current_preflight_note.md
+governance:
+  required_device: mps
+  long_run_launch_prefix:
+  - caffeinate
+  - -dimsu
+  require_accuracy_context_match: true
+  deny_accuracy_fallback_relabel: true
+  runtime_smoke_enabled: true
+  analysis_grade_enabled: false
+  analysis_grade_required_seeds:
+  - 0
+  - 1
+  - 2
+  analysis_grade_require_full_eval: true
+variants:
+- experiment_id: E0
+  lane_label: base_true_sc
+  mechanism_focus: baseline
+  accuracy_context_run_id: 20260415_sc_default_dark_launch_candidate_acc_s0
+  switches:
+    meso: false
+    flow: false
+    det: false
+    sparse: false
+    phy: false
+- experiment_id: E1
+  lane_label: meso_only
+  mechanism_focus: meso
+  switches:
+    meso: true
+    flow: false
+    det: false
+    sparse: false
+    phy: false
+- experiment_id: E2
+  lane_label: flow_only
+  mechanism_focus: flow
+  switches:
+    meso: false
+    flow: true
+    det: false
+    sparse: false
+    phy: false
+- experiment_id: E3
+  lane_label: det_only
+  mechanism_focus: det
+  switches:
+    meso: false
+    flow: false
+    det: true
+    sparse: false
+    phy: false
+- experiment_id: E4
+  lane_label: sparse_only
+  mechanism_focus: sparse
+  switches:
+    meso: false
+    flow: false
+    det: false
+    sparse: true
+    phy: false
+- experiment_id: E5
+  lane_label: phy_only
+  mechanism_focus: phy
+  switches:
+    meso: false
+    flow: false
+    det: false
+    sparse: false
+    phy: true
+- experiment_id: E6
+  lane_label: integrated_full_stack
+  mechanism_focus: meso+flow+det+sparse+phy
+  switches:
+    meso: true
+    flow: true
+    det: true
+    sparse: true
+    phy: true

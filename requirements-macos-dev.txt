@@ -1,0 +1,21 @@
+# Mac-first local development stack.
+# Base experiment requirements stay in experiments/requirements.txt.
+
+-r experiments/requirements.txt
+urllib3<2
+pytest
+pandas
+matplotlib
+seaborn
+scipy
+pyarrow
+opencv-python-headless
+python-pptx
+ftfy
+psutil
+scikit-learn
+pycocotools
+tqdm
+fvcore
+mlx
+sentence-transformers

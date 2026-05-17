@@ -1,0 +1,50 @@
+meta:
+  tag: "20260402_det_sparse_mlx_final_cpu_context_repair"
+  goal: "active governed fuller mainline after CPU-context provenance refresh with DET/SPARSE retained"
+
+governed_route:
+  active_safe_route: "bounded local fuller reentry mainline with contextual cpu surface"
+  active_frozen_run_tag: "20260402_det_sparse_mlx_final_cpu_context_repair_freeze"
+  fuller_live_state_note_md: "docs/reports/20260402_det_sparse_mlx_final_cpu_context_repair_freeze_promotion_note.md"
+  retained_claim_promotion_allowed: true
+
+fuller_design:
+  substrate_role: "ASTRA-style baseline execution substrate"
+  primary_lane: "HOPS"
+  support_lanes:
+    - "MESO"
+    - "DET"
+    - "SPARSE"
+    - "PHY"
+  deferred_hooks: []
+  retired_hooks: []
+  retired_hooks_note_md: "docs/reports/20260402_det_sparse_mlx_final_cpu_context_repair_freeze_promotion_note.md"
+  active_template_yaml: "configs/fuller_det_sparse_reentry_slice_template_20260331.yaml"
+  active_experiment_id: "E6"
+
+comparison_policy:
+  local_cpu_comparison_allowed: true
+  local_gpu_mps_comparison_allowed: true
+  local_cuda_allowed: false
+  external_cuda_host_required: false
+  cpu_result_ingestion_mode: "local_torch_measurement_csv"
+  gpu_result_ingestion_mode: "local_mps_measurement_csv"
+  comparison_workload_anchor: "W0_mobilevit_imagenet"
+  comparison_model_anchor: "mobilevit_s"
+
+noise_sweep_policy:
+  primary_dense_model: "mobilevit_s"
+  supporting_sparse_models:
+    - "mobilevit_xs"
+    - "mobilevit_xxs"
+  dense_grid_min_points_per_axis: 5
+  dense_grid_preferred_points_per_axis: 7
+  sparse_profile_target_count: 4
+  gaussian_noise_mode: "bounded_profile_slices_not_full_3d_grid"
+
+artifacts:
+  design_note_md: "docs/reports/20260402_det_sparse_mlx_final_cpu_context_repair_freeze_promotion_note.md"
+  experiment_matrix_csv: "experiments/results/report_data/fuller_implementation_experiment_matrix_20260402_det_sparse_mlx_final_cpu_context_repair.csv"
+  data_contract_csv: "experiments/results/report_data/fuller_implementation_data_contract_20260402_det_sparse_mlx_final_cpu_context_repair.csv"
+  figure_contract_csv: "experiments/results/report_data/fuller_implementation_figure_contract_20260402_det_sparse_mlx_final_cpu_context_repair.csv"
+  status_report_md: "experiments/results/report_data/fuller_implementation_experiment_design_status_20260402_det_sparse_mlx_final_cpu_context_repair.md"

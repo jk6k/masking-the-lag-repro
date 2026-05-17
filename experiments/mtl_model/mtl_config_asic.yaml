@@ -1,0 +1,38 @@
+# ASIC-scale electronic baseline for end-to-end estimation.
+# This file overrides the electronic-domain costs; photonic parameters match mtl_config.yaml.
+
+photonic:
+  tile_k: 16
+  tile_k_prime: 1
+  cycles_per_tile: 1
+  sample_rate_gsps: 10.0
+  precision_bits: 8
+
+energy:
+  dac_power_mw: 50.0
+  dac_sample_rate_gsps: 14.0
+  adc_power_mw: 14.8
+  adc_sample_rate_gsps: 10.0
+  modulator_power_mw: 2.25
+  modulator_sample_rate_gsps: 14.0
+  pd_power_mw: 1.1
+  pd_sample_rate_gsps: 14.0
+  tia_power_mw: 3.0
+  tia_sample_rate_gsps: 14.0
+  laser_power_mw: 12300.0
+  laser_sample_rate_gsps: 10.0
+  static_power_mw: 0.0
+  mem_energy_pj: 32.3
+
+electronic:
+  softmax_energy_pj: 15.0
+  softmax_latency_ns: 1.0
+  norm_energy_pj: 6.0
+  norm_latency_ns: 0.6
+  activation_energy_pj: 1.0
+  activation_latency_ns: 0.2
+
+bitstream:
+  cycles_per_stream_bit: 1
+  activation_parallelism: 32
+  norm_parallelism: 32

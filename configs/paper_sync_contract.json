@@ -1,0 +1,26 @@
+{
+  "description": "Contract for strict Win/Mac synchronization of paper source-of-truth assets.",
+  "paper_sync_root": "experiments/results/paper_sync",
+  "required_paths": [
+    "experiments/results/paper_sync/current_freeze.json",
+    "experiments/results/paper_sync/paper_result_manifest.csv",
+    "experiments/results/paper_sync/sync_status.md"
+  ],
+  "paper_source_layers": [
+    "experiments/results/quick_reports/<freeze_tag>",
+    "figures/paper_figures_<freeze_tag>"
+  ],
+  "excluded_from_strict_git_sync": [
+    "experiments/datasets",
+    "weights",
+    "experiments/results/runs",
+    "experiments/results/dev",
+    "experiments/results/generated_configs",
+    "archives"
+  ],
+  "workflow_rules": [
+    "Pull with fast-forward only before editing paper source-of-truth assets.",
+    "Do not cite runs/ or dev/ artifacts directly in the paper.",
+    "Update current_freeze.json and paper_result_manifest.csv when changing freeze_tag."
+  ]
+}

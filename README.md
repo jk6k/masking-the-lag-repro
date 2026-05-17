@@ -1,13 +1,14 @@
-# SUDS Anonymous Reproduction Package
+# Masking the Lag Reproduction
 
-This repository is the double-blind supplementary reproduction package for the
-SUDS IEEE TETC evidence freeze `20260513_tetc_pivot`.
+This repository is the reader-facing reproduction package for the promoted
+paper evidence freeze `20260430_full_figure_strict_remediated`.
 
-It is intentionally smaller than the full development workspace. It contains
-the compact JSON/CSV evidence, accepted schematic source masters, metadata,
-checksums, and scripts needed to validate the public evidence surface and
-regenerate the paper figures. Final pre-rendered figure-pack images are
-deliberately excluded; local rendered outputs are produced under `build/`.
+It contains two reproduction layers: compact CSV/JSON evidence for fast audit
+and paper-figure regeneration, plus the project experiment code needed to
+rerun the HOPS/FULLER modelling and MobileViT accuracy lanes from local
+datasets and weights. Pre-rendered image assets, ImageNet data, model
+checkpoints, private literature mirrors, draft work products, and historical
+heavyweight run payloads are deliberately not tracked.
 
 ## Quick Start
 
@@ -19,43 +20,53 @@ make repro-check
 make render-paper-figures
 ```
 
-`make repro-check` validates the freeze pointer, SUDS figure registry,
-traceability, artifact paths, SHA-256 checksum manifest, anonymous package
-boundary, and exclusion of private materials. `make render-paper-figures`
-rerenders Fig1-Fig4 into `build/rendered_figures/`.
+`make repro-check` validates the freeze pointer, figure registry, claim
+boundaries, artifact paths, public repository surface, and presence of the
+core experiment code. `make
+render-paper-figures` rerenders the Matplotlib data figures into `build/`
+from the checked CSV inputs.
 
 ## Public Evidence Surface
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
-- Phase summaries and slack manifest: `experiments/results/runs/`
-- TETC report data: `experiments/results/report_data/`
-- Figure metadata: `figures/suds_tetc_20260516_submission_figure_pack/`
-- Review metadata: `experiments/results/review/20260513_tetc_pivot_public/`
-- Static-file checksums: `checksums_manifest.json`
+- Quick reports: `experiments/results/quick_reports/20260430_full_figure_strict_remediated/`
+- Experiment summaries: `experiments/results/report_data/`
+- Figure metadata: `figures/paper_figures_20260430_full_figure_strict_remediated/`
+- Review metadata: `experiments/results/review/20260430_full_figure_strict_remediated/`
+- Core experiment code: `experiments/accuracy/`, `experiments/exp_common/`,
+  `experiments/hpat_model/`, `experiments/mtl_model/`,
+  `experiments/sc_bitstream/`, and `experiments/tools/`
 
-The public package keeps compact source artifacts and render scripts rather
-than final submitted images. Figure roles for the architecture-first TETC route
-are fixed in the TETC figure traceability metadata.
+Figure roles are fixed for this freeze:
 
-- `Fig1`: TETC architecture and evidence flow
-- `Fig2`: accuracy/EDP Pareto surface
-- `Fig3`: modeled energy-component breakdown
-- `Fig4`: conservative measured accuracy boundary
+- `Fig1`: system stack schematic
+- `Fig2`: HOPS timeline
+- `Fig3-Fig8`: main-text data figures
+- `Fig9-Fig12`: explanation schematics
+- `AppF1-AppF6`: appendix figures
 
-## Boundary
+## Advanced Full Rerun
 
-The package supports paper inspection, traceability review, and local
-figure-regeneration from compact source artifacts. It includes architecture
-simulation, calibration, public-repro alignment, and local red-team compact
-data, R11 external-abandonment closure records, the major-revision response
-scaffold, and R12 post-R11 reinforcement records for RTL simulation, GLUE task
-coverage, MobileViT resolution, transfer/DeiT/BERT boundaries, ADC corners, and
-acceptance gating. It does not include private datasets, model weights,
-private literature mirrors, trial drafts, candidate histories, historical
-FULLER freeze payloads, personal remotes, or absolute local paths.
+The package includes the experiment code and governed configs/results needed to
+inspect or rerun the HOPS/FULLER evidence lanes. It does not include ImageNet
+or model checkpoints. Full accelerator-backed reruns on the project Mac require
+Apple Silicon `mps` and should be launched with `caffeinate -dimsu`; CPU
+fallback is not a substitute for an MPS-backed rerun.
 
-Full accelerator-backed reruns are outside this anonymous compact package. On
-the project Mac, those governed maintainer reruns require Apple Silicon `mps`
-and long runs are launched with `caffeinate -dimsu`. The package carries
-sanitized compact summaries, not datasets, model weights, or private literature
-mirrors.
+Example shape:
+
+```bash
+caffeinate -dimsu .venv311-mps/bin/python experiments/tools/phase1_runner.py \
+  --config <config.yaml> \
+  --device mps
+```
+
+Install optional full-run dependencies with:
+
+```bash
+pip install -r requirements-full.txt
+```
+
+Datasets, model weights, pre-rendered images, private literature mirrors, draft
+candidates, project management files, and historical heavyweight run payloads are
+deliberately excluded.

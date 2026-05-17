@@ -1,0 +1,1433 @@
+{
+  "model": "mobilevit_xs",
+  "input_size": 224,
+  "batch_size": 1,
+  "note": "Includes Conv2d/Linear, attention QK/AV matmuls, softmax, norm, and activation ops. Attention matmuls (attn_scores, attn_output) and softmax are explicitly enumerated per transformer block.",
+  "ops": [
+    {
+      "name": "conv_1.block.conv",
+      "type": "conv2d",
+      "m": 12544,
+      "d": 27,
+      "n": 16,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "conv_1.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "conv_1.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_1.0.block.exp_1x1.block.conv",
+      "type": "conv2d",
+      "m": 12544,
+      "d": 16,
+      "n": 64,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_1.0.block.exp_1x1.block.norm",
+      "type": "norm",
+      "elements": 802816
+    },
+    {
+      "name": "layer_1.0.block.exp_1x1.block.act",
+      "type": "activation",
+      "elements": 802816
+    },
+    {
+      "name": "layer_1.0.block.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 12544,
+      "d": 9,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 64
+    },
+    {
+      "name": "layer_1.0.block.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 802816
+    },
+    {
+      "name": "layer_1.0.block.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 802816
+    },
+    {
+      "name": "layer_1.0.block.red_1x1.block.conv",
+      "type": "conv2d",
+      "m": 12544,
+      "d": 64,
+      "n": 32,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_1.0.block.red_1x1.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_2.0.block.exp_1x1.block.conv",
+      "type": "conv2d",
+      "m": 12544,
+      "d": 32,
+      "n": 128,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.0.block.exp_1x1.block.norm",
+      "type": "norm",
+      "elements": 1605632
+    },
+    {
+      "name": "layer_2.0.block.exp_1x1.block.act",
+      "type": "activation",
+      "elements": 1605632
+    },
+    {
+      "name": "layer_2.0.block.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 9,
+      "n": 128,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 128
+    },
+    {
+      "name": "layer_2.0.block.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_2.0.block.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 401408
+    },
+    {
+      "name": "layer_2.0.block.red_1x1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 128,
+      "n": 48,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.0.block.red_1x1.block.norm",
+      "type": "norm",
+      "elements": 150528
+    },
+    {
+      "name": "layer_2.1.block.exp_1x1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 48,
+      "n": 192,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.1.block.exp_1x1.block.norm",
+      "type": "norm",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.1.block.exp_1x1.block.act",
+      "type": "activation",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.1.block.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 9,
+      "n": 192,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 192
+    },
+    {
+      "name": "layer_2.1.block.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.1.block.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.1.block.red_1x1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 192,
+      "n": 48,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.1.block.red_1x1.block.norm",
+      "type": "norm",
+      "elements": 150528
+    },
+    {
+      "name": "layer_2.2.block.exp_1x1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 48,
+      "n": 192,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.2.block.exp_1x1.block.norm",
+      "type": "norm",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.2.block.exp_1x1.block.act",
+      "type": "activation",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.2.block.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 9,
+      "n": 192,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 192
+    },
+    {
+      "name": "layer_2.2.block.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.2.block.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 602112
+    },
+    {
+      "name": "layer_2.2.block.red_1x1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 192,
+      "n": 48,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.2.block.red_1x1.block.norm",
+      "type": "norm",
+      "elements": 150528
+    },
+    {
+      "name": "layer_3.0.block.exp_1x1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 48,
+      "n": 192,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.0.block.exp_1x1.block.norm",
+      "type": "norm",
+      "elements": 602112
+    },
+    {
+      "name": "layer_3.0.block.exp_1x1.block.act",
+      "type": "activation",
+      "elements": 602112
+    },
+    {
+      "name": "layer_3.0.block.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 9,
+      "n": 192,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 192
+    },
+    {
+      "name": "layer_3.0.block.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 150528
+    },
+    {
+      "name": "layer_3.0.block.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 150528
+    },
+    {
+      "name": "layer_3.0.block.red_1x1.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 192,
+      "n": 64,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.0.block.red_1x1.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_3.1.local_rep.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 576,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.1.local_rep.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_3.1.local_rep.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_3.1.local_rep.conv_1x1.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 64,
+      "n": 96,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 75264
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 288
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 784
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 614656
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 784,
+      "d": 784,
+      "n": 96
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 96
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 75264
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 192
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 150528
+    },
+    {
+      "name": "layer_3.1.global_rep.0.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 784,
+      "d": 192,
+      "n": 96
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 75264
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 288
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 784
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 614656
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 784,
+      "d": 784,
+      "n": 96
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 96
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 75264
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 784,
+      "d": 96,
+      "n": 192
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 150528
+    },
+    {
+      "name": "layer_3.1.global_rep.1.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 784,
+      "d": 192,
+      "n": 96
+    },
+    {
+      "name": "layer_3.1.global_rep.2",
+      "type": "norm",
+      "elements": 75264
+    },
+    {
+      "name": "layer_3.1.conv_proj.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 96,
+      "n": 64,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.1.conv_proj.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_3.1.conv_proj.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_3.1.fusion.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 1152,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.1.fusion.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_3.1.fusion.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.0.block.exp_1x1.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 64,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.0.block.exp_1x1.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.0.block.exp_1x1.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.0.block.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 9,
+      "n": 256,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 256
+    },
+    {
+      "name": "layer_4.0.block.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.0.block.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.0.block.red_1x1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 256,
+      "n": 80,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.0.block.red_1x1.block.norm",
+      "type": "norm",
+      "elements": 15680
+    },
+    {
+      "name": "layer_4.1.local_rep.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 720,
+      "n": 80,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.1.local_rep.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 15680
+    },
+    {
+      "name": "layer_4.1.local_rep.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 15680
+    },
+    {
+      "name": "layer_4.1.local_rep.conv_1x1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 80,
+      "n": 120,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 360
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 588,
+      "d": 40,
+      "n": 196
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 115248
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 588,
+      "d": 196,
+      "n": 40
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 240
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 47040
+    },
+    {
+      "name": "layer_4.1.global_rep.0.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 196,
+      "d": 240,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 360
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 588,
+      "d": 40,
+      "n": 196
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 115248
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 588,
+      "d": 196,
+      "n": 40
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 240
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 47040
+    },
+    {
+      "name": "layer_4.1.global_rep.1.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 196,
+      "d": 240,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 360
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 588,
+      "d": 40,
+      "n": 196
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 115248
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 588,
+      "d": 196,
+      "n": 40
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 240
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 47040
+    },
+    {
+      "name": "layer_4.1.global_rep.2.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 196,
+      "d": 240,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 360
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 588,
+      "d": 40,
+      "n": 196
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 115248
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 588,
+      "d": 196,
+      "n": 40
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 196,
+      "d": 120,
+      "n": 240
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 47040
+    },
+    {
+      "name": "layer_4.1.global_rep.3.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 196,
+      "d": 240,
+      "n": 120
+    },
+    {
+      "name": "layer_4.1.global_rep.4",
+      "type": "norm",
+      "elements": 23520
+    },
+    {
+      "name": "layer_4.1.conv_proj.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 120,
+      "n": 80,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.1.conv_proj.block.norm",
+      "type": "norm",
+      "elements": 15680
+    },
+    {
+      "name": "layer_4.1.conv_proj.block.act",
+      "type": "activation",
+      "elements": 15680
+    },
+    {
+      "name": "layer_4.1.fusion.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 1440,
+      "n": 80,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.1.fusion.block.norm",
+      "type": "norm",
+      "elements": 15680
+    },
+    {
+      "name": "layer_4.1.fusion.block.act",
+      "type": "activation",
+      "elements": 15680
+    },
+    {
+      "name": "layer_5.0.block.exp_1x1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 80,
+      "n": 320,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.0.block.exp_1x1.block.norm",
+      "type": "norm",
+      "elements": 62720
+    },
+    {
+      "name": "layer_5.0.block.exp_1x1.block.act",
+      "type": "activation",
+      "elements": 62720
+    },
+    {
+      "name": "layer_5.0.block.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 9,
+      "n": 320,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 320
+    },
+    {
+      "name": "layer_5.0.block.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 15680
+    },
+    {
+      "name": "layer_5.0.block.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 15680
+    },
+    {
+      "name": "layer_5.0.block.red_1x1.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 320,
+      "n": 96,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.0.block.red_1x1.block.norm",
+      "type": "norm",
+      "elements": 4704
+    },
+    {
+      "name": "layer_5.1.local_rep.conv_3x3.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 864,
+      "n": 96,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.1.local_rep.conv_3x3.block.norm",
+      "type": "norm",
+      "elements": 4704
+    },
+    {
+      "name": "layer_5.1.local_rep.conv_3x3.block.act",
+      "type": "activation",
+      "elements": 4704
+    },
+    {
+      "name": "layer_5.1.local_rep.conv_1x1.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 96,
+      "n": 144,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 9216
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 432
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 256,
+      "d": 36,
+      "n": 64
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 16384
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 256,
+      "d": 64,
+      "n": 36
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 144
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 9216
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 288
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 18432
+    },
+    {
+      "name": "layer_5.1.global_rep.0.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 64,
+      "d": 288,
+      "n": 144
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 9216
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 432
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 256,
+      "d": 36,
+      "n": 64
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 16384
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 256,
+      "d": 64,
+      "n": 36
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 144
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 9216
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 288
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 18432
+    },
+    {
+      "name": "layer_5.1.global_rep.1.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 64,
+      "d": 288,
+      "n": 144
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_mha.0",
+      "type": "norm",
+      "elements": 9216
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_mha.1.qkv_proj",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 432
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_mha.1.attn_scores",
+      "type": "linear",
+      "m": 256,
+      "d": 36,
+      "n": 64
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_mha.1.attn_softmax",
+      "type": "softmax",
+      "elements": 16384
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_mha.1.attn_output",
+      "type": "linear",
+      "m": 256,
+      "d": 64,
+      "n": 36
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_mha.1.out_proj",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 144
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_ffn.0",
+      "type": "norm",
+      "elements": 9216
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_ffn.1",
+      "type": "linear",
+      "m": 64,
+      "d": 144,
+      "n": 288
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_ffn.2",
+      "type": "activation",
+      "elements": 18432
+    },
+    {
+      "name": "layer_5.1.global_rep.2.pre_norm_ffn.4",
+      "type": "linear",
+      "m": 64,
+      "d": 288,
+      "n": 144
+    },
+    {
+      "name": "layer_5.1.global_rep.3",
+      "type": "norm",
+      "elements": 9216
+    },
+    {
+      "name": "layer_5.1.conv_proj.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 144,
+      "n": 96,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.1.conv_proj.block.norm",
+      "type": "norm",
+      "elements": 4704
+    },
+    {
+      "name": "layer_5.1.conv_proj.block.act",
+      "type": "activation",
+      "elements": 4704
+    },
+    {
+      "name": "layer_5.1.fusion.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 1728,
+      "n": 96,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.1.fusion.block.norm",
+      "type": "norm",
+      "elements": 4704
+    },
+    {
+      "name": "layer_5.1.fusion.block.act",
+      "type": "activation",
+      "elements": 4704
+    },
+    {
+      "name": "conv_1x1_exp.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 96,
+      "n": 384,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "conv_1x1_exp.block.norm",
+      "type": "norm",
+      "elements": 18816
+    },
+    {
+      "name": "conv_1x1_exp.block.act",
+      "type": "activation",
+      "elements": 18816
+    },
+    {
+      "name": "classifier.fc",
+      "type": "linear",
+      "m": 1,
+      "d": 384,
+      "n": 1000
+    }
+  ]
+}

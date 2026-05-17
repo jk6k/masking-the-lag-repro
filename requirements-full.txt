@@ -1,0 +1,13 @@
+# Optional full-rerun dependencies for the HOPS/FULLER experiment code.
+# The lightweight figure/metadata checks use requirements.txt.
+-r requirements.txt
+-r experiments/requirements.txt
+pandas
+scipy
+seaborn
+opencv-python-headless
+scikit-learn
+tqdm
+psutil
+fvcore
+mlx

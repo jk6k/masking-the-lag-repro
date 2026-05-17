@@ -1,0 +1,246 @@
+run:
+  run_id: "20260420_meso_probe_template"
+  experiment_id: "E0"
+  seed: 0
+  device: "mps"
+  git_hash: "nogit"
+  execution_surface: "host_unsandboxed_caffeinate_required"
+  long_run_launch_prefix:
+    - "caffeinate"
+    - "-dimsu"
+  notes: "bounded MESO provenance-aware reentry probe"
+
+data:
+  workload_id: "W0_mobilevit_imagenet"
+  split: "eval"
+  batch_size: 1
+  sequence_length: 197
+  imagenet_val_root: "datasets/imagenet/val"
+  calib_manifest_csv: ""
+  eval_manifest_csv: ""
+
+switches:
+  meso: false
+  flow: false
+  det: false
+  sparse: false
+  phy: false
+
+models:
+  keys: ["mobilevit_xxs", "mobilevit_xs", "mobilevit_s"]
+  accuracy_reference: "fp32"
+
+accuracy:
+  source_csv: ""
+  acc_ref_top1: null
+  acc_top1: null
+  acc_drop_pp: null
+  delta_pp_budget: 1.0
+  per_layer_delta_pp: {}
+
+bitstream:
+  enabled: false
+  execution_semantics: "proxy"
+  default_execution_semantics: "proxy"
+  encoding_mode: "bipolar"
+  multiplier_mode: "xnor"
+  stream_length: 64
+  generator: "low_discrepancy"
+  generator_policy_matrix_csv: ""
+  accumulator_mode: "bitcount"
+  calibration_source: ""
+  capture_manifest_csv: ""
+  trust_contract:
+    fail_mode: "fail_closed_to_comparator"
+
+dark_launch:
+  enabled: false
+  candidate_label: "sc_default_candidate"
+  comparator_label: "historical_proxy"
+  comparator_execution_semantics: "proxy"
+
+sc_det:
+  encoding: "bipolar"
+  quant_bits: 8
+  bsl_max_rule: "2^(b-1)+1"
+  bsl_max: 129
+  det_mode: "reorder"
+  reorder_mode_scale: 1.0
+  replace_mode_scale: 1.0
+  det_overhead_j: 0.0
+  overhead:
+    seq_gen_j: 0.0
+    counter_j: 0.0
+    ctrl_j: 0.0
+  early_stop:
+    enabled: true
+    k_grid: [1, 2, 4, 8, 16, 32, 64, 129]
+    k_global: 64
+    k_by_layer: null
+  prefix_error:
+    enabled: true
+    k_grid: null
+    num_prob_points: 129
+    p_min: 1.0e-3
+    p_max: 0.999
+  delta_pp: 1.0
+
+sparse:
+  enabled: false
+  tau_mode: "per_layer"
+  tau_global: 0.25
+  use_tau_for_gating: true
+  tau_by_layer: null
+  accuracy_proxy_enabled: false
+  active_fraction: 0.75
+
+meso:
+  enabled: false
+  cost_model_mode: "explicit_topology_v1"
+  evidence_type: "heuristic_proxy"
+  calibration_source: ""
+  load_scale: 0.85
+  broadcast_overhead_mj: 0.1
+  broadcast_overhead_ms: 0.0
+  fanout: 4
+  fanout_policy: "reuse_provenance"
+  reuse_provenance_csv: "/Users/jk6k/Desktop/fyp/experiments/results/accuracy/bitstream_slices/true_sc_t6_conv_memory_layout_reuse_provenance_mobilevit_s_postopt7_20260418.csv"
+  reuse_provenance_metric: "filter_reuse_fanout_under_operand_reuse"
+  reuse_provenance_aggregate: "p50"
+  reuse_provenance_class_allowlist:
+    - "patch_generation_dominant_with_channel_fanout_reuse"
+    - "filter_bank_residency_visible_operand_reuse"
+  reuse_provenance_risk_allowlist:
+    - "medium_high"
+    - "medium"
+    - "low_medium"
+  fanout_clip_min: 2
+  fanout_clip_max: 32
+  topology_dimension: 1.0
+  topology_dimension_policy: "fanout_hierarchy"
+  topology_branch_factor: 8
+  serializers_per_tile: 1
+  serializers_saved: null
+  serializer_energy_j: null
+  broadcast_driver_energy_j: null
+  fabric_control_overhead_j: 0.0
+  extra_buffering_overhead_j: 0.0
+  serializer_power_mw: null
+  broadcast_driver_power_mw: null
+  fabric_control_power_mw: null
+  extra_buffering_power_mw: null
+
+flow:
+  enabled: false
+  evidence_type: heuristic_proxy
+  calibration_source: ""
+  scheduler_mode: explicit_scheduler_v2
+  reuse_policy: operand_factored
+  prefetch_window: 2
+  control_group_size: 4
+  latency_scale: 0.85
+  buffer_depth: 2
+  overlap_efficiency: 0.75
+  staging_cost_scale: 1.0
+  sync_penalty_scale: 1.0
+
+phy:
+  enabled: false
+  evidence_type: heuristic_proxy
+  calibration_source: ""
+  closure: P0
+  ber_target: 1.0e-12
+  er_db: 6
+  p_sensitivity_dbm: -20
+  pp_extinction_db: 2
+  margin_db: 4
+  wdm_channels_n: 16
+  sweep_wdm_channels: [4, 8, 16, 32]
+  loss_path_db:
+    waveguide: 2.0
+    splitter: 0.5
+    combiner: 0.5
+    mrr: 1.5
+    mzi: 0.0
+    other: 0.5
+  crosstalk:
+    model: parametric
+    xtalk_db: -20
+    pp_crosstalk_db: null
+    phy_penalty_table_version: parametric-v1
+
+layout_thermal:
+  s_wg_min: 2.3
+  P_thermal_tuning: 12.5
+  p_thermal_tuning_mw: 12.5
+
+p1_align:
+  p1_alignment_points_db: [0, -3, -6]
+  auto_from_accuracy_csv: true
+  target_acc_drop_pp: null
+  quant_bits: null
+  gaussian_noise_sigma_lsb_ref: 0.0
+  crosstalk_alpha_ref: 0.0
+  fit_error: 0.0
+  gaussian_noise_sigma_lsb_per_3db: 0.1
+  crosstalk_alpha_per_3db: 0.02
+  p_laser_dbm_ref: null
+
+energy_model:
+  energy_model_mode: "UpperBound"
+  upperbound_scale: 1.0
+  countbased_scale: 0.9
+
+noise_injection:
+  enabled: false
+  model: "M2"
+  gaussian_noise_sigma_lsb: 0.0
+  crosstalk_alpha: 0.0
+  enable_attention: true
+
+mtl:
+  enabled: true
+  ops_dir: "mtl_model/ops"
+  config_path: "mtl_model/mtl_config_asic.yaml"
+  ops_output_subdir: "mtl_ops"
+
+baseline_ref:
+  e0_latency_csv: ""
+
+outputs:
+  out_dir: "experiments/results/runs"
+  master_csv: "experiments/results/master_metrics.csv"
+  append_master: false
+  save_config_snapshot: true
+  save_layer_tables: true
+  save_calibration_log: true
+
+integrated_system_costs:
+  enabled: true
+  mode: integrated_minimal_v1
+  onchip_scale_vs_move: 0.1
+  control_sched_scale_vs_conv: 0.1
+  host_staging_scale_vs_conv: 0.05
+  calibration_monitoring_scale_vs_thermal: 0.0
+  onchip_latency_scale_vs_io: 0.1
+  control_sched_latency_scale_vs_control: 0.1
+  host_staging_latency_scale_vs_io: 0.05
+  calibration_monitoring_latency_scale_vs_core: 0.0
+  uncertainty_lower_scale: 0.75
+  uncertainty_upper_scale: 1.25
+  host_staging_flow_only: true
+  calibration_monitoring_phy_or_noise_only: true
+  onchip_comm_evidence_type: bounded_envelope
+  control_sched_evidence_type: bounded_envelope
+  host_staging_evidence_type: bounded_envelope
+  calibration_monitoring_evidence_type: bounded_envelope
+  calibration_source: ""
+  uncertainty_method: bounded_scale_band
+
+realism:
+  current_class: "bounded_system_model"
+  target_class: "bounded_system_model"
+  calibration_profile_yaml: ""
+  device_comparison_scope: "contextual_only"
+  benchmark_equivalence: false
+  benchmark_claim_ready: false

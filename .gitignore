@@ -10,12 +10,15 @@ experiments/datasets/
 weights/
 archives/
 tmp/
-private_literature/
+original_papers/
 oral_pre/
 peper_writing/
 .agents/
 *.npz
+*.png
+*.pdf
 *.pt
 *.pth
 *.onnx
 *.pptx
+*.svg

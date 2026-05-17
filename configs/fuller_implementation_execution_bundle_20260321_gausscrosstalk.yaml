@@ -1,0 +1,163 @@
+meta:
+  tag: "20260321_fullerexec_gaussxtalk_v1"
+  goal: "collect a bounded gaussian-drift and crosstalk focused fuller evidence pack after the governed noise-model audit"
+
+inputs:
+  design_contract_yaml: "configs/fuller_implementation_experiment_design_contract_20260319.yaml"
+  phase1_template_yaml: "configs/fuller_first_implementation_slice_template_20260319.yaml"
+
+paths:
+  generated_config_dir: "experiments/results/generated_configs/20260321_fullerexec_gaussxtalk_v1"
+  execution_manifest_csv: "experiments/results/report_data/fuller_execution_manifest_20260321_fullerexec_gaussxtalk_v1.csv"
+  noise_manifest_csv: "experiments/results/report_data/fuller_noise_execution_manifest_20260321_fullerexec_gaussxtalk_v1.csv"
+  noise_raw_accuracy_dir: "experiments/results/accuracy/20260321_fullerexec_gaussxtalk_v1"
+
+device_measurement:
+  model: "mobilevit_s"
+  mps_accuracy_backend: "mlx"
+  batch_size: 1
+  max_eval_samples: 64
+  quant_bits: 8
+  power_sampler: "powermetrics"
+  profiler_interval_ms: 200
+  use_sudo_powermetrics: true
+  interactive_sudo_powermetrics: true
+  repeats: 3
+
+ablation:
+  model: "mobilevit_s"
+  variants:
+    - variant_id: "ASTRA"
+      experiment_id: "FULLER_ASTRA_SUBSTRATE_V1"
+      switches:
+        meso: false
+        flow: false
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "HOPS"
+      experiment_id: "FULLER_ABLATION_FLOW_V1"
+      switches:
+        meso: false
+        flow: true
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "FLOW_MESO"
+      experiment_id: "FULLER_ABLATION_FLOW_MESO_V1"
+      switches:
+        meso: true
+        flow: true
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "FLOW_PHY"
+      experiment_id: "FULLER_ABLATION_FLOW_PHY_V1"
+      switches:
+        meso: false
+        flow: true
+        det: false
+        sparse: false
+        phy: true
+    - variant_id: "FULLER"
+      experiment_id: "FULLER_SLICE_V1"
+      switches:
+        meso: true
+        flow: true
+        det: false
+        sparse: false
+        phy: true
+
+scaling:
+  model: "mobilevit_s"
+  points:
+    - scale_id: "B1_S128"
+      batch_size: 1
+      sequence_length: 128
+    - scale_id: "B1_S197"
+      batch_size: 1
+      sequence_length: 197
+    - scale_id: "B1_S256"
+      batch_size: 1
+      sequence_length: 256
+    - scale_id: "B1_S384"
+      batch_size: 1
+      sequence_length: 384
+    - scale_id: "B2_S197"
+      batch_size: 2
+      sequence_length: 197
+    - scale_id: "B4_S197"
+      batch_size: 4
+      sequence_length: 197
+    - scale_id: "B8_S197"
+      batch_size: 8
+      sequence_length: 197
+
+noise:
+  eval_batch_size: 32
+  max_eval_samples: null
+  seed_policy:
+    default_seeds: [0]
+    sparse_support_seeds: [0]
+    dense_representative_profiles:
+      - profile: "gauss_only_clean_path"
+        gaussian_noise_std: 0.25
+        crosstalk_alpha: 0.0
+        extra_seeds: [1]
+      - profile: "gauss_mid_xtalk_nominal"
+        gaussian_noise_std: 0.25
+        crosstalk_alpha: 0.02
+        extra_seeds: [1]
+      - profile: "gauss_high_xtalk_nominal"
+        gaussian_noise_std: 0.25
+        crosstalk_alpha: 0.05
+        extra_seeds: [1]
+      - profile: "gauss_mid_xtalk_elevated"
+        gaussian_noise_std: 0.5
+        crosstalk_alpha: 0.02
+        extra_seeds: [1]
+      - profile: "gauss_high_xtalk_elevated"
+        gaussian_noise_std: 0.5
+        crosstalk_alpha: 0.05
+        extra_seeds: [1]
+      - profile: "gauss_mid_xtalk_hard"
+        gaussian_noise_std: 1.0
+        crosstalk_alpha: 0.02
+        extra_seeds: [1]
+      - profile: "gauss_high_xtalk_hard"
+        gaussian_noise_std: 1.0
+        crosstalk_alpha: 0.05
+        extra_seeds: [1]
+  dense:
+    model: "mobilevit_s"
+    crosstalk_alpha: [0.0, 0.01, 0.02, 0.05, 0.08]
+    gaussian_noise_std: [0.0, 0.25, 0.5, 1.0, 2.0]
+  sparse_support:
+    - model: "mobilevit_xs"
+      profiles:
+        - profile: "clean"
+          gaussian_noise_std: 0.0
+          crosstalk_alpha: 0.0
+        - profile: "mild"
+          gaussian_noise_std: 0.25
+          crosstalk_alpha: 0.01
+        - profile: "medium"
+          gaussian_noise_std: 0.5
+          crosstalk_alpha: 0.02
+        - profile: "hard"
+          gaussian_noise_std: 1.0
+          crosstalk_alpha: 0.05
+    - model: "mobilevit_xxs"
+      profiles:
+        - profile: "clean"
+          gaussian_noise_std: 0.0
+          crosstalk_alpha: 0.0
+        - profile: "mild"
+          gaussian_noise_std: 0.25
+          crosstalk_alpha: 0.01
+        - profile: "medium"
+          gaussian_noise_std: 0.5
+          crosstalk_alpha: 0.02
+        - profile: "hard"
+          gaussian_noise_std: 1.0
+          crosstalk_alpha: 0.05

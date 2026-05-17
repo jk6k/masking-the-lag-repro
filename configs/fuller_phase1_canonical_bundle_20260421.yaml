@@ -1,0 +1,170 @@
+meta:
+  tag: 20260421_fuller_phase1_canonical
+  run_prefix: 20260421_fuller_phase1_preflight
+  purpose: canonical FULLER phase1 config family
+  surface_display_name: FULLER Phase1
+  bundle_tool_entrypoint: python3 experiments/tools/prepare_fuller_phase1_bundle.py
+  source_tool_entrypoint: python3 experiments/tools/prepare_fuller_phase1_accuracy_sources.py
+  launch_tool_entrypoint: python3 experiments/tools/prepare_fuller_phase1_accuracy_launch.py
+  phase1_runner_entrypoint: python3 experiments/tools/phase1_runner.py
+
+paths:
+  template_yaml: configs/fuller_phase1_canonical_template_20260421.yaml
+  generated_config_dir: experiments/results/generated_configs/20260421_fuller_phase1_canonical
+  switch_matrix_csv: experiments/results/report_data/fuller_phase1_switch_matrix_20260421.csv
+  switch_matrix_json: experiments/results/report_data/fuller_phase1_switch_matrix_20260421.json
+  accuracy_contract_csv: experiments/results/report_data/fuller_phase1_accuracy_contract_20260421.csv
+  accuracy_contract_json: experiments/results/report_data/fuller_phase1_accuracy_contract_20260421.json
+  accuracy_scaffold_csv: experiments/results/report_data/fuller_phase1_accuracy_row_scaffold_20260421.csv
+  preflight_json: experiments/results/report_data/fuller_phase1_preflight_20260421.json
+  preflight_note_md: docs/reports/20260421_fuller_phase1_preflight_note.md
+
+governance:
+  required_device: mps
+  long_run_launch_prefix:
+    - caffeinate
+    - -dimsu
+  require_accuracy_context_match: true
+  deny_accuracy_fallback_relabel: true
+  runtime_smoke_enabled: true
+  analysis_grade_enabled: false
+  analysis_grade_required_seeds:
+    - 0
+    - 1
+    - 2
+  analysis_grade_require_full_eval: true
+
+variants:
+  - variant_id: ASTRA
+    internal_experiment_id: E0
+    lane_label: astra_anchor
+    mechanism_focus: astra
+    public_module_stack:
+      - ASTRA
+    config_stub: astra
+    accuracy_context_run_id: 20260415_sc_default_dark_launch_candidate_acc_s0
+    switches:
+      meso: false
+      flow: false
+      det: false
+      sparse: false
+      phy: false
+    default_module_cfg: {}
+  - variant_id: MESO
+    internal_experiment_id: E1
+    lane_label: meso_module
+    mechanism_focus: meso
+    public_module_stack:
+      - ASTRA
+      - MESO
+    config_stub: meso
+    switches:
+      meso: true
+      flow: false
+      det: false
+      sparse: false
+      phy: false
+    default_module_cfg:
+      meso:
+        cost_model_mode: explicit_topology_v1
+  - variant_id: HOPS
+    internal_experiment_id: E2
+    lane_label: hops_module
+    mechanism_focus: hops
+    public_module_stack:
+      - ASTRA
+      - HOPS
+    config_stub: hops
+    switches:
+      meso: false
+      flow: true
+      det: false
+      sparse: false
+      phy: false
+    default_module_cfg:
+      flow:
+        scheduler_mode: elastic_residency_v3
+        reuse_policy: operand_factored
+        admission_policy: reuse_first
+        service_policy: reuse_first
+        exception_lane_policy: spill
+  - variant_id: DET
+    internal_experiment_id: E3
+    lane_label: det_module
+    mechanism_focus: det
+    public_module_stack:
+      - ASTRA
+      - DET
+    config_stub: det
+    switches:
+      meso: false
+      flow: false
+      det: true
+      sparse: false
+      phy: false
+    default_module_cfg:
+      sc_det:
+        det_mode: reorder
+  - variant_id: SPARSE
+    internal_experiment_id: E4
+    lane_label: sparse_module
+    mechanism_focus: sparse
+    public_module_stack:
+      - ASTRA
+      - SPARSE
+    config_stub: sparse
+    switches:
+      meso: false
+      flow: false
+      det: false
+      sparse: true
+      phy: false
+    default_module_cfg:
+      sparse:
+        use_tau_for_gating: true
+  - variant_id: PHY
+    internal_experiment_id: E5
+    lane_label: phy_module
+    mechanism_focus: phy
+    public_module_stack:
+      - ASTRA
+      - PHY
+    config_stub: phy
+    switches:
+      meso: false
+      flow: false
+      det: false
+      sparse: false
+      phy: true
+    default_module_cfg: {}
+  - variant_id: FULLER
+    internal_experiment_id: E6
+    lane_label: fuller_integrated
+    mechanism_focus: meso+hops+det+sparse+phy
+    public_module_stack:
+      - ASTRA
+      - MESO
+      - HOPS
+      - DET
+      - SPARSE
+      - PHY
+    config_stub: fuller
+    switches:
+      meso: true
+      flow: true
+      det: true
+      sparse: true
+      phy: true
+    default_module_cfg:
+      meso:
+        cost_model_mode: explicit_topology_v1
+      flow:
+        scheduler_mode: elastic_residency_v3
+        reuse_policy: operand_factored
+        admission_policy: reuse_first
+        service_policy: reuse_first
+        exception_lane_policy: spill
+      sc_det:
+        det_mode: reorder
+      sparse:
+        use_tau_for_gating: true

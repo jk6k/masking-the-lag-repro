@@ -1,0 +1,40 @@
+meta:
+  tag: "20260319_fullerbroadstart_v1"
+  goal: "record that broader fuller implementation has started in sequential bounded form after a governed host-level MPS smoke run"
+
+upstream:
+  extension_readiness_contract_yaml: "configs/fuller_broader_implementation_extension_readiness_contract_20260319.yaml"
+  extension_readiness_report_md: "experiments/results/report_data/fuller_broader_implementation_extension_readiness_20260319_fullerbroadext_v1.md"
+  extension_readiness_note_md: "docs/reports/20260319_fuller_broader_implementation_extension_readiness_note.md"
+
+execution_policy:
+  device: "mps"
+  execution_surface: "host_unsandboxed_caffeinate_required"
+  required_launch_prefix:
+    - "caffeinate"
+    - "-dimsu"
+
+smoke_run:
+  python_bin: ".venv/bin/python"
+  top_level_runner_py: "experiments/tools/phase1_matrix_runner.py"
+  template_yaml: "configs/fuller_first_implementation_slice_template_20260319.yaml"
+  experiments_arg: "all"
+  run_prefix: "20260319_fullerbroadstart_v1"
+  generated_config_yaml: "experiments/results/generated_configs/20260319_fullerbroadstart_v1/fuller_slice_v1.yaml"
+  expected_experiment_id: "FULLER_SLICE_V1"
+  expected_run_dir: "experiments/results/runs/20260319_fullerbroadstart_v1_fuller_slice_v1"
+  required_run_files:
+    - "config_snapshot.yaml"
+    - "phase1_summary.csv"
+    - "master_metrics.csv"
+    - "timeline_summary.csv"
+    - "run_metadata.json"
+
+state:
+  extension_readiness_required: true
+  orchestrator_runtime_guard_required: true
+  host_unsandboxed_mps_smoke_required: true
+  broader_fuller_implementation_started: true
+  broad_matrix_allowed: false
+  cross_mechanism_wave_allowed: false
+  det_sparse_reopen_allowed: false

@@ -1,0 +1,148 @@
+meta:
+  tag: "20260331_det_sparse_mlx_final"
+  goal: "materialize the DET/SPARSE MLX-only final freeze under one clean namespace"
+
+inputs:
+  design_contract_yaml: "configs/fuller_implementation_experiment_design_contract_20260331_det_sparse_mlx_final.yaml"
+  phase1_template_yaml: "configs/fuller_det_sparse_reentry_slice_template_20260331.yaml"
+
+paths:
+  generated_config_dir: "experiments/results/generated_configs/20260331_det_sparse_mlx_final"
+  execution_manifest_csv: "experiments/results/report_data/fuller_execution_manifest_20260331_det_sparse_mlx_final.csv"
+  noise_manifest_csv: "experiments/results/report_data/fuller_noise_execution_manifest_20260331_det_sparse_mlx_final.csv"
+  noise_raw_accuracy_dir: "experiments/results/accuracy/20260331_det_sparse_mlx_final/noise"
+
+device_measurement:
+  devices: ["mps"]
+  model: "mobilevit_s"
+  mps_accuracy_backend: "mlx"
+  batch_size: 1
+  max_eval_samples: 64
+  quant_bits: 8
+  power_sampler: "powermetrics"
+  profiler_interval_ms: 200
+  use_sudo_powermetrics: false
+  interactive_sudo_powermetrics: false
+  osascript_admin_powermetrics: true
+  repeats: 3
+
+ablation:
+  model: "mobilevit_s"
+  variants:
+    - variant_id: "ASTRA"
+      experiment_id: "E0"
+      switches:
+        meso: false
+        flow: false
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "HOPS"
+      experiment_id: "E2"
+      switches:
+        meso: false
+        flow: true
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "FLOW_MESO"
+      experiment_id: "E1"
+      switches:
+        meso: true
+        flow: true
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "FLOW_PHY"
+      experiment_id: "E5"
+      switches:
+        meso: false
+        flow: true
+        det: false
+        sparse: false
+        phy: true
+    - variant_id: "FULLER"
+      experiment_id: "E6"
+      switches:
+        meso: true
+        flow: true
+        det: true
+        sparse: true
+        phy: true
+
+scaling:
+  model: "mobilevit_s"
+  points:
+    - scale_id: "B1_S128"
+      batch_size: 1
+      sequence_length: 128
+    - scale_id: "B1_S197"
+      batch_size: 1
+      sequence_length: 197
+    - scale_id: "B1_S256"
+      batch_size: 1
+      sequence_length: 256
+    - scale_id: "B2_S197"
+      batch_size: 2
+      sequence_length: 197
+    - scale_id: "B4_S197"
+      batch_size: 4
+      sequence_length: 197
+
+noise:
+  accuracy_backend: "mlx"
+  eval_batch_size: 32
+  max_eval_samples: 256
+  seed_policy:
+    default_seeds: [0]
+    sparse_support_seeds: [0, 1, 2]
+    dense_representative_profiles:
+      - profile: "clean"
+        gaussian_noise_std: 0.0
+        crosstalk_alpha: 0.0
+        extra_seeds: [1, 2]
+      - profile: "mild"
+        gaussian_noise_std: 0.25
+        crosstalk_alpha: 0.01
+        extra_seeds: [1, 2]
+      - profile: "medium"
+        gaussian_noise_std: 0.5
+        crosstalk_alpha: 0.02
+        extra_seeds: [1, 2]
+      - profile: "hard"
+        gaussian_noise_std: 1.0
+        crosstalk_alpha: 0.05
+        extra_seeds: [1, 2]
+  dense:
+    model: "mobilevit_s"
+    crosstalk_alpha: [0.0, 0.005, 0.01, 0.02, 0.03, 0.05, 0.08]
+    gaussian_noise_std: [0.0, 0.25, 0.5, 1.0, 2.0]
+  sparse_support:
+    - model: "mobilevit_xs"
+      profiles:
+        - profile: "clean"
+          gaussian_noise_std: 0.0
+          crosstalk_alpha: 0.0
+        - profile: "mild"
+          gaussian_noise_std: 0.25
+          crosstalk_alpha: 0.01
+        - profile: "medium"
+          gaussian_noise_std: 0.5
+          crosstalk_alpha: 0.02
+        - profile: "hard"
+          gaussian_noise_std: 1.0
+          crosstalk_alpha: 0.05
+    - model: "mobilevit_xxs"
+      profiles:
+        - profile: "clean"
+          gaussian_noise_std: 0.0
+          crosstalk_alpha: 0.0
+        - profile: "mild"
+          gaussian_noise_std: 0.25
+          crosstalk_alpha: 0.01
+        - profile: "medium"
+          gaussian_noise_std: 0.5
+          crosstalk_alpha: 0.02
+        - profile: "hard"
+          gaussian_noise_std: 1.0
+          crosstalk_alpha: 0.05

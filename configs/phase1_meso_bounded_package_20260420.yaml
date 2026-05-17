@@ -1,0 +1,83 @@
+meta:
+  package_id: "20260420_meso_bounded_package"
+  goal: "calibrated bounded MESO re-entry package on the retained 2026-04-03 freeze"
+  date: "2026-04-20"
+
+inputs:
+  freeze_overview_csv: "experiments/results/quick_reports/20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze/quickpack_e0_e6_overview.csv"
+  freeze_meso_fanout_sweep_csv: "experiments/results/quick_reports/20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze/quickscan_e1_fanout_sweep.csv"
+  reuse_provenance_csv: "experiments/results/accuracy/bitstream_slices/true_sc_t6_conv_memory_layout_reuse_provenance_mobilevit_s_postopt7_20260418.csv"
+  accuracy_contract_csv: "experiments/results/report_data/true_sc_e0_e6_accuracy_contract_20260418.csv"
+  analysis_grade_accuracy_contract_csv: "experiments/results/report_data/true_sc_e0_e6_analysis_grade_accuracy_contract_20260419.csv"
+  det_correlation_closure_md: "experiments/results/analysis/20260420_agent2_meso_det_accuracy_correlation_closure.md"
+  analysis_grade_closure_manifest_json: "experiments/results/report_data/20260419_true_sc_e0_e6_analysis_grade_preflight_accuracy_launch_analysis_grade/e1/progress/manifest.json"
+  closure_base_config_yaml: "experiments/results/generated_configs/20260419_true_sc_e0_e6_analysis_grade_preflight/e1.yaml"
+  correlation_base_config_yaml: "experiments/results/generated_configs/20260418_true_sc_e0_e6_canonical/e1.yaml"
+
+meso:
+  enabled: true
+  cost_model_mode: "explicit_topology_v1"
+  evidence_type: "retained_model_calibrated"
+  calibration_source: "experiments/results/quick_reports/20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze/quickscan_e1_fanout_sweep.csv"
+  load_scale: 0.85
+  fanout: 4
+  fanout_policy: "reuse_provenance"
+  reuse_provenance_csv: "experiments/results/accuracy/bitstream_slices/true_sc_t6_conv_memory_layout_reuse_provenance_mobilevit_s_postopt7_20260418.csv"
+  reuse_provenance_metric: "filter_reuse_fanout_under_operand_reuse"
+  reuse_provenance_aggregate: "p50"
+  reuse_provenance_class_allowlist:
+    - "patch_generation_dominant_with_channel_fanout_reuse"
+    - "filter_bank_residency_visible_operand_reuse"
+  reuse_provenance_risk_allowlist:
+    - "medium_high"
+    - "medium"
+    - "low_medium"
+  fanout_clip_min: 2
+  fanout_clip_max: 32
+  topology_dimension: 1.0
+  topology_dimension_policy: "fanout_hierarchy"
+  topology_branch_factor: 8
+  serializers_per_tile: 1.0
+  serializer_power_mw: null
+  broadcast_driver_power_mw: null
+  fabric_control_overhead_j: 0.0
+  extra_buffering_overhead_j: 0.0
+
+sensitivity_bands:
+  calibrated_zero:
+    control_scale_vs_broadcast_driver: 0.0
+    buffer_scale_vs_broadcast_driver: 0.0
+  mild:
+    control_scale_vs_broadcast_driver: 0.10
+    buffer_scale_vs_broadcast_driver: 0.05
+  defended:
+    control_scale_vs_broadcast_driver: 0.25
+    buffer_scale_vs_broadcast_driver: 0.10
+  hard:
+    control_scale_vs_broadcast_driver: 0.50
+    buffer_scale_vs_broadcast_driver: 0.20
+
+promotion_gate:
+  fixed_fanout_threshold: 4
+  min_material_energy_gain_pct: 1.0
+  min_material_tops_w_gain_pct: 1.0
+  require_det_correlation_closure_for_mainline: true
+  require_w1_for_mainline: true
+  w1_evidence_present: false
+
+execution_package:
+  closure_lane:
+    run_id: "20260420_true_sc_meso_closure_e1"
+    experiment_id: "E1"
+    eval_run_id_prefix: "20260420_true_sc_meso_closure_e1_acc"
+    seeds: [0, 1, 2]
+    output_config_name: "meso_measured_closure_config.yaml"
+    notes_suffix: "phase3_package:meso_measured_closure"
+  correlation_lane:
+    run_id: "20260420_meso_det_correlation_e1"
+    experiment_id: "E1_MESO_DET"
+    eval_run_id_prefix: "20260420_meso_det_correlation_e1_acc"
+    seeds: [0, 1, 2]
+    det_k_global: 64
+    output_config_name: "meso_det_correlation_config.yaml"
+    notes_suffix: "phase3_package:meso_det_correlation_minimal"

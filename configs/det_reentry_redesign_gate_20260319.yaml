@@ -1,0 +1,36 @@
+meta:
+  tag: "20260319_detreentry_v1"
+  goal: "stage a disabled deterministic-stream redesign gate without reopening the failed DET family"
+
+governed_role:
+  current_status: "deferred_redesign_hook_only"
+  active_layer: false
+  paper_reopen_allowed: false
+  implementation_reopen_allowed: false
+
+design_intent:
+  family: "deterministic_stream_redesign_gate"
+  target_direction:
+    - "low_discrepancy_stream_design"
+    - "measured_accuracy_first_reentry"
+    - "material_difference_vs_failed_det_family"
+  candidate_definition_templates:
+    - "configs/det_reentry_candidate_template_20260331.yaml"
+  allowed_candidate_labels:
+    - "deterministic_reorder"
+    - "hybrid_prefix_quality_gate"
+
+forbidden_reuse:
+  - "fixed_k_global_det_family"
+  - "adaptive_budget_det_family"
+  - "prefix_proxy_only_gate"
+
+required_reentry_gate:
+  - "new_mechanism_definition"
+  - "measured_retained_model_accuracy_gate"
+  - "bounded_accuracy_behavior_before_broad_implementation"
+  - "explicit_difference_vs_failed_e3_family"
+
+hook_state:
+  enabled: false
+  hook_mode: "staged_disabled"

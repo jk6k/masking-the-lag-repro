@@ -1,0 +1,7 @@
+lane,top1_mean,top1_range,top5_mean,samples_per_hour_mean,seconds_per_sample_mean,speedup_vs_astra,phase4_intake_ready,claim_boundary_note
+ASTRA,45.1815,45.0578-45.2978,69.6185,8660.5,0.41573,1.00,true,runtime_materialization_ready
+MESO,27.2096,27.0600-27.4022,49.0230,98857.1,0.05260,11.41,true,runtime_materialization_ready
+HOPS,27.1141,27.0600-27.1667,49.0111,124338.2,0.02901,14.36,true,runtime_materialization_ready
+DET,20.5533,20.4711-20.6200,39.9941,107827.7,0.03342,12.45,true,runtime_materialization_ready
+SPARSE,27.1985,27.1689-27.2533,49.2000,124788.0,0.02885,14.41,true,runtime_materialization_ready_accuracy_claim_blocked
+FULLER,20.6459,20.4867-20.7356,40.1859,104853.9,0.03433,12.11,true,runtime_materialization_ready_accuracy_claim_blocked

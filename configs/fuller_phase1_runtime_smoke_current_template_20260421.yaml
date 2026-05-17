@@ -1,0 +1,248 @@
+run:
+  run_id: 20260421_fuller_phase1_template_astra
+  experiment_id: E0
+  internal_experiment_id: E0
+  variant_id: ASTRA
+  public_module_stack:
+  - ASTRA
+  seed: 0
+  device: mps
+  git_hash: nogit
+  execution_surface: host_unsandboxed_caffeinate_required
+  long_run_launch_prefix:
+  - caffeinate
+  - -dimsu
+  notes: canonical FULLER phase1 template anchored to the bounded ASTRA historical
+    reference
+data:
+  workload_id: W0_mobilevit_imagenet
+  split: eval
+  batch_size: 1
+  sequence_length: 197
+switches:
+  meso: false
+  flow: false
+  det: false
+  sparse: false
+  phy: false
+models:
+  keys:
+  - mobilevit_s
+  accuracy_reference: fp32
+accuracy:
+  source_csv: /Users/jk6k/Desktop/fyp/experiments/results/report_data/fuller_phase1_current_runtime_smoke_candidate_20260421.csv
+  require_context_match: true
+  delta_pp_budget: 1.0
+  measurement_contract:
+    source: /Users/jk6k/Desktop/fyp/experiments/results/archive/20260421_failed_autonomous_team_attempt/accuracy_bitstream_slices/accuracy_runtime_measured_mobilevit_s_all_target_timeout900_postopt7_candidate_annotated_20260417.csv
+    execution_semantics: bitstream
+    bitstream_generator: low_discrepancy
+    bitstream_stream_length: 64
+    bitstream_measurement_truth_class: bitstream_model_level_measured
+    bitstream_truth_class_authorization_note: /Users/jk6k/Desktop/fyp/docs/reports/archive/20260421_failed_autonomous_team_attempt/reports/authorization_true_sc_t6_postopt7_timeout900_measured_20260417/20260415_sc_default_dark_launch_candidate_acc_s0_bitstream_model_level_measured_authorization.md
+    bitstream_truth_class_authorization_status: authorized
+    bitstream_conv_evidence_manifest_path: /Users/jk6k/Desktop/fyp/experiments/results/archive/20260421_failed_autonomous_team_attempt/accuracy_bitstream_slices/true_sc_conv_evidence_manifest_mobilevit_s_postopt7_20260418.json
+    bitstream_conv_evidence_manifest_sha256: 6e6ad19bcac25d2e1577cbb0cfeae0806dc997f35303dffe925ba8525da5ac89
+    bitstream_conv_measured_closure_status: measured_closed
+    bitstream_conv_measured_package_status: authorized_conv_focused_slice
+    bitstream_conv_measured_package_path: /Users/jk6k/Desktop/fyp/experiments/results/archive/20260421_failed_autonomous_team_attempt/accuracy_bitstream_slices/true_sc_conv_focused_measured_package_mobilevit_s_postopt7_20260418.json
+    bitstream_conv_measured_package_sha256: b0d31349bc6396758767c06631701fce6765d2d1212d1190d70157e127d9f227
+    bitstream_conv_target_set_sha256: 9c181224c83413759fab40fafc9d3a16d4a080f0916647d1656574f8543dae50
+    note: canonical ASTRA/E0 anchor; fuller phase1 variants must not reuse this row
+      without context match
+integrated_system_costs:
+  enabled: true
+  mode: integrated_minimal_v1
+  onchip_scale_vs_move: 0.1
+  control_sched_scale_vs_conv: 0.1
+  host_staging_scale_vs_conv: 0.05
+  calibration_monitoring_scale_vs_thermal: 0.5
+  onchip_latency_scale_vs_io: 0.1
+  control_sched_latency_scale_vs_control: 0.1
+  host_staging_latency_scale_vs_io: 0.05
+  calibration_monitoring_latency_scale_vs_core: 0.02
+  uncertainty_lower_scale: 0.75
+  uncertainty_upper_scale: 1.25
+  host_staging_flow_only: true
+  calibration_monitoring_phy_or_noise_only: true
+  onchip_comm_evidence_type: bounded_envelope_calibrated
+  control_sched_evidence_type: bounded_envelope_calibrated
+  host_staging_evidence_type: bounded_envelope_calibrated
+  calibration_monitoring_evidence_type: bounded_envelope_calibrated
+  calibration_source: /Users/jk6k/Desktop/fyp/experiments/results/archive/20260421_failed_autonomous_team_attempt/accuracy_bitstream_slices/integrated_system_cost_bounds_20260416.json
+  uncertainty_method: bounded_scale_band
+bitstream:
+  enabled: false
+  execution_semantics: ''
+  default_execution_semantics: bitstream
+  encoding_mode: bipolar
+  multiplier_mode: xnor
+  stream_length: 64
+  generator: low_discrepancy
+  generator_policy_matrix_csv: /Users/jk6k/Desktop/fyp/experiments/results/archive/20260421_failed_autonomous_team_attempt/accuracy_bitstream_slices/default_replacement_evidence_matrix_20260415.csv
+  accumulator_mode: bitcount
+  calibration_source: /Users/jk6k/Desktop/fyp/experiments/results/archive/20260421_failed_autonomous_team_attempt/accuracy_bitstream_slices/mobilevit_s_sample0_summary_low_discrepancy.json
+  capture_manifest_csv: /Users/jk6k/Desktop/fyp/experiments/results/archive/20260421_failed_autonomous_team_attempt/accuracy_bitstream_slices/mobilevit_s_sample0_capture_low_discrepancy.csv
+  trust_contract:
+    fail_mode: fail_closed_to_comparator
+dark_launch:
+  enabled: true
+  candidate_label: fuller_phase1_candidate
+  comparator_label: historical_proxy
+  comparator_execution_semantics: proxy
+sc_det:
+  encoding: bipolar
+  quant_bits: 8
+  bsl_max_rule: 2^(b-1)+1
+  bsl_max: 129
+  det_mode: reorder
+  reorder_mode_scale: 1.0
+  replace_mode_scale: 1.0
+  det_overhead_j: 0.0
+  overhead:
+    seq_gen_j: 0.0
+    counter_j: 0.0
+    ctrl_j: 0.0
+  early_stop:
+    enabled: false
+    k_grid:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+    - 64
+    - 129
+    k_global: 64
+    k_by_layer: null
+  prefix_error:
+    enabled: true
+    k_grid: null
+    num_prob_points: 129
+    p_min: 0.001
+    p_max: 0.999
+  delta_pp: 1.0
+meso:
+  enabled: false
+  evidence_type: heuristic_proxy
+  calibration_source: ''
+  cost_model_mode: explicit_topology_v1
+  load_scale: 0.85
+  broadcast_overhead_mj: 0.1
+  broadcast_overhead_ms: 0.0
+  fanout: 4
+  fanout_policy: explicit
+  reuse_provenance_csv: ''
+  reuse_provenance_metric: filter_reuse_fanout_under_operand_reuse
+  reuse_provenance_aggregate: p50
+  reuse_provenance_class_allowlist: []
+  reuse_provenance_risk_allowlist: []
+  fanout_clip_min: 2
+  fanout_clip_max: 32
+  topology_dimension: 1.0
+  topology_dimension_policy: explicit
+  topology_branch_factor: 8
+  serializers_per_tile: 1
+  serializers_saved: null
+  serializer_energy_j: null
+  broadcast_driver_energy_j: null
+  serializer_power_mw: null
+  broadcast_driver_power_mw: null
+flow:
+  enabled: false
+  evidence_type: heuristic_proxy
+  calibration_source: ''
+  scheduler_mode: elastic_residency_v3
+  reuse_policy: operand_factored
+  prefetch_window: 2
+  control_group_size: 4
+  tile_rows: 4
+  tile_cols: 4
+  prefetch_credits: 2
+  execute_credits: 3
+  control_issue_width: 4
+  admission_policy: reuse_first
+  eviction_policy: pinned_operand
+  service_policy: reuse_first
+  reuse_residency_budget: 3
+  broadcast_stability_window: 2
+  prefetch_distance: 2
+  exception_lane_policy: spill
+  latency_scale: 0.85
+  buffer_depth: 2
+  overlap_efficiency: 0.75
+  staging_cost_scale: 1.0
+  sync_penalty_scale: 1.0
+sparse:
+  enabled: false
+  tau_mode: per_layer
+  tau_global: 0.25
+  use_tau_for_gating: true
+  tau_by_layer: null
+  accuracy_proxy_enabled: false
+  active_fraction: 0.75
+phy:
+  enabled: false
+  evidence_type: heuristic_proxy
+  calibration_source: ''
+  closure: P0
+  ber_target: 1.0e-12
+  er_db: 6
+  p_sensitivity_dbm: -20
+  pp_extinction_db: 2
+  margin_db: 4
+  wdm_channels_n: 16
+  sweep_wdm_channels:
+  - 4
+  - 8
+  - 16
+  - 32
+  loss_path_db:
+    waveguide: 2.0
+    splitter: 0.5
+    combiner: 0.5
+    mrr: 1.5
+    mzi: 0.0
+    other: 0.5
+  crosstalk:
+    model: parametric
+    xtalk_db: -20
+    pp_crosstalk_db: null
+    phy_penalty_table_version: parametric-v1
+p1_align:
+  p1_alignment_points_db:
+  - 0
+  - -3
+  - -6
+  auto_from_accuracy_csv: true
+  target_acc_drop_pp: null
+  quant_bits: null
+  gaussian_noise_sigma_lsb_ref: 0.0
+  crosstalk_alpha_ref: 0.0
+  fit_error: 0.0
+  gaussian_noise_sigma_lsb_per_3db: 0.1
+  crosstalk_alpha_per_3db: 0.02
+  p_laser_dbm_ref: null
+energy_model:
+  energy_model_mode: UpperBound
+  upperbound_scale: 1.0
+  countbased_scale: 0.9
+noise_injection:
+  enabled: false
+  model: M2
+  gaussian_noise_sigma_lsb: 0.0
+  crosstalk_alpha: 0.0
+  enable_attention: true
+mtl:
+  enabled: true
+  ops_dir: mtl_model/ops
+  config_path: mtl_model/mtl_config_asic.yaml
+  ops_output_subdir: mtl_ops
+outputs:
+  out_dir: experiments/results/runs
+  master_csv: experiments/results/master_metrics.csv
+  append_master: false
+  save_config_snapshot: true
+  save_layer_tables: true
+  save_calibration_log: true

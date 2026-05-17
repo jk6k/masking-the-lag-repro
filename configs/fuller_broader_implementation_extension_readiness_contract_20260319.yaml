@@ -1,0 +1,68 @@
+meta:
+  tag: "20260319_fullerbroadext_v1"
+  goal: "open the next governed broader fuller-implementation extension lane without opening a broad cross-mechanism implementation wave"
+
+upstream:
+  completion_contract_yaml: "configs/fuller_first_implementation_slice_optimization_completion_contract_20260319.yaml"
+  completion_report_md: "experiments/results/report_data/fuller_first_implementation_slice_optimization_completion_20260319_fullerimploptclosure_v1.md"
+  meso_readiness_note_md: "docs/reports/20260319_meso_and_repair_redesign_readiness_note.md"
+  preimplementation_contract_yaml: "configs/fuller_optimized_accelerator_preimplementation_contract_20260319.yaml"
+  preimplementation_report_md: "experiments/results/report_data/fuller_preimplementation_readiness_20260319_fullerpreimpl_v1.md"
+  project_final_closure_board_md: "docs/reports/20260319_project_final_closure_board.md"
+
+governed_route:
+  active_safe_route: "bounded local baseline + narrow HOPS paper"
+  retained_main_path: "E0 baseline anchor + E2 HOPS latency/bubble-reduction only"
+  retained_route_preserved: true
+  claim_promotion_allowed: false
+
+execution_policy:
+  device: "mps"
+  cpu_fallback_allowed: false
+  long_running_mps_surface: "host_unsandboxed_caffeinate_required"
+
+extension_scope:
+  design_name: "HOPS-centered cross-layer accelerator"
+  astra_substrate_role: "baseline_execution_substrate"
+  primary_lane: "HOPS"
+  extension_lane: "MESO"
+  support_lane: "PHY"
+  deferred_hooks:
+    - "DET"
+    - "SPARSE"
+  retired_hooks:
+    - "DET"
+    - "SPARSE"
+  retired_hooks_note_md: "docs/reports/20260321_det_sparse_reentry_audit_retirement_note.md"
+  allowed_next_scope:
+    - "flow_primary_integration_extension"
+    - "meso_explicit_cost_topology_redesign"
+    - "phy_support_only_cleanup"
+  disallowed_expansions:
+    - "broad_rerun_matrix"
+    - "cross_mechanism_wave"
+    - "det_reopen"
+    - "sparse_reopen"
+    - "freeze_replacement"
+    - "paper_claim_promotion"
+  required_docs:
+    - "docs/reports/20260319_fuller_broader_implementation_extension_readiness_note.md"
+    - "docs/reports/20260319_fuller_first_implementation_slice_optimization_completion_note.md"
+    - "docs/reports/20260319_meso_and_repair_redesign_readiness_note.md"
+    - "docs/reports/20260318_feasible_fuller_optimized_accelerator_design_note.md"
+  required_existing_artifacts:
+    - "configs/fuller_first_implementation_slice_optimization_completion_contract_20260319.yaml"
+    - "experiments/tools/check_fuller_first_implementation_slice_optimization_completion.py"
+    - "configs/fuller_optimized_accelerator_preimplementation_contract_20260319.yaml"
+    - "experiments/results/report_data/fuller_preimplementation_readiness_20260319_fullerpreimpl_v1.md"
+    - "experiments/tools/phase1_matrix_runner.py"
+    - "experiments/tests/test_phase1_matrix_runner.py"
+
+state:
+  bounded_first_slice_optimization_complete_required: true
+  architecture_candidate_lane_required: true
+  meso_redesign_ready_required: true
+  broader_extension_lane_open: true
+  broad_matrix_allowed: false
+  cross_mechanism_wave_allowed: false
+  det_sparse_reopen_allowed: false

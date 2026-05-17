@@ -1,0 +1,59 @@
+meta:
+  tag: 20260422_fuller_phase3_execution_efficiency
+  purpose: current FULLER phase3 efficiency audit, serial launch queue, and live queue status surface
+
+sources:
+  phase3_execution_contract: configs/fuller_phase3_execution_contract_20260422.yaml
+  phase3_execution_packet_csv: experiments/results/report_data/fuller_phase3_execution_packet_20260422.csv
+  phase3_execution_packet_json: experiments/results/report_data/fuller_phase3_execution_packet_20260422.json
+  phase3_blocker_matrix_csv: experiments/results/report_data/fuller_phase3_blocker_matrix_20260422.csv
+  phase3_blocker_matrix_json: experiments/results/report_data/fuller_phase3_blocker_matrix_20260422.json
+  phase1_runtime_smoke_launch_manifest_json: experiments/results/report_data/20260421_fuller_phase1_runtime_smoke_current_accuracy_launch_runtime_smoke/20260421_fuller_phase1_runtime_smoke_current_accuracy_launch_manifest_runtime_smoke.json
+  phase1_runtime_smoke_accuracy_contract_csv: experiments/results/report_data/fuller_phase1_runtime_smoke_current_accuracy_contract_20260421.csv
+
+outputs:
+  efficiency_audit_csv: experiments/results/report_data/fuller_phase3_efficiency_audit_20260422.csv
+  efficiency_audit_json: experiments/results/report_data/fuller_phase3_efficiency_audit_20260422.json
+  efficiency_audit_md: docs/reports/20260422_fuller_phase3_execution_efficiency_audit.md
+  serial_launch_queue_csv: experiments/results/report_data/fuller_phase3_serial_launch_queue_20260422.csv
+  serial_launch_queue_json: experiments/results/report_data/fuller_phase3_serial_launch_queue_20260422.json
+  serial_launch_plan_md: docs/reports/20260422_fuller_phase3_serial_launch_plan.md
+  launch_policy_note_md: docs/reports/20260422_fuller_phase3_launch_policy_note.md
+  serial_launch_status_json: experiments/results/report_data/fuller_phase3_serial_launch_status_20260422.json
+  serial_launch_status_md: experiments/results/report_data/fuller_phase3_serial_launch_status_20260422.md
+  phase3_execution_status_md: docs/coordination/active/PHASE3_EXECUTION_STATUS.md
+
+coordination:
+  active_phase_plan_md: docs/reports/20260421_fuller_phase1_phase4_execution_plan.md
+  phase3_status_md: docs/coordination/active/PHASE3_STATUS.md
+  active_readme_md: docs/coordination/active/README.md
+  expected_active_pointer: docs/reports/20260421_fuller_phase1_phase4_execution_plan.md
+  forbidden_legacy_pointer: docs/reports/20260421_true_sc_phase1_phase4_execution_plan.md
+
+host_tuning:
+  host_memory_gb: 24.0
+  perf_core_count: 5
+  auto_workers_mps: 5
+  tuned_workers: 4
+  tuned_eval_batch_size: 48
+  tuning_note: resumed runtime_smoke queue uses a steadier host-tuned profile after MESO hit SIGKILL on the 5-worker / 64-batch quantized pass; the 2026-04-22 MESO microbench favored 4 workers with eval_batch_size 48 over the earlier 32-batch restart profile
+  serial_queue_order:
+    - ASTRA
+    - MESO
+    - HOPS
+    - DET
+    - SPARSE
+    - PHY
+    - FULLER
+
+governance:
+  required_device: mps
+  long_run_wrapper:
+    - caffeinate
+    - -dimsu
+  cpu_fallback_forbidden: true
+  archived_row_relabel_forbidden: true
+  analysis_grade_enabled: false
+  benchmark_claim_ready: false
+  authorization_required_before_long_run: true
+  stop_on_failure: true

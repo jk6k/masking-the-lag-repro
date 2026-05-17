@@ -1,0 +1,71 @@
+meta:
+  tag: "20260331_det_sparse_reentry_program_v1"
+  goal: "govern DET and SPARSE operating-point reentry without weakening the legacy fuller mainline before promotion"
+  mode: "superpower"
+
+legacy_mainline:
+  contract_yaml: "configs/fuller_implementation_experiment_design_contract_20260319.yaml"
+  template_yaml: "configs/fuller_first_implementation_slice_template_20260319.yaml"
+  contract_checker_py: "experiments/tools/check_fuller_implementation_experiment_design.py"
+  smoke_checker_py: "experiments/tools/check_fuller_first_slice_smoke.py"
+
+reentry_lane:
+  program_id: "DET_SPARSE_REENTRY_20260331"
+  active_experiment_id: "FULLER_REENTRY_V1"
+  slice_template_yaml: "configs/fuller_det_sparse_reentry_slice_template_20260331.yaml"
+  det_candidate_yaml: "configs/det_reentry_candidate_template_20260331.yaml"
+  sparse_operating_point_yaml: "configs/sparse_reentry_operating_point_contract_20260331.yaml"
+  plan_md: "docs/reports/archive/20260331_det_sparse_mainline_reentry/20260331_det_sparse_mainline_reentry_repair_plan.md"
+  det_definition_md: "docs/reports/20260331_det_definition_note.md"
+  sparse_definition_md: "docs/reports/20260331_sparse_reentry_operating_point_note.md"
+  integrated_definition_md: "docs/reports/20260331_fuller_reentry_slice_definition_note.md"
+  device_claim_md: "docs/reports/20260331_det_sparse_reentry_device_claim_note.md"
+  promotion_note_md: "docs/reports/20260331_det_sparse_reentry_promotion_note.md"
+  checker_suite:
+    - "experiments/tools/check_det_sparse_reentry_program.py"
+    - "experiments/tools/check_det_reentry_candidate.py"
+    - "experiments/tools/check_sparse_reentry_operating_point.py"
+    - "experiments/tools/check_fuller_reentry_slice.py"
+  test_suite:
+    - "experiments/tests/test_check_det_sparse_reentry_program.py"
+    - "experiments/tests/test_check_det_reentry_candidate.py"
+    - "experiments/tests/test_check_sparse_reentry_operating_point.py"
+    - "experiments/tests/test_check_fuller_reentry_slice.py"
+  report_data:
+    det_summary_csv: "experiments/results/report_data/det_reentry_summary_20260331.csv"
+    sparse_summary_csv: "experiments/results/report_data/sparse_reentry_operating_point_20260331.csv"
+    fuller_reentry_model_summary_csv: "experiments/results/report_data/fuller_reentry_model_summary_20260331.csv"
+    fuller_reentry_astra_summary_csv: "experiments/results/report_data/fuller_reentry_astra_substrate_summary_20260331.csv"
+
+promotion:
+  new_run_tag: "20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze"
+  quick_reports_dir: "experiments/results/quick_reports/20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze"
+  paper_figures_dir: "figures/paper_figures_20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze"
+  paper_sync_pointer_json: "experiments/results/paper_sync/current_freeze.json"
+  active_promotion_note_md: "docs/reports/20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze_promotion_note.md"
+  predecessor_run_tag: "20260331_det_sparse_reentry_freeze"
+  predecessor_promotion_note_md: "docs/reports/20260331_det_sparse_reentry_promotion_note.md"
+  predecessor_status: "historical_governance_only"
+  replacement_set:
+    - "configs/fuller_implementation_experiment_design_contract_20260319.yaml"
+    - "configs/fuller_first_implementation_slice_template_20260319.yaml"
+    - "docs/reports/20260321_det_sparse_reentry_audit_retirement_note.md"
+    - "docs/reports/20260321_fuller_architecture_traceability_restoration_note.md"
+    - "experiments/tools/check_fuller_implementation_experiment_design.py"
+    - "experiments/tools/check_fuller_first_slice_smoke.py"
+    - "experiments/tests/test_check_fuller_implementation_experiment_design.py"
+    - "experiments/tests/test_check_fuller_first_slice_smoke.py"
+  explicit_gates:
+    - "track0_program_checker_pass"
+    - "track1_det_reentry_checker_pass"
+    - "track2_sparse_reentry_checker_pass"
+    - "track3_fuller_reentry_checker_pass"
+    - "track4_device_claim_note_written"
+    - "track5_quick_report_and_figure_freeze_regenerated"
+    - "track5_paper_sync_pointer_updated"
+
+governance:
+  weaken_legacy_mainline_before_gate: false
+  historical_evidence_context_only: true
+  projection_only_sparse_rows_forbidden_for_promotion: true
+  stale_figure_assets_forbidden_for_promotion: true

@@ -1,0 +1,77 @@
+meta:
+  tag: "20260319_fullerimplslice_v1"
+  goal: "freeze the first implementation-slice kickoff boundary immediately before large-scale fuller-accelerator implementation starts"
+
+upstream:
+  preimplementation_contract_yaml: "configs/fuller_optimized_accelerator_preimplementation_contract_20260319.yaml"
+  preimplementation_readiness_report_md: "experiments/results/report_data/fuller_preimplementation_readiness_20260319_fullerpreimpl_v1.md"
+  launch_preflight_board_md: "docs/reports/20260319_fuller_implementation_launch_preflight_board.md"
+
+paper_route:
+  active_safe_route: "bounded local baseline + narrow HOPS paper"
+  active_paper_type: "single-workload HOPS scheduler study"
+  retained_main_path: "E0 baseline anchor + E2 HOPS latency/bubble-reduction only"
+
+execution_policy:
+  device: "mps"
+  cpu_fallback_allowed: false
+  long_running_mps_surface: "host_unsandboxed_caffeinate_required"
+
+first_slice:
+  name: "flow_primary_meso_support_phy_bounded_slice"
+  current_state: "dedicated_entry_lane_smoke_started"
+  primary_lane: "HOPS"
+  support_lane: "MESO"
+  bounded_support: "PHY"
+  astra_substrate_role: "baseline_execution_substrate"
+  forbidden_reopens:
+    - "DET"
+    - "SPARSE"
+  owned_runner_files:
+    - "experiments/tools/phase1_runner.py"
+  owned_support_files:
+    - "experiments/exp_common/meso_cost_model.py"
+  transitional_config_anchors:
+    - "configs/fuller_implementation_experiment_design_contract_20260319.yaml"
+    - "configs/fuller_implementation_execution_bundle_20260319.yaml"
+  dedicated_entry_template_yaml: "configs/fuller_first_implementation_slice_template_20260319.yaml"
+  archived_mechanism_audit_note_md: "docs/reports/20260321_det_sparse_reentry_audit_retirement_note.md"
+  smoke_checker_py: "experiments/tools/check_fuller_first_slice_smoke.py"
+  smoke_report_md: "experiments/results/report_data/fuller_first_slice_smoke_20260319_fullerimplslice_v1.md"
+  smoke_test_py: "experiments/tests/test_check_fuller_first_slice_smoke.py"
+  required_docs:
+    - "docs/reports/20260319_flow_on_pascal_pair_closure_note.md"
+    - "docs/reports/20260319_meso_explicit_cost_model_implementation_note.md"
+    - "docs/reports/20260319_fuller_target_phy_support_boundary_note.md"
+    - "docs/reports/20260319_fuller_first_implementation_slice_entry_lane_start_note.md"
+    - "docs/reports/20260321_det_sparse_reentry_audit_retirement_note.md"
+  required_tests:
+    - "experiments/tests/test_meso_cost_model.py"
+    - "experiments/tests/test_check_fuller_preimplementation_readiness.py"
+    - "experiments/tests/test_phase1_integrated_system_costs.py"
+    - "experiments/tests/test_check_fuller_first_slice_smoke.py"
+  next_thread_required_deliverables:
+    - "dedicated_implementation_facing_config_template"
+    - "one_bounded_integrated_smoke_test"
+    - "no_broad_rerun_matrix_before_smoke"
+  start_criteria:
+    - "dedicated_entry_lane_landed"
+    - "integrated_smoke_test_landed"
+    - "stop_rules_preserved"
+
+stop_rules:
+  forbidden_actions:
+    - "broad_rerun_matrix_before_integrated_smoke"
+    - "det_or_sparse_reopen"
+    - "paper_claim_broadening_during_kickoff"
+    - "meso_as_independent_retained_lane"
+    - "fuller_evidence_closed_wording"
+
+state:
+  upstream_bounded_collection_ready_required: true
+  kickoff_pack_complete: true
+  kickoff_ready: true
+  dedicated_entry_lane_landed: true
+  integrated_smoke_test_landed: true
+  broad_matrix_allowed: false
+  implementation_started: true

@@ -1,0 +1,10 @@
+defect_id,severity,figure_id,status,description,resolution
+CLAIM_BOUNDARY_001,documented_boundary,Fig3-Fig8,accepted,Positive SPARSE/FULLER accuracy-preservation wording is intentionally blocked.,Figures and quick reports label the boundary explicitly.
+VISUAL_POLISH_002,medium,Fig3-Fig8/AppF1-AppF6,closed,"Strict review requested explicit range labels, final successor IDs, context boundaries, bounded Fig5 naming, and a wrapped Fig6 footer.","Renderer emits explicit AppF1 range inset, final-numbered AppF2 table, visible AppF3 qualitative boundary, Fig5_BoundedSensitivity assets, and wrapped Fig6 footer."
+MECHANISM_CONTEXT_003,high,AppF4-AppF6,closed,The first redesign used retained mechanism context rather than the completed current-basis mechanism evidence.,AppF4/AppF5 now read current-basis mechanism and energy rows; AppF6 now reads the complete DET/SPARSE sweep summary.
+CURRENT_BASIS_SWEEP_004,documented_boundary,AppF6,accepted,"DET and SPARSE sweeps show measured accuracy tradeoffs, including catastrophic low-k DET rows and non-monotonic DET behavior.",The rendered AppF6 shows every complete 3-seed operating point and keeps the ASTRA gap visible.
+DQA-APP-001,high,AppF2,closed,Compatibility matrix successor figure IDs were stale against final numbering.,"Remediated AppF2 CSV and rendered table use Fig3/Fig4, Fig5, Fig6, Fig7, and AppF successor IDs."
+DQA-APP-002,low,AppF1,closed,Top-1 ranges were present but visually too small for standalone reading.,AppF1 now includes a compact Top-1 range inset and range-only footer wording.
+DQA-APP-003,low,AppF3,closed,Related-work radar needed explicit qualitative/context-only boundary.,AppF3 now visibly states qualitative context only and blocks benchmark-equivalence reading.
+TCQ-LOW-001,low,Fig5,closed,Fig5 title/stem used broad NoiseRobustness wording.,Fig5 renders as Fig5_BoundedSensitivity with bounded title text; old generated Fig5_NoiseRobustness assets are removed from the data pack.
+DQ-MAIN-LOW-001,low,Fig6,closed,Fig6 footer was too long and reduced page-scale readability.,Fig6 footer is wrapped inside the asset while retaining declared-grid and flow-buffer boundary text.

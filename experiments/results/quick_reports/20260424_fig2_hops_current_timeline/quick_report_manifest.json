@@ -1,0 +1,63 @@
+{
+  "derived_metrics": {
+    "bubble_reduction_fraction": 0.6019206140285651,
+    "bubble_reduction_pct": 60.19206140285651,
+    "speedup_hops_vs_astra": 1.1331843271174837,
+    "utilization_lift_fraction": 0.2337081747144913,
+    "utilization_lift_pp": 23.37081747144913
+  },
+  "input_csv": "experiments/results/quick_reports/20260424_fig2_hops_current_timeline/fig2_hops_current_timeline_input_20260424.csv",
+  "row_count": 2,
+  "rows": {
+    "E0": {
+      "bubble_cycles": 3480353002.0,
+      "experiment_id": "E0",
+      "hops_scheduler_mode": "disabled",
+      "latency_ms": 1457.6751339500001,
+      "mechanism_variant": "ASTRA",
+      "run_id": "20260424_fig2_current_astra_timeline",
+      "stage_keys": [
+        "btos",
+        "bubble",
+        "electronic_compute",
+        "fetch_map",
+        "oag_compute",
+        "pca_adc",
+        "serialize_drive",
+        "writeback"
+      ],
+      "starvation_width_equals_bubble": true,
+      "trace_stage_widths_match_input": true,
+      "utilization_avg": 0.4948532739044787
+    },
+    "E2": {
+      "bubble_cycles": 1385456786.0,
+      "experiment_id": "E2",
+      "hops_scheduler_mode": "elastic_residency_v3",
+      "latency_ms": 1286.3530663699999,
+      "mechanism_variant": "HOPS",
+      "run_id": "20260424_fig2_current_hops_timeline",
+      "stage_keys": [
+        "btos",
+        "bubble",
+        "electronic_compute",
+        "fetch_map",
+        "oag_compute",
+        "pca_adc",
+        "serialize_drive",
+        "writeback"
+      ],
+      "starvation_width_equals_bubble": true,
+      "trace_stage_widths_match_input": true,
+      "utilization_avg": 0.72856144861897
+    }
+  },
+  "run_tag": "20260424_fig2_hops_current_timeline",
+  "scope": "Fig.2 final paper figure input only",
+  "source_prep_input_csv": "experiments/results/report_data/fig2_hops_current_timeline_prep_20260424/fig2_hops_current_timeline_input_20260424.csv",
+  "source_timeline_summaries": [
+    "experiments/results/report_data/fig2_hops_current_timeline_prep_20260424/runs/20260424_fig2_current_astra_timeline/timeline_summary.csv",
+    "experiments/results/report_data/fig2_hops_current_timeline_prep_20260424/runs/20260424_fig2_current_hops_timeline/timeline_summary.csv"
+  ],
+  "status": "fig2_final_input_freeze"
+}

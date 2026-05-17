@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "active_host_id": "apple_m5_pro_24gb_5p",
+  "host_profiles": [
+    {
+      "host_id": "apple_m5_pro_24gb_5p",
+      "host_profile_id": "apple_m5_pro_24gb_5p__adaptive_v1",
+      "calibration_artifact_path": "experiments/results/report_data/fuller_host_tuning_calibration_20260424.json",
+      "default": {
+        "profile_id": "apple_m5_pro_24gb_5p__host_default",
+        "workers": 4,
+        "eval_batch_size": 48,
+        "runtime_health_gate": {
+          "progress_heartbeat_interval_seconds": 15.0,
+          "stall_timeout_seconds": 180.0,
+          "pathological_min_samples_per_hour": 12.0,
+          "pathological_max_seconds_per_sample": 300.0,
+          "pathological_max_eta_current_rate_seconds": 86400.0,
+          "pathological_min_processed_samples": 4,
+          "pathological_min_elapsed_seconds": 300.0
+        }
+      },
+      "profiles": [
+        {
+          "profile_id": "apple_m5_pro_24gb_5p__runtime_smoke_default",
+          "experiment_family_id": "lane_isolation_runtime_smoke",
+          "pass_kind": "runtime_smoke",
+          "workers": 5,
+          "eval_batch_size": 64,
+          "runtime_health_gate": {
+            "stall_timeout_seconds": 180.0,
+            "pathological_min_samples_per_hour": 30.0,
+            "pathological_max_seconds_per_sample": 120.0,
+            "pathological_max_eta_current_rate_seconds": 86400.0,
+            "pathological_min_processed_samples": 4,
+            "pathological_min_elapsed_seconds": 300.0
+          }
+        },
+        {
+          "profile_id": "apple_m5_pro_24gb_5p__analysis_grade_baseline",
+          "experiment_family_id": "analysis_grade_replay",
+          "pass_kind": "analysis_grade_baseline",
+          "workers": 5,
+          "eval_batch_size": 64,
+          "runtime_health_gate": {
+            "stall_timeout_seconds": 300.0,
+            "pathological_min_samples_per_hour": 12.0,
+            "pathological_max_seconds_per_sample": 300.0,
+            "pathological_max_eta_current_rate_seconds": 86400.0,
+            "pathological_min_processed_samples": 32,
+            "pathological_min_elapsed_seconds": 900.0
+          }
+        },
+        {
+          "profile_id": "apple_m5_pro_24gb_5p__analysis_grade_quantized",
+          "experiment_family_id": "analysis_grade_replay",
+          "pass_kind": "analysis_grade_quantized",
+          "execution_semantics": "bitstream",
+          "workers": 4,
+          "eval_batch_size": 48,
+          "runtime_health_gate": {
+            "stall_timeout_seconds": 300.0,
+            "pathological_min_samples_per_hour": 12.0,
+            "pathological_max_seconds_per_sample": 600.0,
+            "pathological_max_eta_current_rate_seconds": 604800.0,
+            "pathological_min_processed_samples": 32,
+            "pathological_min_elapsed_seconds": 900.0
+          },
+          "semantic_policy": {
+            "bitstream_generator": "low_discrepancy",
+            "bitstream_stream_length": 64,
+            "bitstream_stream_reuse_policy": "operand_factored_module_call_reuse",
+            "bitstream_encoding_mode": "bipolar",
+            "bitstream_multiplier_mode": "xnor",
+            "bitstream_accumulator_mode": "bitcount"
+          }
+        },
+        {
+          "profile_id": "apple_m5_pro_24gb_5p__support_family_runtime",
+          "experiment_family_id": "realism_calibration_support",
+          "pass_kind": "support_family",
+          "workers": 4,
+          "eval_batch_size": 48
+        },
+        {
+          "profile_id": "apple_m5_pro_24gb_5p__support_family_noise",
+          "experiment_family_id": "noise_robustness",
+          "pass_kind": "support_family",
+          "workers": 4,
+          "eval_batch_size": 48
+        }
+      ],
+      "candidate_matrix": {
+        "baseline_non_bitstream": {
+          "workers": [4, 5],
+          "eval_batch_size": [48, 64, 96]
+        },
+        "limited_surface_quantized": {
+          "workers": [3, 4, 5],
+          "eval_batch_size": [32, 48, 64]
+        }
+      },
+      "selector_policy": {
+        "priority": [
+          "lane_id+pass_kind",
+          "experiment_family_id+pass_kind",
+          "experiment_family_id",
+          "host_default"
+        ],
+        "throughput_tolerance_percent": 5.0,
+        "prefer_fewer_workers_on_tie": true,
+        "prefer_smaller_batch_on_tie": true
+      },
+      "semantic_promotion_gate": {
+        "throughput_gain_percent_min": 25.0,
+        "top1_drift_pp_abs_max": 0.5,
+        "governance_blocker_forbidden": true
+      }
+    }
+  ]
+}

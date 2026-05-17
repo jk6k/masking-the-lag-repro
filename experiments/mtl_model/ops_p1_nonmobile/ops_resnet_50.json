@@ -1,0 +1,1399 @@
+{
+  "model": "resnet_50",
+  "input_size": 224,
+  "batch_size": 1,
+  "note": "Includes Conv2d/Linear, attention QK/AV, softmax, norm, and activation estimates.",
+  "ops": [
+    {
+      "name": "conv_1.block.conv",
+      "type": "conv2d",
+      "m": 12544,
+      "d": 27,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "conv_1.block.norm",
+      "type": "norm",
+      "elements": 802816
+    },
+    {
+      "name": "conv_1.block.act",
+      "type": "activation",
+      "elements": 802816
+    },
+    {
+      "name": "layer_1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 9,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 64
+    },
+    {
+      "name": "layer_1.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_1.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 64,
+      "n": 64,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 576,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 64,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_0.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 802816
+    },
+    {
+      "name": "layer_2.block_0.down_sample.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 64,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_0.down_sample.block.norm",
+      "type": "norm",
+      "elements": 802816
+    },
+    {
+      "name": "layer_2.block_0.final_act",
+      "type": "activation",
+      "elements": 802816
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 256,
+      "n": 64,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 576,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 64,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_1.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 802816
+    },
+    {
+      "name": "layer_2.block_1.final_act",
+      "type": "activation",
+      "elements": 802816
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 256,
+      "n": 64,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 576,
+      "n": 64,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 64,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_2.block_2.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 802816
+    },
+    {
+      "name": "layer_2.block_2.final_act",
+      "type": "activation",
+      "elements": 802816
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 3136,
+      "d": 256,
+      "n": 128,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 1152,
+      "n": 128,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 128,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_0.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_0.down_sample.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 256,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_0.down_sample.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_0.final_act",
+      "type": "activation",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 512,
+      "n": 128,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 1152,
+      "n": 128,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 128,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_1.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_1.final_act",
+      "type": "activation",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 512,
+      "n": 128,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 1152,
+      "n": 128,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 128,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_2.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_2.final_act",
+      "type": "activation",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 512,
+      "n": 128,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 1152,
+      "n": 128,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 128,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_3.block_3.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 401408
+    },
+    {
+      "name": "layer_3.block_3.final_act",
+      "type": "activation",
+      "elements": 401408
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 784,
+      "d": 512,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 2304,
+      "n": 256,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 256,
+      "n": 1024,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_0.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_0.down_sample.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 512,
+      "n": 1024,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_0.down_sample.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_0.final_act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 1024,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 2304,
+      "n": 256,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 256,
+      "n": 1024,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_1.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_1.final_act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 1024,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 2304,
+      "n": 256,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 256,
+      "n": 1024,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_2.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_2.final_act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 1024,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 2304,
+      "n": 256,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 256,
+      "n": 1024,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_3.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_3.final_act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 1024,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 2304,
+      "n": 256,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 256,
+      "n": 1024,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_4.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_4.final_act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 1024,
+      "n": 256,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 2304,
+      "n": 256,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 50176
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 256,
+      "n": 1024,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_4.block_5.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 200704
+    },
+    {
+      "name": "layer_4.block_5.final_act",
+      "type": "activation",
+      "elements": 200704
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 196,
+      "d": 1024,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 4608,
+      "n": 512,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 512,
+      "n": 2048,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_0.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_0.down_sample.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 1024,
+      "n": 2048,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        2,
+        2
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_0.down_sample.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_0.final_act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 2048,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 4608,
+      "n": 512,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 512,
+      "n": 2048,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_1.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_1.final_act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_act_1.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 2048,
+      "n": 512,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_act_1.block.norm",
+      "type": "norm",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_act_1.block.act",
+      "type": "activation",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_act_2.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 4608,
+      "n": 512,
+      "kernel": [
+        3,
+        3
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_act_2.block.norm",
+      "type": "norm",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_act_2.block.act",
+      "type": "activation",
+      "elements": 25088
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_3.block.conv",
+      "type": "conv2d",
+      "m": 49,
+      "d": 512,
+      "n": 2048,
+      "kernel": [
+        1,
+        1
+      ],
+      "stride": [
+        1,
+        1
+      ],
+      "groups": 1
+    },
+    {
+      "name": "layer_5.block_2.block.conv_batch_3.block.norm",
+      "type": "norm",
+      "elements": 100352
+    },
+    {
+      "name": "layer_5.block_2.final_act",
+      "type": "activation",
+      "elements": 100352
+    },
+    {
+      "name": "classifier.classifier_fc",
+      "type": "linear",
+      "m": 1,
+      "d": 2048,
+      "n": 1000
+    }
+  ]
+}

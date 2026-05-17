@@ -1,0 +1,111 @@
+meta:
+  tag: "20260319_fullerpreimpl_v1"
+  goal: "freeze the last governed blockers before bounded fuller-accelerator experiment collection and bounded paper-writing use"
+
+paper_route:
+  active_safe_route: "bounded local baseline + narrow HOPS paper"
+  active_paper_type: "single-workload HOPS scheduler study"
+  retained_main_path: "E0 baseline anchor + E2 HOPS latency/bubble-reduction only"
+
+fuller_target:
+  name: "HOPS-centered cross-layer accelerator"
+  active_layers:
+    - "HOPS"
+    - "MESO"
+    - "PHY"
+  deferred_hooks:
+    - "DET"
+    - "SPARSE"
+  retired_hooks:
+    - "DET"
+    - "SPARSE"
+  retired_hooks_note_md: "docs/reports/20260321_det_sparse_reentry_audit_retirement_note.md"
+
+wave_1_flow_pascal:
+  workload_id: "mobilevit_s_pascalvoc_seg"
+  model: "mobilevit_s"
+  baseline_summary_csv: "experiments/results/report_data/pascal_voc_segmentation_summary_20260308_pascalvocseg.csv"
+  measured_baseline_csv: "experiments/results/report_data/flow_on_pascal_baseline_measurement_20260319_flowpascalexec_v1.csv"
+  adapter_summary_csv: "experiments/results/report_data/flow_on_pascal_adapter_summary_20260319_flowpascaladapter_v1.csv"
+  adapter_report_md: "experiments/results/report_data/flow_on_pascal_adapter_report_20260319_flowpascaladapter_v1.md"
+  execution_glue_stage_mapping_md: "experiments/results/report_data/flow_on_pascal_stage_mapping_20260319_flowpascalexec_v1.md"
+  execution_glue_rerun_contract_yaml: "experiments/results/report_data/flow_on_pascal_rerun_contract_20260319_flowpascalexec_v1.yaml"
+  execution_glue_metrics_template_csv: "experiments/results/report_data/flow_on_pascal_future_metrics_template_20260319_flowpascalexec_v1.csv"
+  flow_execution_freeze_note_md: "docs/reports/20260319_flow_on_pascal_flow_execution_freeze_note.md"
+  pair_closure_note_md: "docs/reports/20260319_flow_on_pascal_pair_closure_note.md"
+  runtime_blocker_note_md: "docs/reports/20260319_flow_on_pascal_mps_surface_recovery_note.md"
+  runtime_blocker_log: "experiments/results/multitask_eval/flow_on_pascal_candidate_20260319/flow_on_pascal_baseline_measurement_20260319_flowpascalexec_v1.console.log"
+  required_row_roles:
+    - "baseline_anchor"
+    - "flow_candidate"
+  current_state: "paired_flow_ready"
+
+wave_2_meso_redesign:
+  meso_status_report_md: "experiments/results/meso_audit/20260316_meso_closure_v1/meso_broadcast_status_report.md"
+  redesign_scope_note: "docs/reports/20260319_meso_explicit_cost_redesign_scoping_note.md"
+  implementation_note_md: "docs/reports/20260319_meso_explicit_cost_model_implementation_note.md"
+  required_explicit_terms:
+    - "serializer_energy"
+    - "broadcast_driver_energy"
+    - "fabric_control_overhead"
+    - "extra_buffering_overhead"
+    - "fanout_or_topology_dimension"
+  current_state: "explicit_cost_model_implemented"
+
+wave_3_phy_support:
+  phy_scope_report_md: "experiments/results/calibration_audit/20260316_phase6_scope_v1/phase6_scope_report.md"
+  support_boundary_note: "docs/reports/20260319_fuller_target_phy_support_boundary_note.md"
+  allowed_scope:
+    - "bounded_realism"
+    - "calibration_background"
+    - "appendix_support"
+  forbidden_scope:
+    - "standalone_headline_gain"
+    - "hardware_validated_oracle"
+    - "sparse_proxy_promotion"
+  current_state: "support_scope_frozen_no_reopen"
+
+architecture_traceability:
+  review_note_md: "docs/reports/20260321_fuller_architecture_traceability_restoration_note.md"
+  review_status: "bounded_claim_traceability_restored_active_library_20260321"
+  claim_traceability_ready: true
+  active_local_reference_root: "original_papers"
+  active_local_reference_index_csv: "original_papers/paper_index.csv"
+  active_local_reference_validation_md: "original_papers/paper_validation_report.md"
+  active_local_reference_quarantine_manifest_csv: "original_papers/paper_quarantine_manifest_20260321.csv"
+  active_local_reference_retired_manifest_csv: "original_papers/paper_retired_manifest_20260321.csv"
+  active_reference_expected_counts:
+    active_indexed_pdfs: 62
+    quarantined_entries: 10
+    retired_entries: 10
+  bounded_claims:
+    - "ASTRA substrate anchor"
+    - "HOPS primary bounded paper route"
+    - "MESO support-only explicit cost/topology realism"
+    - "PHY support-only bounded realism and calibration"
+    - "MobileViT workload anchor"
+  claim_guardrails:
+    - "DET and SPARSE are retired from the active architecture"
+    - "MESO is not a standalone headline claim"
+    - "PHY is not a hardware-validated oracle"
+    - "No generalization beyond the bounded MobileViT route"
+  missing_primary_local_reference_artifacts: []
+  claim_blockers: []
+
+stop_rules:
+  forbidden_reopens:
+    - "DET"
+    - "SPARSE"
+  forbidden_actions:
+    - "global_multitask_phase1_rewrite"
+    - "five_mechanism_simultaneous_launch"
+    - "claim_promotion_before_wave1_pair"
+    - "claim_promotion_before_traceability_restore"
+    - "claim_promotion_beyond_bounded_traceability_surface"
+
+launch_state:
+  preimplementation_pack_complete: true
+  bounded_collection_ready: true
+  bounded_paper_writing_ready: true
+  large_scale_launch_ready: false
+  final_blockers: []

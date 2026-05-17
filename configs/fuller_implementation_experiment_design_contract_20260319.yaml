@@ -1,0 +1,181 @@
+meta:
+  tag: "20260319_fullerexpdesign_v1"
+  goal: "active governed fuller mainline after DET/SPARSE reentry promotion"
+
+governed_route:
+  active_safe_route: "bounded local fuller reentry mainline"
+  active_frozen_run_tag: "20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze"
+  fuller_live_state_note_md: "docs/reports/20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze_promotion_note.md"
+  retained_claim_promotion_allowed: true
+
+fuller_design:
+  substrate_role: "ASTRA-style baseline execution substrate"
+  primary_lane: "HOPS"
+  support_lanes:
+    - "MESO"
+    - "DET"
+    - "SPARSE"
+    - "PHY"
+  deferred_hooks: []
+  retired_hooks: []
+  retired_hooks_note_md: "docs/reports/20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense_successor_freeze_promotion_note.md"
+  active_template_yaml: "configs/fuller_det_sparse_reentry_slice_template_20260331.yaml"
+  active_experiment_id: "FULLER_REENTRY_V1"
+
+objectives:
+  core:
+    - "device_real_machine_comparison"
+    - "noise_and_crosstalk_accuracy_impact"
+    - "scale_aware_noise_robustness_support"
+    - "ablation_study"
+    - "multi_panel_ablation_evidence"
+    - "latency_and_energy_breakdown_figures"
+  slide_inspired_extensions:
+    - "throughput_scaling_vs_batch_and_sequence"
+    - "workload_and_lightweight_model_diversity_after_core_closure"
+
+comparison_policy:
+  local_cpu_comparison_allowed: true
+  local_gpu_mps_comparison_allowed: true
+  local_cuda_allowed: false
+  external_cuda_host_required: false
+  gpu_result_ingestion_mode: "local_mps_measurement_csv"
+  comparison_workload_anchor: "W0_mobilevit_imagenet"
+  comparison_model_anchor: "mobilevit_s"
+  required_real_device_metrics:
+    - "latency_ms"
+    - "avg_power_w"
+    - "energy_j"
+  required_host_metadata:
+    - "host_name"
+    - "device_model"
+    - "framework"
+    - "precision_mode"
+
+proxy_readiness_policy:
+  current_class: "realistic_accelerator_proxy"
+  target_class: "realistic_accelerator_proxy"
+  promotion_ready: true
+  required_model_fields:
+    - "core_latency_ms"
+    - "system_latency_lower_ms"
+    - "system_latency_upper_ms"
+    - "integrated_system_cost_evidence"
+    - "flow_timeline_evidence"
+    - "meso_cost_evidence"
+    - "phy_support_evidence"
+    - "realism_class"
+    - "proxy_promotion_ready"
+    - "proxy_upgrade_blockers"
+    - "benchmark_claim_ready"
+    - "comparison_boundary"
+    - "device_comparison_scope"
+    - "benchmark_equivalence"
+  required_device_fields:
+    - "latency_source"
+    - "latency_measurement_window"
+    - "power_measurement_window"
+    - "energy_derivation"
+    - "comparison_boundary"
+    - "comparison_kind"
+    - "benchmark_equivalence"
+    - "measurement_evidence_type"
+
+noise_sweep_policy:
+  primary_dense_model: "mobilevit_s"
+  supporting_sparse_models:
+    - "mobilevit_xs"
+    - "mobilevit_xxs"
+  dense_grid_min_points_per_axis: 5
+  dense_grid_preferred_points_per_axis: 7
+  sparse_profile_target_count: 4
+  gaussian_noise_mode: "bounded_profile_slices_not_full_3d_grid"
+
+artifacts:
+  design_note_md: "docs/reports/20260319_fuller_implementation_experiment_design_note.md"
+  experiment_matrix_csv: "experiments/results/report_data/fuller_implementation_experiment_matrix_20260319_fullerexp_v1.csv"
+  data_contract_csv: "experiments/results/report_data/fuller_implementation_data_contract_20260319_fullerexp_v1.csv"
+  figure_contract_csv: "experiments/results/report_data/fuller_implementation_figure_contract_20260319_fullerexp_v1.csv"
+  status_report_md: "experiments/results/report_data/fuller_implementation_experiment_design_status_20260319_fullerexp_v1.md"
+
+schema:
+  experiment_matrix_fields:
+    - "family_id"
+    - "phase"
+    - "experiment_id"
+    - "comparison_role"
+    - "baseline_pairing"
+    - "workload_scope"
+    - "model_scope"
+    - "execution_surface"
+    - "device_policy"
+    - "parameter_axis"
+    - "parameter_values"
+    - "required_outputs"
+    - "status"
+    - "notes"
+  data_contract_fields:
+    - "artifact_id"
+    - "family_id"
+    - "row_status"
+    - "kind"
+    - "source_path"
+    - "future_output_path"
+    - "required_fields"
+    - "release_scope"
+    - "notes"
+  figure_contract_fields:
+    - "figure_id"
+    - "figure_type"
+    - "must_have"
+    - "must_not_have"
+    - "data_or_semantic_source"
+    - "planned_output_dir"
+    - "status"
+    - "notes"
+
+required_experiment_families:
+  core:
+    - "DEVCOMP_CPU_LOCAL"
+    - "DEVCOMP_GPU_LOCAL_MPS"
+    - "ACCEL_ASTRA_SUBSTRATE_MODEL"
+    - "ACCEL_FULLER_SLICE_MODEL"
+    - "NOISE_IMAGENET_MOBILEVIT_S_DENSE"
+    - "NOISE_IMAGENET_MOBILEVIT_XS_SPARSE"
+    - "NOISE_IMAGENET_MOBILEVIT_XXS_SPARSE"
+    - "ABLATION_CORE_STACK"
+    - "BREAKDOWN_STAGE_ENERGY"
+    - "SCALING_BATCH_SEQ"
+  extension:
+    - "DIVERSITY_WORKLOAD_MODEL"
+
+required_data_artifacts:
+  - "cpu_real_device_metrics"
+  - "gpu_real_device_metrics"
+  - "astra_substrate_model_summary"
+  - "fuller_slice_model_summary"
+  - "noise_accuracy_summary_s_dense"
+  - "noise_accuracy_summary_xs_sparse"
+  - "noise_accuracy_summary_xxs_sparse"
+  - "ablation_summary"
+  - "ablation_appendix_table"
+  - "stage_latency_breakdown"
+  - "stage_energy_breakdown"
+  - "scaling_summary"
+
+required_figure_ids:
+  - "FigFuller_DeviceComparison"
+  - "FigFuller_LatencyBreakdown"
+  - "FigFuller_EnergyBreakdown"
+  - "FigFuller_NoiseAccuracy"
+  - "FigFuller_Ablation"
+  - "FigFuller_Scaling"
+
+stop_rules:
+  forbidden_reopens: []
+  forbidden_actions:
+  - "local_cuda_probe_on_this_mac"
+  - "broad_cross_mechanism_matrix_launch"
+  - "freeze_replacement_in_this_design_thread"
+  - "retained_claim_promotion_from_fuller_design_only"
+  - "gpu_claim_without_host_metadata"

@@ -1,0 +1,136 @@
+meta:
+  tag: "20260427_fuller_final_unreserved_datafig_rebuild"
+  goal: "prepare the final unreserved Fig9 current-basis noise rebuild"
+  preflight_status: "blocked_until_imagenet_and_weights_manifest_are_fixed"
+
+inputs:
+  design_contract_yaml: "configs/fuller_implementation_experiment_design_contract_20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense.yaml"
+  phase1_template_yaml: "configs/fuller_det_sparse_reentry_slice_template_20260331.yaml"
+  imagenet_val: "experiments/datasets/imagenet/val"
+  weights_npz_manifest: "experiments/results/accuracy/mlx_weights_20260403_det_sparse_mlx_final_cpu_context_repair_xs_xxs_dense/manifest.json"
+
+paths:
+  generated_config_dir: "experiments/results/generated_configs/20260427_fuller_final_unreserved_datafig_rebuild"
+  execution_manifest_csv: "experiments/results/report_data/fuller_execution_manifest_20260427_fuller_final_unreserved_datafig_rebuild.csv"
+  noise_manifest_csv: "experiments/results/report_data/fuller_noise_execution_manifest_20260427_fuller_final_unreserved_datafig_rebuild.csv"
+  noise_raw_accuracy_dir: "experiments/results/accuracy/20260427_fuller_final_unreserved_datafig_rebuild/noise"
+  summary_out_root: "experiments/results/report_data/20260427_fuller_final_unreserved_datafig_rebuild"
+
+device_measurement:
+  devices: ["mps"]
+  model: "mobilevit_s"
+  mps_accuracy_backend: "mlx"
+  batch_size: 1
+  max_eval_samples: 64
+  quant_bits: 8
+  power_sampler: "powermetrics"
+  profiler_interval_ms: 200
+  use_sudo_powermetrics: false
+  interactive_sudo_powermetrics: false
+  osascript_admin_powermetrics: true
+  repeats: 3
+
+ablation:
+  model: "mobilevit_s"
+  variants:
+    - variant_id: "ASTRA"
+      experiment_id: "E0"
+      switches:
+        meso: false
+        flow: false
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "HOPS"
+      experiment_id: "E2"
+      switches:
+        meso: false
+        flow: true
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "FLOW_MESO"
+      experiment_id: "E1"
+      switches:
+        meso: true
+        flow: true
+        det: false
+        sparse: false
+        phy: false
+    - variant_id: "FLOW_PHY"
+      experiment_id: "E5"
+      switches:
+        meso: false
+        flow: true
+        det: false
+        sparse: false
+        phy: true
+    - variant_id: "FULLER"
+      experiment_id: "E6"
+      switches:
+        meso: true
+        flow: true
+        det: true
+        sparse: true
+        phy: true
+
+scaling:
+  model: "mobilevit_s"
+  points:
+    - scale_id: "B1_S128"
+      batch_size: 1
+      sequence_length: 128
+    - scale_id: "B1_S197"
+      batch_size: 1
+      sequence_length: 197
+    - scale_id: "B1_S256"
+      batch_size: 1
+      sequence_length: 256
+    - scale_id: "B2_S197"
+      batch_size: 2
+      sequence_length: 197
+    - scale_id: "B4_S197"
+      batch_size: 4
+      sequence_length: 197
+
+noise:
+  accuracy_backend: "mlx"
+  eval_batch_size: 32
+  max_eval_samples: 256
+  seed_policy:
+    default_seeds: [0]
+    dense_representative_profiles:
+      - profile: "clean"
+        gaussian_noise_std: 0.0
+        crosstalk_alpha: 0.0
+        extra_seeds: [1, 2]
+      - profile: "mild"
+        gaussian_noise_std: 0.25
+        crosstalk_alpha: 0.01
+        extra_seeds: [1, 2]
+      - profile: "medium"
+        gaussian_noise_std: 0.5
+        crosstalk_alpha: 0.02
+        extra_seeds: [1, 2]
+      - profile: "hard"
+        gaussian_noise_std: 1.0
+        crosstalk_alpha: 0.05
+        extra_seeds: [1, 2]
+  dense:
+    model: "mobilevit_s"
+    crosstalk_alpha: [0.0, 0.005, 0.01, 0.02, 0.03, 0.05, 0.08]
+    gaussian_noise_std: [0.0, 0.25, 0.5, 1.0, 2.0]
+  dense_support:
+    - model: "mobilevit_xs"
+      crosstalk_alpha: [0.0, 0.005, 0.01, 0.02, 0.03, 0.05, 0.08]
+      gaussian_noise_std: [0.0, 0.25, 0.5, 1.0, 2.0]
+    - model: "mobilevit_xxs"
+      crosstalk_alpha: [0.0, 0.005, 0.01, 0.02, 0.03, 0.05, 0.08]
+      gaussian_noise_std: [0.0, 0.25, 0.5, 1.0, 2.0]
+
+final_unreserved_contract:
+  output_csv: "experiments/results/quick_reports/20260427_fuller_final_unreserved_datafig_rebuild/fig9_noise_robustness_current_basis.csv"
+  required_profiles: ["clean", "mild", "medium", "hard"]
+  required_seed_count: 3
+  required_source_status: "regenerated_current"
+  blocker_note: "Current runner prepares model/profile noise evidence; final Fig9 lane-level robustness wording still requires schema mapping before promotion."

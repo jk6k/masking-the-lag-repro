@@ -1,0 +1,276 @@
+{
+  "description": "Machine-checkable root workspace contract for keeping the repository evolvable and preventing unmanaged top-level drift.",
+  "root_files": {
+    ".gitignore": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "repo_policy"
+    },
+    "AGENTS.md": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "workspace_agent_policy"
+    },
+    ".env.nanobanana.example": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "local_env_template"
+    },
+    "CONTRIBUTING.md": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "developer_workflow"
+    },
+    "Masking_the_Lag_research_design_v2.md": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "primary_research_line"
+    },
+    "Makefile": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "repo_task_entrypoint"
+    },
+    "README.md": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "repo_entrypoint"
+    },
+    "REPRODUCIBILITY.md": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "public_reproducibility_entrypoint"
+    },
+    "work_log.md": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "working_log"
+    },
+    ".gitattributes": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "line_ending_policy"
+    },
+    "requirements-macos-dev.txt": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "mac_dev_requirements"
+    }
+  },
+  "root_directories": {
+    ".agents": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "tracked_repo_skills"
+    },
+    ".github": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "github_metadata"
+    },
+    "configs": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "managed_config_workspace"
+    },
+    "docs": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "documentation_workspace"
+    },
+    "experiments": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "managed_experiment_workspace"
+    },
+    "figures": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "managed_figure_workspace"
+    },
+    "archives": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "local_recovery_archive_root"
+    },
+    "original_papers": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "managed_local_knowledge_base"
+    },
+    "oral_pre": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "partially_tracked_oral_presentation_support"
+    },
+    "peper_writing": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "tracked_thesis_writing_workspace"
+    },
+    "reference_book": {
+      "required": false,
+      "git_expectation": "tracked",
+      "role": "tracked_reference_book"
+    },
+    "scripts": {
+      "required": true,
+      "git_expectation": "tracked",
+      "role": "managed_automation_workspace"
+    },
+    "skills": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_workspace_skills"
+    },
+    "tmp": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_scratch"
+    },
+    "tools": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_toolchain_cache"
+    },
+    "weights": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_model_weights"
+    },
+    ".pytest_cache": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_test_cache"
+    },
+    ".cache": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_tool_cache"
+    },
+    ".venv": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_python_env"
+    },
+    ".venv311-mps": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_mps_python_env"
+    },
+    ".venvs": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_aux_python_envs"
+    },
+    ".vscode": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_editor_state"
+    },
+    "__pycache__": {
+      "required": false,
+      "git_expectation": "ignored",
+      "role": "local_python_cache"
+    }
+  },
+  "root_globs": [
+    {
+      "pattern": ".env.nanobanana*",
+      "git_expectation": "ignored",
+      "role": "local_env_file"
+    },
+    {
+      "pattern": "thumbnails*.jpg",
+      "git_expectation": "ignored",
+      "role": "local_preview_raster"
+    },
+    {
+      "pattern": ".gemini",
+      "git_expectation": "ignored",
+      "role": "local_agent_cache"
+    }
+  ],
+  "shadow_paths": [
+    {
+      "path": "experiments/experiments",
+      "canonical_root": "experiments",
+      "audit_command": "python scripts/audit_shadow_paths.py",
+      "severity": "warn",
+      "reason": "shadow results root usually means some commands were run from the wrong working directory"
+    }
+  ],
+  "tracked_path_scans": [
+    {
+      "name": "experiments_workspace_legacy_results_prefix",
+      "root": "experiments",
+      "include": [
+        "README.md",
+        "**/*.py",
+        "**/*.md",
+        "**/*.json",
+        "**/*.csv",
+        "**/*.yaml",
+        "**/*.yml",
+        "**/*.sh"
+      ],
+      "exclude": [
+        "results/**",
+        "experiments/**",
+        "tests/**",
+        "README.md",
+        "tools/**",
+        "accuracy/bitstream_runtime_safety.py",
+        "FIGURE_SPEC_IEEE.md",
+        "DATA_FIGURE_REVIEW_SPEC.md",
+        "RESULTS_GOVERNANCE.md",
+        "exp_common/io_utils.py",
+        "tools/build_quick_reports.py",
+        "tools/run_quickpack_with_accuracy.sh"
+      ],
+      "substrings": [
+        "experiments/results/",
+        "experiments\\results\\"
+      ],
+      "severity": "warn",
+      "reason": "inside the experiments workspace, prefer results/... over experiments/results/... to avoid recreating shadow output trees"
+    }
+  ],
+  "dirty_root_audit": {
+    "command": "python scripts/audit_dirty_managed_roots.py",
+    "top_hotspots": 5,
+    "reason": "dirty managed roots should be split into concrete tracked, untracked, and hotspot buckets before cleanup or restructuring"
+  },
+  "legacy_roots": [
+    {
+      "name": "fyp_project_analysis.md",
+      "target": "docs/analysis/fyp_project_analysis.md",
+      "status": "retired"
+    },
+    {
+      "name": "knowledge_background_checklist.md",
+      "target": "docs/analysis/knowledge_background_checklist.md",
+      "status": "retired"
+    },
+    {
+      "name": "poster_doc",
+      "target": "docs/presentations/poster/",
+      "status": "retired"
+    },
+    {
+      "name": "prompts",
+      "target": "docs/presentations/prompts/",
+      "status": "retired"
+    },
+    {
+      "name": "reviews",
+      "target": "docs/presentations/reviews/",
+      "status": "retired"
+    },
+    {
+      "name": "MTL_AI_FIGURE_WORKFLOW_SOP.md",
+      "target": "docs/analysis/MTL_AI_FIGURE_WORKFLOW_SOP.md",
+      "status": "retired"
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+canonical_chain:
+  tag: "20260319_fullerimplslice_v1"
+  description: "Historical first-slice implementation-facing template for HOPS primary, MESO support, and bounded PHY support"
+  status: "historical_superseded_after_20260331_reentry_promotion"
+  superseded_by_template_yaml: "configs/fuller_det_sparse_reentry_slice_template_20260331.yaml"
+  superseded_by_note_md: "docs/reports/20260331_det_sparse_reentry_promotion_note.md"
+
+baseline_substrate:
+  family: "ASTRA-style"
+  role: "baseline_execution_substrate"
+  deterministic_structure_explicit: true
+  shared_conversion_serialization_present: true
+  novelty_guardrail: "baseline_only_not_active_layer"
+
+run:
+  run_id: "20260319_fullerimplslice_v1_mobilevit_s"
+  experiment_id: "FULLER_SLICE_V1"
+  seed: 0
+  device: "mps"
+  execution_surface: "host_unsandboxed_caffeinate_required"
+  long_run_launch_prefix:
+    - "caffeinate"
+    - "-dimsu"
+  git_hash: "nogit"
+  notes: "fuller_first_slice_kickoff_lane"
+
+data:
+  workload_id: "W0_mobilevit_imagenet"
+  split: "eval"
+  batch_size: 1
+  sequence_length: 197
+
+switches:
+  meso: true
+  flow: true
+  det: false
+  sparse: false
+  phy: true
+
+models:
+  keys: ["mobilevit_s"]
+  accuracy_reference: "fp32"
+
+realism:
+  current_class: "realistic_accelerator_proxy"
+  target_class: "realistic_accelerator_proxy"
+  calibration_profile_yaml: "experiments/results/calibration_audit/20260329_fuller_realistic_proxy_v1/fuller_realistic_proxy_calibration_profile.yaml"
+  device_comparison_scope: "contextual_only"
+  benchmark_equivalence: false
+  benchmark_claim_ready: false
+
+accuracy:
+  source_csv: "experiments/results/accuracy/accuracy_config_conditioned_mps_fulleval_repaired_perfpatched_e0e2e3e4e6_seeds012_20260326.csv"
+  delta_pp_budget: 1.0
+  context_run_id: null
+  require_context_match: false
+
+sc_det:
+  encoding: "bipolar"
+  quant_bits: 8
+  bsl_max_rule: "2^(b-1)+1"
+  bsl_max: 129
+  det_mode: "reorder"
+  reorder_mode_scale: 1.0
+  replace_mode_scale: 1.0
+  det_overhead_j: 0.0
+  overhead:
+    seq_gen_j: 0.0
+    counter_j: 0.0
+    ctrl_j: 0.0
+  early_stop:
+    enabled: false
+    k_grid: [1, 2, 4, 8, 16, 32, 64, 129]
+    k_global: 64
+    k_by_layer: null
+  prefix_error:
+    enabled: true
+    k_grid: null
+    num_prob_points: 129
+    p_min: 1.0e-3
+    p_max: 0.999
+  delta_pp: 1.0
+
+sparse:
+  enabled: false
+  tau_mode: "per_layer"
+  tau_global: 0.0
+  tau_by_layer: null
+  accuracy_proxy_enabled: false   # Explicit opt-in for accuracy-side sparse perturbation.
+  active_fraction: 0.75
+
+meso:
+  enabled: true
+  cost_model_mode: "explicit_topology_v1"
+  evidence_type: "retained_model_calibrated"
+  calibration_source: "experiments/results/calibration_audit/20260329_fuller_realistic_proxy_v1/fuller_realistic_proxy_calibration_profile.yaml"
+  load_scale: 0.85
+  broadcast_overhead_mj: 0.1
+  broadcast_overhead_ms: 0.0
+  fanout: 4
+  topology_dimension: 1.0
+  serializers_per_tile: 1
+  serializers_saved: null
+  serializer_energy_j: 2.8835646666666693e-06
+  broadcast_driver_energy_j: null
+  fabric_control_overhead_j: 0.0
+  extra_buffering_overhead_j: 0.0
+  serializer_power_mw: null
+  broadcast_driver_power_mw: 10.0
+  fabric_control_power_mw: null
+  extra_buffering_power_mw: null
+
+flow:
+  enabled: true
+  evidence_type: "retained_model_calibrated"
+  calibration_source: "experiments/results/calibration_audit/20260329_fuller_realistic_proxy_v1/fuller_realistic_proxy_calibration_profile.yaml"
+  latency_scale: 1.0
+  buffer_depth: 2
+  overlap_efficiency: 0.7820744304559356
+  staging_cost_scale: 1.0
+  sync_penalty_scale: 1.0
+
+phy:
+  enabled: true
+  evidence_type: "retained_model_calibrated"
+  calibration_source: "experiments/results/calibration_audit/20260329_fuller_realistic_proxy_v1/fuller_realistic_proxy_calibration_profile.yaml;experiments/results/calibration_audit/20260316_phase6_scope_v1/phase6_scope_report.md"
+  closure: "P0"
+  ber_target: 1.0e-12
+  er_db: 6
+  p_sensitivity_dbm: -20
+  pp_extinction_db: 2
+  margin_db: 4
+  wdm_channels_n: 16
+  sweep_wdm_channels: [4, 8, 16, 32]
+  loss_path_db:
+    waveguide: 2.0
+    splitter: 0.5
+    combiner: 0.5
+    mrr: 1.5
+    mzi: 0.0
+    other: 0.5
+  crosstalk:
+    model: "parametric"
+    xtalk_db: -20
+    pp_crosstalk_db: null
+    phy_penalty_table_version: "parametric-v1"
+
+layout_thermal:
+  s_wg_min: 2.3
+  P_thermal_tuning: 12.5
+  p_thermal_tuning_mw: 12.5
+
+p1_align:
+  p1_alignment_points_db: [0, -3, -6]
+  auto_from_accuracy_csv: false
+  target_acc_drop_pp: null
+  quant_bits: null
+  gaussian_noise_sigma_lsb_ref: 0.0   # legacy reports may still emit sigma_lsb_ref
+  crosstalk_alpha_ref: 0.0
+  fit_error: 0.0
+  gaussian_noise_sigma_lsb_per_3db: 0.1
+  crosstalk_alpha_per_3db: 0.02
+  p_laser_dbm_ref: null
+
+energy_model:
+  energy_model_mode: "UpperBound"
+  upperbound_scale: 1.0
+  countbased_scale: 0.9
+
+integrated_system_costs:
+  enabled: true
+  mode: "integrated_minimal_v1"
+  calibration_source: "experiments/results/calibration_audit/20260329_fuller_realistic_proxy_v1/fuller_realistic_proxy_calibration_profile.yaml"
+  uncertainty_method: "bounded_envelope"
+  onchip_scale_vs_move: 0.10
+  onchip_comm_evidence_type: "bounded_envelope_calibrated"
+  control_sched_scale_vs_conv: 0.10
+  control_sched_evidence_type: "bounded_envelope_calibrated"
+  host_staging_scale_vs_conv: 0.05
+  host_staging_evidence_type: "bounded_envelope_calibrated"
+  calibration_monitoring_scale_vs_thermal: 0.0
+  calibration_monitoring_evidence_type: "bounded_envelope_calibrated"
+  host_staging_flow_only: true
+  calibration_monitoring_phy_or_noise_only: true
+
+noise_injection:
+  enabled: false
+  model: "M2"
+  gaussian_noise_sigma_lsb: 0.0       # legacy readers still accept sigma_lsb
+  crosstalk_alpha: 0.0
+  enable_attention: true
+
+mtl:
+  enabled: true
+  ops_dir: "mtl_model/ops"
+  config_path: "mtl_model/mtl_config_asic.yaml"
+  ops_output_subdir: "mtl_ops"
+
+baseline_ref:
+  e0_latency_csv: null
+
+outputs:
+  out_dir: "results/runs"
+  master_csv: "results/master_metrics.csv"
+  append_master: false
+  save_config_snapshot: true
+  save_layer_tables: true
+  save_calibration_log: true

@@ -1,0 +1,57 @@
+meta:
+  tag: "20260319_fullerimploptclosure_v1"
+  goal: "freeze bounded first-slice implementation-optimization completion after the governed start gate has landed"
+
+upstream:
+  preimplementation_contract_yaml: "configs/fuller_optimized_accelerator_preimplementation_contract_20260319.yaml"
+  first_slice_contract_yaml: "configs/fuller_first_implementation_slice_contract_20260319.yaml"
+  first_slice_readiness_report_md: "experiments/results/report_data/fuller_first_implementation_slice_readiness_20260319_fullerimplslice_v1.md"
+  first_slice_smoke_report_md: "experiments/results/report_data/fuller_first_slice_smoke_20260319_fullerimplslice_v1.md"
+  entry_lane_start_note_md: "docs/reports/20260319_fuller_first_implementation_slice_entry_lane_start_note.md"
+  kickoff_pack_md: "docs/reports/20260319_fuller_first_implementation_slice_kickoff_pack.md"
+  launch_preflight_board_md: "docs/reports/20260319_fuller_implementation_launch_preflight_board.md"
+
+paper_route:
+  active_safe_route: "bounded local baseline + narrow HOPS paper"
+  active_paper_type: "single-workload HOPS scheduler study"
+  retained_main_path: "E0 baseline anchor + E2 HOPS latency/bubble-reduction only"
+
+execution_policy:
+  device: "mps"
+  cpu_fallback_allowed: false
+  long_running_mps_surface: "host_unsandboxed_caffeinate_required"
+
+closure_scope:
+  slice_name: "flow_primary_meso_support_phy_bounded_slice"
+  primary_lane: "HOPS"
+  support_lane: "MESO"
+  bounded_support: "PHY"
+  astra_substrate_role: "baseline_execution_substrate"
+  forbidden_reopens:
+    - "DET"
+    - "SPARSE"
+  disallowed_expansions:
+    - "broad_rerun_matrix"
+    - "broad_implementation_wave"
+    - "freeze_replacement"
+    - "paper_claim_broadening"
+  required_existing_artifacts:
+    - "configs/fuller_first_implementation_slice_template_20260319.yaml"
+    - "experiments/tools/check_fuller_first_slice_smoke.py"
+    - "experiments/tests/test_check_fuller_first_slice_smoke.py"
+    - "experiments/tools/check_fuller_first_implementation_slice.py"
+    - "experiments/results/report_data/fuller_first_slice_smoke_20260319_fullerimplslice_v1.md"
+    - "experiments/results/report_data/fuller_first_implementation_slice_readiness_20260319_fullerimplslice_v1.md"
+  required_docs:
+    - "docs/reports/20260319_fuller_first_implementation_slice_optimization_completion_note.md"
+    - "docs/reports/20260319_fuller_first_implementation_slice_entry_lane_start_note.md"
+    - "docs/reports/20260319_project_final_closure_board.md"
+
+state:
+  upstream_bounded_collection_ready_required: true
+  first_slice_started_required: true
+  smoke_gate_required: true
+  bounded_optimization_complete: true
+  broad_matrix_allowed: false
+  further_broad_implementation_open: false
+  det_sparse_reopen_allowed: false

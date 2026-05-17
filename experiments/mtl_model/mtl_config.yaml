@@ -1,0 +1,53 @@
+# Parameterized MTL model configuration.
+# Paper-specified values (ISCAS26_Transformer):
+# - MRR array size: 16x16
+# - Modulation precision: 8-bit
+# Reference defaults (refence_letter/):
+# - lightening transformer.pdf Table III for device power/sample rates.
+# - ASP_DAC_OpticalHDC.pdf for 10 GHz photonic MVM frequency.
+# - HolyLight_A_Nanophotonic_Accelerator_for_Deep_Learning_in_Data_Centers.pdf for eDRAM power.
+# Replace values to match MTL assumptions and device choices.
+
+photonic:
+  # 16x16 MRR array -> tile_k = 16 (paper default).
+  tile_k: 16
+  tile_k_prime: 1
+  cycles_per_tile: 1
+  # OpticalHDC reference uses 10 GHz photonic MVM units.
+  sample_rate_gsps: 10.0
+  precision_bits: 8
+
+energy:
+  # Power in mW, sample rates in GSPS. Defaults from Lightening-Transformer Table III.
+  dac_power_mw: 50.0
+  dac_sample_rate_gsps: 14.0
+  adc_power_mw: 14.8
+  adc_sample_rate_gsps: 10.0
+  modulator_power_mw: 2.25
+  modulator_sample_rate_gsps: 14.0
+  pd_power_mw: 1.1
+  pd_sample_rate_gsps: 14.0
+  tia_power_mw: 3.0
+  tia_sample_rate_gsps: 14.0
+  # Lightening-Transformer reports laser power rising to 12.3 W at 8-bit.
+  laser_power_mw: 12300.0
+  laser_sample_rate_gsps: 10.0
+
+  # Optional additions.
+  # HolyLight Table I eDRAM-M 256KB power is 41.4 mW.
+  # Estimated dynamic energy per access from 41.4 mW / 1.28 GHz ≈ 32.3 pJ.
+  # If you use a different memory clock, scale accordingly.
+  static_power_mw: 0.0
+  mem_energy_pj: 32.3
+
+# Electronic-domain operations for end-to-end estimation.
+# These values are placeholders; calibrate to your target electronics.
+electronic:
+  # Energy per output element (pJ) and latency per element (ns).
+  # ASIC-scale baseline (adjust as needed).
+  softmax_energy_pj: 15.0
+  softmax_latency_ns: 1.0
+  norm_energy_pj: 6.0
+  norm_latency_ns: 0.6
+  activation_energy_pj: 1.0
+  activation_latency_ns: 0.2

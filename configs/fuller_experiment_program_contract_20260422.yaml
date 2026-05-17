@@ -1,0 +1,773 @@
+meta:
+  tag: "20260422_fuller_experiment_program_v2"
+  goal: "replace the legacy high-cost runtime_smoke surface with a contract-first engineering smoke and analysis-grade split"
+
+governance:
+  required_device: "mps"
+  launch_wrapper:
+    - "caffeinate"
+    - "-dimsu"
+  cpu_fallback_forbidden: true
+  archived_row_relabel_forbidden: true
+  analysis_grade_requires_explicit_gate: true
+  runtime_smoke_serial_policy: "single_mps_serial_queue"
+
+engineering_smoke:
+  manifest_seed: 0
+  full_eval_manifest_csv: "experiments/results/accuracy/splits_quickpack_20260212/imagenet_val_eval.csv"
+  limited_runtime_surface_scope: "limited_linear_attention_pilot"
+  budgets:
+    ASTRA:
+      sample_budget: 512
+      pass_mode: "paired"
+      baseline_cache_policy: "produce"
+    MESO:
+      sample_budget: 512
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    HOPS:
+      sample_budget: 512
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    DET:
+      sample_budget: 512
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    SPARSE:
+      sample_budget: 512
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    PHY:
+      sample_budget: 512
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    FULLER:
+      sample_budget: 256
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+
+analysis_grade:
+  canonical_baseline_lane: "ASTRA"
+  baseline_reference_seed: 0
+  claim_lane_scope: ["ASTRA", "MESO", "HOPS", "DET", "SPARSE", "FULLER"]
+  redirected_support_lanes:
+    PHY: "realism_calibration_support"
+  lane_budgets:
+    ASTRA:
+      sample_budget: 45000
+      pass_mode: "paired"
+      baseline_cache_policy: "produce"
+    MESO:
+      sample_budget: 45000
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    HOPS:
+      sample_budget: 45000
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    DET:
+      sample_budget: 45000
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    SPARSE:
+      sample_budget: 45000
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+    FULLER:
+      sample_budget: 45000
+      pass_mode: "quantized_only"
+      baseline_cache_policy: "reuse_required"
+  phase4_eligible: true
+  full_dataset_required: true
+  legacy_replacement_policy: "archive_and_replace"
+
+sources:
+  phase1_runtime_smoke_bundle: "configs/fuller_phase1_runtime_smoke_current_bundle_20260421.yaml"
+  phase2_modeling_contract: "configs/fuller_phase2_modeling_contract_20260421.yaml"
+  phase2_gate_matrix_csv: "experiments/results/report_data/fuller_phase2_modeling_gate_matrix_20260421.csv"
+  phase2_handoff_contract_csv: "experiments/results/report_data/fuller_phase2_phase4_handoff_contract_20260421.csv"
+  phase3_execution_contract: "configs/fuller_phase3_execution_contract_20260422.yaml"
+  phase3_execution_packet_csv: "experiments/results/report_data/fuller_phase3_execution_packet_20260422.csv"
+  phase3_blocker_matrix_csv: "experiments/results/report_data/fuller_phase3_blocker_matrix_20260422.csv"
+  phase3_efficiency_contract: "configs/fuller_phase3_execution_efficiency_contract_20260422.yaml"
+  phase3_efficiency_audit_csv: "experiments/results/report_data/fuller_phase3_efficiency_audit_20260422.csv"
+  phase3_serial_launch_queue_csv: "experiments/results/report_data/fuller_phase3_serial_launch_queue_20260422.csv"
+  phase3_serial_launch_status_json: "experiments/results/report_data/fuller_phase3_serial_launch_status_20260422.json"
+  host_tuning_profile_json: "configs/fuller_host_tuning_profile_20260424.json"
+  legacy_implementation_design_contract: "configs/fuller_implementation_experiment_design_contract_20260319.yaml"
+  legacy_implementation_execution_bundle: "configs/fuller_implementation_execution_bundle_20260319.yaml"
+
+coordination:
+  active_phase_plan_md: "docs/reports/20260421_fuller_phase1_phase4_execution_plan.md"
+  active_readme_md: "docs/coordination/active/README.md"
+  phase35_status_md: "docs/coordination/active/PHASE35_STATUS.md"
+  expected_active_pointer: "docs/reports/20260421_fuller_phase1_phase4_execution_plan.md"
+  forbidden_legacy_pointer: "docs/reports/20260421_true_sc_phase1_phase4_execution_plan.md"
+
+lanes:
+  - variant_id: "ASTRA"
+    internal_experiment_id: "E0"
+    module_role: "substrate_anchor"
+    module_specific_fields:
+      - "acc_top1"
+      - "acc_drop_pp"
+      - "accuracy_measurement_contract_status"
+      - "realism_class"
+    phase4_required_outputs:
+      - "{lane_run_output_dir}/phase1_summary.csv"
+      - "{lane_run_output_dir}/master_metrics.csv"
+      - "{lane_run_output_dir}/per_layer_accuracy.csv"
+      - "{lane_run_output_dir}/timeline_summary.csv"
+      - "{launch_progress_root}/manifest.json"
+    claim_boundary: "bounded anchor validation only; current runtime_smoke anchor input is not analysis-grade evidence"
+    forbidden_promotions:
+      - "analysis_grade_without_explicit_gate"
+      - "benchmark_claim_from_runtime_smoke_anchor"
+      - "archived_row_relabel"
+  - variant_id: "MESO"
+    internal_experiment_id: "E1"
+    module_role: "support_cost_topology_layer"
+    module_specific_fields:
+      - "fanout"
+      - "topology_dimension"
+      - "meso_cost_model_mode"
+      - "serializers_saved"
+      - "explicit_total_cost_j"
+      - "net_energy_gain_j"
+      - "meso_cost_evidence"
+    phase4_required_outputs:
+      - "{lane_run_output_dir}/phase1_summary.csv"
+      - "{lane_run_output_dir}/master_metrics.csv"
+      - "{lane_run_output_dir}/per_layer_accuracy.csv"
+      - "{lane_run_output_dir}/timeline_summary.csv"
+      - "{launch_progress_root}/manifest.json"
+    claim_boundary: "support-only meso evidence; no direct promotion to integrated benchmark readiness"
+    forbidden_promotions:
+      - "analysis_grade_without_explicit_gate"
+      - "benchmark_claim_from_support_only_lane"
+      - "archived_row_relabel"
+  - variant_id: "HOPS"
+    internal_experiment_id: "E2"
+    module_role: "primary_scheduling_lane"
+    module_specific_fields:
+      - "hops_scheduler_mode"
+      - "stage_cycles"
+      - "bubble_cycles"
+      - "utilization_avg"
+      - "flow_timeline_evidence"
+      - "flow_buffer_peak_cycles"
+      - "flow_buffer_peak_frac"
+      - "flow_residency_hit_rate"
+      - "flow_control_backpressure"
+      - "flow_eviction_count"
+      - "flow_admission_stalls"
+    phase4_required_outputs:
+      - "{lane_run_output_dir}/phase1_summary.csv"
+      - "{lane_run_output_dir}/master_metrics.csv"
+      - "{lane_run_output_dir}/per_layer_accuracy.csv"
+      - "{lane_run_output_dir}/timeline_summary.csv"
+      - "{lane_run_output_dir}/per_layer_timeline.csv"
+      - "{lane_run_output_dir}/flow_buffer_trace.csv"
+      - "{launch_progress_root}/manifest.json"
+    claim_boundary: "bounded HOPS scheduler/runtime evidence only; no benchmark-equivalence promotion"
+    forbidden_promotions:
+      - "analysis_grade_without_explicit_gate"
+      - "benchmark_claim_from_runtime_smoke_scheduler_lane"
+      - "archived_row_relabel"
+  - variant_id: "DET"
+    internal_experiment_id: "E3"
+    module_role: "active_bounded_control_lane"
+    module_specific_fields:
+      - "det_policy"
+      - "det_k_signature"
+      - "det_quality_gate_status"
+      - "det_quality_gate_policy"
+      - "det_quality_gate_reason"
+      - "det_quality_gate_fallback_policy"
+    phase4_required_outputs:
+      - "{lane_run_output_dir}/phase1_summary.csv"
+      - "{lane_run_output_dir}/master_metrics.csv"
+      - "{lane_run_output_dir}/per_layer_accuracy.csv"
+      - "{lane_run_output_dir}/timeline_summary.csv"
+      - "{lane_run_output_dir}/det_prefix_error.csv"
+      - "{launch_progress_root}/manifest.json"
+    claim_boundary: "bounded DET control evidence only; no cross-lane promotion without integrated replay"
+    forbidden_promotions:
+      - "analysis_grade_without_explicit_gate"
+      - "benchmark_claim_from_runtime_smoke_control_lane"
+      - "archived_row_relabel"
+  - variant_id: "SPARSE"
+    internal_experiment_id: "E4"
+    module_role: "active_bounded_activity_lane"
+    module_specific_fields:
+      - "duty_cycle_avg"
+      - "sparse_active_fraction"
+      - "sparse_scale_source"
+      - "sparse_measured_activity_fraction"
+    phase4_required_outputs:
+      - "{lane_run_output_dir}/phase1_summary.csv"
+      - "{lane_run_output_dir}/master_metrics.csv"
+      - "{lane_run_output_dir}/per_layer_accuracy.csv"
+      - "{lane_run_output_dir}/timeline_summary.csv"
+      - "{launch_progress_root}/manifest.json"
+    claim_boundary: "bounded sparse-activity evidence only; runtime_smoke is not sufficient for final proxy claims"
+    forbidden_promotions:
+      - "analysis_grade_without_explicit_gate"
+      - "benchmark_claim_from_runtime_smoke_sparse_lane"
+      - "archived_row_relabel"
+  - variant_id: "PHY"
+    internal_experiment_id: "E5"
+    module_role: "support_realism_calibration_lane"
+    module_specific_fields:
+      - "phy_link_budget_status"
+      - "N_wdm"
+      - "P_laser_mw"
+      - "PP_crosstalk_db"
+      - "gaussian_noise_std_ref"
+      - "crosstalk_alpha_ref"
+      - "phy_support_evidence"
+    phase4_required_outputs:
+      - "{lane_run_output_dir}/phase1_summary.csv"
+      - "{lane_run_output_dir}/master_metrics.csv"
+      - "{lane_run_output_dir}/per_layer_accuracy.csv"
+      - "{lane_run_output_dir}/timeline_summary.csv"
+      - "{lane_run_output_dir}/per_layer_phy.csv"
+      - "{lane_run_output_dir}/phy_budget.json"
+      - "{launch_progress_root}/manifest.json"
+    claim_boundary: "support-only PHY realism calibration evidence; no hardware-equivalence claim"
+    forbidden_promotions:
+      - "analysis_grade_without_explicit_gate"
+      - "hardware_claim_from_support_only_lane"
+      - "archived_row_relabel"
+  - variant_id: "FULLER"
+    internal_experiment_id: "E6"
+    module_role: "integrated_lane"
+    module_specific_fields:
+      - "fanout"
+      - "topology_dimension"
+      - "meso_cost_model_mode"
+      - "serializers_saved"
+      - "explicit_total_cost_j"
+      - "net_energy_gain_j"
+      - "meso_cost_evidence"
+      - "hops_scheduler_mode"
+      - "stage_cycles"
+      - "bubble_cycles"
+      - "utilization_avg"
+      - "flow_timeline_evidence"
+      - "flow_buffer_peak_cycles"
+      - "flow_buffer_peak_frac"
+      - "flow_residency_hit_rate"
+      - "flow_control_backpressure"
+      - "flow_eviction_count"
+      - "flow_admission_stalls"
+      - "det_policy"
+      - "det_k_signature"
+      - "det_quality_gate_status"
+      - "det_quality_gate_policy"
+      - "det_quality_gate_reason"
+      - "det_quality_gate_fallback_policy"
+      - "duty_cycle_avg"
+      - "sparse_active_fraction"
+      - "sparse_scale_source"
+      - "sparse_measured_activity_fraction"
+      - "phy_link_budget_status"
+      - "N_wdm"
+      - "P_laser_mw"
+      - "PP_crosstalk_db"
+      - "gaussian_noise_std_ref"
+      - "crosstalk_alpha_ref"
+      - "phy_support_evidence"
+      - "integrated_system_cost_mode"
+      - "integrated_system_cost_evidence"
+      - "accuracy_coupling_evidence"
+      - "proxy_promotion_ready"
+      - "benchmark_claim_ready"
+    phase4_required_outputs:
+      - "{lane_run_output_dir}/phase1_summary.csv"
+      - "{lane_run_output_dir}/master_metrics.csv"
+      - "{lane_run_output_dir}/per_layer_accuracy.csv"
+      - "{lane_run_output_dir}/timeline_summary.csv"
+      - "{lane_run_output_dir}/per_layer_timeline.csv"
+      - "{lane_run_output_dir}/flow_buffer_trace.csv"
+      - "{lane_run_output_dir}/per_layer_phy.csv"
+      - "{lane_run_output_dir}/phy_budget.json"
+      - "{lane_run_output_dir}/det_prefix_error.csv"
+      - "{launch_progress_root}/manifest.json"
+    claim_boundary: "bounded integrated runtime_smoke evidence only; proxy and benchmark claims remain gated"
+    forbidden_promotions:
+      - "analysis_grade_without_explicit_gate"
+      - "benchmark_claim_from_runtime_smoke_fuller_lane"
+      - "archived_row_relabel"
+
+families:
+  - experiment_family_id: "anchor_validation"
+    research_question_id: "RQ_anchor_context"
+    tier: "runtime_smoke"
+    lane_scope: ["ASTRA"]
+    comparison_role: "anchor"
+    parameter_axes: []
+    required_artifacts:
+      - "run_manifest"
+      - "summary_surface"
+      - "master_metrics"
+      - "per_layer_surface"
+      - "timeline_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "acc_top1"
+      - "acc_drop_pp"
+      - "accuracy_measurement_contract_status"
+      - "realism_class"
+      - "runtime_guardrail"
+    stop_rules:
+      - "mps_only"
+      - "launch_under_caffeinate"
+      - "no_cpu_fallback"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "runtime_lane_governance_status_matrix"
+      - "lane_comparison_table"
+    sample_budget: 512
+    slice_manifest_output: "runtime_smoke_slice_manifest_512_csv"
+    pass_mode: "paired"
+    baseline_cache_policy: "produce"
+    claim_tier: "engineering_validation_only"
+    phase4_eligible: false
+    legacy_replacement_policy: "archive_and_replace"
+    status: "engineering_smoke_current"
+  - experiment_family_id: "lane_isolation_runtime_smoke"
+    research_question_id: "RQ_lane_isolation_runtime_smoke"
+    tier: "runtime_smoke"
+    lane_scope: ["ASTRA", "MESO", "HOPS", "DET", "SPARSE", "PHY", "FULLER"]
+    comparison_role: "lane_isolation"
+    parameter_axes:
+      - "variant_id"
+      - "run_status"
+    required_artifacts:
+      - "run_manifest"
+      - "summary_surface"
+      - "master_metrics"
+      - "per_layer_surface"
+      - "timeline_surface"
+      - "module_specific_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "acc_top1"
+      - "acc_drop_pp"
+      - "runtime_guardrail"
+      - "module_specific_fields"
+    stop_rules:
+      - "mps_only"
+      - "launch_under_caffeinate"
+      - "single_mps_serial_queue"
+      - "no_cpu_fallback"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "runtime_lane_governance_status_matrix"
+      - "lane_comparison_table"
+    lane_sample_budgets:
+      ASTRA: 512
+      MESO: 512
+      HOPS: 512
+      DET: 512
+      SPARSE: 512
+      PHY: 512
+      FULLER: 256
+    lane_pass_modes:
+      ASTRA: "paired"
+      MESO: "quantized_only"
+      HOPS: "quantized_only"
+      DET: "quantized_only"
+      SPARSE: "quantized_only"
+      PHY: "quantized_only"
+      FULLER: "quantized_only"
+    lane_baseline_cache_policies:
+      ASTRA: "produce"
+      MESO: "reuse_required"
+      HOPS: "reuse_required"
+      DET: "reuse_required"
+      SPARSE: "reuse_required"
+      PHY: "reuse_required"
+      FULLER: "reuse_required"
+    claim_tier: "engineering_validation_only"
+    phase4_eligible: false
+    legacy_replacement_policy: "archive_and_replace"
+    status: "engineering_smoke_current"
+  - experiment_family_id: "analysis_grade_replay"
+    research_question_id: "RQ_analysis_grade_replay"
+    tier: "analysis_grade"
+    lane_scope: ["ASTRA", "MESO", "HOPS", "DET", "SPARSE", "FULLER"]
+    comparison_role: "promotion_replay"
+    parameter_axes:
+      - "variant_id"
+      - "seed"
+      - "full_eval"
+    required_artifacts:
+      - "run_manifest"
+      - "summary_surface"
+      - "master_metrics"
+      - "per_layer_surface"
+      - "timeline_surface"
+      - "module_specific_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "analysis_grade_ready"
+      - "analysis_grade_blockers"
+      - "module_specific_fields"
+    stop_rules:
+      - "explicit_promotion_gate_required"
+      - "mps_only"
+      - "launch_under_caffeinate"
+      - "no_cpu_fallback"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "runtime_lane_governance_status_matrix"
+      - "lane_comparison_table"
+      - "integrated_fuller_evidence_summary"
+    sample_budget: "lane_budgets"
+    slice_manifest_source: "engineering_smoke.full_eval_manifest_csv"
+    pass_mode: "lane_pass_modes"
+    baseline_cache_policy: "lane_baseline_cache_policies"
+    claim_tier: "analysis_grade"
+    phase4_eligible: true
+    legacy_replacement_policy: "archive_and_replace"
+    status: "materialized_redesigned_current"
+  - experiment_family_id: "realism_calibration_support"
+    research_question_id: "RQ_realism_calibration_support"
+    tier: "support_audit"
+    lane_scope: ["PHY"]
+    comparison_role: "realism_calibration_audit"
+    parameter_axes:
+      - "seed"
+      - "full_eval"
+    required_artifacts:
+      - "run_manifest"
+      - "summary_surface"
+      - "master_metrics"
+      - "per_layer_surface"
+      - "timeline_surface"
+      - "module_specific_surface"
+      - "paired_comparison_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "phy_link_budget_status"
+      - "N_wdm"
+      - "P_laser_mw"
+      - "PP_crosstalk_db"
+      - "gaussian_noise_std_ref"
+      - "crosstalk_alpha_ref"
+      - "phy_support_evidence"
+    stop_rules:
+      - "mps_only"
+      - "launch_under_caffeinate"
+      - "no_cpu_fallback"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "runtime_lane_governance_status_matrix"
+      - "integrated_fuller_evidence_summary"
+    claim_tier: "support_family"
+    phase4_eligible: false
+    status: "support_contract_current"
+  - experiment_family_id: "noise_robustness"
+    research_question_id: "RQ_noise_robustness"
+    tier: "support_modeling"
+    lane_scope: ["ASTRA", "FULLER"]
+    comparison_role: "paired_support"
+    parameter_axes:
+      - "profile"
+      - "gaussian_noise_std"
+      - "crosstalk_alpha"
+    required_artifacts:
+      - "summary_surface"
+      - "paired_comparison_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "profile"
+      - "acc_top1"
+      - "acc_drop_pp"
+      - "latency_ms"
+      - "energy_j"
+    stop_rules:
+      - "declared_anchor_only"
+      - "no_blanket_seven_lane_scan"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "noise_robustness_figure_table"
+      - "integrated_fuller_evidence_summary"
+    claim_tier: "support_family"
+    phase4_eligible: false
+    status: "planned_contract_current"
+  - experiment_family_id: "scaling_support"
+    research_question_id: "RQ_scaling_support"
+    tier: "support_modeling"
+    lane_scope: ["FULLER"]
+    comparison_role: "support_scaling"
+    parameter_axes:
+      - "batch_size"
+      - "sequence_length"
+    required_artifacts:
+      - "summary_surface"
+      - "paired_comparison_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "batch_size"
+      - "sequence_length"
+      - "latency_ms"
+      - "throughput_images_s"
+      - "flow_buffer_peak_frac"
+    stop_rules:
+      - "declared_anchor_only"
+      - "no_blanket_seven_lane_scan"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "scaling_figure_table"
+      - "integrated_fuller_evidence_summary"
+    claim_tier: "support_family"
+    phase4_eligible: false
+    status: "planned_contract_current"
+  - experiment_family_id: "device_compare"
+    research_question_id: "RQ_device_compare"
+    tier: "support_measurement"
+    lane_scope: ["ASTRA", "FULLER"]
+    comparison_role: "real_device_comparison"
+    parameter_axes:
+      - "device_label"
+      - "precision_mode"
+    required_artifacts:
+      - "paired_comparison_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "host_name"
+      - "device_model"
+      - "framework"
+      - "precision_mode"
+      - "latency_ms"
+      - "avg_power_w"
+      - "energy_j"
+      - "comparison_boundary"
+    stop_rules:
+      - "declared_anchor_only"
+      - "mps_only_local_accelerator"
+      - "no_local_cuda"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "device_comparison_figure_table"
+      - "integrated_fuller_evidence_summary"
+    claim_tier: "support_family"
+    phase4_eligible: false
+    status: "planned_contract_current"
+  - experiment_family_id: "holdout_audit"
+    research_question_id: "RQ_holdout_claim_boundary"
+    tier: "claim_audit"
+    lane_scope: ["FULLER"]
+    comparison_role: "claim_audit"
+    parameter_axes:
+      - "holdout_split"
+    required_artifacts:
+      - "paired_comparison_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "claim_report"
+      - "claim_summary"
+      - "blocking_truth"
+    stop_rules:
+      - "no_smoke_substitution"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "holdout_claim_report"
+      - "integrated_fuller_evidence_summary"
+    claim_tier: "holdout_claim"
+    phase4_eligible: false
+    status: "planned_contract_current"
+  - experiment_family_id: "report_pack"
+    research_question_id: "RQ_release_readiness"
+    tier: "report_pack"
+    lane_scope: ["ASTRA", "MESO", "HOPS", "DET", "SPARSE", "PHY", "FULLER"]
+    comparison_role: "report_assembly"
+    parameter_axes: []
+    required_artifacts:
+      - "report_ready_surface"
+    required_metrics:
+      - "deliverable_readiness"
+      - "source_family_traceability"
+    stop_rules:
+      - "no_undeclared_upstream_inputs"
+      - "no_archived_row_relabel"
+    report_targets:
+      - "runtime_lane_governance_status_matrix"
+      - "lane_comparison_table"
+      - "noise_robustness_figure_table"
+      - "scaling_figure_table"
+      - "device_comparison_figure_table"
+      - "holdout_claim_report"
+      - "integrated_fuller_evidence_summary"
+    claim_tier: "support_family"
+    phase4_eligible: false
+    status: "planned_contract_current"
+
+report_deliverables:
+  - deliverable_id: "runtime_lane_governance_status_matrix"
+    deliverable_kind: "status_matrix"
+    source_family_ids:
+      - "anchor_validation"
+      - "lane_isolation_runtime_smoke"
+      - "analysis_grade_replay"
+      - "realism_calibration_support"
+    required_artifacts:
+      - "run_manifest"
+      - "summary_surface"
+      - "phase4_intake_surface"
+    required_metrics:
+      - "lane_status"
+      - "analysis_grade_blockers"
+      - "claim_boundary"
+    readiness_gate: "phase3_5_contract_complete"
+    release_scope: "current_project_status"
+    status: "contract_current"
+  - deliverable_id: "lane_comparison_table"
+    deliverable_kind: "table"
+    source_family_ids:
+      - "analysis_grade_replay"
+    required_artifacts:
+      - "summary_surface"
+      - "master_metrics"
+    required_metrics:
+      - "acc_top1"
+      - "acc_drop_pp"
+      - "module_specific_fields"
+    readiness_gate: "phase4_intake_complete"
+    release_scope: "current_project_status"
+    status: "contract_current"
+  - deliverable_id: "noise_robustness_figure_table"
+    deliverable_kind: "figure_table"
+    source_family_ids:
+      - "noise_robustness"
+    required_artifacts:
+      - "summary_surface"
+      - "paired_comparison_surface"
+    required_metrics:
+      - "profile"
+      - "acc_top1"
+      - "acc_drop_pp"
+      - "latency_ms"
+      - "energy_j"
+    readiness_gate: "noise_family_current_outputs_ready"
+    release_scope: "future_report_pack"
+    status: "contract_current"
+  - deliverable_id: "scaling_figure_table"
+    deliverable_kind: "figure_table"
+    source_family_ids:
+      - "scaling_support"
+    required_artifacts:
+      - "summary_surface"
+      - "paired_comparison_surface"
+    required_metrics:
+      - "batch_size"
+      - "sequence_length"
+      - "latency_ms"
+      - "throughput_images_s"
+      - "flow_buffer_peak_frac"
+    readiness_gate: "scaling_family_current_outputs_ready"
+    release_scope: "future_report_pack"
+    status: "contract_current"
+  - deliverable_id: "device_comparison_figure_table"
+    deliverable_kind: "figure_table"
+    source_family_ids:
+      - "device_compare"
+    required_artifacts:
+      - "paired_comparison_surface"
+    required_metrics:
+      - "host_name"
+      - "device_model"
+      - "latency_ms"
+      - "avg_power_w"
+      - "energy_j"
+      - "comparison_boundary"
+    readiness_gate: "device_compare_current_outputs_ready"
+    release_scope: "future_report_pack"
+    status: "contract_current"
+  - deliverable_id: "holdout_claim_report"
+    deliverable_kind: "claim_report"
+    source_family_ids:
+      - "holdout_audit"
+    required_artifacts:
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "claim_report"
+      - "claim_summary"
+      - "blocking_truth"
+    readiness_gate: "holdout_audit_current_outputs_ready"
+    release_scope: "future_report_pack"
+    status: "contract_current"
+  - deliverable_id: "integrated_fuller_evidence_summary"
+    deliverable_kind: "integrated_summary"
+    source_family_ids:
+      - "analysis_grade_replay"
+      - "realism_calibration_support"
+      - "noise_robustness"
+      - "scaling_support"
+      - "device_compare"
+      - "holdout_audit"
+    required_artifacts:
+      - "summary_surface"
+      - "paired_comparison_surface"
+      - "phase4_intake_surface"
+      - "report_ready_surface"
+    required_metrics:
+      - "integrated_system_cost_evidence"
+      - "accuracy_coupling_evidence"
+      - "proxy_promotion_ready"
+      - "benchmark_claim_ready"
+    readiness_gate: "phase4_intake_plus_support_families_ready"
+    release_scope: "future_report_pack"
+    status: "contract_current"
+
+outputs:
+  experiment_matrix_csv: "experiments/results/report_data/fuller_experiment_matrix_20260422.csv"
+  experiment_matrix_json: "experiments/results/report_data/fuller_experiment_matrix_20260422.json"
+  data_contract_csv: "experiments/results/report_data/fuller_experiment_data_contract_20260422.csv"
+  data_contract_json: "experiments/results/report_data/fuller_experiment_data_contract_20260422.json"
+  program_manifest_json: "experiments/results/report_data/fuller_experiment_program_manifest_20260422.json"
+  program_refactor_note_md: "docs/reports/20260422_fuller_experiment_program_refactor_note.md"
+  execution_plan_csv: "experiments/results/report_data/fuller_experiment_execution_plan_20260422.csv"
+  execution_plan_json: "experiments/results/report_data/fuller_experiment_execution_plan_20260422.json"
+  execution_plan_md: "docs/reports/20260422_fuller_experiment_execution_plan.md"
+  engineering_smoke_output_root: "experiments/results/report_data/20260422_fuller_experiment_program_v2_runtime_smoke"
+  runtime_smoke_slice_manifest_512_csv: "experiments/results/report_data/20260422_fuller_experiment_program_v2_slices/runtime_smoke_fast_seed0_512.csv"
+  runtime_smoke_slice_manifest_256_csv: "experiments/results/report_data/20260422_fuller_experiment_program_v2_slices/runtime_smoke_fast_seed0_256.csv"
+  analysis_grade_replay_gate_matrix_csv: "experiments/results/report_data/fuller_analysis_grade_replay_gate_matrix_20260423.csv"
+  analysis_grade_replay_gate_matrix_json: "experiments/results/report_data/fuller_analysis_grade_replay_gate_matrix_20260423.json"
+  analysis_grade_replay_materialization_plan_csv: "experiments/results/report_data/fuller_analysis_grade_replay_materialization_plan_20260423.csv"
+  analysis_grade_replay_materialization_plan_json: "experiments/results/report_data/fuller_analysis_grade_replay_materialization_plan_20260423.json"
+  analysis_grade_replay_gate_md: "docs/reports/20260423_fuller_analysis_grade_replay_gate.md"
+  analysis_grade_replay_materialization_md: "docs/reports/20260423_fuller_analysis_grade_replay_materialization_plan.md"
+  analysis_grade_replay_status_json: "experiments/results/report_data/fuller_analysis_grade_replay_status_20260423.json"
+  analysis_grade_replay_status_md: "experiments/results/report_data/fuller_analysis_grade_replay_status_20260423.md"
+  analysis_grade_replay_active_status_md: "docs/coordination/active/ANALYSIS_GRADE_STATUS.md"
+  legacy_runtime_smoke_bridge_root: "experiments/results/report_data/legacy_runtime_smoke_bridge_20260422"
+  legacy_runtime_smoke_bridge_manifest_json: "experiments/results/report_data/legacy_runtime_smoke_bridge_20260422/legacy_runtime_smoke_bridge_manifest.json"
+  legacy_runtime_smoke_bridge_note_md: "docs/reports/20260422_legacy_runtime_smoke_bridge_note.md"
+  phase4_intake_contract_csv: "experiments/results/report_data/fuller_phase4_intake_contract_20260422.csv"
+  phase4_intake_contract_json: "experiments/results/report_data/fuller_phase4_intake_contract_20260422.json"
+  phase4_intake_contract_md: "docs/reports/20260422_fuller_phase4_intake_contract.md"
+  phase4_current_intake_surface_csv: "experiments/results/report_data/fuller_phase4_current_intake_surface_20260423.csv"
+  phase4_current_intake_surface_json: "experiments/results/report_data/fuller_phase4_current_intake_surface_20260423.json"
+  phase4_current_intake_surface_md: "docs/reports/20260423_fuller_phase4_current_intake_surface.md"
+  report_contract_csv: "experiments/results/report_data/fuller_report_pack_contract_20260422.csv"
+  report_contract_json: "experiments/results/report_data/fuller_report_pack_contract_20260422.json"
+  report_contract_md: "docs/reports/20260422_fuller_report_pack_contract.md"
+
+compatibility:
+  retained_wrappers:
+    - "experiments/tools/run_fuller_implementation_collection.py"
+    - "experiments/tools/run_fuller_noise_sweeps.py"

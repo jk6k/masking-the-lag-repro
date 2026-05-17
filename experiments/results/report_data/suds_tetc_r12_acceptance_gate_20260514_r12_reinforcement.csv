@@ -1,9 +1,0 @@
-item,required,status,acceptance_state,evidence,blockers,artifact
-R12a,True,pass,pass,acceptance=pass; pass_count=31; fail_count=0,[],experiments/results/report_data/suds_tetc_rtl_simulation_20260514_r12_reinforcement.json
-R12b,True,pass,pass,acceptance=pass; total_per_seed_rows=120; tasks=8,[],experiments/results/report_data/suds_tetc_glue_task_expansion_20260514_r12_reinforcement.json
-R12c,True,pass,boundary_recorded,acceptance=boundary_recorded; transfer_rows=2; delta=-3.4702500000000045; boundary_reasons=[],[],experiments/results/report_data/suds_tetc_cross_workload_transfer_20260514_r12_reinforcement.json
-R12d,True,pass,pass,acceptance=pass; lenses=8; unresolved=[]; missing_hashes=[],[],experiments/results/report_data/suds_tetc_internal_adversarial_review_20260514_r12_reinforcement.json
-R12e,True,pass,pass,acceptance=pass; expected_rows=24; worst_mean_delta=-0.04466666666666667,[],experiments/results/report_data/suds_tetc_mobilevit_resolution_accuracy_20260514_r12_reinforcement.json
-R12f,True,pass,boundary_recorded,acceptance=boundary_recorded; total_rows=28; seeds_per_condition=7; boundary_reasons=[],[],experiments/results/report_data/suds_tetc_bert_multiseed_accuracy_20260514_r12_reinforcement.json
-R12g,True,pass,review_boundary,acceptance=review_boundary; mean_delta=-1.428; max_abs_delta=1.548; boundary_reasons=['delta_exceeds_1pp'],[],experiments/results/report_data/suds_tetc_deit_tiny_accuracy_20260514_r12_reinforcement.json
-R12h,True,pass,pass,acceptance=pass; measured_rows=36; energy_ordering=True,[],experiments/results/report_data/suds_tetc_adc_corner_cases_20260514_r12_reinforcement.json

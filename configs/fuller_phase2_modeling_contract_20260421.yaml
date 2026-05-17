@@ -1,0 +1,238 @@
+meta:
+  tag: 20260421_fuller_phase2_modeling
+  purpose: current FULLER phase2 modeling surface, governance gates, and phase4 handoff contract
+
+sources:
+  phase1_canonical_bundle: configs/fuller_phase1_canonical_bundle_20260421.yaml
+  phase1_runtime_smoke_bundle: configs/fuller_phase1_runtime_smoke_current_bundle_20260421.yaml
+  phase1_preflight_json: experiments/results/report_data/fuller_phase1_preflight_20260421.json
+  phase1_accuracy_contract_csv: experiments/results/report_data/fuller_phase1_accuracy_contract_20260421.csv
+  phase1_runtime_smoke_lane_status_csv: experiments/results/report_data/fuller_phase1_runtime_smoke_lane_status_20260421.csv
+  phase1_current_runtime_smoke_candidate_csv: experiments/results/report_data/fuller_phase1_current_runtime_smoke_candidate_20260421.csv
+
+historical_inputs:
+  - docs/reports/archive/20260421_failed_autonomous_team_attempt/reports/20260418_true_sc_e0_e6_full_project_modeling_execution_plan.md
+  - docs/reports/archive/20260421_failed_autonomous_team_attempt/reports/20260418_true_sc_t6_modeling_sufficiency_gate_postopt7.md
+  - docs/reports/archive/20260421_failed_autonomous_team_attempt/reports/20260418_true_sc_modeling_fidelity_provenance_table.md
+  - docs/reports/20260319_fuller_implementation_experiment_design_note.md
+  - docs/reports/20260323_fuller_design_description_optimization_note.md
+  - docs/reports/20260329_fuller_realistic_proxy_upgrade_gate_note.md
+  - docs/reports/20260331_fuller_reentry_slice_definition_note.md
+
+outputs:
+  gate_matrix_csv: experiments/results/report_data/fuller_phase2_modeling_gate_matrix_20260421.csv
+  gate_matrix_json: experiments/results/report_data/fuller_phase2_modeling_gate_matrix_20260421.json
+  handoff_contract_csv: experiments/results/report_data/fuller_phase2_phase4_handoff_contract_20260421.csv
+  handoff_contract_json: experiments/results/report_data/fuller_phase2_phase4_handoff_contract_20260421.json
+  modeling_manifest_json: experiments/results/report_data/fuller_phase2_modeling_manifest_20260421.json
+  modeling_decision_md: docs/reports/20260421_fuller_phase2_modeling_decision_note.md
+  governance_gate_matrix_md: docs/reports/20260421_fuller_phase2_governance_gate_matrix.md
+  phase4_handoff_md: docs/reports/20260421_fuller_phase2_phase4_evidence_handoff_contract.md
+
+coordination:
+  active_phase_plan_md: docs/reports/20260421_fuller_phase1_phase4_execution_plan.md
+  active_readme_md: docs/coordination/active/README.md
+  expected_active_pointer: docs/reports/20260421_fuller_phase1_phase4_execution_plan.md
+  forbidden_legacy_pointer: docs/reports/20260421_true_sc_phase1_phase4_execution_plan.md
+
+governance:
+  required_device: mps
+  long_run_wrapper:
+    - caffeinate
+    - -dimsu
+  cpu_fallback_forbidden: true
+  archived_row_relabel_forbidden: true
+  analysis_grade_enabled: false
+  authorization_required_before_long_run: true
+
+handoff:
+  phase1_run_output_token: "{phase1_run_output_dir}"
+  launch_progress_root_token: "{launch_progress_root}"
+  base_required_outputs:
+    - "{phase1_run_output_dir}/phase1_summary.csv"
+    - "{phase1_run_output_dir}/master_metrics.csv"
+    - "{phase1_run_output_dir}/per_layer_accuracy.csv"
+    - "{phase1_run_output_dir}/timeline_summary.csv"
+    - "{launch_progress_root}/manifest.json"
+  required_manifest_fields:
+    - run_id
+    - experiment_id
+    - analysis_grade_ready
+    - analysis_grade_blockers
+    - progress_root
+    - results_csv
+    - annotated_results_csv
+    - launch_command
+    - runtime_guardrail
+
+variants:
+  - variant_id: ASTRA
+    internal_experiment_id: E0
+    module_role: substrate_anchor
+    config_stub: astra
+    required_summary_fields:
+      - acc_top1
+      - acc_drop_pp
+      - accuracy_measurement_contract_status
+      - realism_class
+    claim_boundary: bounded ASTRA substrate anchor only; the current phase2 surface uses E0 as the sole current evidence input and does not imply fuller-lane closure
+    forbidden_claims:
+      - current modeled closure for E1-E6
+      - analysis-grade readiness
+      - benchmark_claim_ready true
+      - fresh measured evidence beyond the ASTRA anchor context
+    handoff_extra_outputs: []
+  - variant_id: MESO
+    internal_experiment_id: E1
+    module_role: support_cost_topology_layer
+    config_stub: meso
+    required_summary_fields:
+      - fanout
+      - topology_dimension
+      - meso_cost_model_mode
+      - serializers_saved
+      - explicit_total_cost_j
+      - net_energy_gain_j
+      - meso_cost_evidence
+    claim_boundary: bounded MESO support-cost modeling only; topology and movement costs are current as modeled fields, not current measured lane evidence
+    forbidden_claims:
+      - standalone measured meso benefit claim
+      - analysis-grade current row
+      - benchmark-equivalent meso comparison
+    handoff_extra_outputs: []
+  - variant_id: HOPS
+    internal_experiment_id: E2
+    module_role: primary_scheduling_lane
+    config_stub: hops
+    required_summary_fields:
+      - hops_scheduler_mode
+      - stage_cycles
+      - bubble_cycles
+      - utilization_avg
+      - flow_timeline_evidence
+    summary_field_candidates_if_present:
+      - flow_buffer_peak_cycles
+      - flow_buffer_peak_frac
+      - flow_residency_hit_rate
+      - flow_control_backpressure
+      - flow_eviction_count
+      - flow_admission_stalls
+    claim_boundary: bounded HOPS-primary scheduling model only; current phase2 expresses the scheduler and flow diagnostics without claiming current measured closure
+    forbidden_claims:
+      - renaming the active lane back to FLOW
+      - current measured hops closure
+      - benchmark-ready scheduling proof
+    handoff_extra_outputs:
+      - "{phase1_run_output_dir}/per_layer_timeline.csv"
+      - "{phase1_run_output_dir}/flow_buffer_trace.csv"
+  - variant_id: DET
+    internal_experiment_id: E3
+    module_role: active_bounded_control_lane
+    config_stub: det
+    required_summary_fields:
+      - det_policy
+      - det_k_signature
+      - det_quality_gate_status
+      - det_quality_gate_policy
+      - det_quality_gate_reason
+      - det_quality_gate_fallback_policy
+    claim_boundary: bounded DET control-lane modeling only; the quality-gated reorder surface is explicit but not yet backed by a current lane row
+    forbidden_claims:
+      - implicit det enablement
+      - current measured det gain claim
+      - analysis-grade det lane readiness
+    handoff_extra_outputs:
+      - "{phase1_run_output_dir}/det_prefix_error.csv"
+  - variant_id: SPARSE
+    internal_experiment_id: E4
+    module_role: active_bounded_activity_lane
+    config_stub: sparse
+    required_summary_fields:
+      - duty_cycle_avg
+      - sparse_active_fraction
+      - sparse_scale_source
+      - sparse_measured_activity_fraction
+    claim_boundary: bounded SPARSE operating-point modeling only; sparse activity remains explicit but has no current lane evidence beyond the modeled contract
+    forbidden_claims:
+      - silent sparse activation drift
+      - current measured sparse closure
+      - benchmark-equivalent sparse claim
+    handoff_extra_outputs: []
+  - variant_id: PHY
+    internal_experiment_id: E5
+    module_role: support_realism_calibration_lane
+    config_stub: phy
+    required_summary_fields:
+      - phy_link_budget_status
+      - N_wdm
+      - P_laser_mw
+      - PP_crosstalk_db
+      - gaussian_noise_std_ref
+      - crosstalk_alpha_ref
+      - phy_support_evidence
+    claim_boundary: bounded PHY realism and calibration support only; the active surface keeps non-ideality parameters explicit without upgrading to hardware closure
+    forbidden_claims:
+      - hardware-ready PHY closure
+      - current measured PHY lane evidence
+      - standalone PHY headline contribution
+    handoff_extra_outputs:
+      - "{phase1_run_output_dir}/per_layer_phy.csv"
+      - "{phase1_run_output_dir}/phy_budget.json"
+  - variant_id: FULLER
+    internal_experiment_id: E6
+    module_role: integrated_lane
+    config_stub: fuller
+    required_summary_fields:
+      - fanout
+      - topology_dimension
+      - meso_cost_model_mode
+      - serializers_saved
+      - explicit_total_cost_j
+      - net_energy_gain_j
+      - meso_cost_evidence
+      - hops_scheduler_mode
+      - stage_cycles
+      - bubble_cycles
+      - utilization_avg
+      - flow_timeline_evidence
+      - det_policy
+      - det_k_signature
+      - det_quality_gate_status
+      - det_quality_gate_policy
+      - det_quality_gate_reason
+      - det_quality_gate_fallback_policy
+      - duty_cycle_avg
+      - sparse_active_fraction
+      - sparse_scale_source
+      - sparse_measured_activity_fraction
+      - phy_link_budget_status
+      - N_wdm
+      - P_laser_mw
+      - PP_crosstalk_db
+      - gaussian_noise_std_ref
+      - crosstalk_alpha_ref
+      - phy_support_evidence
+      - integrated_system_cost_mode
+      - integrated_system_cost_evidence
+      - accuracy_coupling_evidence
+      - proxy_promotion_ready
+      - benchmark_claim_ready
+    summary_field_candidates_if_present:
+      - flow_buffer_peak_cycles
+      - flow_buffer_peak_frac
+      - flow_residency_hit_rate
+      - flow_control_backpressure
+      - flow_eviction_count
+      - flow_admission_stalls
+    claim_boundary: bounded integrated fuller modeling surface only; the active phase2 package joins MESO HOPS DET SPARSE PHY under one current contract without implying current measured integrated closure
+    forbidden_claims:
+      - current measured fuller closure
+      - analysis-grade integrated readiness
+      - benchmark_claim_ready true
+      - architecture-wide evidence closure from archive rows
+    handoff_extra_outputs:
+      - "{phase1_run_output_dir}/per_layer_timeline.csv"
+      - "{phase1_run_output_dir}/flow_buffer_trace.csv"
+      - "{phase1_run_output_dir}/per_layer_phy.csv"
+      - "{phase1_run_output_dir}/phy_budget.json"
+      - "{phase1_run_output_dir}/det_prefix_error.csv"

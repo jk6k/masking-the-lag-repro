@@ -1,0 +1,175 @@
+reentry_candidate:
+  candidate_label: "det_hybrid_prefix_quality_gate_k64_mobilevit_s"
+  mechanism_version: "DET"
+  family: "hybrid_prefix_quality_gate"
+  historical_context_only_note_md: "docs/reports/20260321_det_sparse_reentry_audit_retirement_note.md"
+  definition_note_md: "docs/reports/20260331_det_definition_note.md"
+  differences_vs_failed_det_family:
+    - "single defended operating point instead of open k-sweep promotion"
+    - "fail-closed prefix-quality gate before DET activation"
+    - "measured MPS accuracy closure on the active MobileViT route"
+    - "positive det_net_gain_j required for promotion"
+    - "legacy low-k and prefix-proxy-only rows retained as historical context only"
+  forbidden_reuse:
+    - "fixed_k_global_det_family"
+    - "adaptive_budget_det_family"
+    - "prefix_proxy_only_gate"
+  accuracy_evidence_policy: "measured_full_eval_on_active_mobilevit_route"
+
+canonical_chain:
+  tag: "20260331_det_reentry"
+  description: "Dedicated DET candidate lane using the bounded 2026-03-31 k=64 definition"
+
+baseline_substrate:
+  family: "ASTRA-style"
+  role: "baseline_execution_substrate"
+  deterministic_structure_explicit: true
+  shared_conversion_serialization_present: true
+  novelty_guardrail: "baseline_only_not_active_layer"
+
+run:
+  run_id: "20260331_det_reentry_mobilevit_s"
+  experiment_id: "DET_REENTRY"
+  seed: 0
+  device: "mps"
+  execution_surface: "host_unsandboxed_caffeinate_required"
+  long_run_launch_prefix:
+    - "caffeinate"
+    - "-dimsu"
+  git_hash: "nogit"
+  notes: "formal DET reentry candidate on the bounded MobileViT route with fail-closed prefix-quality gating"
+
+data:
+  workload_id: "W0_mobilevit_imagenet"
+  split: "eval"
+  batch_size: 1
+  sequence_length: 197
+
+switches:
+  meso: false
+  flow: false
+  det: true
+  sparse: false
+  phy: false
+
+models:
+  keys: ["mobilevit_s"]
+  accuracy_reference: "fp32"
+
+realism:
+  current_class: "bounded_mechanism_reentry_candidate"
+  target_class: "bounded_mechanism_reentry_candidate"
+  device_comparison_scope: "not_for_device_claims"
+  benchmark_equivalence: false
+  benchmark_claim_ready: false
+
+accuracy:
+  source_csv: "experiments/results/accuracy/accuracy_config_conditioned_mps_fulleval_repaired_perfpatched_e0e2e3e4e6_seeds012_20260326.csv"
+  delta_pp_budget: 1.0
+  context_run_id: "20260228_opt_sync_core_e3"
+  require_context_match: false
+
+sc_det:
+  encoding: "bipolar"
+  quant_bits: 8
+  bsl_max_rule: "2^(b-1)+1"
+  bsl_max: 129
+  det_mode: "reorder"
+  reorder_mode_scale: 1.0
+  replace_mode_scale: 1.0
+  det_overhead_j: 0.0002
+  overhead:
+    seq_gen_j: 0.00012
+    counter_j: 0.00005
+    ctrl_j: 0.00003
+  early_stop:
+    enabled: true
+    k_grid: [1, 2, 4, 8, 16, 32, 64, 129]
+    k_global: 64
+    k_by_layer: null
+  prefix_error:
+    enabled: true
+    k_grid: null
+    num_prob_points: 129
+    p_min: 1.0e-3
+    p_max: 0.999
+    error_to_acc_pp_scale: 100.0
+    phase_shift: 0
+    scramble_seed: 0
+    enforce_monotonic: false
+  quality_gate:
+    enabled: true
+    policy_label: "hybrid_prefix_quality_gate"
+    max_prefix_error_mean: 0.005
+    max_prefix_error_p95: 0.012
+    fallback_policy: "disable_det"
+    require_measured_accuracy: true
+    measured_accuracy_ready: true
+  delta_pp: 1.0
+
+sparse:
+  enabled: false
+  tau_mode: "per_layer"
+  tau_global: 0.0
+  tau_by_layer: null
+  accuracy_proxy_enabled: false
+  active_fraction: 1.0
+
+meso:
+  enabled: false
+
+flow:
+  enabled: false
+
+phy:
+  enabled: false
+
+layout_thermal:
+  s_wg_min: 2.3
+  P_thermal_tuning: 12.5
+  p_thermal_tuning_mw: 12.5
+
+p1_align:
+  p1_alignment_points_db: [0, -1, -2, -3, -4, -5, -6, -8, -10, -12]
+  auto_from_accuracy_csv: true
+  target_acc_drop_pp: null
+  quant_bits: null
+  gaussian_noise_sigma_lsb_ref: 0.0
+  crosstalk_alpha_ref: 0.0
+  fit_error: 0.0
+  gaussian_noise_sigma_lsb_per_3db: 0.1
+  crosstalk_alpha_per_3db: 0.02
+  p_laser_dbm_ref: null
+
+integrated_system_costs:
+  enabled: false
+  mode: "disabled"
+
+energy_model:
+  energy_model_mode: "UpperBound"
+  upperbound_scale: 1.0
+  countbased_scale: 0.9
+
+noise_injection:
+  enabled: false
+  model: "M2"
+  gaussian_noise_sigma_lsb: 0.0
+  crosstalk_alpha: 0.0
+  enable_attention: true
+
+mtl:
+  enabled: true
+  ops_dir: "mtl_model/ops"
+  config_path: "mtl_model/mtl_config_asic.yaml"
+  ops_output_subdir: "mtl_ops"
+
+baseline_ref:
+  e0_latency_csv: "experiments/results/runs/20260228_opt_sync_core_e0/phase1_summary.csv"
+
+outputs:
+  out_dir: "experiments/results/runs"
+  master_csv: "experiments/results/master_metrics.csv"
+  append_master: false
+  save_config_snapshot: true
+  save_layer_tables: true
+  save_calibration_log: true
