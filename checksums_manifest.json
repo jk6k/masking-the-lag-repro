@@ -212,8 +212,8 @@
     },
     {
       "path": "experiments/results/paper_sync/current_freeze.json",
-      "sha256": "fab3a027305f357e9813f08c63de029df246530a2945fde63e5c5c31ebda794a",
-      "size_bytes": 9237
+      "sha256": "cbd1a25e050b227fe0c0fb7022096312dbbd17f202b23077008f1818783b15d2",
+      "size_bytes": 9493
     },
     {
       "path": "experiments/results/report_data/suds_ablation_matrix_20260511_maxq.csv",
@@ -772,7 +772,7 @@
     },
     {
       "path": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/yosys_synthesis.log",
-      "sha256": "d4c789dae14d93e4f87154086d4a03f51bf130ab0e7e59a7d78a63908f119796",
+      "sha256": "0dd6ecb4a031739ddf877f1f0dbff44423b8b9c1f8f2623310a2aed89825d191",
       "size_bytes": 41191
     },
     {
