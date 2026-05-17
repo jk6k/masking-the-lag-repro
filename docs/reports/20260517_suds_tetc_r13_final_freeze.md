@@ -41,7 +41,7 @@ unchanged.
 | `make public-repro-check` before render | pass | `0 error(s)` |
 | `caffeinate -dimsu make public-repro-render` | pass | regenerated public Fig4-Fig7 under `build/rendered_figures` |
 | `make public-repro-check` after render | pass | `0 error(s)` |
-| `make dirty-audit` | pass | `50 dirty path(s)`, `50 managed`, `0 unmanaged` |
+| `make dirty-audit` | pass | `51 dirty path(s)`, `51 managed`, `0 unmanaged` |
 
 ## Public Reproduction Refresh
 
@@ -73,7 +73,7 @@ post-refresh dirty audit reported only managed roots:
 
 - managed experiments: `20`
 - managed figures: `16`
-- managed docs: `9`
+- managed docs: `10`
 - managed paper: `2`
 - managed Makefile: `1`
 - managed configs: `1`
