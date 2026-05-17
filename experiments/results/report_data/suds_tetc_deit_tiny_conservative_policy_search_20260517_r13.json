@@ -1,0 +1,4810 @@
+{
+  "metadata": {
+    "tag": "20260517_r13",
+    "artifact_id": "suds_tetc_deit_tiny_conservative_policy_search_20260517_r13",
+    "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+    "evidence_label": "deit_tiny_mps_conservative_policy_search",
+    "regeneration_command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+    "git_hash": "bef5f11",
+    "model_source": "timm (facebook/deit-tiny-patch16-224)",
+    "dataset_source": "<private_imagenet_val>",
+    "source_hashes": {
+      "script": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "r9_workload_json": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "r12_deit_json": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1"
+    }
+  },
+  "mps": {
+    "device": "mps",
+    "torch_version": "2.11.0",
+    "mps_built": true,
+    "mps_available": true,
+    "mps_probe_sum": 8.0,
+    "PYTORCH_ENABLE_MPS_FALLBACK": "0"
+  },
+  "summary": {
+    "date": "2026-05-17",
+    "tag": "20260517_r13",
+    "model": "deit_tiny_patch16_224",
+    "model_parameters": 5717416,
+    "dataset": "imagenet-1k/validation",
+    "dataset_size": 50000,
+    "screening_sample_count": 2048,
+    "full_validation_sample_count": 50000,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "selected_candidates": [
+      "degrade_only_signal_safe",
+      "light_degrade_keep90"
+    ],
+    "acceptance_state": "pass",
+    "decision": "deit_tiny_secondary_support",
+    "claim_text": "R13-3 finds `degrade_only_signal_safe` as a conservative secondary DeiT-Tiny support point: mean Top-1 delta -0.0360 pp, worst-seed delta -0.0800 pp, and minimum modeled EDP improvement 6.901% against the same-scope Lightening-style reference.",
+    "winner": {
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "seed_count": 3,
+      "sample_count_per_seed": 50000,
+      "mean_top1_accuracy_pct": 72.096,
+      "mean_delta_top1_pp": -0.036,
+      "worst_seed_delta_top1_pp": -0.08,
+      "max_abs_delta_top1_pp": 0.08,
+      "accuracy_within_1pp": true,
+      "min_edp_improvement_vs_lightening_pct": 6.9014,
+      "mean_edp_improvement_vs_lightening_pct": 9.0943,
+      "positive_edp_improvement": true,
+      "meets_5pct_target": true,
+      "success_acceptance": true
+    },
+    "blockers": []
+  },
+  "screening_rows": [
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "screening_only",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 2048,
+      "sample_indices_sha256": "86b768c30236ecc18884e183f08bbfe43d1e83ad65199addfc7aca45ef81058f",
+      "policy": "e0_dense",
+      "policy_label": "dense 8-bit reference",
+      "search_role": "dense_baseline",
+      "seed": 0,
+      "top1_accuracy_pct": 72.9004,
+      "correct": 1493,
+      "total": 2048,
+      "elapsed_s": 8.9,
+      "images_per_second": 230.9,
+      "keep_ratio": 1.0,
+      "degrade_ratio": 0.0,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 1.0,
+      "target_degrade_ratio": 0.0,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0,
+      "prune_noise_std": 0.0,
+      "selector": "dense_reference",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.9004,
+      "delta_top1_pp": 0.0
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "screening_only",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 2048,
+      "sample_indices_sha256": "86b768c30236ecc18884e183f08bbfe43d1e83ad65199addfc7aca45ef81058f",
+      "policy": "no_prune_keep90",
+      "policy_label": "No-prune top-90% keep, standard degrade",
+      "search_role": "conservative_candidate",
+      "seed": 0,
+      "top1_accuracy_pct": 72.9492,
+      "correct": 1494,
+      "total": 2048,
+      "elapsed_s": 7.5,
+      "images_per_second": 274.0,
+      "keep_ratio": 0.901042,
+      "degrade_ratio": 0.098958,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.9,
+      "target_degrade_ratio": 0.1,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.003,
+      "prune_noise_std": 0.0,
+      "selector": "column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.9004,
+      "delta_top1_pp": 0.0488
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "screening_only",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 2048,
+      "sample_indices_sha256": "86b768c30236ecc18884e183f08bbfe43d1e83ad65199addfc7aca45ef81058f",
+      "policy": "no_prune_keep95",
+      "policy_label": "No-prune top-95% keep, standard degrade",
+      "search_role": "conservative_candidate",
+      "seed": 0,
+      "top1_accuracy_pct": 72.8027,
+      "correct": 1491,
+      "total": 2048,
+      "elapsed_s": 7.4,
+      "images_per_second": 275.5,
+      "keep_ratio": 0.951654,
+      "degrade_ratio": 0.048346,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.95,
+      "target_degrade_ratio": 0.05,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.003,
+      "prune_noise_std": 0.0,
+      "selector": "column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.9004,
+      "delta_top1_pp": -0.0977
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "screening_only",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 2048,
+      "sample_indices_sha256": "86b768c30236ecc18884e183f08bbfe43d1e83ad65199addfc7aca45ef81058f",
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "seed": 0,
+      "top1_accuracy_pct": 73.0469,
+      "correct": 1496,
+      "total": 2048,
+      "elapsed_s": 7.4,
+      "images_per_second": 275.1,
+      "keep_ratio": 0.901042,
+      "degrade_ratio": 0.098958,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.9,
+      "target_degrade_ratio": 0.1,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0015,
+      "prune_noise_std": 0.0,
+      "selector": "column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.9004,
+      "delta_top1_pp": 0.1465
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "screening_only",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 2048,
+      "sample_indices_sha256": "86b768c30236ecc18884e183f08bbfe43d1e83ad65199addfc7aca45ef81058f",
+      "policy": "light_degrade_keep95",
+      "policy_label": "No-prune top-95% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "seed": 0,
+      "top1_accuracy_pct": 72.9004,
+      "correct": 1493,
+      "total": 2048,
+      "elapsed_s": 7.5,
+      "images_per_second": 274.9,
+      "keep_ratio": 0.951654,
+      "degrade_ratio": 0.048346,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.95,
+      "target_degrade_ratio": 0.05,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0015,
+      "prune_noise_std": 0.0,
+      "selector": "column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.9004,
+      "delta_top1_pp": 0.0
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "screening_only",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 2048,
+      "sample_indices_sha256": "86b768c30236ecc18884e183f08bbfe43d1e83ad65199addfc7aca45ef81058f",
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "seed": 0,
+      "top1_accuracy_pct": 72.8516,
+      "correct": 1492,
+      "total": 2048,
+      "elapsed_s": 7.5,
+      "images_per_second": 274.4,
+      "keep_ratio": 0.154044,
+      "degrade_ratio": 0.845956,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.151838,
+      "target_degrade_ratio": 0.848162,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.00075,
+      "prune_noise_std": 0.0,
+      "selector": "r9_suds_pareto_ratio_column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.9004,
+      "delta_top1_pp": -0.0488
+    }
+  ],
+  "full_validation_rows": [
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "e0_dense",
+      "policy_label": "dense 8-bit reference",
+      "search_role": "dense_baseline",
+      "seed": 0,
+      "top1_accuracy_pct": 72.132,
+      "correct": 36066,
+      "total": 50000,
+      "elapsed_s": 230.9,
+      "images_per_second": 216.5,
+      "keep_ratio": 1.0,
+      "degrade_ratio": 0.0,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 1.0,
+      "target_degrade_ratio": 0.0,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0,
+      "prune_noise_std": 0.0,
+      "selector": "dense_reference",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": 0.0
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "e0_dense",
+      "policy_label": "dense 8-bit reference",
+      "search_role": "dense_baseline",
+      "seed": 1,
+      "top1_accuracy_pct": 72.132,
+      "correct": 36066,
+      "total": 50000,
+      "elapsed_s": 218.9,
+      "images_per_second": 228.4,
+      "keep_ratio": 1.0,
+      "degrade_ratio": 0.0,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 1.0,
+      "target_degrade_ratio": 0.0,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0,
+      "prune_noise_std": 0.0,
+      "selector": "dense_reference",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": 0.0
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "e0_dense",
+      "policy_label": "dense 8-bit reference",
+      "search_role": "dense_baseline",
+      "seed": 2,
+      "top1_accuracy_pct": 72.132,
+      "correct": 36066,
+      "total": 50000,
+      "elapsed_s": 208.4,
+      "images_per_second": 240.0,
+      "keep_ratio": 1.0,
+      "degrade_ratio": 0.0,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 1.0,
+      "target_degrade_ratio": 0.0,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0,
+      "prune_noise_std": 0.0,
+      "selector": "dense_reference",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": 0.0
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "seed": 0,
+      "top1_accuracy_pct": 72.132,
+      "correct": 36066,
+      "total": 50000,
+      "elapsed_s": 210.7,
+      "images_per_second": 237.3,
+      "keep_ratio": 0.154044,
+      "degrade_ratio": 0.845956,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.151838,
+      "target_degrade_ratio": 0.848162,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.00075,
+      "prune_noise_std": 0.0,
+      "selector": "r9_suds_pareto_ratio_column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": 0.0
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "seed": 1,
+      "top1_accuracy_pct": 72.052,
+      "correct": 36026,
+      "total": 50000,
+      "elapsed_s": 214.9,
+      "images_per_second": 232.7,
+      "keep_ratio": 0.154044,
+      "degrade_ratio": 0.845956,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.151838,
+      "target_degrade_ratio": 0.848162,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.00075,
+      "prune_noise_std": 0.0,
+      "selector": "r9_suds_pareto_ratio_column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": -0.08
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "seed": 2,
+      "top1_accuracy_pct": 72.104,
+      "correct": 36052,
+      "total": 50000,
+      "elapsed_s": 212.0,
+      "images_per_second": 235.9,
+      "keep_ratio": 0.154044,
+      "degrade_ratio": 0.845956,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.151838,
+      "target_degrade_ratio": 0.848162,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.00075,
+      "prune_noise_std": 0.0,
+      "selector": "r9_suds_pareto_ratio_column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": -0.028
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "seed": 0,
+      "top1_accuracy_pct": 72.138,
+      "correct": 36069,
+      "total": 50000,
+      "elapsed_s": 209.9,
+      "images_per_second": 238.2,
+      "keep_ratio": 0.901042,
+      "degrade_ratio": 0.098958,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.9,
+      "target_degrade_ratio": 0.1,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0015,
+      "prune_noise_std": 0.0,
+      "selector": "column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": 0.006
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "seed": 1,
+      "top1_accuracy_pct": 72.12,
+      "correct": 36060,
+      "total": 50000,
+      "elapsed_s": 207.4,
+      "images_per_second": 241.1,
+      "keep_ratio": 0.901042,
+      "degrade_ratio": 0.098958,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.9,
+      "target_degrade_ratio": 0.1,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0015,
+      "prune_noise_std": 0.0,
+      "selector": "column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": -0.012
+    },
+    {
+      "tag": "20260517_r13",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "model_evaluation",
+      "stage": "full_validation",
+      "model": "deit_tiny_patch16_224",
+      "dataset": "imagenet-1k/validation",
+      "sample_count": 50000,
+      "sample_indices_sha256": "20d955083da5e4d754ae1b14007c11708069624d60d6177d37831503bd7fc543",
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "seed": 2,
+      "top1_accuracy_pct": 72.136,
+      "correct": 36068,
+      "total": 50000,
+      "elapsed_s": 200.2,
+      "images_per_second": 249.8,
+      "keep_ratio": 0.901042,
+      "degrade_ratio": 0.098958,
+      "prune_ratio": 0.0,
+      "target_keep_ratio": 0.9,
+      "target_degrade_ratio": 0.1,
+      "target_prune_ratio": 0.0,
+      "degrade_noise_std": 0.0015,
+      "prune_noise_std": 0.0,
+      "selector": "column_l1_topk",
+      "batch_size": 64,
+      "device": "mps",
+      "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+      "git_hash": "bef5f11",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "reference_mean_top1_pct": 72.132,
+      "delta_top1_pp": 0.004
+    }
+  ],
+  "architecture_join_rows": [
+    {
+      "tag": "20260517_r13",
+      "sensitivity_case": "nominal",
+      "workload": "deit_tiny_patch16_224_batch1_r9",
+      "workload_family": "vision Transformer encoder",
+      "model": "deit_tiny_patch16_224",
+      "dataset_or_split": "ImageNet-style architecture sweep, patch16 224, tokens=197, batch_size=1",
+      "condition": "degrade_only_signal_safe",
+      "condition_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "condition_family": "r13_deit_conservative_policy",
+      "tile_dim": 32,
+      "tiles": 4,
+      "cores_per_tile": 2,
+      "parallel_cores": 8,
+      "sideband_group_cols": 32,
+      "adc_sharing_mode": "temporal_accum",
+      "source_condition": "degrade_only_signal_safe_r13_conservative_search",
+      "n_kernels": 72,
+      "macs": 1224589824,
+      "dptc_tiles": 42672,
+      "output_values": 6746112,
+      "memory_moved_bytes": 33150480,
+      "control_groups": 6588,
+      "keep_ratio": 0.15183770584183834,
+      "degrade_ratio": 0.8481622941581617,
+      "prune_ratio": 0.0,
+      "active_compute_ratio": 1.0,
+      "latency_ns": 1075.4420282616381,
+      "energy_pj": 12365462.989174537,
+      "edp_pj_ns": 13298338597.472084,
+      "area_mm2": 5.754339669678854,
+      "adc_energy_pj": 243116.70512768818,
+      "dac_mzm_energy_pj": 10438144.007946227,
+      "detector_tia_energy_pj": 854507.5206505093,
+      "laser_energy_pj": 8107.680006172118,
+      "memory_energy_pj": 497257.19999999995,
+      "optical_link_energy_pj": 320440.320243941,
+      "control_energy_pj": 3889.5551999999993,
+      "optical_link_pj": 320440.320243941,
+      "control_overhead_pj": 3889.5551999999993,
+      "digital_fallback_energy_pj": 0.0,
+      "accuracy_metric": "top1",
+      "accuracy": 72.096,
+      "delta_accuracy": -0.036,
+      "accuracy_evidence_label": "measured_mps_deit_tiny_r13_conservative_search",
+      "promotion_decision": "secondary_support_candidate",
+      "device": "mps",
+      "git_hash": "bef5f11",
+      "architecture_evidence_label": "modeled_system_ppa",
+      "claim_boundary": "DPTC architecture simulation with calibrated/proxy parameters; not fabrication, physical-design, PDK, or device-solver signoff",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "architecture_join",
+      "stage": "r9_architecture_join",
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "sample_count": 50000,
+      "seed": "aggregate_3_seed",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "top1_accuracy_pct": 72.096,
+      "delta_top1_pp": -0.036,
+      "reference_lightening_edp_pj_ns": 14284149458.968847,
+      "energy_ratio_vs_lightening": 0.9292977003659547,
+      "latency_ratio_vs_lightening": 1.0018164035559818,
+      "edp_ratio_vs_lightening": 0.9309856800134653,
+      "energy_improvement_vs_lightening_pct": 7.070229963404529,
+      "edp_improvement_vs_lightening_pct": 6.901431998653473
+    },
+    {
+      "tag": "20260517_r13",
+      "sensitivity_case": "nominal",
+      "workload": "deit_tiny_patch16_224_batch1_r9",
+      "workload_family": "vision Transformer encoder",
+      "model": "deit_tiny_patch16_224",
+      "dataset_or_split": "ImageNet-style architecture sweep, patch16 224, tokens=197, batch_size=1",
+      "condition": "light_degrade_keep90",
+      "condition_label": "No-prune top-90% keep, light degrade",
+      "condition_family": "r13_deit_conservative_policy",
+      "tile_dim": 32,
+      "tiles": 4,
+      "cores_per_tile": 2,
+      "parallel_cores": 8,
+      "sideband_group_cols": 32,
+      "adc_sharing_mode": "temporal_accum",
+      "source_condition": "light_degrade_keep90_r13_conservative_search",
+      "n_kernels": 72,
+      "macs": 1224589824,
+      "dptc_tiles": 42672,
+      "output_values": 6746112,
+      "memory_moved_bytes": 33150480,
+      "control_groups": 6588,
+      "keep_ratio": 0.9,
+      "degrade_ratio": 0.1,
+      "prune_ratio": 0.0,
+      "active_compute_ratio": 1.0,
+      "latency_ns": 1075.4654083333328,
+      "energy_pj": 13197898.284855582,
+      "edp_pj_ns": 14193883068.064001,
+      "area_mm2": 5.768803672306271,
+      "adc_energy_pj": 1075552.0008087321,
+      "dac_mzm_energy_pj": 10438144.007946227,
+      "detector_tia_energy_pj": 854507.5206505093,
+      "laser_energy_pj": 8107.680006172118,
+      "memory_energy_pj": 497257.19999999995,
+      "optical_link_energy_pj": 320440.320243941,
+      "control_energy_pj": 3889.5551999999993,
+      "optical_link_pj": 320440.320243941,
+      "control_overhead_pj": 3889.5551999999993,
+      "digital_fallback_energy_pj": 0.0,
+      "accuracy_metric": "top1",
+      "accuracy": 72.13133333333333,
+      "delta_accuracy": -0.0006666666666666666,
+      "accuracy_evidence_label": "measured_mps_deit_tiny_r13_conservative_search",
+      "promotion_decision": "secondary_support_candidate",
+      "device": "mps",
+      "git_hash": "bef5f11",
+      "architecture_evidence_label": "modeled_system_ppa",
+      "claim_boundary": "DPTC architecture simulation with calibrated/proxy parameters; not fabrication, physical-design, PDK, or device-solver signoff",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "architecture_join",
+      "stage": "r9_architecture_join",
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "sample_count": 50000,
+      "seed": "aggregate_3_seed",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "top1_accuracy_pct": 72.1313,
+      "delta_top1_pp": -0.0007,
+      "reference_lightening_edp_pj_ns": 14284149458.968847,
+      "energy_ratio_vs_lightening": 0.9918574449268406,
+      "latency_ratio_vs_lightening": 1.001838183009197,
+      "edp_ratio_vs_lightening": 0.9936806604296506,
+      "energy_improvement_vs_lightening_pct": 0.8142555073159419,
+      "edp_improvement_vs_lightening_pct": 0.6319339570349358
+    },
+    {
+      "tag": "20260517_r13",
+      "sensitivity_case": "nominal",
+      "workload": "deit_tiny_patch16_224_batch4_r9",
+      "workload_family": "vision Transformer encoder",
+      "model": "deit_tiny_patch16_224",
+      "dataset_or_split": "ImageNet-style architecture sweep, patch16 224, tokens=197, batch_size=4",
+      "condition": "degrade_only_signal_safe",
+      "condition_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "condition_family": "r13_deit_conservative_policy",
+      "tile_dim": 32,
+      "tiles": 4,
+      "cores_per_tile": 2,
+      "parallel_cores": 8,
+      "sideband_group_cols": 32,
+      "adc_sharing_mode": "temporal_accum",
+      "source_condition": "degrade_only_signal_safe_r13_conservative_search",
+      "n_kernels": 72,
+      "macs": 4898359296,
+      "dptc_tiles": 154464,
+      "output_values": 24772608,
+      "memory_moved_bytes": 98935872,
+      "control_groups": 24192,
+      "keep_ratio": 0.15183770584183834,
+      "degrade_ratio": 0.8481622941581617,
+      "prune_ratio": 0.0,
+      "active_compute_ratio": 1.0,
+      "latency_ns": 3876.083628261637,
+      "energy_pj": 31290016.684186757,
+      "edp_pj_ns": 121282721397.60976,
+      "area_mm2": 17.045963377181362,
+      "adc_energy_pj": 892756.4253869207,
+      "dac_mzm_energy_pj": 24555028.49869296,
+      "detector_tia_energy_pj": 3137863.6823887555,
+      "laser_energy_pj": 29348.160022341817,
+      "memory_energy_pj": 1484038.0799999998,
+      "optical_link_energy_pj": 1176698.8808957834,
+      "control_energy_pj": 14282.956799999998,
+      "optical_link_pj": 1176698.8808957834,
+      "control_overhead_pj": 14282.956799999998,
+      "digital_fallback_energy_pj": 0.0,
+      "accuracy_metric": "top1",
+      "accuracy": 72.096,
+      "delta_accuracy": -0.036,
+      "accuracy_evidence_label": "measured_mps_deit_tiny_r13_conservative_search",
+      "promotion_decision": "secondary_support_candidate",
+      "device": "mps",
+      "git_hash": "bef5f11",
+      "architecture_evidence_label": "modeled_system_ppa",
+      "claim_boundary": "DPTC architecture simulation with calibrated/proxy parameters; not fabrication, physical-design, PDK, or device-solver signoff",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "architecture_join",
+      "stage": "r9_architecture_join",
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "sample_count": 50000,
+      "seed": "aggregate_3_seed",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "top1_accuracy_pct": 72.096,
+      "delta_top1_pp": -0.036,
+      "reference_lightening_edp_pj_ns": 134422089836.31819,
+      "energy_ratio_vs_lightening": 0.9005696940440743,
+      "latency_ratio_vs_lightening": 1.0018690541616677,
+      "edp_ratio_vs_lightening": 0.9022529075785992,
+      "energy_improvement_vs_lightening_pct": 9.943030595592573,
+      "edp_improvement_vs_lightening_pct": 9.774709242140078
+    },
+    {
+      "tag": "20260517_r13",
+      "sensitivity_case": "nominal",
+      "workload": "deit_tiny_patch16_224_batch4_r9",
+      "workload_family": "vision Transformer encoder",
+      "model": "deit_tiny_patch16_224",
+      "dataset_or_split": "ImageNet-style architecture sweep, patch16 224, tokens=197, batch_size=4",
+      "condition": "light_degrade_keep90",
+      "condition_label": "No-prune top-90% keep, light degrade",
+      "condition_family": "r13_deit_conservative_policy",
+      "tile_dim": 32,
+      "tiles": 4,
+      "cores_per_tile": 2,
+      "parallel_cores": 8,
+      "sideband_group_cols": 32,
+      "adc_sharing_mode": "temporal_accum",
+      "source_condition": "light_degrade_keep90_r13_conservative_search",
+      "n_kernels": 72,
+      "macs": 4898359296,
+      "dptc_tiles": 154464,
+      "output_values": 24772608,
+      "memory_moved_bytes": 98935872,
+      "control_groups": 24192,
+      "keep_ratio": 0.9,
+      "degrade_ratio": 0.1,
+      "prune_ratio": 0.0,
+      "active_compute_ratio": 1.0,
+      "latency_ns": 3876.1070083333316,
+      "energy_pj": 34346828.26176961,
+      "edp_pj_ns": 133131981739.46652,
+      "area_mm2": 17.09907709174762,
+      "adc_energy_pj": 3949568.0029697707,
+      "dac_mzm_energy_pj": 24555028.49869296,
+      "detector_tia_energy_pj": 3137863.6823887555,
+      "laser_energy_pj": 29348.160022341817,
+      "memory_energy_pj": 1484038.0799999998,
+      "optical_link_energy_pj": 1176698.8808957834,
+      "control_energy_pj": 14282.956799999998,
+      "optical_link_pj": 1176698.8808957834,
+      "control_overhead_pj": 14282.956799999998,
+      "digital_fallback_energy_pj": 0.0,
+      "accuracy_metric": "top1",
+      "accuracy": 72.13133333333333,
+      "delta_accuracy": -0.0006666666666666666,
+      "accuracy_evidence_label": "measured_mps_deit_tiny_r13_conservative_search",
+      "promotion_decision": "secondary_support_candidate",
+      "device": "mps",
+      "git_hash": "bef5f11",
+      "architecture_evidence_label": "modeled_system_ppa",
+      "claim_boundary": "DPTC architecture simulation with calibrated/proxy parameters; not fabrication, physical-design, PDK, or device-solver signoff",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "architecture_join",
+      "stage": "r9_architecture_join",
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "sample_count": 50000,
+      "seed": "aggregate_3_seed",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "top1_accuracy_pct": 72.1313,
+      "delta_top1_pp": -0.0007,
+      "reference_lightening_edp_pj_ns": 134422089836.31819,
+      "energy_ratio_vs_lightening": 0.9885489333956918,
+      "latency_ratio_vs_lightening": 1.0018750973156763,
+      "edp_ratio_vs_lightening": 0.9904025588471166,
+      "energy_improvement_vs_lightening_pct": 1.1451066604308169,
+      "edp_improvement_vs_lightening_pct": 0.9597441152883412
+    },
+    {
+      "tag": "20260517_r13",
+      "sensitivity_case": "nominal",
+      "workload": "deit_tiny_patch16_224_batch8_r9",
+      "workload_family": "vision Transformer encoder",
+      "model": "deit_tiny_patch16_224",
+      "dataset_or_split": "ImageNet-style architecture sweep, patch16 224, tokens=197, batch_size=8",
+      "condition": "degrade_only_signal_safe",
+      "condition_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "condition_family": "r13_deit_conservative_policy",
+      "tile_dim": 32,
+      "tiles": 4,
+      "cores_per_tile": 2,
+      "parallel_cores": 8,
+      "sideband_group_cols": 32,
+      "adc_sharing_mode": "temporal_accum",
+      "source_condition": "degrade_only_signal_safe_r13_conservative_search",
+      "n_kernels": 72,
+      "macs": 9796718592,
+      "dptc_tiles": 308928,
+      "output_values": 49545216,
+      "memory_moved_bytes": 186649728,
+      "control_groups": 48384,
+      "keep_ratio": 0.15183770584183834,
+      "degrade_ratio": 0.8481622941581617,
+      "prune_ratio": 0.0,
+      "active_compute_ratio": 1.0,
+      "latency_ns": 7742.560428261641,
+      "energy_pj": 57220842.32442188,
+      "edp_pj_ns": 443035829452.86774,
+      "area_mm2": 32.56328675436273,
+      "adc_energy_pj": 1785512.8507738414,
+      "dac_mzm_energy_pj": 43919196.19343428,
+      "detector_tia_energy_pj": 6275727.364777511,
+      "laser_energy_pj": 58696.320044683634,
+      "memory_energy_pj": 2799745.92,
+      "optical_link_energy_pj": 2353397.761791567,
+      "control_energy_pj": 28565.913599999996,
+      "optical_link_pj": 2353397.761791567,
+      "control_overhead_pj": 28565.913599999996,
+      "digital_fallback_energy_pj": 0.0,
+      "accuracy_metric": "top1",
+      "accuracy": 72.096,
+      "delta_accuracy": -0.036,
+      "accuracy_evidence_label": "measured_mps_deit_tiny_r13_conservative_search",
+      "promotion_decision": "secondary_support_candidate",
+      "device": "mps",
+      "git_hash": "bef5f11",
+      "architecture_evidence_label": "modeled_system_ppa",
+      "claim_boundary": "DPTC architecture simulation with calibrated/proxy parameters; not fabrication, physical-design, PDK, or device-solver signoff",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "architecture_join",
+      "stage": "r9_architecture_join",
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "sample_count": 50000,
+      "seed": "aggregate_3_seed",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "top1_accuracy_pct": 72.096,
+      "delta_top1_pp": -0.036,
+      "reference_lightening_edp_pj_ns": 495602732124.9197,
+      "energy_ratio_vs_lightening": 0.8922605656932248,
+      "latency_ratio_vs_lightening": 1.001874813721748,
+      "edp_ratio_vs_lightening": 0.8939333880451609,
+      "energy_improvement_vs_lightening_pct": 10.773943430677523,
+      "edp_improvement_vs_lightening_pct": 10.606661195483913
+    },
+    {
+      "tag": "20260517_r13",
+      "sensitivity_case": "nominal",
+      "workload": "deit_tiny_patch16_224_batch8_r9",
+      "workload_family": "vision Transformer encoder",
+      "model": "deit_tiny_patch16_224",
+      "dataset_or_split": "ImageNet-style architecture sweep, patch16 224, tokens=197, batch_size=8",
+      "condition": "light_degrade_keep90",
+      "condition_label": "No-prune top-90% keep, light degrade",
+      "condition_family": "r13_deit_conservative_policy",
+      "tile_dim": 32,
+      "tiles": 4,
+      "cores_per_tile": 2,
+      "parallel_cores": 8,
+      "sideband_group_cols": 32,
+      "adc_sharing_mode": "temporal_accum",
+      "source_condition": "light_degrade_keep90_r13_conservative_search",
+      "n_kernels": 72,
+      "macs": 9796718592,
+      "dptc_tiles": 308928,
+      "output_values": 49545216,
+      "memory_moved_bytes": 186649728,
+      "control_groups": 48384,
+      "keep_ratio": 0.9,
+      "degrade_ratio": 0.1,
+      "prune_ratio": 0.0,
+      "active_compute_ratio": 1.0,
+      "latency_ns": 7742.583808333336,
+      "energy_pj": 63334465.479587585,
+      "edp_pj_ns": 490372406931.7014,
+      "area_mm2": 32.66951418349524,
+      "adc_energy_pj": 7899136.005939541,
+      "dac_mzm_energy_pj": 43919196.19343428,
+      "detector_tia_energy_pj": 6275727.364777511,
+      "laser_energy_pj": 58696.320044683634,
+      "memory_energy_pj": 2799745.92,
+      "optical_link_energy_pj": 2353397.761791567,
+      "control_energy_pj": 28565.913599999996,
+      "optical_link_pj": 2353397.761791567,
+      "control_overhead_pj": 28565.913599999996,
+      "digital_fallback_energy_pj": 0.0,
+      "accuracy_metric": "top1",
+      "accuracy": 72.13133333333333,
+      "delta_accuracy": -0.0006666666666666666,
+      "accuracy_evidence_label": "measured_mps_deit_tiny_r13_conservative_search",
+      "promotion_decision": "secondary_support_candidate",
+      "device": "mps",
+      "git_hash": "bef5f11",
+      "architecture_evidence_label": "modeled_system_ppa",
+      "claim_boundary": "DPTC architecture simulation with calibrated/proxy parameters; not fabrication, physical-design, PDK, or device-solver signoff",
+      "roadmap_item": "R13_3_deit_tiny_conservative_policy_search",
+      "row_type": "architecture_join",
+      "stage": "r9_architecture_join",
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "sample_count": 50000,
+      "seed": "aggregate_3_seed",
+      "command": "caffeinate -dimsu .venv311-mps/bin/python experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py --tag 20260517_r13 --device mps",
+      "source_r9_workload_json_sha256": "f74ec0c22a0f615af23d864ecd692145866a1108687f01c3a62d6e519c6b3aab",
+      "source_r12_deit_json_sha256": "adb3a930340709b4f246547fa4046a87f8141147e7c00a2937d83ec7a2b11ea1",
+      "script_sha256": "dd32fe659fc088c05f4681c7a1b7a0fb4358d65298aa9b98b960d7ba2afc7dfc",
+      "top1_accuracy_pct": 72.1313,
+      "delta_top1_pp": -0.0007,
+      "reference_lightening_edp_pj_ns": 495602732124.9197,
+      "energy_ratio_vs_lightening": 0.9875919979698722,
+      "latency_ratio_vs_lightening": 1.0018778390652618,
+      "edp_ratio_vs_lightening": 0.9894465368042,
+      "energy_improvement_vs_lightening_pct": 1.2408002030127818,
+      "edp_improvement_vs_lightening_pct": 1.0553463195799972
+    }
+  ],
+  "aggregates": [
+    {
+      "policy": "degrade_only_signal_safe",
+      "policy_label": "No-prune R9 SUDS-ratio signal-safe degrade",
+      "search_role": "conservative_candidate",
+      "seed_count": 3,
+      "sample_count_per_seed": 50000,
+      "mean_top1_accuracy_pct": 72.096,
+      "mean_delta_top1_pp": -0.036,
+      "worst_seed_delta_top1_pp": -0.08,
+      "max_abs_delta_top1_pp": 0.08,
+      "accuracy_within_1pp": true,
+      "min_edp_improvement_vs_lightening_pct": 6.9014,
+      "mean_edp_improvement_vs_lightening_pct": 9.0943,
+      "positive_edp_improvement": true,
+      "meets_5pct_target": true,
+      "success_acceptance": true
+    },
+    {
+      "policy": "light_degrade_keep90",
+      "policy_label": "No-prune top-90% keep, light degrade",
+      "search_role": "conservative_candidate",
+      "seed_count": 3,
+      "sample_count_per_seed": 50000,
+      "mean_top1_accuracy_pct": 72.1313,
+      "mean_delta_top1_pp": -0.0007,
+      "worst_seed_delta_top1_pp": -0.012,
+      "max_abs_delta_top1_pp": 0.012,
+      "accuracy_within_1pp": true,
+      "min_edp_improvement_vs_lightening_pct": 0.6319,
+      "mean_edp_improvement_vs_lightening_pct": 0.8823,
+      "positive_edp_improvement": true,
+      "meets_5pct_target": false,
+      "success_acceptance": true
+    }
+  ],
+  "layer_breakdowns": {
+    "screening_only/e0_dense/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      }
+    },
+    "screening_only/no_prune_keep90/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      }
+    },
+    "screening_only/no_prune_keep95/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      }
+    },
+    "screening_only/light_degrade_keep90/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      }
+    },
+    "screening_only/light_degrade_keep95/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.950521,
+        "degrade_ratio": 0.049479,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.953125,
+        "degrade_ratio": 0.046875,
+        "prune_ratio": 0.0
+      }
+    },
+    "screening_only/degrade_only_signal_safe/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/e0_dense/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/e0_dense/seed_1": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/e0_dense/seed_2": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 1.0,
+        "degrade_ratio": 0.0,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/degrade_only_signal_safe/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/degrade_only_signal_safe/seed_1": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/degrade_only_signal_safe/seed_2": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.152344,
+        "degrade_ratio": 0.847656,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.15625,
+        "degrade_ratio": 0.84375,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/light_degrade_keep90/seed_0": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/light_degrade_keep90/seed_1": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      }
+    },
+    "full_validation/light_degrade_keep90/seed_2": {
+      "blocks.0.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.0.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.1.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.2.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.3.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.4.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.5.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.6.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.7.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.8.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.9.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.10.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.qkv": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.attn.proj": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc1": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "blocks.11.mlp.fc2": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      },
+      "head": {
+        "keep_ratio": 0.901042,
+        "degrade_ratio": 0.098958,
+        "prune_ratio": 0.0
+      }
+    }
+  }
+}

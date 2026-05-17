@@ -363,7 +363,7 @@
     },
     "manuscript_maturity": {
       "status": "pass",
-      "line_count": 1058,
+      "line_count": 1061,
       "has_references": true,
       "has_figures": true,
       "blockers": []
@@ -455,7 +455,7 @@
       "gate": "Manuscript maturity reaches full journal-paper density",
       "required": true,
       "status": "pass",
-      "evidence": "line_count=1058; references=True; figures=True",
+      "evidence": "line_count=1061; references=True; figures=True",
       "blockers": "",
       "next_action": "Expand the TETC manuscript into a complete IEEE journal article with figures and references."
     },

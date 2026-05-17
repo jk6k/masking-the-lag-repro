@@ -220,9 +220,11 @@ Additional workload rows cover DeiT-Tiny patch16-224 and BERT
 sequence-length and batch-size sweeps. These rows help define generality and
 failure boundaries, but they do not become selected claims unless they have
 matching local accuracy evidence. In the DeiT-Tiny surface, for example, the
-selected \texttt{suds\_pareto} row retains at least 6.90\% modeled EDP
-improvement over the same-scope Lightening-style reference, while the measured
-accuracy delta is retained as a vision-generality boundary.
+original R12g \texttt{e2\_l1} proxy remains a vision-generality boundary,
+while an R13 no-prune signal-safe search supplies a secondary support point
+with mean top-1 delta \(-0.036\) percentage points and at least 6.90\%
+modeled EDP improvement over the same-scope Lightening-style reference. This
+does not change the two headline selected workloads.
 
 \begin{figure*}[t]
 \centering
@@ -906,9 +908,10 @@ Additional robustness records make three boundaries explicit. Cross-workload
 transfer can degrade MobileViT-S when a BERT-calibrated schedule is reused.
 BERT perturbation accuracy under the selected binary-column-zeroing mechanism
 is stable, while Gaussian noise injection deltas are sensitive to seed and
-scale. DeiT-Tiny measured accuracy loses more than one percentage point under
-the tested setting. These records support robustness and boundary labeling, not
-universal workload or vision-model applicability.
+scale. The original DeiT-Tiny \texttt{e2\_l1} proxy loses more than one
+percentage point, while the later R13 no-prune policy search finds only a
+bounded secondary support point. These records support robustness and boundary
+labeling, not universal workload or vision-model applicability.
 
 \section{Conclusion}
 

@@ -3,7 +3,7 @@
   "algorithm": "sha256",
   "freeze_tag": "20260513_tetc_pivot",
   "generated_by": "scripts/build_public_repro_repo.py",
-  "file_count": 299,
+  "file_count": 309,
   "files": [
     {
       "path": ".gitattributes",
@@ -52,8 +52,8 @@
     },
     {
       "path": "configs/public_repro_manifest.json",
-      "sha256": "de0cf6ef8581d2f41c6cb8e46a3fa7f5258e152432e00dc03becfe5185dfa6d1",
-      "size_bytes": 36944
+      "sha256": "a13e4c151cd7c7e782741fe3e8d69c390aa672252c087742615a0aa5b678d2ab",
+      "size_bytes": 38903
     },
     {
       "path": "docs/coordination/active/SUDS_OPTICAL_TRANSFORMER_TETC_PIVOT_PLAN.md",
@@ -62,7 +62,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_optical_transformer_tetc_pivot_gate.md",
-      "sha256": "5f6e0ad90b8daf4861e6b60e4b6c1281b929b50e0ffe84fdd1f29b28ad2b9253",
+      "sha256": "ed5e6e31e3bc48e38359cf5db7ff3ee1601f36d251ab5276e73ec812c7315600",
       "size_bytes": 5563
     },
     {
@@ -97,7 +97,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_internal_red_team.md",
-      "sha256": "63d218f00dd2de11519a26f3c5b0f6aaf1e2c2fa689983935ae2f63c92970d08",
+      "sha256": "29183989bddb5580346d8337ba8a1c2057f07018e995e46e9bb4a3dec5487186",
       "size_bytes": 1521
     },
     {
@@ -132,7 +132,7 @@
     },
     {
       "path": "docs/reports/20260513_suds_tetc_science_gate.md",
-      "sha256": "1eef03d576f5108ce02e8651a7e8e9f577276eb2e51499849e12a671a4ca91ff",
+      "sha256": "7b38938efda149f98057c1c66baad1419dfc7b0f73446b7172da706ee304afca",
       "size_bytes": 7267
     },
     {
@@ -179,6 +179,26 @@
       "path": "docs/reports/20260514_suds_tetc_r12_deep_reinforcement.md",
       "sha256": "f80d5ec304978bbf3a241f179d725e1fca54fcaefb68791b9c06068719804e76",
       "size_bytes": 4150
+    },
+    {
+      "path": "docs/reports/20260517_suds_tetc_baseline_parameter_crosswalk.md",
+      "sha256": "a4f5413badb00476291b0bed72b59ba5a4f99b685f4d055d7282c45dd1c1e737",
+      "size_bytes": 9889
+    },
+    {
+      "path": "docs/reports/20260517_suds_tetc_deit_tiny_conservative_policy_search.md",
+      "sha256": "9e6eae8ec8901270bc218ed37f8c3a172a9cdab7ce184959453a6d9378b7b384",
+      "size_bytes": 3227
+    },
+    {
+      "path": "docs/reports/20260517_suds_tetc_r12_reinforcement_integration.md",
+      "sha256": "3b3f07aff1324c83059b0387a46a3aadafc5ebf0897d6320e81fdb64bf7edeb5",
+      "size_bytes": 3313
+    },
+    {
+      "path": "docs/reports/20260517_suds_tetc_r13_final_freeze.md",
+      "sha256": "0d9b1b7a22babbdb4ad4440f6188e3d6546285e06cbfc860c88ce193131d5755",
+      "size_bytes": 3158
     },
     {
       "path": "experiments/hardware/suds_control_plane.v",
@@ -342,7 +362,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_optical_transformer_pivot_gate_20260513_tetc_pivot.json",
-      "sha256": "8ef1d6452a9d1a4ba8d0e0a6363150320118061de43182d42d934b8469f75152",
+      "sha256": "8bc611471dca654adba513f63d3bf2ba4f44a91661ff526fe18b2f137a4eade7",
       "size_bytes": 9506
     },
     {
@@ -401,6 +421,16 @@
       "size_bytes": 43959
     },
     {
+      "path": "experiments/results/report_data/suds_tetc_baseline_parameter_crosswalk_20260517_r13.csv",
+      "sha256": "f5a70a427a2ae3d5e15ba2462d4d46acc9e32af26acd1a8aff28f25e2c6fb823",
+      "size_bytes": 7660
+    },
+    {
+      "path": "experiments/results/report_data/suds_tetc_baseline_parameter_crosswalk_20260517_r13.json",
+      "sha256": "3cc26a348047b07bbde3d5f83466d77bb2f2eaa0a494c672a5bea629bc7bec6b",
+      "size_bytes": 14416
+    },
+    {
       "path": "experiments/results/report_data/suds_tetc_bert_multiseed_accuracy_20260514_r12_reinforcement.csv",
       "sha256": "6308bce971ab05a1db8badb6b94a7e674c0e109009f709ed13a8ad639d0a00b5",
       "size_bytes": 3950
@@ -451,6 +481,16 @@
       "size_bytes": 5558
     },
     {
+      "path": "experiments/results/report_data/suds_tetc_deit_tiny_conservative_policy_search_20260517_r13.csv",
+      "sha256": "df3ff5cae5b705af76dc4ecbc77063cf24f1c0d7a81db246da6b46ab4258f78e",
+      "size_bytes": 22930
+    },
+    {
+      "path": "experiments/results/report_data/suds_tetc_deit_tiny_conservative_policy_search_20260517_r13.json",
+      "sha256": "bdc4822ec6ab9ff453a08da99c358240262abb085687d02d7ceffa5a962c3073",
+      "size_bytes": 144579
+    },
+    {
       "path": "experiments/results/report_data/suds_tetc_end_to_end_accuracy_20260513_tetc_pivot.csv",
       "sha256": "d9bdf7304b90af402095a46bd129e50b4f765ec301d5e6be94566d03dfc3386b",
       "size_bytes": 37828
@@ -477,7 +517,7 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_g1_release_artifacts_20260513_tetc_pivot.json",
-      "sha256": "c8f2b0890c04155130fcf1ae2c7fb7aafb6bf0d44fa15940ae6416c538233f7b",
+      "sha256": "492ed3008e970416200824049a019045ec20530f083877cd6f5f8b11061deb6d",
       "size_bytes": 2550
     },
     {
@@ -587,12 +627,12 @@
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.csv",
-      "sha256": "4cebce200fed6678f84a3ff6cac13302eb1b24fa01ca821c463d4355d076c35f",
+      "sha256": "1e430503815fd4ddcfa6cfca017e7c6d2b70a191133afa65945fc82b67cd75c4",
       "size_bytes": 5651
     },
     {
       "path": "experiments/results/report_data/suds_tetc_science_gate_20260513_tetc_pivot.json",
-      "sha256": "b4e705eaa205577d5aa3216cf698d709e45b4c6f1503be4d6e316b7a3ffb8c4e",
+      "sha256": "aa401a01acc4aa206c05e38404f85817217c76ee372cc65ecbc32aa02854c527",
       "size_bytes": 21121
     },
     {
@@ -732,7 +772,7 @@
     },
     {
       "path": "experiments/results/runs/suds_tetc_rtl_control_plane_20260513_tetc_pivot/yosys_synthesis.log",
-      "sha256": "cd0307058b2be66f6c7c3e6cac281b8a8cef4d562f8bcfe6b1775a6925608828",
+      "sha256": "8b1289097f62b56440d0d660d9589b2692fc94fcca227fc632906400054ef88e",
       "size_bytes": 41191
     },
     {
@@ -1321,6 +1361,11 @@
       "size_bytes": 25812
     },
     {
+      "path": "experiments/tools/build_suds_tetc_baseline_parameter_crosswalk.py",
+      "sha256": "6af527c9dce1ca3a69f4f84ff3df091a4a044acc00e2afa67222c24d15e605c0",
+      "size_bytes": 26104
+    },
+    {
       "path": "experiments/tools/build_suds_tetc_bert_multiseed_accuracy.py",
       "sha256": "dc091f5ac632e666ceef90e39310d699133b8a2a709dc0452c076fbb722d40ca",
       "size_bytes": 14543
@@ -1344,6 +1389,11 @@
       "path": "experiments/tools/build_suds_tetc_deit_tiny_accuracy.py",
       "sha256": "60c9f66155ec54223314eb539c3f8dcc738e51dcf4f52080adc8f883962a70f3",
       "size_bytes": 14002
+    },
+    {
+      "path": "experiments/tools/build_suds_tetc_deit_tiny_conservative_policy_search.py",
+      "sha256": "54ec6f0462e758d7cf71f9abd2fc26a527677028036bc8ae54e6995250b55e26",
+      "size_bytes": 38468
     },
     {
       "path": "experiments/tools/build_suds_tetc_end_to_end_accuracy.py",
@@ -1482,8 +1532,8 @@
     },
     {
       "path": "paper/suds_tetc_architecture_manuscript.tex",
-      "sha256": "340913d2fead8a83d96f967be333a8b3b74d869e029adc2fb40df46ba7cc2160",
-      "size_bytes": 53802
+      "sha256": "13bcfefb95c545fa98a44c391b066e1c8ee39d40dd49b2fba9fd4a7f211b24fb",
+      "size_bytes": 54024
     },
     {
       "path": "paper/suds_tetc_architecture_reframe.md",
