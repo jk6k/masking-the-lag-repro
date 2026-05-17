@@ -35,9 +35,11 @@ memory traffic, optical-link cost, sideband control, and calibrated sensitivity
 settings. Across two Transformer workloads, the selected operating point links
 local MPS accuracy runs to modeled system metrics and preserves at least
 14.60\% pessimistic EDP improvement over the same-scope Lightening-style
-reference. The claim is therefore architecture-simulation evidence, linked to
-measured local accuracy and calibration data; it is not a fabrication, layout,
-foundry, circuit-signoff, optical-device-signoff, or bench-energy claim.
+reference. A supplemental evidence package exposes robustness checks, baseline
+assumption crosswalks, and workload-boundary records without changing the two
+headline workloads. The claim is therefore architecture-simulation evidence,
+linked to measured local accuracy and calibration data; it is not a fabrication,
+layout, foundry, circuit-signoff, optical-device-signoff, or bench-energy claim.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -98,6 +100,9 @@ This paper contributes:
   \item A calibration table that ties converter macro, control-plane, and
   physical-link evidence to simulator parameters without treating those inputs
   as circuit or device signoff.
+  \item A reproducibility and boundary-evidence package that maps robustness
+  records, baseline assumptions, and secondary workload support to explicit
+  artifact paths and claim permissions.
 \end{enumerate}
 
 \begin{figure*}[t]
@@ -218,13 +223,14 @@ scheduler traces. We treat this as a forward-pass tiered perturbation surface,
 not as bit-exact converter, optical-device, silicon, or bench-energy evidence.
 Additional workload rows cover DeiT-Tiny patch16-224 and BERT
 sequence-length and batch-size sweeps. These rows help define generality and
-failure boundaries, but they do not become selected claims unless they have
-matching local accuracy evidence. In the DeiT-Tiny surface, for example, the
-original R12g \texttt{e2\_l1} proxy remains a vision-generality boundary,
-while an R13 no-prune signal-safe search supplies a secondary support point
-with mean top-1 delta \(-0.036\) percentage points and at least 6.90\%
-modeled EDP improvement over the same-scope Lightening-style reference. This
-does not change the two headline selected workloads.
+failure boundaries, but they do not become selected claims unless local
+accuracy and architecture-linkage evidence both satisfy the same guard. In the
+DeiT-Tiny surface, for example, the original R12g \texttt{e2\_l1} proxy remains
+a vision-generality boundary. A later no-prune signal-safe search supplies a
+secondary support point with mean top-1 delta \(-0.036\) percentage points and
+at least 6.90\% modeled EDP improvement over the same-scope Lightening-style
+reference. This point is reported as bounded support rather than as a change to
+the two headline selected workloads.
 
 \begin{figure*}[t]
 \centering
@@ -288,11 +294,12 @@ one-percentage-point accuracy target, and the figure set unchanged. Their role
 is to strengthen the measured surfaces and to record cases where transfer or
 generality does not hold. They include eight-task GLUE expansion, MobileViT-S
 resolution sweeps, Iverilog control-plane functional simulation, ADC corner
-coverage, cross-workload transfer rows, DeiT-Tiny boundary rows, and BERT
-perturbation-mechanism checks. The detailed record is placed in the supplement;
-the main text uses it only to bound the selected claim. The supplemental R12
-integration table maps R12a--R12h to artifact paths, reviewer risks, outcomes,
-and claim effects so these records remain auditable without expanding the
+coverage, cross-workload transfer rows, DeiT-Tiny boundary and secondary-support
+rows, and BERT perturbation-mechanism checks. The detailed record is placed in
+the supplement; the main text uses it only to bound the selected claim. The
+supplemental tables map R12a--R12h, the baseline-parameter crosswalk, and the
+DeiT-Tiny conservative search to artifact paths, reviewer risks, outcomes, and
+claim permissions so these records remain auditable without expanding the
 headline workload claim.
 
 \begin{figure*}[t]
@@ -369,7 +376,10 @@ summary. It fixes the selected DPTC simulator configuration across the
 Lightening-style, uniform, random, L1, signal-only, slack-only, SUDS-only,
 SUDS+L1, SUDS+signal, and selected SUDS rows, and it labels HyAtten-style,
 TeMPO-style, and ASTRA-style rows as boundary contexts with explicit differing
-assumptions.
+assumptions. A supplemental parameter crosswalk makes those permissions
+auditable: Lightening is the same-scope DPTC reference, while HyAtten, TeMPO,
+and ASTRA are retained as conversion-selection, time-multiplexed readout, or
+stochastic-fabric boundary contexts rather than as same-fabric dominators.
 
 \section{Calibration Evidence}
 
@@ -427,7 +437,10 @@ low-resolution readout can dominate end-to-end attention acceleration
 \cite{lightening2024,hyatten2025}. TeMPO and ASTRA are retained as
 alternate-fabric boundaries because they change the readout or stochastic
 compute assumptions rather than only adding a scheduler-derived budget
-\cite{tempo2024,astra2025}. ENLighten changes model structure through
+\cite{tempo2024,astra2025}. The supplement therefore treats these works through
+a parameter crosswalk: it records the assumption differences used for reviewer
+context, but it does not recast alternate-fabric or unmeasured-local-accuracy
+rows as direct dominance claims. ENLighten changes model structure through
 photonic-aware compression, Optical Transformers study optical scaling and
 noise tolerance, and TRON represents non-coherent silicon-photonic Transformer
 acceleration \cite{enlighten2025,opticaltransformers2023,tron2023}. Earlier
@@ -445,6 +458,10 @@ metadata, while excluding private datasets, model weights, private literature
 mirrors, personal paths, and archived legacy-route work. The full command
 record, file record, additional robustness records, and final validation
 transcript are supplied as supplemental material rather than embedded in the main manuscript PDF.
+The final pre-submission refresh additionally exports the
+baseline crosswalk and DeiT-Tiny conservative-search artifacts to the public
+reproduction manifest, so the reviewer-facing package can be checked without
+depending on private development paths.
 
 \section{Problem Statement and Evidence Boundary}
 
@@ -909,9 +926,10 @@ transfer can degrade MobileViT-S when a BERT-calibrated schedule is reused.
 BERT perturbation accuracy under the selected binary-column-zeroing mechanism
 is stable, while Gaussian noise injection deltas are sensitive to seed and
 scale. The original DeiT-Tiny \texttt{e2\_l1} proxy loses more than one
-percentage point, while the later R13 no-prune policy search finds only a
-bounded secondary support point. These records support robustness and boundary
-labeling, not universal workload or vision-model applicability.
+percentage point, while the later no-prune policy search finds a bounded
+secondary support point under a conservative accuracy guard. These records
+support robustness and boundary labeling, not universal workload or
+vision-model applicability.
 
 \section{Conclusion}
 
@@ -921,10 +939,12 @@ tensor-core fabric, the interface composes with local selectors, keeps measured
 accuracy linkage on BERT-base GLUE and MobileViT-S Transformer blocks, and
 maintains a pessimistic system-level EDP advantage over the same-scope
 reference. Additional control-plane simulation, GLUE and MobileViT robustness
-rows, converter-corner coverage, and transfer/generalization records strengthen
-the selected evidence while preserving the same headline claim. The resulting
-submission package is intentionally bounded: it presents architecture evidence
-clearly, and it is explicit about where that evidence stops.
+rows, converter-corner coverage, baseline-assumption crosswalks, and
+transfer/generalization records strengthen the selected evidence while
+preserving the same headline claim. The resulting submission package is
+intentionally bounded: it presents architecture evidence clearly, keeps
+alternate-fabric and secondary-workload records in their proper scope, and is
+explicit about where that evidence stops.
 
 \begin{thebibliography}{99}
 
