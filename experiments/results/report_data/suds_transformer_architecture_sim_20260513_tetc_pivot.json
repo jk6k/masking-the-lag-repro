@@ -4,7 +4,7 @@
     "artifact_id": "suds_transformer_architecture_sim_20260513_tetc_pivot",
     "evidence_label": "modeled_system_ppa",
     "promotion_decision": "architecture_evidence_ready",
-    "git_hash": "2532085",
+    "git_hash": "bef5f11",
     "claim_boundary_note": "Architecture-level DPTC Transformer simulator. Energy, latency, area, memory, optical-link, and control values are modeled or calibrated/proxy values. The artifact does not claim fabrication, physical-design, device-solver, bench-energy, or deployment evidence.",
     "regeneration_command": ".venv311-mps/bin/python experiments/tools/build_suds_transformer_architecture_sim.py",
     "source_artifacts": {
@@ -18,7 +18,7 @@
     },
     "source_artifact_sha256": {
       "mobilevit_json": "f38001f7d2f7d03b3bff10f60c624cbac0ad4d79306a6134f7fc318c52405a66",
-      "conservative_pareto_json": "fa87cea5fa05034098e0d5fa1474bbf3cd0bcd904135163a3526e6382fb445c0",
+      "conservative_pareto_json": "923f7ce3e7c2dcc273796dfba4d4fa7eea9b53c65047fc6b7c00e45246938b60",
       "glue_json": "727e499e23930b6bb42a00232598914445e2ef94679066a5250c7852d945e764",
       "adc_json": "aae658a97242df7d3e718f3fcfceb82070b6c8d9a5eb48417bf8c021ce51528c",
       "rtl_json": "97074ba09b54060a1875a009eed100a21c2badf2738ee3bcb4d1b3a5d6e6c8e0",
