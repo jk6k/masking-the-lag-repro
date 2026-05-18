@@ -156,10 +156,16 @@
     "weights"
   ],
   "banned_path_substrings": [
+    "clean_original_papers",
     "experiments/datasets",
     "experiments/results/accuracy/mlx_weights",
     "experiments/results/accuracy/progress",
+    "export_local_knowledge_base",
+    "kb_",
+    "knowledge_base",
+    "original_papers",
     "progress/events",
+    "rebuild_local_knowledge_base",
     "draft_candidates",
     "task_briefs",
     "20260425_fuller_phase4_datafig_redesign_freeze",
