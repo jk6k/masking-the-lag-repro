@@ -99,6 +99,9 @@ python3 accuracy/eval_cvnets_imagenet_noise.py \
 Apply the same pattern to `results/splits/imagenet_val_eval.csv` to get the
 final report curves.
 
+The split helper writes CSVs with `path,label,class_name,split`; the evaluators
+consume the `path,label` columns and ignore the extra audit columns.
+
 ---
 
 ## Key Parameter Notes
@@ -163,3 +166,7 @@ left untouched unless you provide explicit `--match` filters.
 - `eval_mlx_imagenet_noise.py` is the MLX-based entry point for ImageNet noise / crosstalk evaluation.
 - `../tools/audit_mlx_mobilevit_parity.py` directly emits stage/block-level MLX vs PyTorch difference JSON so numerical parity can keep converging.
 - The current recommendation is still to keep `eval_cvnets_imagenet_noise.py` as the regression-reference baseline for checking MLX / PyTorch numerical consistency.
+
+For package-level full reruns, see the repository-root `FULL_RERUN.md`. It
+documents external ImageNet/weights preparation, MPS preflight, MLX weight
+export, split manifests, smoke runs, and full-run command shapes.

@@ -23,8 +23,8 @@ make render-paper-figures
 `make repro-check` validates the freeze pointer, figure registry, claim
 boundaries, artifact paths, public repository surface, and presence of the
 core experiment code. `make
-render-paper-figures` rerenders the Matplotlib data figures into `build/`
-from the checked CSV inputs.
+render-paper-figures` rerenders the data-driven figures into `build/` from the
+checked CSV inputs, including the Fig2 HOPS timeline reconstruction.
 
 ## Public Evidence Surface
 
@@ -53,7 +53,32 @@ or model checkpoints. Full accelerator-backed reruns on the project Mac require
 Apple Silicon `mps` and should be launched with `caffeinate -dimsu`; CPU
 fallback is not a substitute for an MPS-backed rerun.
 
-Example shape:
+Start with the full-rerun guide:
+
+```bash
+sed -n '1,260p' FULL_RERUN.md
+```
+
+Preflight external inputs:
+
+```bash
+make full-rerun-preflight \
+  IMAGENET_VAL=/data/imagenet/val \
+  WEIGHTS_DIR=/data/mobilevit_weights
+```
+
+Export MLX weights and generate deterministic split manifests:
+
+```bash
+make export-mlx-weights \
+  WEIGHTS_DIR=/data/mobilevit_weights \
+  MLX_WEIGHTS_DIR=build/mlx_weights \
+  WEIGHTS_NPZ_MANIFEST=build/mlx_weights/manifest.json
+
+make imagenet-splits IMAGENET_VAL=/data/imagenet/val
+```
+
+Example modeling shape:
 
 ```bash
 caffeinate -dimsu .venv311-mps/bin/python experiments/tools/phase1_runner.py \

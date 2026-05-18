@@ -30,6 +30,9 @@ Rendered files under `build/` are for local inspection and CI smoke only. The
 tracked repository keeps source CSV/JSON and metadata rather than pre-rendered
 PNG/PDF/SVG assets.
 
+For full original experiment reruns with external ImageNet data and MobileViT
+weights, follow `FULL_RERUN.md`.
+
 ## Artifact Map
 
 - Freeze pointer: `experiments/results/paper_sync/current_freeze.json`
@@ -44,6 +47,8 @@ PNG/PDF/SVG assets.
 - Accuracy rerun entry points: `experiments/accuracy/eval_mlx_imagenet_noise.py`,
   `experiments/accuracy/eval_mlx_imagenet_bitstream_slice.py`, and
   `experiments/accuracy/eval_cvnets_imagenet_noise.py`
+- Full-rerun setup validator: `scripts/validate_full_rerun_setup.py`
+- ImageNet split manifest helper: `experiments/accuracy/make_imagenet_split_manifest.py`
 - Modelling modules: `experiments/exp_common/`, `experiments/hpat_model/`,
   `experiments/mtl_model/`, and `experiments/sc_bitstream/`
 
@@ -64,5 +69,6 @@ handling. On the project Mac, accelerator-backed runs must use `mps` and long
 runs must be wrapped with `caffeinate -dimsu`.
 
 Use this public package for reader inspection, source-driven data-figure
-regeneration, and code-level rerun preparation. Use local ImageNet/weights on a
-governed Apple Silicon host for full MPS reruns and promotion decisions.
+regeneration, and full-rerun preparation/execution after external data and
+weights are supplied. Use local ImageNet/weights on a governed Apple Silicon
+host for full MPS reruns and promotion decisions.

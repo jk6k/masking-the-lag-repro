@@ -360,7 +360,11 @@ def _check_traceability_inputs(report: Report, manifest: dict[str, Any]) -> None
         for rel_path in input_csvs:
             if not (report.root / rel_path).is_file():
                 report.add(f"public render input does not exist for {figure_id}: {rel_path}")
-            if not Path(rel_path).as_posix().startswith(quick_dir.as_posix() + "/"):
+            rel_posix = Path(rel_path).as_posix()
+            fig2_prefix = "experiments/results/quick_reports/20260424_fig2_hops_current_timeline/"
+            if figure_id == "Fig2" and rel_posix.startswith(fig2_prefix):
+                continue
+            if not rel_posix.startswith(quick_dir.as_posix() + "/"):
                 report.add(f"public render input must come from active quick reports for {figure_id}: {rel_path}")
 
 
