@@ -144,8 +144,11 @@ def _allowed_local_roots(manifest: dict[str, Any]) -> set[str]:
 
 
 def _is_allowed_local_path(rel: str, manifest: dict[str, Any]) -> bool:
-    return rel == ".DS_Store" or any(
-        rel == root or rel.startswith(f"{root}/")
+    if rel == ".DS_Store":
+        return True
+    parts = Path(rel).parts
+    return any(
+        rel == root or rel.startswith(f"{root}/") or root in parts
         for root in _allowed_local_roots(manifest)
     )
 
