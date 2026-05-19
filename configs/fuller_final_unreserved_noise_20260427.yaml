@@ -11,7 +11,7 @@ inputs:
 
 paths:
   generated_config_dir: "experiments/results/generated_configs/20260427_fuller_final_unreserved_datafig_rebuild"
-  execution_manifest_csv: "experiments/results/report_data/fuller_execution_manifest_20260427_fuller_final_unreserved_datafig_rebuild.csv"
+  execution_manifest_csv: "experiments/results/report_data/fuller_noise_execution_manifest_20260427_fuller_final_unreserved_datafig_rebuild.csv"
   noise_manifest_csv: "experiments/results/report_data/fuller_noise_execution_manifest_20260427_fuller_final_unreserved_datafig_rebuild.csv"
   noise_raw_accuracy_dir: "experiments/results/accuracy/20260427_fuller_final_unreserved_datafig_rebuild/noise"
   summary_out_root: "experiments/results/report_data/20260427_fuller_final_unreserved_datafig_rebuild"
