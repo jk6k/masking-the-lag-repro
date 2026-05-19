@@ -78,6 +78,14 @@ make export-mlx-weights \
 make imagenet-splits IMAGENET_VAL=/data/imagenet/val
 ```
 
+Inspect the packaged full-rerun command plan before launching long jobs:
+
+```bash
+make full-rerun-noise-dry-run \
+  IMAGENET_VAL=/data/imagenet/val \
+  WEIGHTS_NPZ_MANIFEST=build/mlx_weights/manifest.json
+```
+
 Example modeling shape:
 
 ```bash

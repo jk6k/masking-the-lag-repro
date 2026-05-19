@@ -16,6 +16,7 @@ This checks:
 - figure numbering and traceability
 - data-figure source evidence and claim boundaries
 - presence of the core experiment code surface
+- presence of full-rerun noise-bundle configs and compact contract CSV/MD files
 - absence of private datasets, weights, draft artifacts, and old freeze tokens
 - absence of tracked pre-rendered image artifacts
 - clean tracked public surface when the directory is a Git checkout

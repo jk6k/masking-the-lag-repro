@@ -11,6 +11,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 
 FREEZE_JSON = Path("experiments/results/paper_sync/current_freeze.json")
 MANIFEST_JSON = Path("configs/public_repro_manifest.json")
@@ -392,11 +394,74 @@ def _check_review_metadata(report: Report, manifest: dict[str, Any]) -> None:
                 report.add(f"manuscript evidence map missing public-rendered figure: {figure_id}")
 
 
+def _load_yaml_mapping(report: Report, rel_path: Path) -> dict[str, Any]:
+    path = report.root / rel_path
+    if not path.is_file():
+        report.add(f"missing full-rerun YAML: {rel_path.as_posix()}")
+        return {}
+    try:
+        payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except Exception as exc:
+        report.add(f"invalid full-rerun YAML {rel_path.as_posix()}: {exc}")
+        return {}
+    if not isinstance(payload, dict):
+        report.add(f"full-rerun YAML should be a mapping: {rel_path.as_posix()}")
+        return {}
+    return payload
+
+
+def _check_full_rerun_noise_contract(report: Report) -> None:
+    bundle_rel = Path("configs/fuller_final_unreserved_noise_20260427.yaml")
+    bundle = _load_yaml_mapping(report, bundle_rel)
+    if not bundle:
+        return
+
+    inputs = bundle.get("inputs")
+    if not isinstance(inputs, dict):
+        report.add(f"full-rerun bundle missing inputs mapping: {bundle_rel.as_posix()}")
+        return
+
+    design_rel = Path(str(inputs.get("design_contract_yaml") or ""))
+    phase1_rel = Path(str(inputs.get("phase1_template_yaml") or ""))
+    for label, rel_path in (
+        ("design_contract_yaml", design_rel),
+        ("phase1_template_yaml", phase1_rel),
+    ):
+        if not rel_path.as_posix() or not (report.root / rel_path).is_file():
+            report.add(f"full-rerun bundle {label} target missing: {rel_path.as_posix()}")
+
+    design = _load_yaml_mapping(report, design_rel) if design_rel.as_posix() else {}
+    artifacts = design.get("artifacts") if isinstance(design, dict) else {}
+    if not isinstance(artifacts, dict):
+        report.add(f"full-rerun design contract missing artifacts mapping: {design_rel.as_posix()}")
+        return
+
+    for key in (
+        "experiment_matrix_csv",
+        "data_contract_csv",
+        "figure_contract_csv",
+        "status_report_md",
+    ):
+        rel_path = Path(str(artifacts.get(key) or ""))
+        if not rel_path.as_posix() or not (report.root / rel_path).is_file():
+            report.add(f"full-rerun design artifact {key} missing: {rel_path.as_posix()}")
+
+    paths = bundle.get("paths")
+    if not isinstance(paths, dict):
+        report.add(f"full-rerun bundle missing paths mapping: {bundle_rel.as_posix()}")
+        return
+    for key in ("execution_manifest_csv", "noise_manifest_csv"):
+        rel_path = Path(str(paths.get(key) or ""))
+        if not rel_path.as_posix() or not (report.root / rel_path).is_file():
+            report.add(f"full-rerun reference manifest {key} missing: {rel_path.as_posix()}")
+
+
 def _check_public_repro_inputs(report: Report, manifest: dict[str, Any]) -> None:
     _check_quick_report_inputs(report, manifest)
     _check_registry_metadata(report, manifest)
     _check_traceability_inputs(report, manifest)
     _check_review_metadata(report, manifest)
+    _check_full_rerun_noise_contract(report)
 
 
 def validate(root: Path) -> Report:

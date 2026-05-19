@@ -180,6 +180,10 @@ make full-rerun-noise-dry-run \
   WEIGHTS_NPZ_MANIFEST=build/mlx_weights/manifest.json
 ```
 
+The dry run should print the generated `caffeinate -dimsu ... --device mps`
+phase-1 and MLX accuracy commands. It also exercises the packaged rerun
+contracts before any long evaluation starts.
+
 To execute the materialized noise family:
 
 ```bash
